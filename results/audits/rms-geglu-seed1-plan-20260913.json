@@ -1,6 +1,6 @@
 {
   "recorded_at": "2026-09-13T14:31:22.832471+00:00",
-  "state": "approved_pending_individual_smokes",
+  "state": "admitted_three_smokes_passed_trainers_verified_running",
   "seed": 1,
   "gate": "results/audits/rms-geglu-completion-20260913.json",
   "class_review_job": "417667",
@@ -67,5 +67,11 @@
   },
   "maximum_requested_single_card_node_hours": 16,
   "class_review_receipt": "results/audits/rms-geglu-selected-validation-20260913.json",
-  "historical_control_selected_checkpoint_reproduced": true
+  "historical_control_selected_checkpoint_reproduced": true,
+  "admission_receipt": "results/audits/rms-geglu-seed1-admission-20260913.json",
+  "job_ids": [
+    "417675",
+    "417676",
+    "417677"
+  ]
 }

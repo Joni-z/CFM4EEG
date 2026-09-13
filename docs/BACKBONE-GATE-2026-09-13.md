@@ -148,3 +148,18 @@ is concentrated in GPED (12/291 to 242/291 correct); SPSW remains weak
 (0/119 to 4/119), while PLED and EYEM recall decline. No class newly falls to
 zero recall. This supports only bounded replication, with particular attention
 to whether the gain survives the stronger historical seed-1 control.
+
+Second-seed admissions are now running: TUEV RMSNorm/GEGLU 417675 on
+k006-004-v4, Sleep-EDF legacy 417676 on k006-004-v5 and Sleep-EDF
+RMSNorm/GEGLU 417677 on k006-004-v6. All individual smokes passed and actual
+UID/configuration/seed/cgroup/GPU-selector checks verified the trainers. The
+admission source is `05c1b58b1af8b418e3d74c281e4890056ea3c34c`; see
+`results/audits/rms-geglu-seed1-admission-20260913.json`. Pure training
+projections are 3.990, 2.746 and 2.889 hours, excluding I/O and evaluation.
+
+Initial attempts 417671–417673 exited before training because the old wrapper
+hardcoded seed 0; output guards preserved existing results. The wrapper now
+reads the YAML seed for both preflight and training, matching the smoke. Six
+local regression tests passed. The failed attempts and fix are retained in
+`results/audits/rms-geglu-seed1-launch-fix-20260913.json`. No model or training
+recipe changed during this correction.

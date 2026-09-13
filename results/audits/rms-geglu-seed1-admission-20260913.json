@@ -1,0 +1,354 @@
+{
+  "recorded_at": "2026-09-13T14:42:15.268671+00:00",
+  "state": "three_individual_smokes_passed_and_seed1_trainers_verified_running",
+  "source_commit": "05c1b58b1af8b418e3d74c281e4890056ea3c34c",
+  "jobs": [
+    {
+      "job_id": "417675",
+      "name": "tuev-factorized_f4_rmsgeglu",
+      "seed": 1,
+      "node": "k006-004-v4",
+      "config": "configs/backbone_gate/tuev_rms_geglu_s1.yaml",
+      "training_cap_hours": 5,
+      "wall_hours": 6,
+      "trainer": {
+        "index": 0,
+        "config": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock-factorized/configs/backbone_gate/tuev_rms_geglu_s1.yaml",
+        "name": "tuev-factorized_f4_rmsgeglu",
+        "seed": 1,
+        "gpu": 0,
+        "pid": 771059,
+        "started_at": 1789310439.1546621,
+        "log": "logs/F4B_tuev_R1-417675-0-tuev_rms_geglu_s1-s1.out"
+      },
+      "runtime": {
+        "python": "3.9.21 (main, Dec  5 2024, 00:00:00) \n[GCC 11.5.0 20240719 (Red Hat 11.5.0-2)]",
+        "torch": "2.7.1+rocm6.3",
+        "rocm": "6.3.42131-fa1d09cbd",
+        "host": "k006-004-v4.hpcfund",
+        "torch_module": "pytorch/2.7.1",
+        "rocblas_override": "1",
+        "device": "AMD Instinct MI210",
+        "git_commit": "05c1b58b1af8b418e3d74c281e4890056ea3c34c"
+      },
+      "smoke": {
+        "ok": true,
+        "partition": "mi2101x",
+        "job": "417675",
+        "config": "configs/backbone_gate/tuev_rms_geglu_s1.yaml",
+        "seed": 1,
+        "host": "k006-004-v4.hpcfund",
+        "torch": "2.7.1+rocm6.3",
+        "rocm": "6.3.42131-fa1d09cbd",
+        "device": "AMD Instinct MI210",
+        "visible_gpus": 1,
+        "input_shape": [
+          32,
+          16,
+          1000
+        ],
+        "steps": 14,
+        "warmup_excluded": 2,
+        "steady_step_seconds": [
+          0.3360085419844836,
+          0.3360234808642417,
+          0.3361470859963447,
+          0.3360474540386349,
+          0.33598421583883464,
+          0.3359206470195204,
+          0.3358103479258716,
+          0.33550514304079115,
+          0.33522780099883676,
+          0.3355807459447533,
+          0.3355180979706347,
+          0.33565674792043865
+        ],
+        "augmentation_path_warmups": [
+          {
+            "path": "Identity",
+            "seconds": [
+              9.258595081977546,
+              0.3359074729960412
+            ]
+          },
+          {
+            "path": "Flip",
+            "seconds": [
+              0.3353623829316348,
+              0.33483050111681223
+            ]
+          },
+          {
+            "path": "Jitter",
+            "seconds": [
+              0.3375178480055183,
+              0.3356654748786241
+            ]
+          },
+          {
+            "path": "TemporalMask",
+            "seconds": [
+              0.33807862596586347,
+              0.3353400018531829
+            ]
+          },
+          {
+            "path": "ChannelMask",
+            "seconds": [
+              0.335645206971094,
+              0.35245561599731445
+            ]
+          },
+          {
+            "path": "FrequencyMask",
+            "seconds": [
+              2.5538883549161255,
+              0.3358665241394192
+            ]
+          }
+        ],
+        "peak_GiB": 12.060783386230469,
+        "projected_train_seconds": 14364.919053522171,
+        "projection_note": "Excludes data loading and evaluation; not a completion guarantee.",
+        "config_sha256": "2141e3053eebab70e102d660bb4a338d9017c84173a8fe9ac292aede57910533",
+        "smoke_sha256": "e2393d9c7edc7df97ac1b41946fee14cfc3482d4f08a140949f2a764adb0a811",
+        "git_commit": "05c1b58b1af8b418e3d74c281e4890056ea3c34c"
+      },
+      "process_observation": " 3361  771059 Rl         01:36 /usr/bin/python3.9 -u -m paclock_bench.training.train --config /work1/chenyuyou/yifanwang/Zhizhe/PACLock-factorized/configs/backbone_gate/tuev_rms_geglu_s1.yaml --seed 1\n/work1/chenyuyou/yifanwang/Zhizhe/PACLock-factorized\n0::/system.slice/k006-004-v4_slurmstepd.scope/job_417675/step_batch/user/task_special\nHIP_VISIBLE_DEVICES=0\n"
+    },
+    {
+      "job_id": "417676",
+      "name": "sleepedf-factorized_f4_blockcontrol",
+      "seed": 1,
+      "node": "k006-004-v5",
+      "config": "configs/backbone_gate/sleepedf_legacy_s1.yaml",
+      "training_cap_hours": 4,
+      "wall_hours": 5,
+      "trainer": {
+        "index": 0,
+        "config": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock-factorized/configs/backbone_gate/sleepedf_legacy_s1.yaml",
+        "name": "sleepedf-factorized_f4_blockcontrol",
+        "seed": 1,
+        "gpu": 0,
+        "pid": 3417730,
+        "started_at": 1789310439.9512846,
+        "log": "logs/F4B_sleepedf_L1-417676-0-sleepedf_legacy_s1-s1.out"
+      },
+      "runtime": {
+        "python": "3.9.21 (main, Dec  5 2024, 00:00:00) \n[GCC 11.5.0 20240719 (Red Hat 11.5.0-2)]",
+        "torch": "2.7.1+rocm6.3",
+        "rocm": "6.3.42131-fa1d09cbd",
+        "host": "k006-004-v5.hpcfund",
+        "torch_module": "pytorch/2.7.1",
+        "rocblas_override": "1",
+        "device": "AMD Instinct MI210",
+        "git_commit": "05c1b58b1af8b418e3d74c281e4890056ea3c34c"
+      },
+      "smoke": {
+        "ok": true,
+        "partition": "mi2101x",
+        "job": "417676",
+        "config": "configs/backbone_gate/sleepedf_legacy_s1.yaml",
+        "seed": 1,
+        "host": "k006-004-v5.hpcfund",
+        "torch": "2.7.1+rocm6.3",
+        "rocm": "6.3.42131-fa1d09cbd",
+        "device": "AMD Instinct MI210",
+        "visible_gpus": 1,
+        "input_shape": [
+          32,
+          2,
+          3000
+        ],
+        "steps": 14,
+        "warmup_excluded": 2,
+        "steady_step_seconds": [
+          0.1484090769663453,
+          0.1277760190423578,
+          0.12762647797353566,
+          0.12694099405780435,
+          0.1271503590978682,
+          0.12742517795413733,
+          0.12744724890217185,
+          0.12727510510012507,
+          0.12693580496124923,
+          0.12719199806451797,
+          0.1278275258373469,
+          0.12821839400567114
+        ],
+        "augmentation_path_warmups": [
+          {
+            "path": "Identity",
+            "seconds": [
+              13.282216049963608,
+              0.13084293296560645
+            ]
+          },
+          {
+            "path": "Flip",
+            "seconds": [
+              0.12841701810248196,
+              0.1272473931312561
+            ]
+          },
+          {
+            "path": "Jitter",
+            "seconds": [
+              0.1296788170002401,
+              0.1279921168461442
+            ]
+          },
+          {
+            "path": "TemporalMask",
+            "seconds": [
+              0.12784181511960924,
+              0.1278694060165435
+            ]
+          },
+          {
+            "path": "ChannelMask",
+            "seconds": [
+              0.1291558020748198,
+              0.1287934489082545
+            ]
+          },
+          {
+            "path": "FrequencyMask",
+            "seconds": [
+              1.8852566508576274,
+              0.12802846496924758
+            ]
+          }
+        ],
+        "peak_GiB": 3.9412827491760254,
+        "projected_train_seconds": 9885.262866984896,
+        "projection_note": "Excludes data loading and evaluation; not a completion guarantee.",
+        "config_sha256": "25e531cdcd9b41f0143a93f1fd44890ea13b984354fc295390d21ffcf1f032ac",
+        "smoke_sha256": "e2393d9c7edc7df97ac1b41946fee14cfc3482d4f08a140949f2a764adb0a811",
+        "git_commit": "05c1b58b1af8b418e3d74c281e4890056ea3c34c"
+      },
+      "process_observation": " 3361 3417730 Rl         01:35 /usr/bin/python3.9 -u -m paclock_bench.training.train --config /work1/chenyuyou/yifanwang/Zhizhe/PACLock-factorized/configs/backbone_gate/sleepedf_legacy_s1.yaml --seed 1\n/work1/chenyuyou/yifanwang/Zhizhe/PACLock-factorized\n0::/system.slice/k006-004-v5_slurmstepd.scope/job_417676/step_batch/user/task_special\nHIP_VISIBLE_DEVICES=0\n"
+    },
+    {
+      "job_id": "417677",
+      "name": "sleepedf-factorized_f4_rmsgeglu",
+      "seed": 1,
+      "node": "k006-004-v6",
+      "config": "configs/backbone_gate/sleepedf_rms_geglu_s1.yaml",
+      "training_cap_hours": 4,
+      "wall_hours": 5,
+      "trainer": {
+        "index": 0,
+        "config": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock-factorized/configs/backbone_gate/sleepedf_rms_geglu_s1.yaml",
+        "name": "sleepedf-factorized_f4_rmsgeglu",
+        "seed": 1,
+        "gpu": 0,
+        "pid": 1736102,
+        "started_at": 1789310447.9829407,
+        "log": "logs/F4B_sleepedf_R1-417677-0-sleepedf_rms_geglu_s1-s1.out"
+      },
+      "runtime": {
+        "python": "3.9.21 (main, Aug 19 2025, 00:00:00) \n[GCC 11.5.0 20240719 (Red Hat 11.5.0-5)]",
+        "torch": "2.7.1+rocm6.3",
+        "rocm": "6.3.42131-fa1d09cbd",
+        "host": "k006-004-v6.hpcfund",
+        "torch_module": "pytorch/2.7.1",
+        "rocblas_override": "1",
+        "device": "AMD Instinct MI210",
+        "git_commit": "05c1b58b1af8b418e3d74c281e4890056ea3c34c"
+      },
+      "smoke": {
+        "ok": true,
+        "partition": "mi2101x",
+        "job": "417677",
+        "config": "configs/backbone_gate/sleepedf_rms_geglu_s1.yaml",
+        "seed": 1,
+        "host": "k006-004-v6.hpcfund",
+        "torch": "2.7.1+rocm6.3",
+        "rocm": "6.3.42131-fa1d09cbd",
+        "device": "AMD Instinct MI210",
+        "visible_gpus": 1,
+        "input_shape": [
+          32,
+          2,
+          3000
+        ],
+        "steps": 14,
+        "warmup_excluded": 2,
+        "steady_step_seconds": [
+          0.1340022070799023,
+          0.13423674018122256,
+          0.1340937700588256,
+          0.13387526804581285,
+          0.13383913994766772,
+          0.1345821109134704,
+          0.1343458560295403,
+          0.13433577516116202,
+          0.1345029619988054,
+          0.13412825483828783,
+          0.13431472703814507,
+          0.15502284606918693
+        ],
+        "augmentation_path_warmups": [
+          {
+            "path": "Identity",
+            "seconds": [
+              13.824149582069367,
+              0.1350396228954196
+            ]
+          },
+          {
+            "path": "Flip",
+            "seconds": [
+              0.13385237590409815,
+              0.13363683805800974
+            ]
+          },
+          {
+            "path": "Jitter",
+            "seconds": [
+              0.13631293480284512,
+              0.13430710206739604
+            ]
+          },
+          {
+            "path": "TemporalMask",
+            "seconds": [
+              0.13521496416069567,
+              0.134711645077914
+            ]
+          },
+          {
+            "path": "ChannelMask",
+            "seconds": [
+              0.1342005010228604,
+              0.13424483384005725
+            ]
+          },
+          {
+            "path": "FrequencyMask",
+            "seconds": [
+              1.7766596269793808,
+              0.13515134411863983
+            ]
+          }
+        ],
+        "peak_GiB": 4.601439952850342,
+        "projected_train_seconds": 10402.126615111873,
+        "projection_note": "Excludes data loading and evaluation; not a completion guarantee.",
+        "config_sha256": "6dc917c214fb416c920bcf87fc4cd57b2318a8eaa5971aff51f6d1c78fde8c70",
+        "smoke_sha256": "e2393d9c7edc7df97ac1b41946fee14cfc3482d4f08a140949f2a764adb0a811",
+        "git_commit": "05c1b58b1af8b418e3d74c281e4890056ea3c34c"
+      },
+      "process_observation": " 3361 1736102 Rl         01:27 /usr/bin/python3.9 -u -m paclock_bench.training.train --config /work1/chenyuyou/yifanwang/Zhizhe/PACLock-factorized/configs/backbone_gate/sleepedf_rms_geglu_s1.yaml --seed 1\n/work1/chenyuyou/yifanwang/Zhizhe/PACLock-factorized\n0::/system.slice/k006-004-v6_slurmstepd.scope/job_417677/step_batch/user/task_special\nHIP_VISIBLE_DEVICES=0\n"
+    }
+  ],
+  "reused_control": "tuev-factorized_f4_aug_confirm:1",
+  "failed_initial_admissions": [
+    "417671",
+    "417672",
+    "417673"
+  ],
+  "launch_fix_receipt": "results/audits/rms-geglu-seed1-launch-fix-20260913.json",
+  "maximum_requested_single_card_node_hours": 16
+}
