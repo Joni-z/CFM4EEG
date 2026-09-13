@@ -1,0 +1,366 @@
+{
+  "job": "417667",
+  "rows": [
+    {
+      "name": "tuev-factorized_f4_blockcontrol",
+      "seed": 0,
+      "dataset": "tuev",
+      "selected_tag": "epoch   0 |",
+      "checkpoint_sha256": "c3dded5201d50243247d1a8a2fc2304183b5a16d5bfa42b31ff9024a18b6d1b5",
+      "metadata_sha256": "58b43df11fd8132334f5480bb2fc7d6a1f2958f3b2ab6af5d2aa9afc1cbe157b",
+      "metrics": {
+        "balanced_acc": 0.5267020237805994,
+        "cohen_kappa": 0.5554076549916473,
+        "weighted_f1": 0.9057245017724567
+      },
+      "confusion_matrix": [
+        [
+          0,
+          50,
+          41,
+          0,
+          0,
+          28
+        ],
+        [
+          0,
+          12,
+          33,
+          0,
+          246,
+          0
+        ],
+        [
+          0,
+          18,
+          312,
+          0,
+          339,
+          0
+        ],
+        [
+          0,
+          12,
+          0,
+          67,
+          3,
+          4
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          469,
+          30
+        ],
+        [
+          22,
+          418,
+          66,
+          4,
+          381,
+          12931
+        ]
+      ],
+      "class_recall": [
+        0.0,
+        0.041237113402061855,
+        0.4663677130044843,
+        0.7790697674418605,
+        0.938,
+        0.9355375488351902
+      ],
+      "named_class_recall": {
+        "SPSW": 0.0,
+        "GPED": 0.041237113402061855,
+        "PLED": 0.4663677130044843,
+        "EYEM": 0.7790697674418605,
+        "ARTF": 0.938,
+        "BCKG": 0.9355375488351902
+      }
+    },
+    {
+      "name": "tuev-factorized_f4_rmsgeglu",
+      "seed": 0,
+      "dataset": "tuev",
+      "selected_tag": "epoch   6 |",
+      "checkpoint_sha256": "b0a29154f3f5015b8a94179863704eb06c54bc44aba608350845bb0a60f7c0fc",
+      "metadata_sha256": "5e8e2e2ecb6a947956d54a9ecb70ac975e0809a5b090f568bdeae55d6fe1548e",
+      "metrics": {
+        "balanced_acc": 0.6252137702913659,
+        "cohen_kappa": 0.6139076044040291,
+        "weighted_f1": 0.9180747016393932
+      },
+      "confusion_matrix": [
+        [
+          4,
+          37,
+          50,
+          0,
+          0,
+          28
+        ],
+        [
+          0,
+          242,
+          35,
+          0,
+          14,
+          0
+        ],
+        [
+          14,
+          341,
+          286,
+          0,
+          28,
+          0
+        ],
+        [
+          0,
+          18,
+          1,
+          50,
+          0,
+          17
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          469,
+          30
+        ],
+        [
+          67,
+          352,
+          44,
+          4,
+          374,
+          12981
+        ]
+      ],
+      "class_recall": [
+        0.03361344537815126,
+        0.8316151202749141,
+        0.42750373692077726,
+        0.5813953488372093,
+        0.938,
+        0.9391549703371437
+      ],
+      "named_class_recall": {
+        "SPSW": 0.03361344537815126,
+        "GPED": 0.8316151202749141,
+        "PLED": 0.42750373692077726,
+        "EYEM": 0.5813953488372093,
+        "ARTF": 0.938,
+        "BCKG": 0.9391549703371437
+      }
+    },
+    {
+      "name": "sleepedf-factorized_f4_blockcontrol",
+      "seed": 0,
+      "dataset": "sleepedf",
+      "selected_tag": "epoch   6 |",
+      "checkpoint_sha256": "66d582697dc8f472ce0778bedb7383de0f60f233ef53ad95cd3dd12c58ed08e6",
+      "metadata_sha256": "999148b115680f3b02a5ccf73ff8d149939baa45206e86e5df8d88867e513fb7",
+      "metrics": {
+        "balanced_acc": 0.6714203580204293,
+        "cohen_kappa": 0.6858529361447816,
+        "weighted_f1": 0.7608506713996973
+      },
+      "confusion_matrix": [
+        [
+          13536,
+          366,
+          118,
+          5,
+          133
+        ],
+        [
+          1360,
+          1181,
+          1717,
+          39,
+          552
+        ],
+        [
+          195,
+          478,
+          9518,
+          339,
+          308
+        ],
+        [
+          3,
+          1,
+          526,
+          1114,
+          3
+        ],
+        [
+          469,
+          297,
+          830,
+          52,
+          2502
+        ]
+      ],
+      "class_recall": [
+        0.9560672411357536,
+        0.24355537224169932,
+        0.8782063111275143,
+        0.676381299332119,
+        0.6028915662650602
+      ]
+    },
+    {
+      "name": "sleepedf-factorized_f4_rmsgeglu",
+      "seed": 0,
+      "dataset": "sleepedf",
+      "selected_tag": "epoch   5 |",
+      "checkpoint_sha256": "cb11eb1018d1c6292cb97b38153c65e56cdd21448851c8c3d6b2fe90fa20cd8a",
+      "metadata_sha256": "5cf4c30c8ecf21bcba9cb3d6e5e2065bdd8e40b9dedfdd2cb3670662d92af578",
+      "metrics": {
+        "balanced_acc": 0.6830717535030175,
+        "cohen_kappa": 0.6921846067366604,
+        "weighted_f1": 0.7763452111587553
+      },
+      "confusion_matrix": [
+        [
+          12959,
+          855,
+          104,
+          6,
+          234
+        ],
+        [
+          728,
+          1849,
+          1495,
+          35,
+          742
+        ],
+        [
+          65,
+          822,
+          9296,
+          252,
+          403
+        ],
+        [
+          2,
+          1,
+          669,
+          972,
+          3
+        ],
+        [
+          202,
+          391,
+          730,
+          43,
+          2784
+        ]
+      ],
+      "class_recall": [
+        0.9153128973018788,
+        0.38131573520313466,
+        0.857722827089869,
+        0.5901639344262295,
+        0.6708433734939759
+      ]
+    },
+    {
+      "name": "tuev-factorized_f4_aug_confirm",
+      "seed": 1,
+      "dataset": "tuev",
+      "selected_tag": "epoch   2 |",
+      "checkpoint_sha256": "1816276f90147fb863b1a5d585987f7dbdc2fd50576b84bf867070cc560c8107",
+      "metadata_sha256": "ad466fe70f56b49ace4350be352762f33a491fe45f355a789f7739530f8f2af5",
+      "metrics": {
+        "balanced_acc": 0.6045341844674641,
+        "cohen_kappa": 0.6370718018539914,
+        "weighted_f1": 0.9278108123582969
+      },
+      "confusion_matrix": [
+        [
+          3,
+          78,
+          10,
+          0,
+          0,
+          28
+        ],
+        [
+          21,
+          187,
+          32,
+          0,
+          51,
+          0
+        ],
+        [
+          0,
+          340,
+          300,
+          0,
+          29,
+          0
+        ],
+        [
+          0,
+          9,
+          0,
+          54,
+          0,
+          23
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          465,
+          34
+        ],
+        [
+          66,
+          374,
+          0,
+          4,
+          205,
+          13173
+        ]
+      ],
+      "class_recall": [
+        0.025210084033613446,
+        0.6426116838487973,
+        0.4484304932735426,
+        0.627906976744186,
+        0.93,
+        0.9530458689046448
+      ],
+      "named_class_recall": {
+        "SPSW": 0.025210084033613446,
+        "GPED": 0.6426116838487973,
+        "PLED": 0.4484304932735426,
+        "EYEM": 0.627906976744186,
+        "ARTF": 0.93,
+        "BCKG": 0.9530458689046448
+      }
+    }
+  ],
+  "training_performed": false,
+  "test_evaluated": false,
+  "elapsed_seconds": 209.490531131858,
+  "host": "k006-004-v8.hpcfund",
+  "torch": "2.7.1+rocm6.3",
+  "rocm": "6.3.42131-fa1d09cbd",
+  "script_sha256": "1d3b85823433dd1f8197792655fbb07478aaf4117e9002855b5b1844e8c8d5c9",
+  "git_commit": "0b0129b9ddaa6bf51db7d86e44a2d4c18b0e2453",
+  "class_name_source": "scripts/gen_tables.py:CLASSES (TUEV)",
+  "class_name_source_sha256": "932439209c9d98051b2dc08b5f22810de56cf5a2929c1b7158497fd3b99a0002"
+}

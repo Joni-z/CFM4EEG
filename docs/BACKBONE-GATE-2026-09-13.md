@@ -1,8 +1,8 @@
 # RMSNorm and GEGLU backbone screen
 
-Status: implementation, combined verification and all four individual smokes
-passed. Jobs 417388–417391 are running on separate mi2101x allocations; actual
-trainer processes were verified against their configurations and Slurm cgroups.
+Status: all four seed-0 jobs 417388–417391 completed 20 epochs normally
+with Slurm exit 0:0. The predeclared validation-metric gate passed. Selected
+checkpoint class review and a bounded second-seed replication follow below.
 The joint augmentation screen did not deliver a
 TUEV kappa gain, so its automatic second-seed expansion remains held.
 
@@ -100,3 +100,51 @@ not permanent elimination of a model family based on one seed.
 If this screen is promising, a second matched seed and further corpora are
 required. It cannot establish a final candidate on ten-plus datasets, causal
 physiology, a pretraining benefit or SOTA. No new pretraining is admitted.
+
+
+## Completed seed-0 gate and replication
+
+The authoritative completion receipt is
+`results/audits/rms-geglu-completion-20260913.json`. At their kappa-selected
+checkpoints, TUEV validation kappa improves from 0.555408 to 0.613908 and
+balanced accuracy from 0.526702 to 0.625214. Sleep-EDF validation kappa improves
+from 0.685853 to 0.692185 and balanced accuracy from 0.671420 to 0.683072.
+All four training runs completed 20 epochs within their original caps,
+using 14.244 training hours in total across single-card nodes.
+
+The automatically reported test outcomes are retained, not used to change
+the predeclared validation rule. TUEV test kappa improves by 0.086599, whereas
+Sleep-EDF test kappa declines by 0.030120. This validation/test disagreement
+precludes describing the package as an established generalization improvement.
+Neither a final candidate nor a cross-protocol SOTA result is established.
+
+Validation-only job 417667 reopens the exact selected checkpoints to check
+class recalls and reproduce the stored selection metrics. It performs no
+training and does not open the test split.
+
+The next comparison is fixed in
+`results/audits/rms-geglu-seed1-plan-20260913.json`: three new seed-1 runs,
+namely TUEV RMSNorm/GEGLU and both Sleep-EDF arms. The completed TUEV legacy
+control `tuev-factorized_f4_aug_confirm:1` is reused under its original identity.
+Its substantive configuration, cohort and loss match; the shorter old cap was
+nonbinding. Source review confirms unchanged PAC frontend, augmentation,
+data and loss, with the later trainer change only recording selected metrics;
+legacy backbone equivalence was already checked on GPU. The old control used
+mi2104x and is explicitly historical: simultaneous or byte-identical training
+runtime is not claimed. No result is renamed or copied into a missing seed cell.
+
+Maximum requested replication wall time is 16 single-card node hours. Keep
+20 epochs and the same five/four-hour training caps. Individual real-batch
+smokes must pass before trainers start. Second-seed validation kappa and
+balanced accuracy must not decline on either corpus; the two-seed mean TUEV
+kappa gain must remain at least 0.02, with explicit class review. Failure holds
+automatic expansion rather than permanently eliminating a family. Further
+corpora, a third seed and pretraining require a new evidence-based review.
+
+The selected-checkpoint review passed for all five checkpoints, including the
+historical TUEV seed-1 control. Its receipt is
+`results/audits/rms-geglu-selected-validation-20260913.json`. TUEV improvement
+is concentrated in GPED (12/291 to 242/291 correct); SPSW remains weak
+(0/119 to 4/119), while PLED and EYEM recall decline. No class newly falls to
+zero recall. This supports only bounded replication, with particular attention
+to whether the gain survives the stronger historical seed-1 control.

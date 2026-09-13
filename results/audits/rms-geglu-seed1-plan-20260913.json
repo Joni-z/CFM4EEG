@@ -1,0 +1,71 @@
+{
+  "recorded_at": "2026-09-13T14:31:22.832471+00:00",
+  "state": "approved_pending_individual_smokes",
+  "seed": 1,
+  "gate": "results/audits/rms-geglu-completion-20260913.json",
+  "class_review_job": "417667",
+  "new_trainings": [
+    {
+      "config": "configs/backbone_gate/tuev_rms_geglu_s1.yaml",
+      "sha256": "2141e3053eebab70e102d660bb4a338d9017c84173a8fe9ac292aede57910533",
+      "node": "k006-004-v4",
+      "partition": "mi2101x",
+      "seed": 1,
+      "training_cap_hours": 5,
+      "wall_hours": 6,
+      "individual_smoke_required": true
+    },
+    {
+      "config": "configs/backbone_gate/sleepedf_legacy_s1.yaml",
+      "sha256": "25e531cdcd9b41f0143a93f1fd44890ea13b984354fc295390d21ffcf1f032ac",
+      "node": "k006-004-v5",
+      "partition": "mi2101x",
+      "seed": 1,
+      "training_cap_hours": 4,
+      "wall_hours": 5,
+      "individual_smoke_required": true
+    },
+    {
+      "config": "configs/backbone_gate/sleepedf_rms_geglu_s1.yaml",
+      "sha256": "6dc917c214fb416c920bcf87fc4cd57b2318a8eaa5971aff51f6d1c78fde8c70",
+      "node": "k006-004-v6",
+      "partition": "mi2101x",
+      "seed": 1,
+      "training_cap_hours": 4,
+      "wall_hours": 5,
+      "individual_smoke_required": true
+    }
+  ],
+  "reused_control": {
+    "identity": "tuev-factorized_f4_aug_confirm:1",
+    "result_sha256": "ad466fe70f56b49ace4350be352762f33a491fe45f355a789f7739530f8f2af5",
+    "best_validation_kappa": 0.6370718018539914,
+    "epochs": 20,
+    "stopped_by": "epochs",
+    "training_hours": 3.2192966081698735,
+    "configuration_match_except": [
+      "name",
+      "group",
+      "seed",
+      "screening_note",
+      "backfill",
+      "nonbinding max_hours"
+    ],
+    "source_check": "e519015 to 3049b837: PAC frontend, augmentation, data and loss unchanged; training changes only store selected-validation metadata; legacy backbone equivalence already GPU verified.",
+    "runtime_caveat": "Historical control ran on mi2104x; replication uses mi2101x. Same GPU model, but no claim of simultaneous or byte-identical training runtime.",
+    "no_result_alias_or_copy": true
+  },
+  "advancement_rule": {
+    "all_new_runs_complete_normally": true,
+    "tuev_seed1_validation_kappa_delta_min": 0,
+    "tuev_seed1_validation_balanced_accuracy_delta_min": 0,
+    "sleepedf_seed1_validation_kappa_delta_min": 0,
+    "sleepedf_seed1_validation_balanced_accuracy_delta_min": 0,
+    "tuev_two_seed_mean_validation_kappa_delta_min": 0.02,
+    "class_review_required": true,
+    "interpretation": "Failure holds automatic expansion; not permanent family elimination. Any next stage requires an explicit review. No test-set-driven selection, new pretraining or architecture modification."
+  },
+  "maximum_requested_single_card_node_hours": 16,
+  "class_review_receipt": "results/audits/rms-geglu-selected-validation-20260913.json",
+  "historical_control_selected_checkpoint_reproduced": true
+}
