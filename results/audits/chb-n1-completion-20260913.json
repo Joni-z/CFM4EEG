@@ -1,0 +1,27 @@
+{
+  "recorded_at": "2026-09-13T14:29:27.348149+00:00",
+  "name": "chbmit-crofremo_n1",
+  "seed": 0,
+  "result_sha256": "8b94b9b650a71a02e5a07249fef0dfbd3850bf0e7df4820c20c315c1b1861122",
+  "best_validation_pr_auc": 0.6705578975522956,
+  "epochs": 6,
+  "stopped_by": "patience",
+  "wall_hours": 18.81506479428874,
+  "allocation": "416485",
+  "allocation_state": "FAILED 1:0",
+  "interpretation": "Trainer produced a completed patience result. Allocation contains previously stopped other children; batch failure is not a reason to restart this completed trainer.",
+  "decision": "No further 16-band CHB expansion; preserve result and released allocation.",
+  "controls": {
+    "chbmit-paclock_rot2:0": {
+      "best_validation_pr_auc": 0.634409981962569,
+      "wall_hours": 7.134184511701266,
+      "result_sha256": "0d388696406a75c674155b487bbca878cbb6d348f0d613ec1468d70b3794550b"
+    },
+    "chbmit-factorized_f1:0": {
+      "best_validation_pr_auc": 0.6730264886717272,
+      "wall_hours": 9.5502514516645,
+      "result_sha256": "86da2b5c307deeb9e08e06d1595760a155036a1ddf8b4b4160dfac9b70565ffe"
+    }
+  },
+  "comparison_caveat": "Factorized f1 is a different tokenizer/width recipe, not an isolated band-count ablation."
+}

@@ -1,0 +1,243 @@
+{
+  "recorded_at": "2026-09-13T14:29:27.348149+00:00",
+  "state": "complete_validation_gate_passed_second_seed_approved",
+  "source_commit": "3049b8375951a963293f4284b4128d85e0beb356",
+  "jobs": {
+    "417388": "COMPLETED 0:0",
+    "417389": "COMPLETED 0:0",
+    "417390": "COMPLETED 0:0",
+    "417391": "COMPLETED 0:0"
+  },
+  "rows": {
+    "tuev-factorized_f4_blockcontrol:0": {
+      "result_sha256": "58b43df11fd8132334f5480bb2fc7d6a1f2958f3b2ab6af5d2aa9afc1cbe157b",
+      "selected_validation": {
+        "selection_metric": "cohen_kappa",
+        "tag": "epoch   0 |",
+        "evaluation_index": 0,
+        "metrics": {
+          "balanced_acc": 0.5267020237805994,
+          "cohen_kappa": 0.5554076549916473,
+          "weighted_f1": 0.9057245017724567
+        }
+      },
+      "test": {
+        "balanced_acc": 0.5698754899423968,
+        "cohen_kappa": 0.5949799543322664,
+        "weighted_f1": 0.7881935192005549
+      },
+      "epochs": 20,
+      "stop": "epochs",
+      "training_hours": 3.9919251783688865,
+      "parameters_M": 3.616726,
+      "manifest": "2026-08-05T01:56:41.969236+00:00",
+      "class_counts": {
+        "train": [
+          526,
+          10963,
+          5515,
+          984,
+          10553,
+          39904
+        ],
+        "val": [
+          119,
+          291,
+          669,
+          86,
+          500,
+          13822
+        ],
+        "test": [
+          567,
+          4677,
+          1998,
+          329,
+          2204,
+          19646
+        ]
+      }
+    },
+    "tuev-factorized_f4_rmsgeglu:0": {
+      "result_sha256": "5e8e2e2ecb6a947956d54a9ecb70ac975e0809a5b090f568bdeae55d6fe1548e",
+      "selected_validation": {
+        "selection_metric": "cohen_kappa",
+        "tag": "epoch   6 |",
+        "evaluation_index": 6,
+        "metrics": {
+          "balanced_acc": 0.6252137702913659,
+          "cohen_kappa": 0.6139076044040291,
+          "weighted_f1": 0.9180747016393932
+        }
+      },
+      "test": {
+        "balanced_acc": 0.6814868374511746,
+        "cohen_kappa": 0.6815790809183667,
+        "weighted_f1": 0.8350710360040469
+      },
+      "epochs": 20,
+      "stop": "epochs",
+      "training_hours": 4.217794244223171,
+      "parameters_M": 3.612886,
+      "manifest": "2026-08-05T01:56:41.969236+00:00",
+      "class_counts": {
+        "train": [
+          526,
+          10963,
+          5515,
+          984,
+          10553,
+          39904
+        ],
+        "val": [
+          119,
+          291,
+          669,
+          86,
+          500,
+          13822
+        ],
+        "test": [
+          567,
+          4677,
+          1998,
+          329,
+          2204,
+          19646
+        ]
+      }
+    },
+    "sleepedf-factorized_f4_blockcontrol:0": {
+      "result_sha256": "999148b115680f3b02a5ccf73ff8d149939baa45206e86e5df8d88867e513fb7",
+      "selected_validation": {
+        "selection_metric": "cohen_kappa",
+        "tag": "epoch   6 |",
+        "evaluation_index": 6,
+        "metrics": {
+          "balanced_acc": 0.6714203580204293,
+          "cohen_kappa": 0.6858529361447816,
+          "weighted_f1": 0.7608506713996973
+        }
+      },
+      "test": {
+        "balanced_acc": 0.6849059765933909,
+        "cohen_kappa": 0.6977664491471725,
+        "weighted_f1": 0.7804016245147811
+      },
+      "epochs": 20,
+      "stop": "epochs",
+      "training_hours": 2.9231295003493627,
+      "parameters_M": 3.616533,
+      "manifest": "2026-08-04T10:52:50.798900+00:00",
+      "class_counts": {
+        "train": [
+          34213,
+          11896,
+          47572,
+          10575,
+          18174
+        ],
+        "val": [
+          14158,
+          4849,
+          10838,
+          1647,
+          4150
+        ],
+        "test": [
+          17570,
+          4777,
+          10722,
+          817,
+          3511
+        ]
+      }
+    },
+    "sleepedf-factorized_f4_rmsgeglu:0": {
+      "result_sha256": "5cf4c30c8ecf21bcba9cb3d6e5e2065bdd8e40b9dedfdd2cb3670662d92af578",
+      "selected_validation": {
+        "selection_metric": "cohen_kappa",
+        "tag": "epoch   5 |",
+        "evaluation_index": 5,
+        "metrics": {
+          "balanced_acc": 0.6830717535030175,
+          "cohen_kappa": 0.6921846067366604,
+          "weighted_f1": 0.7763452111587553
+        }
+      },
+      "test": {
+        "balanced_acc": 0.6799839911480469,
+        "cohen_kappa": 0.6676467138246049,
+        "weighted_f1": 0.7732497997144049
+      },
+      "epochs": 20,
+      "stop": "epochs",
+      "training_hours": 3.1114061646991304,
+      "parameters_M": 3.612693,
+      "manifest": "2026-08-04T10:52:50.798900+00:00",
+      "class_counts": {
+        "train": [
+          34213,
+          11896,
+          47572,
+          10575,
+          18174
+        ],
+        "val": [
+          14158,
+          4849,
+          10838,
+          1647,
+          4150
+        ],
+        "test": [
+          17570,
+          4777,
+          10722,
+          817,
+          3511
+        ]
+      }
+    }
+  },
+  "pairs": {
+    "tuev": {
+      "validation_delta": {
+        "balanced_acc": 0.09851174651076655,
+        "cohen_kappa": 0.05849994941238179,
+        "weighted_f1": 0.012350199866936529
+      },
+      "test_delta": {
+        "cohen_kappa": 0.08659912658610036,
+        "balanced_acc": 0.11161134750877777,
+        "weighted_f1": 0.04687751680349195
+      },
+      "configuration_match_except_variant_and_name": true
+    },
+    "sleepedf": {
+      "validation_delta": {
+        "balanced_acc": 0.0116513954825882,
+        "cohen_kappa": 0.00633167059187878,
+        "weighted_f1": 0.015494539759058013
+      },
+      "test_delta": {
+        "cohen_kappa": -0.03011973532256751,
+        "balanced_acc": -0.004921985445344057,
+        "weighted_f1": -0.007151824800376239
+      },
+      "configuration_match_except_variant_and_name": true
+    }
+  },
+  "validation_gate_passed": true,
+  "class_review_job": "417667",
+  "training_hours_sum": 14.24425508764055,
+  "caveats": [
+    "Single seed; does not establish a final candidate.",
+    "Sleep-EDF test kappa declines despite validation improvement. This is disclosed and does not replace the predeclared validation selection rule.",
+    "Different VM OS Python builds were recorded at admission.",
+    "Validation/test are distinct cohorts; no cross-cohort subtraction or external SOTA claim."
+  ],
+  "class_review_complete": true,
+  "class_review_receipt": "results/audits/rms-geglu-selected-validation-20260913.json",
+  "class_review_decision": "Approve bounded second-seed replication, not a final candidate. TUEV gain is predominantly GPED (12/291 to 242/291); SPSW remains weak (0/119 to 4/119), PLED declines 312/669 to 286/669 and EYEM 67/86 to 50/86. No class is newly reduced to zero recall. Replication must test the gain against the stronger historical seed-1 control; do not tune on test results."
+}

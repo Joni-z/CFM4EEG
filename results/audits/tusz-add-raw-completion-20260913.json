@@ -1,0 +1,39 @@
+{
+  "recorded_at": "2026-09-13T14:29:27.348149+00:00",
+  "seeds": {
+    "1": {
+      "result_sha256": "3b8922ff4bf3737c1e11b5fa680a9d4717cf25ba925779b3262cdd7321b14053",
+      "epochs": 50,
+      "stopped_by": "epochs",
+      "wall_hours": 14.40551470544603,
+      "selection_metric": "auroc",
+      "best_validation_auroc": 0.8936903819231345,
+      "selected_validation_pr_auc": null,
+      "validation_subsample": 20000,
+      "manifest": "2026-09-02T21:06:22.873639+00:00",
+      "test": {
+        "balanced_acc": 0.5631468871297547,
+        "pr_auc": 0.4195965952696495,
+        "auroc": 0.8349589282791391
+      }
+    },
+    "2": {
+      "result_sha256": "ee3cde6f6dc6e24146d3d6a1f651df0c21d7cff0954191921c697be8a66b359d",
+      "epochs": 50,
+      "stopped_by": "epochs",
+      "wall_hours": 14.479282406436072,
+      "selection_metric": "auroc",
+      "best_validation_auroc": 0.8869114754241675,
+      "selected_validation_pr_auc": null,
+      "validation_subsample": 20000,
+      "manifest": "2026-09-02T21:06:22.873639+00:00",
+      "test": {
+        "balanced_acc": 0.6071720818578183,
+        "pr_auc": 0.47439881651302146,
+        "auroc": 0.839351364340382
+      }
+    }
+  },
+  "interpretation": "Old loaded trainers did not record selected-validation PR-AUC. Do not relabel AUROC or use maximum PR-AUC from the validation curve as selected-checkpoint PR-AUC. Test metrics are from the AUROC-selected checkpoint; no comparison to full-validation cohorts.",
+  "decision": "No rerun. Coupling seeds already scheduled on Torch continue; no new pretraining."
+}
