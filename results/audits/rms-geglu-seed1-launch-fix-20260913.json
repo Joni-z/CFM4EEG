@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-09-13T14:38:30.054601+00:00",
+  "failed_jobs": {
+    "417671": {
+      "state": "FAILED",
+      "exit_code": "1:0",
+      "elapsed_seconds": 2
+    },
+    "417672": {
+      "state": "FAILED",
+      "exit_code": "1:0",
+      "elapsed_seconds": 1
+    },
+    "417673": {
+      "state": "FAILED",
+      "exit_code": "1:0",
+      "elapsed_seconds": 1
+    }
+  },
+  "cause": "smoke_then_train.slurm hardcoded config:0 for preflight and training while smoke read the YAML seed. Existing-output guards prevented seed-0 overwrite.",
+  "training_started": false,
+  "existing_results_overwritten": false,
+  "fix": "Read and validate the YAML seed once; use it for both pack preflight and trainer. Smoke already reads that same YAML seed.",
+  "validation": "Three shell-wrapper integration tests and three packed-runner tests passed locally. Tests cover seed 1 with an existing seed 0 result, default seed 0, invalid seeds and existing target rejection.",
+  "model_or_training_recipe_changed": false,
+  "raw_receipts": [
+    "PACLock-monitor/rms-geglu-seed1-submission.json",
+    "PACLock-monitor/rms-geglu-seed1-start.tar"
+  ]
+}
