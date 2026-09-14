@@ -39,7 +39,13 @@ GPU contract plus both actual-config AMD smoke receipts pass. Each Torch job
 also runs its own real-config GPU smoke before training. No more than four
 candidate trainers may run/be queued across original and fallback screens.
 Use single GPU, h200_public or l40s_public, account torch_pr_63_general,
-no GPU model constraint, 24h allocation, 22h CHB/7h TUEV training caps.
+probe both partitions separately at trigger time and select the earlier admitted
+start estimate (multi-partition requests gave misleadingly late starts).
+Pending jobs have a 70h submission deadline, so they cannot start weeks later.
+no GPU model constraint, 12h CHB/8h TUEV allocations, 10.5h CHB/6.5h TUEV
+training caps in job-specific runtime configs. Scheduler probes showed a
+much shorter L40S estimate for 12h than 24h. Predictions are not guarantees.
+The optimizer/schedule remain unchanged; budget-ended pilots remain censored.
 Do not start if measured training-only reference duration exceeds 75% of cap;
 smoke failure cancels that admission with no resubmission loop.
 

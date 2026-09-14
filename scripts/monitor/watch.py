@@ -109,7 +109,7 @@ def submit(ds):
  # Reservation written remotely BEFORE sbatch. An ambiguous outcome cannot be
  # retried automatically, preventing duplicates after an SSH/Slurm disruption.
  code=f'''from pathlib import Path
-import fcntl,json,subprocess,time,os
+import fcntl,json,subprocess,time,os,re,datetime
 root=Path({TORCH!r});os.chdir(str(root));p=root/'controller'/{(ds+'.json')!r}
 lock=open(str(p)+'.lock','w');fcntl.flock(lock,fcntl.LOCK_EX)
 if p.exists():print(p.read_text());raise SystemExit(0)
@@ -117,7 +117,19 @@ out=root/'runs'/{(ds+'-nb16_anchored_20260915')!r}/'seed0'
 assert not out.exists(),'existing output'
 reservation={{'state':'submitting','dataset':{ds!r},'at':time.time()}}
 p.write_text(json.dumps(reservation))
-r=subprocess.run(['sbatch','--parsable','-J',{('F_anchor_'+ds+'_s0')!r},'torch_standby.slurm',{ds!r}],stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
+hours='12:00:00' if {ds!r}=='chbmit' else '08:00:00'
+choices=[]
+for partition in ['l40s_public','h200_public']:
+ probe=subprocess.run(['sbatch','--test-only','-p',partition,'--time='+hours,'-J','F_anchor_admission','torch_standby.slurm',{ds!r}],stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
+ message=probe.stdout+probe.stderr
+ if probe.returncode==0:
+  match=re.search(r'to start at ([0-9T:-]+)',message)
+  choices.append((match.group(1) if match else '9999',partition,message[-700:]))
+if not choices:
+ reservation.update(state='submission_failed',stderr='No allowed partition admitted the request');p.write_text(json.dumps(reservation));print(json.dumps(reservation));raise SystemExit(0)
+choices.sort();reservation['partition_probes']=choices;partition=choices[0][1]
+deadline=(datetime.datetime.now()+datetime.timedelta(hours=70)).strftime('%Y-%m-%dT%H:%M:%S')
+r=subprocess.run(['sbatch','--parsable','-p',partition,'--time='+hours,'--deadline='+deadline,'-J',{('F_anchor_'+ds+'_s0')!r},'torch_standby.slurm',{ds!r}],stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
 if r.returncode==0 and r.stdout.strip().split(';')[0].isdigit():reservation.update(state='submitted',job_id=r.stdout.strip().split(';')[0])
 else:reservation.update(state='submission_failed',stderr=r.stderr[-1500:])
 tmp=p.with_suffix('.tmp');tmp.write_text(json.dumps(reservation));tmp.replace(p);print(json.dumps(reservation))
