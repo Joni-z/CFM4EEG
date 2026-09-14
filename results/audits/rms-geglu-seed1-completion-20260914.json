@@ -1,0 +1,168 @@
+{
+  "recorded_at": "2026-09-14T05:41:42.637642+00:00",
+  "state": "complete_replication_gate_failed_no_expansion",
+  "jobs": {
+    "417675": "COMPLETED 0:0",
+    "417676": "COMPLETED 0:0",
+    "417677": "COMPLETED 0:0"
+  },
+  "rows": {
+    "tuev-factorized_f4_aug_confirm:1": {
+      "result_sha256": "ad466fe70f56b49ace4350be352762f33a491fe45f355a789f7739530f8f2af5",
+      "epochs": 20,
+      "stopped_by": "epochs",
+      "best_val": 0.6370718018539914,
+      "selected_validation": null,
+      "test": {
+        "balanced_acc": 0.6247257356518477,
+        "cohen_kappa": 0.7011677903307325,
+        "weighted_f1": 0.8405805213078015
+      },
+      "training_hours": 3.2192966081698735
+    },
+    "tuev-factorized_f4_rmsgeglu:1": {
+      "result_sha256": "86d8f889e4f5db06203cf7f87fffd48cb36d2da83899c870de926e806743961a",
+      "epochs": 20,
+      "stopped_by": "epochs",
+      "best_val": 0.6362993160196773,
+      "selected_validation": {
+        "selection_metric": "cohen_kappa",
+        "tag": "epoch   0 |",
+        "evaluation_index": 0,
+        "metrics": {
+          "balanced_acc": 0.5965693057180367,
+          "cohen_kappa": 0.6362993160196773,
+          "weighted_f1": 0.9278810963686945
+        }
+      },
+      "test": {
+        "balanced_acc": 0.623082924298226,
+        "cohen_kappa": 0.6752389354808734,
+        "weighted_f1": 0.8226790810660481
+      },
+      "training_hours": 4.275703403419919
+    },
+    "sleepedf-factorized_f4_blockcontrol:1": {
+      "result_sha256": "cde30796f9e11f8dec16e65064898bc438545caa38cdab1a51dcefa83a6175a5",
+      "epochs": 20,
+      "stopped_by": "epochs",
+      "best_val": 0.69381541603381,
+      "selected_validation": {
+        "selection_metric": "cohen_kappa",
+        "tag": "epoch   7 |",
+        "evaluation_index": 7,
+        "metrics": {
+          "balanced_acc": 0.681891259987116,
+          "cohen_kappa": 0.69381541603381,
+          "weighted_f1": 0.773722807517789
+        }
+      },
+      "test": {
+        "balanced_acc": 0.7003520666017536,
+        "cohen_kappa": 0.6932369957094418,
+        "weighted_f1": 0.7859962820530952
+      },
+      "training_hours": 2.92265767024623
+    },
+    "sleepedf-factorized_f4_rmsgeglu:1": {
+      "result_sha256": "7cb54e7bd230d496ae1356e348321f917d6541e69efe8e3528ee48ae02ae2035",
+      "epochs": 20,
+      "stopped_by": "epochs",
+      "best_val": 0.6804045247941292,
+      "selected_validation": {
+        "selection_metric": "cohen_kappa",
+        "tag": "epoch   4 |",
+        "evaluation_index": 4,
+        "metrics": {
+          "balanced_acc": 0.6612818090419965,
+          "cohen_kappa": 0.6804045247941292,
+          "weighted_f1": 0.7616197300778406
+        }
+      },
+      "test": {
+        "balanced_acc": 0.6783981103137048,
+        "cohen_kappa": 0.6719925832878437,
+        "weighted_f1": 0.7702786042599468
+      },
+      "training_hours": 3.1056121060583326
+    }
+  },
+  "pairs": {
+    "tuev": {
+      "control": "tuev-factorized_f4_aug_confirm:1",
+      "validation_control": {
+        "balanced_acc": 0.6045341844674641,
+        "cohen_kappa": 0.6370718018539914,
+        "weighted_f1": 0.9278108123582969
+      },
+      "validation_new": {
+        "balanced_acc": 0.5965693057180367,
+        "cohen_kappa": 0.6362993160196773,
+        "weighted_f1": 0.9278810963686945
+      },
+      "validation_delta": {
+        "balanced_acc": -0.007964878749427418,
+        "cohen_kappa": -0.0007724858343141072,
+        "weighted_f1": 7.028401039765875e-05
+      },
+      "test_control": {
+        "balanced_acc": 0.6247257356518477,
+        "cohen_kappa": 0.7011677903307325,
+        "weighted_f1": 0.8405805213078015
+      },
+      "test_new": {
+        "balanced_acc": 0.623082924298226,
+        "cohen_kappa": 0.6752389354808734,
+        "weighted_f1": 0.8226790810660481
+      },
+      "test_delta": {
+        "balanced_acc": -0.0016428113536217648,
+        "cohen_kappa": -0.025928854849859073,
+        "weighted_f1": -0.01790144024175333
+      }
+    },
+    "sleepedf": {
+      "control": "sleepedf-factorized_f4_blockcontrol:1",
+      "validation_control": {
+        "balanced_acc": 0.681891259987116,
+        "cohen_kappa": 0.69381541603381,
+        "weighted_f1": 0.773722807517789
+      },
+      "validation_new": {
+        "balanced_acc": 0.6612818090419965,
+        "cohen_kappa": 0.6804045247941292,
+        "weighted_f1": 0.7616197300778406
+      },
+      "validation_delta": {
+        "balanced_acc": -0.020609450945119456,
+        "cohen_kappa": -0.013410891239680867,
+        "weighted_f1": -0.012103077439948429
+      },
+      "test_control": {
+        "balanced_acc": 0.7003520666017536,
+        "cohen_kappa": 0.6932369957094418,
+        "weighted_f1": 0.7859962820530952
+      },
+      "test_new": {
+        "balanced_acc": 0.6783981103137048,
+        "cohen_kappa": 0.6719925832878437,
+        "weighted_f1": 0.7702786042599468
+      },
+      "test_delta": {
+        "balanced_acc": -0.02195395628804886,
+        "cohen_kappa": -0.021244412421598025,
+        "weighted_f1": -0.015717677793148477
+      }
+    }
+  },
+  "failed_predeclared_conditions": [
+    "tuev/cohen_kappa",
+    "tuev/balanced_acc",
+    "sleepedf/cohen_kappa",
+    "sleepedf/balanced_acc"
+  ],
+  "tuev_two_seed_mean_validation_kappa_gain": 0.028863731789033842,
+  "decision": "Close this backbone package screen without further seeds, corpora or pretraining. Not a permanent statement that RMSNorm or GEGLU cannot work elsewhere. Final candidate remains unselected.",
+  "historical_control_caveat": "TUEV seed1 legacy is the previously audited same-recipe historical run on mi2104x; not a simultaneous same-runtime control.",
+  "additional_gpu_class_review": "Not required to decide failure: predeclared aggregate validation conditions already failed. No further GPU diagnostic admitted."
+}
