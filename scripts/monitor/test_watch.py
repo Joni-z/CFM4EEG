@@ -31,4 +31,26 @@ class Gates(unittest.TestCase):
   amd={'runs':{w.NAMES[0]:r,**{n:flat(0,.05) for n in w.NAMES[1:]}},'smoke':{}};torch={'queue':'','legacy':{}}
   with tempfile.TemporaryDirectory() as td,patch.object(w,'ROOT',Path(td)),patch.object(w,'ssh',side_effect=lambda host,code:amd if host=='amd' else torch),patch.object(w,'smoke_ready',return_value=True),patch.object(w,'submit',return_value={'state':'submitted','job_id':'123'}) as submit:
    w.main();self.assertEqual(submit.call_count,1)
+ def test_remote_submission_reservation_and_partition_choice(self):
+  import contextlib,io,os,types
+  cwd=os.getcwd();calls=[]
+  def run(args,**kwargs):
+   calls.append(args)
+   if '--test-only' in args:
+    date='2026-09-15T00:00:00' if 'l40s_public' in args else '2026-09-28T00:00:00'
+    return types.SimpleNamespace(returncode=0,stdout='',stderr='Job to start at '+date)
+   return types.SimpleNamespace(returncode=0,stdout='12345\n',stderr='')
+  def remote(host,code):
+   output=io.StringIO()
+   with contextlib.redirect_stdout(output):
+    try:exec(compile(code,'remote-submit','exec'),{})
+    except SystemExit:pass
+   return json.loads(output.getvalue())
+  try:
+   with tempfile.TemporaryDirectory() as td,patch.object(w,'TORCH',td),patch.object(w,'ssh',side_effect=remote),patch('subprocess.run',side_effect=run):
+    Path(td,'controller').mkdir();a=w.submit('chbmit');b=w.submit('chbmit')
+    self.assertEqual(a['job_id'],'12345');self.assertEqual(a,b)
+    actual=[c for c in calls if '--parsable' in c];self.assertEqual(len(actual),1)
+    self.assertIn('l40s_public',actual[0]);self.assertTrue(any(c.startswith('--deadline=') for c in actual[0]))
+  finally:os.chdir(cwd)
 if __name__=='__main__':unittest.main()
