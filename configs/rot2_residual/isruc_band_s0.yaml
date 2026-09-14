@@ -38,4 +38,4 @@ model_kwargs:
   pac_patch_len: 50
   local_residual: true
 seed: 0
-max_hours: 5.5
+max_hours: 10.5
