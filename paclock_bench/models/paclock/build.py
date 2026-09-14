@@ -157,6 +157,17 @@ class TriAxialPACLock(nn.Module):
                                       n_channels=cfg["n_channels"],
                                       n_patches=cfg["seq_len"] // cfg.get("patch_len", 200))
 
+        self.duplex_routing = bool(cfg.get("duplex_routing", False))
+        if self.duplex_routing:
+            if (cfg.get("tokenizer_mode") != "duplex" or self.freq_mixer != "attention"
+                    or cfg.get("space_over_bands", False) or cfg.get("head", "mean") != "mean"
+                    or cfg.get("aux_recon", False)):
+                raise ValueError("duplex_routing requires duplex/attention/mean, no folded space or aux reconstruction")
+            from .duplex_routing import DuplexReadout
+            # Leave initialization of all existing modules on the legacy RNG path.
+            with torch.random.fork_rng(devices=[]):
+                self.head = DuplexReadout(d, cfg.get("n_heads", 4), cfg["num_classes"])
+
         # Optional crossfreq-reconstruction auxiliary head (AGENT.md sec. 13.15).
         # When aux_recon_weight > 0, supervised training adds a masked-amplitude
         # reconstruction loss (mask the high-band half, rebuild from visible low
@@ -345,6 +356,10 @@ class TriAxialPACLock(nn.Module):
         # physics positional encodings: band by center-freq, electrode by position
         tokens = tokens + self.band_pe(band_hz).view(1, 1, nb, 1, D)
         tokens = tokens + self.spatial_pe(C, tokens.device).view(1, C, 1, 1, D)
+        if self.duplex_routing:
+            from .duplex_routing import encode_sources
+            wave, cpl = encode_sources(self.encoder, tokens, coupling, pac_vector)
+            return self.head(wave, cpl)
         h = self.encoder(tokens, coupling, pac_vector)   # (B,C,nb,P,D)
         # the grid shape travels with the tokens so a readout can use the axes
         return self.head(h.reshape(B, C * nb * P, D), (C, nb, P))
