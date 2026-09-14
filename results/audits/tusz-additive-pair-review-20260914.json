@@ -1,0 +1,146 @@
+{
+  "at": "2026-09-14T06:04:35.694933+00:00",
+  "pairs": [
+    {
+      "seed": 0,
+      "raw_path": "runs/tusz-cbramod_add_raw/seed0/result.json",
+      "coupling_path": "runs/tusz-cbramod_add_cpl/seed0/result.json",
+      "raw_sha256": "a0587d638c27c9188e793503f3065afd8af9f1c202858a6151abd9ab19008631",
+      "coupling_sha256": "f232c109b78a5aa68d6cbb59d9f42fff633091b75b7fc4c32d2198643c593d0b",
+      "raw_manifest": "2026-08-04T12:04:53.501948+00:00",
+      "coupling_manifest": "2026-09-02T21:06:22.873639+00:00",
+      "manifest_match": false,
+      "class_counts_match": true,
+      "raw_validation_auroc": 0.9145834754484518,
+      "coupling_validation_auroc": 0.8935989993540385,
+      "delta_validation_auroc": -0.02098447609441323,
+      "raw_test_pr_auc": 0.47623662249563226,
+      "coupling_test_pr_auc": 0.38386215249281586,
+      "config_differences": {
+        "model_kwargs": [
+          {
+            "dropout": 0.1,
+            "interaction_mode": "product",
+            "tokenizer_mode": "raw",
+            "adapter": "additive",
+            "readout": "native"
+          },
+          {
+            "dropout": 0.1,
+            "interaction_mode": "rotation",
+            "tokenizer_mode": "pac_interaction",
+            "adapter": "additive",
+            "readout": "native"
+          }
+        ],
+        "name": [
+          "tusz-cbramod_add_raw",
+          "tusz-cbramod_add_cpl"
+        ]
+      }
+    },
+    {
+      "seed": 1,
+      "raw_path": "runs/tusz-cbramod_add_raw/seed1/result.json",
+      "coupling_path": "runs/tusz-cbramod_add_cpl/seed1/result.json",
+      "raw_sha256": "3b8922ff4bf3737c1e11b5fa680a9d4717cf25ba925779b3262cdd7321b14053",
+      "coupling_sha256": "f9eb05de3956490e4b1ec086eaa791cd0a61e56d501d7f33ec9bfc6f3bd74fb2",
+      "raw_manifest": "2026-09-02T21:06:22.873639+00:00",
+      "coupling_manifest": "2026-09-02T21:06:22.873639+00:00",
+      "manifest_match": true,
+      "class_counts_match": true,
+      "raw_validation_auroc": 0.8936903819231345,
+      "coupling_validation_auroc": 0.8958852027306586,
+      "delta_validation_auroc": 0.0021948208075240894,
+      "raw_test_pr_auc": 0.4195965952696495,
+      "coupling_test_pr_auc": 0.4105902194429979,
+      "config_differences": {
+        "model_kwargs": [
+          {
+            "dropout": 0.1,
+            "interaction_mode": "product",
+            "tokenizer_mode": "raw",
+            "adapter": "additive",
+            "readout": "native"
+          },
+          {
+            "dropout": 0.1,
+            "interaction_mode": "rotation",
+            "tokenizer_mode": "pac_interaction",
+            "adapter": "additive",
+            "readout": "native"
+          }
+        ],
+        "max_hours": [
+          30.0,
+          23.0
+        ],
+        "name": [
+          "tusz-cbramod_add_raw",
+          "tusz-cbramod_add_cpl"
+        ],
+        "num_workers": [
+          16,
+          8
+        ]
+      }
+    },
+    {
+      "seed": 2,
+      "raw_path": "runs/tusz-cbramod_add_raw/seed2/result.json",
+      "coupling_path": "runs/tusz-cbramod_add_cpl/seed2/result.json",
+      "raw_sha256": "ee3cde6f6dc6e24146d3d6a1f651df0c21d7cff0954191921c697be8a66b359d",
+      "coupling_sha256": "227f3fe3db85aa002ee1651d7ad38b8a5297a4541a60585464733a9abb916640",
+      "raw_manifest": "2026-09-02T21:06:22.873639+00:00",
+      "coupling_manifest": "2026-09-02T21:06:22.873639+00:00",
+      "manifest_match": true,
+      "class_counts_match": true,
+      "raw_validation_auroc": 0.8869114754241675,
+      "coupling_validation_auroc": 0.8689941401781291,
+      "delta_validation_auroc": -0.017917335246038335,
+      "raw_test_pr_auc": 0.47439881651302146,
+      "coupling_test_pr_auc": 0.4422919065628339,
+      "config_differences": {
+        "model_kwargs": [
+          {
+            "dropout": 0.1,
+            "interaction_mode": "product",
+            "tokenizer_mode": "raw",
+            "adapter": "additive",
+            "readout": "native"
+          },
+          {
+            "dropout": 0.1,
+            "interaction_mode": "rotation",
+            "tokenizer_mode": "pac_interaction",
+            "adapter": "additive",
+            "readout": "native"
+          }
+        ],
+        "max_hours": [
+          30.0,
+          23.0
+        ],
+        "name": [
+          "tusz-cbramod_add_raw",
+          "tusz-cbramod_add_cpl"
+        ],
+        "num_workers": [
+          16,
+          8
+        ]
+      }
+    }
+  ],
+  "matched_seed_mean_delta_validation_auroc": -0.007861257219257123,
+  "decision": "No expansion of additive coupling from these mixed validation results. Do not cancel the distinct duplex bands experiments.",
+  "limitations": [
+    "Seed 0 excluded from paired aggregation due to different manifest identity; equal counts do not prove equal examples.",
+    "Seed 1/2 differ in workers and nonbinding time caps; both completed 50 epochs.",
+    "No claim of identical historical code or superiority/significance. Test scores descriptive only.",
+    "Validation cap must be retained when interpreting these results; no full-validation claim."
+  ],
+  "selection_metric": "auroc",
+  "reported_primary_metric": "pr_auc",
+  "validation_cap": 20000
+}
