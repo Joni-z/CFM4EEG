@@ -1,15 +1,16 @@
-# Designed from the factor analysis over every TUEV run (2026-09-12): coupling-only tokenizer (0.688 avg over 12 runs)
-# beats duplex (0.665) and waveform (0.551); frequency attention (0.666) beats no frequency axis (0.635);
-# 16 bands (0.707) beats 8 (0.652); rotation (0.661) beats product (0.646). No previous run combined all four.
-# arm n5: n_bands=16 d_model=128, +regularisation
-name: tuev-crofremo_n5
-group: design
+# D-axis screen (2026-09-14): does training-time augmentation pay on the tri-axial d128 coupling-only stack?
+# Identical to configs/coupling_only/tuev_paclock_rot2.yaml except model_kwargs.augmentations.
+# augfull = the bundle measured on the folded d192 encoder; augsafe drops the two transforms that attack the
+# coupling statistic itself: flip (time reversal inverts the phase progression that Z_ij measures) and
+# frequency masking (zeroes FFT bins, destroying band content). jitter and channel masking are coupling-neutral.
+name: tuev-rot2_augfull
+group: d_axis
 dataset: tuev
 data_root: $PACLOCK_PROC/processed/tuev
 model: paclock
 optimizer: adamw
 lr: 0.0001
-weight_decay: 0.05
+weight_decay: 1.0e-05
 scheduler: cosine
 grad_clip: 1.0
 num_workers: 8
@@ -26,9 +27,9 @@ model_kwargs:
   arch: triaxial
   d_model: 128
   depth: 6
-  n_bands: 16
+  n_bands: 8
   n_heads: 4
-  dropout: 0.35
+  dropout: 0.2
   kernel_size: 201
   patch_len: 50
   augmentations:
@@ -45,4 +46,4 @@ model_kwargs:
   spatial_pe: xyz
   pac_patch_len: 50
 seed: 0
-max_hours: 6.0
+max_hours: 4.5
