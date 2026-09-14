@@ -1,5 +1,8 @@
 # F: 16-band tokenizer follow-up, 2026-09-15
 
+**Superseded before full training by the user's structural-priority correction.**
+Only hardware smoke 419224 ran. See MODULATION-CARRIER-GATE-2026-09-15.md.
+
 Authorized by the user after the 8-band residual/routing pilots were stopped.
 Current origin/main finding reviewed: `26e2423`, plus COLLAB-PROTOCOL,
 CANDIDATE-BOARD, N-BANDS-FINDING, residual gate, candidate review, historical

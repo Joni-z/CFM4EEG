@@ -22,4 +22,6 @@ the former axis-A in-flight restriction is superseded by this explicit request.
 
 | id | axis | hypothesis | owner | status | gate doc | outcome |
 |---|---|---|---|---|---|---|
-| nb16_n5_followup | A/B | At 16 bands, compare pure coupling, waveform residual and separate waveform rows under one n5 recipe | F | proposed | docs/NB16-FOLLOWUP-GATE-2026-09-15.md | Three CHB arms plus TUEV residual; real-batch smoke and time admission first. Existing TUEV n5 control reused. |
+| nb16_n5_followup | A/B | At 16 bands, compare pure coupling, waveform residual and separate waveform rows under one n5 recipe | F | closed | docs/NB16-FOLLOWUP-GATE-2026-09-15.md | Superseded by user structural-priority correction before full training; only hardware smoke 419224 ran. |
+
+| modulation_carrier | A mixing / token construction | Preserve waveform coordinates inside the PAC rotation: analytic-amplitude quadrature versus full waveform carrier; two tasks each | F | proposed | docs/MODULATION-CARRIER-GATE-2026-09-15.md | Four seed-0 runs, fixed n5 recipe; new GPU contract and real-batch timing required. |

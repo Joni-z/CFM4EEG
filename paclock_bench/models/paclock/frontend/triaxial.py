@@ -112,9 +112,18 @@ class TriAxialFrontend(nn.Module):
         coupling_self: bool = False,
         coupling_strength: bool = False,
         local_residual: bool = False,
+        waveform_modulation: str = "none",
         **_,
     ):
         super().__init__()
+        if waveform_modulation not in ("none", "quadrature", "carrier"):
+            raise ValueError("waveform_modulation must be none/quadrature/carrier")
+        if waveform_modulation != "none" and (
+            tokenizer_mode != "pac_interaction" or interaction_mode != "rotation"
+            or local_residual or coupling_strength
+        ):
+            raise ValueError("waveform modulation requires unmodified pac_interaction/rotation")
+        self.waveform_modulation = waveform_modulation
         self.local_residual = bool(local_residual)
         if self.local_residual and (tokenizer_mode != "pac_interaction" or interaction_mode != "rotation"):
             raise ValueError("local_residual requires pac_interaction with rotation")
@@ -319,6 +328,18 @@ class TriAxialFrontend(nn.Module):
                 # this margin controlled before being taken at face value.
                 self.concat_proj = nn.Linear(3 * complex_dim, hidden_dim)
 
+        if self.waveform_modulation != "none":
+            # Independent waveform coordinates, subsequently rotated by the
+            # SAME PAC alignment as the analytic amplitude coordinates. Keep
+            # encoder/head initialization independent of this extra module.
+            with torch.random.fork_rng(devices=[]):
+                self.waveform_quadrature = nn.Conv1d(
+                    1, hidden_dim // 2, kernel_size=patch_len,
+                    stride=patch_len, bias=False,
+                )
+            if self.waveform_modulation == "quadrature":
+                nn.init.zeros_(self.waveform_quadrature.weight)
+
         if self.local_residual:
             # Preserve the original model's initialization RNG stream, including
             # the encoder and head constructed after this frontend.
@@ -359,7 +380,7 @@ class TriAxialFrontend(nn.Module):
         width = high - low
         return torch.cat([center, width], dim=1)                # (n_bands, 2)
 
-    def _pac_interaction(self, phase_feat, amplitude_feat, pac_vector):
+    def _pac_interaction(self, phase_feat, amplitude_feat, pac_vector, waveform_feat=None):
         """Mandatory gauge-invariant phase-amplitude token interaction.
 
         ``phase_feat`` is complex (B,C,P,I,K), ``amplitude_feat`` is real
@@ -506,6 +527,15 @@ class TriAxialFrontend(nn.Module):
             # sum -- phase_feat is an unnormalised learned projection, so its
             # modulus has no lower bound.
             unit_phase = aligned_phase / aligned_phase.abs().clamp_min(1e-6)
+            if waveform_feat is not None:
+                # For |aligned_phase| >= eps, this is a 2-D orthogonal
+                # rotation of (amplitude_feat, waveform_feat). The two input
+                # coordinates cannot cancel each other: |h|^2 = a^2 + w^2.
+                # In carrier mode both coordinates project the waveform.
+                # The guarantee is conditional on the alignment; it does not
+                # imply that the full nonlinear tokenizer is invertible.
+                carrier = torch.complex(amplitude_feat, waveform_feat)
+                return carrier * unit_phase
             return amplitude_feat.to(unit_phase.dtype) * unit_phase
         # concat: expose the same ingredients, let a learned projection combine
         # them. Real, already at the token width (hidden_dim), no view_as_real
@@ -515,7 +545,7 @@ class TriAxialFrontend(nn.Module):
         )
         return self.concat_proj(feat)
 
-    def _interaction_tokens(self, phase_unit, amplitude, pac_vectors):
+    def _interaction_tokens(self, phase_unit, amplitude, pac_vectors, filtered=None):
         """Analytic phase/amplitude -> real interleaved PAC interaction tokens.
 
         ``pac_vectors`` is a list, one coupling tensor per PAC window. The
@@ -531,8 +561,15 @@ class TriAxialFrontend(nn.Module):
         # over the trailing K axis and no longer needs view(1, -1, 1).
         pr = _patch_project(self.phase_tokenizer, phase_unit.real.reshape(flat_shape))
         pi = _patch_project(self.phase_tokenizer, phase_unit.imag.reshape(flat_shape))
+        amplitude_input = torch.log1p(amplitude)
+        if self.waveform_modulation == "carrier":
+            if filtered is None:
+                raise ValueError("carrier modulation needs the filtered waveform")
+            # Legacy parameter names retained for checkpoint provenance: this
+            # projection now carries raw waveform coordinates, not envelopes.
+            amplitude_input = filtered
         amp = _patch_project(
-            self.amplitude_tokenizer, torch.log1p(amplitude).reshape(flat_shape)
+            self.amplitude_tokenizer, amplitude_input.reshape(flat_shape)
         )
         amp = amp * self.amplitude_scale
         P, K = pr.shape[1], pr.shape[2]
@@ -542,10 +579,17 @@ class TriAxialFrontend(nn.Module):
         amplitude_feat = amp.reshape(
             B, C, nb, P, K
         ).permute(0, 1, 3, 2, 4)
+        waveform_feat = None
+        if self.waveform_modulation != "none":
+            if filtered is None:
+                raise ValueError("waveform modulation needs the filtered waveform")
+            waveform_feat = _patch_project(
+                self.waveform_quadrature, filtered.reshape(flat_shape)
+            ).reshape(B, C, nb, P, K).permute(0, 1, 3, 2, 4)
         per_scale = []
         for pac_vector in pac_vectors:
             interaction = self._pac_interaction(
-                phase_feat, amplitude_feat, pac_vector
+                phase_feat, amplitude_feat, pac_vector, waveform_feat=waveform_feat
             )
             if self.interaction_mode in ("product", "rotation"):
                 per_scale.append(torch.view_as_real(interaction).flatten(-2))
@@ -616,7 +660,7 @@ class TriAxialFrontend(nn.Module):
         pac_vector = pac_vectors[0]
         if self.tokenizer_mode == "pac_interaction":
             tokens = self._interaction_tokens(
-                phase_unit, amplitude, pac_vectors
+                phase_unit, amplitude, pac_vectors, filtered=filtered
             )
             if self.local_residual:
                 local = _patch_project(
