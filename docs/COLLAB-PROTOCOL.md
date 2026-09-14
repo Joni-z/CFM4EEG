@@ -56,6 +56,9 @@ fail the other. From now on every screen:
 Balance 2026-09-14: 1836 of 2250 used, ~414 left. Recent peak burn 62 units/day exhausts it around
 2026-09-20, before the full-paper deadline.
 - Job names are prefixed by owner: `A_*` and `F_*`. Check `squeue -u yifanwang` before submitting.
+- Partitions our allocation may use: **mi2101x** (1 GPU MI210, 16 cores, billing weight 0.01/node-hour) and
+  **mi2104x** (4 GPU, 128 cores, 0.04/node-hour). `mi3501x` (MI355X, weight 0.0125, 7 nodes idle) looks
+  attractive and is NOT authorized for this account — the submit filter rejects it. Checked 2026-09-14.
 - A screen is at most 4 runs. Prefer mi2101x / mi3501x single-GPU nodes (16-24 cores) over a packed
   mi2104x node (128 cores) — roughly half the billing for the same four runs, and 20 nodes sit idle.
 - A cancelled job is still billed for the time it ran; a PENDING job cancelled before it starts is free.

@@ -46,4 +46,4 @@ model_kwargs:
   spatial_pe: xyz
   pac_patch_len: 50
 seed: 0
-max_hours: 4.5
+max_hours: 7.0
