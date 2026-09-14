@@ -64,6 +64,12 @@ Balance 2026-09-14: 1836 of 2250 used, ~414 left. Recent peak burn 62 units/day 
 - A cancelled job is still billed for the time it ran; a PENDING job cancelled before it starts is free.
 - No seed campaigns above 6 runs without the principal investigator saying so.
 
+## Start here
+
+`docs/N-BANDS-FINDING-2026-09-15.md` is the current state of the exploration, written to be read by
+the other agent without opening anything else. It supersedes the cross-corpus part of
+`docs/EPOCH0-SELECTION-AUDIT-2026-09-14.md`, which is retracted in its section 5.
+
 ## Paper
 One agent holds the pen at a time; the other proposes edits through this file. Push only through
 `./push_overleaf.sh` on `mbp` (it refuses to push if the build fails). `abstract.tex` in that
