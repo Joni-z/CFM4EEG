@@ -1,0 +1,79 @@
+{
+  "created_at": "2026-09-14T05:52:33.074460+00:00",
+  "state": "contract_passed_waiting_per_job_real_batch_smoke",
+  "contract_smoke_job": 418677,
+  "contract_dependency": "afterok; kill-on-invalid-dep=yes",
+  "source_commit_short": "b610bc0",
+  "partition": "mi2101x",
+  "seed": 0,
+  "epochs": 20,
+  "max_training_hours_per_job": 4,
+  "wall_hours_per_job": 5,
+  "maximum_allocated_node_hours": 20,
+  "maximum_allocated_node_hours_note": "Four one-GPU nodes; excludes 25-minute contract smoke. Not a verified conversion to allocation balance units.",
+  "allocation_filter_used": 1835.02,
+  "allocation_filter_limit": 2250,
+  "pretraining_admitted": false,
+  "gate_document": "docs/ROT2-RESIDUAL-GATE-2026-09-14.md",
+  "jobs": [
+    {
+      "job": 418680,
+      "dataset": "tuev",
+      "arm": "control",
+      "config": "configs/rot2_residual/tuev_control_s0.yaml",
+      "config_sha256": "08d843eaf729b7bf88c30e265effc554be844b44d16adf5bc33900e4d55059fa",
+      "canonical_run": "runs/tuev-rot2_residual_control/seed0",
+      "individual_real_batch_smoke_required": true
+    },
+    {
+      "job": 418681,
+      "dataset": "tuev",
+      "arm": "band",
+      "config": "configs/rot2_residual/tuev_band_s0.yaml",
+      "config_sha256": "afe6c873dd2885f8f3bbeccf8f1bc906a096475a0e021f44df8a34edc70a12ee",
+      "canonical_run": "runs/tuev-rot2_residual_band/seed0",
+      "individual_real_batch_smoke_required": true
+    },
+    {
+      "job": 418683,
+      "dataset": "sleepedf",
+      "arm": "control",
+      "config": "configs/rot2_residual/sleepedf_control_s0.yaml",
+      "config_sha256": "e32677ad34c6d4d72f07741de0ec9456b31cdc9570b893f572e4779529eda85c",
+      "canonical_run": "runs/sleepedf-rot2_residual_control/seed0",
+      "individual_real_batch_smoke_required": true
+    },
+    {
+      "job": 418684,
+      "dataset": "sleepedf",
+      "arm": "band",
+      "config": "configs/rot2_residual/sleepedf_band_s0.yaml",
+      "config_sha256": "6761be041d12c0dff8e674405148dc39aaaa6da2c11b531089c25146013b246a",
+      "canonical_run": "runs/sleepedf-rot2_residual_band/seed0",
+      "individual_real_batch_smoke_required": true
+    }
+  ],
+  "source_commit": "b610bc00adae7cf0746567655faca9fd515170cd",
+  "contract_smoke_state": "COMPLETED 0:0",
+  "contract_smoke_elapsed_seconds": 53,
+  "contract_smoke_results": [
+    {
+      "dataset": "tuev",
+      "extra_parameters": 6400,
+      "initial_logits_exact": true,
+      "shared_initial_state_exact": true,
+      "train_dropout_exact": true,
+      "residual_gradient_nonzero": true,
+      "checkpoint_roundtrip_exact": true
+    },
+    {
+      "dataset": "sleepedf",
+      "extra_parameters": 6400,
+      "initial_logits_exact": true,
+      "shared_initial_state_exact": true,
+      "train_dropout_exact": true,
+      "residual_gradient_nonzero": true,
+      "checkpoint_roundtrip_exact": true
+    }
+  ]
+}
