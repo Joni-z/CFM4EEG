@@ -81,3 +81,11 @@ No promotion until normally completed comparisons and both task requirements
 are reviewed. A pilot pass enables a replication proposal only. A failure
 closes this particular setting provisionally, not the whole architecture family.
 No pretraining or external-backbone campaign in this screen.
+
+## Historical selected-validation reference recovered before training
+
+`PACLock/logs/DSN_01-416484-tuev_crofremo_n5-s0.out`, epoch 8, records
+validation balanced accuracy **.5245** and kappa .6330. The full result records
+kappa .633040061 and peak index 8. Only four-decimal balanced accuracy is
+available, so use a four-decimal comparison floor **.5045** for that clause;
+do not imply greater precision or substitute the .6926 test balanced accuracy.
