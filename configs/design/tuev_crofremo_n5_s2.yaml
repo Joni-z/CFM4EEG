@@ -44,5 +44,5 @@ model_kwargs:
   interaction_mode: rotation
   spatial_pe: xyz
   pac_patch_len: 50
-seed: 0
+seed: 2
 max_hours: 6.0

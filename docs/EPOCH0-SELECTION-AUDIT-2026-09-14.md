@@ -20,29 +20,42 @@ TUEV 0.7328 +- 0.0161 is therefore the score of a model trained for one epoch. V
 monotonically for the following nineteen, and checkpoint selection throws them away. The number is
 honest -- selection is on validation and the test set is untouched -- but the recipe is not training.
 
-This is not confined to TUEV. Fraction of runs whose validation peaks at evaluation 0 or 1, by corpus,
-over 1978 runs in `runs/`:
+**CORRECTION, 2026-09-15.** This section originally carried a table of early-peaking rates by corpus
+and concluded that the corpora preferring coupling-only are the corpora that overfit instantly. That
+table was an artifact of evaluation cadence and has been removed. Corpora differ in how often they
+evaluate and whether patience fires: TUEV, CAUEEG, ISRUC and IIIC evaluate once per epoch for 20
+evaluations and run to the epoch cap, while TUSZ and CHB-MIT evaluate every few hundred steps for 100
+to 200 evaluations and stop on patience after 2 to 4 epochs. A corpus with 200 evaluations can almost
+never record `peak_index <= 1`, so the old ranking measured cadence, not overfitting.
 
-| corpus | early-peaking | corpus | early-peaking |
-|---|---|---|---|
-| TUEP | 51/97 (53%) | TUAR | 8/85 (9%) |
-| TUEV | 123/278 (44%) | IIIC | 10/118 (8%) |
-| CAUEEG | 30/94 (32%) | CHB-MIT | 13/156 (8%) |
-| TUAB | 20/98 (20%) | Sleep-EDF | 4/95 (4%) |
-| FACED | 19/114 (17%) | TUSZ | 6/179 (3%) |
-| ADFD | 13/98 (13%) | PhysioNet-MI | 1/137 (1%) |
-| Siena | 12/91 (13%) | BCI-IV-2a | 0/140 (0%) |
-| Mumtaz | 6/52 (12%) | ISRUC | 0/123 (0%) |
+Normalised as median peak position over the schedule, and in epochs:
+
+| corpus | median evals | median epochs run | median peak, % of schedule | median peak, epochs |
+|---|---|---|---|---|
+| TUEP | 21 | 6 | 9% | 1.00 |
+| TUEV | 20 | 20 | 12% | 3.00 |
+| CAUEEG | 20 | 20 | 21% | 4.00 |
+| IIIC | 20 | 20 | 32% | 6.00 |
+| Sleep-EDF | 20 | 20 | 32% | 7.00 |
+| ISRUC | 20 | 20 | 44% | 10.00 |
+| TUSZ | 104 | 3 | 62% | 1.75 |
+| CHB-MIT | 100 | 4 | 71% | 2.85 |
+
+In epoch terms every corpus peaks within the first few epochs, and TUSZ at 1.75 peaks *earlier* than
+TUEV at 3.00. The real difference is that patience ends the TUSZ and CHB-MIT runs near their peak,
+while TUEV and CAUEEG keep training for another seventeen epochs and discard the work.
+
+What survives from the original finding is narrower and still true: the three headline
+`tuev-paclock_rot2` seeds peak at evaluation 0, that is after one epoch, against a median of three
+epochs for TUEV runs generally. Our specific configuration peaks earlier than a typical TUEV run.
+The cross-corpus claim does not survive and no conclusion should be built on it.
 
 ## Why it reframes the central tension
 
-The corpora that "prefer coupling-only" and the corpora that "need within-band waveform" are, to a
-good approximation, the corpora that overfit instantly and the corpora that train normally. TUEV
-(44% early-peaking) is where coupling-only wins by 0.15. CHB-MIT (8%) and ISRUC (0%) are where it
-loses. The mixture question and the regularisation question have been confounded the whole time:
-we have been comparing tokenizers at epoch 1 on one half of the benchmark and at epoch 12 on the other.
-
-A fair test of any tokenizer change needs a recipe that trains on both halves. That is now the D axis.
+**RETRACTED 2026-09-15.** This section argued that the corpora preferring coupling-only are the
+corpora that overfit instantly. It rested on the cross-corpus table corrected above and does not
+survive normalisation. There is no evidence here that the mixture question and the regularisation
+question are confounded across corpora.
 
 ## The suspect
 
