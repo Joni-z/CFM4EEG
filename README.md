@@ -1,8 +1,23 @@
-# PACLock
+# CFM4EEG
 
-PACLock — a phase-amplitude-coupling tokeniser for EEG — and the nine-corpus
-benchmark it is measured on, against five foundation models and five light
-supervised baselines under each model's own published recipe.
+**CFM4EEG** is the repository for **CroFreMo (Cross-Frequency Modulation)**,
+an EEG tokenizer built around phase-amplitude coupling (PAC), and its
+cross-corpus representation-learning benchmark.
+
+CroFreMo learns frequency bands, measures patch-level phase-amplitude
+covariation, and uses the resulting phase alignment to construct
+cross-frequency modulation tokens. A complementary duplex representation
+retains within-band waveform information. The research goal is a broadly
+useful EEG foundation model; current supervised, transfer, and exploratory
+pretraining results must be interpreted separately.
+
+Paper: **Tokenizing EEG through Cross-Frequency Modulation**.
+See [project naming and paper story](docs/CFM4EEG.md).
+
+`PACLock`, `paclock_bench`, `PACLOCK_*`, existing configuration names, and
+cluster checkout paths are legacy implementation identifiers retained for
+reproducibility and compatibility with running experiments. The repository
+name is CFM4EEG; the model name is CroFreMo.
 
 ## Start here on a new cluster
 
