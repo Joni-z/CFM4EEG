@@ -3,7 +3,7 @@
 python3 scripts/monitor/watch_clusters.py --state /Users/mr.z/PACLock-monitor
 Add --watch for a persistent 15-minute loop; a file lock prevents duplicates.
 """
-import argparse,concurrent.futures,fcntl,hashlib,io,json,os,re,shlex,subprocess,tarfile,time
+import argparse,concurrent.futures,fcntl,hashlib,io,json,os,re,shlex,subprocess,sys,tarfile,time
 from pathlib import Path
 HOSTS={
  'amd':'/work1/chenyuyou/yifanwang/Zhizhe/PACLock',
@@ -187,6 +187,27 @@ def collect(host,root,state,previous):
    out['jobs']=previous.get('jobs',[]);out['jobs_are_cached']=True
  return out
 
+def refresh_rot2_gate(state, report):
+ target=state/'rot2-residual-gate.json'
+ previous=json.loads(target.read_text()) if target.exists() else {}
+ pending=state/'rot2-residual-gate.pending.json'
+ try:
+  if report['conflicts']:
+   raise ValueError('Canonical result conflicts require review')
+  command([sys.executable,str(Path(__file__).with_name('rot2_residual_gate.py')),
+           '--runs',str(state/'hosts'/'amd'/'runs'),'--output',str(pending)],timeout=30)
+  gate=json.loads(pending.read_text())
+ except Exception as exc:
+  gate=dict(state='not_ready',issues=[str(exc)])
+ finally:
+  pending.unlink(missing_ok=True)
+ gate['snapshot_at']=report['at']
+ gate['amd_observation_ok']=report['hosts']['amd']['ok']
+ atomic(target,gate)
+ if gate['state']!=previous.get('state'):
+  with (state/'events.jsonl').open('a') as f:
+   f.write(json.dumps(dict(at=report['at'],event='rot2_validation_gate',state=gate['state']))+'\n')
+
 def snapshot(state):
  latest=state/'latest.json';old=json.loads(latest.read_text()) if latest.exists() else {}
  with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
@@ -215,6 +236,7 @@ def snapshot(state):
  new_alerts=[a for a in alerts if json.dumps(a,sort_keys=True) not in known_alerts]
  report=dict(at=time.time(),initial_baseline=not bool(old),hosts=hosts,results=results,new_results=newkeys,changed_results=changed,conflicts=sorted(set(conflicts)),alerts=alerts,new_alerts=new_alerts)
  atomic(latest,report)
+ refresh_rot2_gate(state,report)
  for key in newkeys:
   with (state/'events.jsonl').open('a') as f:f.write(json.dumps(dict(at=report['at'],event='result',result=results[key]))+'\n')
  summary=dict(at=report['at'],hosts={h:dict(ok=x['ok'],ours=len(x['jobs']),foreign=len(x['foreign_jobs'])) for h,x in hosts.items()},new_results=newkeys,changed_results=changed,conflicts=report['conflicts'],new_alerts=new_alerts,alerts=alerts)

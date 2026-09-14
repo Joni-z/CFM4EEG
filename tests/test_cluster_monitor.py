@@ -4,6 +4,22 @@ from unittest.mock import patch
 spec=importlib.util.spec_from_file_location('monitor',Path(__file__).resolve().parents[1]/'scripts/monitor/watch_clusters.py')
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 class MonitorTests(unittest.TestCase):
+ def test_gate_refresh_reports_missing_without_remote_work(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   state=Path(tmp)
+   m.refresh_rot2_gate(state,dict(at=1,conflicts=[],hosts={'amd': {'ok':True}}))
+   gate=json.loads((state/'rot2-residual-gate.json').read_text())
+   self.assertEqual(gate['state'],'not_ready')
+   self.assertEqual(len(gate['issues']),4)
+   self.assertEqual(gate['snapshot_at'],1)
+ def test_gate_failure_replaces_stale_pass(self):
+  with tempfile.TemporaryDirectory() as tmp,patch.object(m,'command',side_effect=RuntimeError('bad result')):
+   state=Path(tmp)
+   (state/'rot2-residual-gate.json').write_text(json.dumps(dict(state='validation_screen_passed')))
+   m.refresh_rot2_gate(state,dict(at=2,conflicts=[],hosts={'amd': {'ok':False}}))
+   gate=json.loads((state/'rot2-residual-gate.json').read_text())
+   self.assertEqual(gate['state'],'not_ready')
+   self.assertFalse(gate['amd_observation_ok'])
  def pack_archive(self,pack):
   buf=io.BytesIO();raw=json.dumps(pack).encode()
   with tarfile.open(fileobj=buf,mode='w') as t:
