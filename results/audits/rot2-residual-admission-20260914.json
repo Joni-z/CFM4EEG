@@ -1,6 +1,6 @@
 {
   "created_at": "2026-09-14T05:52:33.074460+00:00",
-  "state": "all_smokes_passed_four_trainers_running",
+  "state": "completed_joint_validation_gate_failed_no_expansion",
   "contract_smoke_job": 418677,
   "contract_dependency": "afterok; kill-on-invalid-dep=yes",
   "source_commit_short": "b610bc0",
@@ -200,5 +200,6 @@
       "checkpoint_roundtrip_exact": true
     }
   ],
-  "training_runtime_source_commit": "cc4f60b01028f6498cf37548d45d42fb23763f16"
+  "training_runtime_source_commit": "cc4f60b01028f6498cf37548d45d42fb23763f16",
+  "completion_receipt": "results/audits/rot2-residual-completion-20260914.json"
 }

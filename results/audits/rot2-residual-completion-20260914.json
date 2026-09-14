@@ -1,0 +1,166 @@
+{
+  "at": "2026-09-14T09:46:51.274384+00:00",
+  "state": "completed_joint_validation_gate_failed_no_expansion",
+  "gate": {
+    "state": "validation_screen_failed",
+    "seed": 0,
+    "conditions": {
+      "tuev_kappa_non_degradation": true,
+      "tuev_balanced_acc_non_degradation": false,
+      "sleepedf_kappa_gain_at_least_001": false,
+      "sleepedf_balanced_acc_non_degradation": true
+    },
+    "deltas": {
+      "tuev": {
+        "cohen_kappa": 0.004159622370728533,
+        "balanced_acc": -0.01780700562958193
+      },
+      "sleepedf": {
+        "cohen_kappa": 0.006317542658935915,
+        "balanced_acc": 0.043608372880235
+      }
+    },
+    "evidence": [
+      {
+        "path": "/Users/mr.z/PACLock-monitor/hosts/amd/runs/tuev-rot2_residual_control/seed0/result.json",
+        "sha256": "f4ebcd054d49ded4d14258645ce737c75e5bfbcff58c1936d63d85108ab9f2f7",
+        "metrics": {
+          "balanced_acc": 0.5010247406731222,
+          "cohen_kappa": 0.6209580846109137,
+          "weighted_f1": 0.9207531452910063
+        }
+      },
+      {
+        "path": "/Users/mr.z/PACLock-monitor/hosts/amd/runs/tuev-rot2_residual_band/seed0/result.json",
+        "sha256": "7afe4b66b6f8fe8650f831549e7fba54b8abb58110f191ce8281b2b6eb89d38f",
+        "metrics": {
+          "balanced_acc": 0.48321773504354026,
+          "cohen_kappa": 0.6251177069816423,
+          "weighted_f1": 0.9219915461010468
+        }
+      },
+      {
+        "path": "/Users/mr.z/PACLock-monitor/hosts/amd/runs/sleepedf-rot2_residual_control/seed0/result.json",
+        "sha256": "73a3a4f00ae9497453bb2ed8f265cb09349b6e746f7d17e03b2a7b6ceafe1a6f",
+        "metrics": {
+          "balanced_acc": 0.5594015251166895,
+          "cohen_kappa": 0.6365646350189635,
+          "weighted_f1": 0.7238928193828108
+        }
+      },
+      {
+        "path": "/Users/mr.z/PACLock-monitor/hosts/amd/runs/sleepedf-rot2_residual_band/seed0/result.json",
+        "sha256": "ddb2fb420fc6d8ee29392d82000d0b52f133d8bd72c8c4e245e0ce96ce4aa53b",
+        "metrics": {
+          "balanced_acc": 0.6030098979969245,
+          "cohen_kappa": 0.6428821776778995,
+          "weighted_f1": 0.737320521276039
+        }
+      }
+    ],
+    "limitations": [
+      "Not a final candidate decision. No automatic submissions.",
+      "Passing requires class-wise TUEV review and independent seed replication before promotion.",
+      "Source/runtime and admission receipts still require review; config equality alone is insufficient.",
+      "A failed seed does not eliminate the entire model family. Test metrics are not read."
+    ],
+    "snapshot_at": 1789379063.854966,
+    "amd_observation_ok": true
+  },
+  "runs": [
+    {
+      "name": "tuev-rot2_residual_control",
+      "epochs_run": 20,
+      "stopped_by": "epochs",
+      "wall_time_sec": 10084.389824151993,
+      "best_val": 0.6209580846109137,
+      "selected_validation": {
+        "selection_metric": "cohen_kappa",
+        "tag": "epoch   0 |",
+        "evaluation_index": 0,
+        "metrics": {
+          "balanced_acc": 0.5010247406731222,
+          "cohen_kappa": 0.6209580846109137,
+          "weighted_f1": 0.9207531452910063
+        }
+      },
+      "test": {
+        "balanced_acc": 0.5589535807658869,
+        "cohen_kappa": 0.7222330906979348,
+        "weighted_f1": 0.8505629791207833
+      },
+      "data_manifest_created": "2026-08-05T01:56:41.969236+00:00"
+    },
+    {
+      "name": "tuev-rot2_residual_band",
+      "epochs_run": 20,
+      "stopped_by": "epochs",
+      "wall_time_sec": 10080.454649448395,
+      "best_val": 0.6251177069816423,
+      "selected_validation": {
+        "selection_metric": "cohen_kappa",
+        "tag": "epoch   0 |",
+        "evaluation_index": 0,
+        "metrics": {
+          "balanced_acc": 0.48321773504354026,
+          "cohen_kappa": 0.6251177069816423,
+          "weighted_f1": 0.9219915461010468
+        }
+      },
+      "test": {
+        "balanced_acc": 0.572200524765995,
+        "cohen_kappa": 0.728280294009211,
+        "weighted_f1": 0.8530379597453829
+      },
+      "data_manifest_created": "2026-08-05T01:56:41.969236+00:00"
+    },
+    {
+      "name": "sleepedf-rot2_residual_control",
+      "epochs_run": 20,
+      "stopped_by": "epochs",
+      "wall_time_sec": 8833.128012657166,
+      "best_val": 0.6365646350189635,
+      "selected_validation": {
+        "selection_metric": "cohen_kappa",
+        "tag": "epoch   7 |",
+        "evaluation_index": 7,
+        "metrics": {
+          "balanced_acc": 0.5594015251166895,
+          "cohen_kappa": 0.6365646350189635,
+          "weighted_f1": 0.7238928193828108
+        }
+      },
+      "test": {
+        "balanced_acc": 0.5741478868572791,
+        "cohen_kappa": 0.6403075851458755,
+        "weighted_f1": 0.7515465714481798
+      },
+      "data_manifest_created": "2026-08-04T10:52:50.798900+00:00"
+    },
+    {
+      "name": "sleepedf-rot2_residual_band",
+      "epochs_run": 20,
+      "stopped_by": "epochs",
+      "wall_time_sec": 8884.896390199661,
+      "best_val": 0.6428821776778995,
+      "selected_validation": {
+        "selection_metric": "cohen_kappa",
+        "tag": "epoch   6 |",
+        "evaluation_index": 6,
+        "metrics": {
+          "balanced_acc": 0.6030098979969245,
+          "cohen_kappa": 0.6428821776778995,
+          "weighted_f1": 0.737320521276039
+        }
+      },
+      "test": {
+        "balanced_acc": 0.6305951905797045,
+        "cohen_kappa": 0.6425883548097654,
+        "weighted_f1": 0.7570739921064924
+      },
+      "data_manifest_created": "2026-08-04T10:52:50.798900+00:00"
+    }
+  ],
+  "training_hours": 10.523019132349226,
+  "decision": "No seed expansion or pretraining of this configuration. Retain as a provisional negative architecture screen, not a single-seed rejection of the entire residual family."
+}
