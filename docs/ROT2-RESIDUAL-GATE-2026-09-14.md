@@ -1,0 +1,9 @@
+# Rot2 waveform residual screen
+
+Hypothesis: preserve the complete original D128 rotation coupling token, and add a shared zero-initialized projection of the filtered band waveform. This adds 6,400 weights without enlarging the token grid or encoder. Initialization must reproduce rot2 exactly, including downstream parameter RNG. This does not guarantee improved training or retention of coupling after training, and is not itself a novelty claim.
+
+The RMSNorm/GEGLU package failed its second-seed validation replication; it is closed. Historical rot2 TUEV test kappa is 0.7352/0.7475/0.7156, distinct from its validation values. The new screen uses contemporaneous original-rot2 controls, never the weaker D192 augmented backbone control.
+
+Admission: GPU contract smoke followed by a real-data smoke per arm, excluding the first two steps from timing. Four jobs only: TUEV and SleepEDF, control and waveform residual, seed 0. Original 20-epoch recipes, no augmentation, D128, depth 6, eight bands, patch 50. Maximum training budget 4 h/job and Slurm wall limit 5 h/job on mi2101x. No new pretraining, no duplicate Torch jobs. Failed/capped runs are not complete comparison evidence; do not extend caps automatically.
+
+Predeclared screen: compare validation kappa-selected checkpoints after all 20 epochs. TUEV kappa and balanced accuracy must not decrease; SleepEDF kappa must improve by at least 0.01 and balanced accuracy must not decrease. Test metrics are descriptive, not selection inputs. A passing seed 0 allows a paired seed 1 replication only, not a final candidate claim or pretraining. A failed screen closes this particular configuration provisionally, not the whole model family from one seed. Record class-wise TUEV recall before promotion, frozen cohort identifiers and actual runtime.
