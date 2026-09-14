@@ -1,6 +1,6 @@
 {
   "recorded_at": "2026-09-13T14:31:22.832471+00:00",
-  "state": "admitted_three_smokes_passed_trainers_verified_running",
+  "state": "completed_gate_failed_no_expansion",
   "seed": 1,
   "gate": "results/audits/rms-geglu-completion-20260913.json",
   "class_review_job": "417667",
@@ -73,5 +73,6 @@
     "417675",
     "417676",
     "417677"
-  ]
+  ],
+  "completion_receipt": "results/audits/rms-geglu-seed1-completion-20260914.json"
 }

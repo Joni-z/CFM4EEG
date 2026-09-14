@@ -1,10 +1,9 @@
 # RMSNorm and GEGLU backbone screen
 
-Status: all four seed-0 jobs 417388–417391 completed 20 epochs normally
-with Slurm exit 0:0. The predeclared validation-metric gate passed. Selected
-checkpoint class review and a bounded second-seed replication follow below.
-The joint augmentation screen did not deliver a
-TUEV kappa gain, so its automatic second-seed expansion remains held.
+Status: the seed-1 replication completed and failed the predeclared gate.
+No further seed, corpus expansion or pretraining is admitted for this backbone
+package. The final candidate remains unselected. Earlier admissions and the
+positive seed-0 screen are retained below as experiment history.
 
 The next hypothesis concerns the encoder, while retaining the coupling/local
 token construction. REVE reports an EEG ablation favoring RMSNorm plus GEGLU
@@ -163,3 +162,20 @@ reads the YAML seed for both preflight and training, matching the smoke. Six
 local regression tests passed. The failed attempts and fix are retained in
 `results/audits/rms-geglu-seed1-launch-fix-20260913.json`. No model or training
 recipe changed during this correction.
+
+
+## Seed-1 completion: expansion stopped (2026-09-14)
+
+All three replications completed 20 epochs, with Slurm COMPLETED 0:0. The
+receipt is `results/audits/rms-geglu-seed1-completion-20260914.json`.
+TUEV validation kappa is 0.636299 versus historical control 0.637072; balanced
+accuracy is 0.596569 versus 0.604534. Test kappa is 0.675239 versus 0.701168.
+Sleep-EDF validation kappa is 0.680405 versus 0.693815; balanced accuracy is
+0.661282 versus 0.681891. Test kappa is 0.671993 versus 0.693237.
+
+The seed-0 TUEV gain does not establish a robust replacement: seed-1
+non-degradation conditions fail on both corpora, and Sleep-EDF test kappa
+declines in both seeds. Do not expand this package or call it the final
+candidate. No extra GPU class diagnostic is needed to determine this gate
+failure. Retain historical strong baselines, and keep validation and test
+results explicitly separate in future comparisons.

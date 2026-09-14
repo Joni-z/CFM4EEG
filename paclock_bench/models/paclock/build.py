@@ -92,6 +92,8 @@ class TriAxialPACLock(nn.Module):
         if self.learned_montage:
             self.montage_delta = nn.Parameter(
                 torch.zeros(cfg["n_channels"], cfg["n_channels"]))
+        if cfg.get("local_residual", False) and cfg.get("tokenizer_mode") != "pac_interaction":
+            raise ValueError("local_residual requires tokenizer_mode=pac_interaction")
         frontend_cls = TriAxialFrontend
         frontend_extra = {}
         if cfg.get("tokenizer_mode") == "factorized":
@@ -117,6 +119,7 @@ class TriAxialPACLock(nn.Module):
             raw_stem=cfg.get("raw_stem", "linear"),
             coupling_strength=cfg.get("coupling_strength", False),
             coupling_self=cfg.get("coupling_self", False),
+            local_residual=cfg.get("local_residual", False),
         )
         if self.frontend.tokenizer_mode in ("hybrid", "duplex"):
             # The coupling/phase mixers consume an (nb, nb) coupling matrix and

@@ -111,9 +111,13 @@ class TriAxialFrontend(nn.Module):
         raw_stem: str = "linear",
         coupling_self: bool = False,
         coupling_strength: bool = False,
+        local_residual: bool = False,
         **_,
     ):
         super().__init__()
+        self.local_residual = bool(local_residual)
+        if self.local_residual and (tokenizer_mode != "pac_interaction" or interaction_mode != "rotation"):
+            raise ValueError("local_residual requires pac_interaction with rotation")
         self.n_bands = n_bands
         self.patch_len = patch_len
         # Window(s) the PAC statistic is estimated over; defaults to the token
@@ -314,6 +318,15 @@ class TriAxialFrontend(nn.Module):
                 # (product wins with LESS capacity); a concat win would need
                 # this margin controlled before being taken at face value.
                 self.concat_proj = nn.Linear(3 * complex_dim, hidden_dim)
+
+        if self.local_residual:
+            # Preserve the original model's initialization RNG stream, including
+            # the encoder and head constructed after this frontend.
+            with torch.random.fork_rng(devices=[]):
+                self.local_projection = nn.Conv1d(
+                    1, hidden_dim, kernel_size=patch_len, stride=patch_len, bias=False
+                )
+            nn.init.zeros_(self.local_projection.weight)
 
     @property
     def n_token_bands(self) -> int:
@@ -605,6 +618,11 @@ class TriAxialFrontend(nn.Module):
             tokens = self._interaction_tokens(
                 phase_unit, amplitude, pac_vectors
             )
+            if self.local_residual:
+                local = _patch_project(
+                    self.local_projection, filtered.reshape(B * C * self.n_bands, T)
+                ).reshape(B, C, self.n_bands, P, -1)
+                tokens = tokens + local
         elif self.tokenizer_mode == "duplex":
             interaction = self._interaction_tokens(
                 phase_unit, amplitude, pac_vectors
