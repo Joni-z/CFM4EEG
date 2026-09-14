@@ -89,3 +89,17 @@ validation balanced accuracy **.5245** and kappa .6330. The full result records
 kappa .633040061 and peak index 8. Only four-decimal balanced accuracy is
 available, so use a four-decimal comparison floor **.5045** for that clause;
 do not imply greater precision or substitute the .6926 test balanced accuracy.
+
+## Admitted and running
+
+GPU contract and all four real-batch checks passed in job **419229**.
+Training job **419232** is RUNNING on mi2104x node k002-005, one trainer per
+GPU, code `53077a2`, branch `codex/nbands-candidates-20260915`.
+Steady steps: CHB quadrature/carrier .631/.628 s, TUEV .323/.323 s.
+Peak memory: CHB 28.1/28.0 GiB; TUEV 14.1/14.1 GiB.
+TUEV training-only projection is 3.84 h for 20 epochs; six CHB epochs
+project to 10.4 h before loading/evaluation, within the 22h pilot cap.
+The complete 20-epoch CHB schedule projects to 34.5h training alone and
+is not guaranteed to finish; normal patience completion must be checked.
+Receipts are in `results/audits/modulation-carrier-{admission,launch}-20260915.json`
+on the branch. Main checkout runs contains links to the canonical run outputs.

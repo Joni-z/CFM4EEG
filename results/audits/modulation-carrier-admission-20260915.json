@@ -1,0 +1,56 @@
+{
+  "ok": true,
+  "smoke_job": "419229",
+  "code_commit": "53077a29cbf97520e9df097c11858ab3bbf34682",
+  "runtime_note": "CHB is a bounded patience pilot; six observed reference epochs, not a full-schedule completion guarantee. Loading/evaluation add runtime.",
+  "runs": [
+    {
+      "config": "configs/modulation_carrier/chbmit_quadrature_s0.yaml",
+      "name": "chbmit-nb16_quadrature_20260915",
+      "seed": 0,
+      "steady_step_seconds": 0.6311575878326039,
+      "peak_GiB": 28.08507251739502,
+      "full_20_epoch_train_hours": 34.65055157200995,
+      "admission_reference_epochs": 6,
+      "reference_train_hours": 10.395165471602985,
+      "max_hours": 22.0,
+      "smoke_receipt_sha256": "3bfda4eddaa1673d8ae687eefdafc4d3a9f6a6b47821dc451cdd7f118d9e5837"
+    },
+    {
+      "config": "configs/modulation_carrier/chbmit_carrier_s0.yaml",
+      "name": "chbmit-nb16_carrier_20260915",
+      "seed": 0,
+      "steady_step_seconds": 0.6281339531663738,
+      "peak_GiB": 28.023945808410645,
+      "full_20_epoch_train_hours": 34.48455402883392,
+      "admission_reference_epochs": 6,
+      "reference_train_hours": 10.345366208650175,
+      "max_hours": 22.0,
+      "smoke_receipt_sha256": "7260f6a64cefbc696da6c296e444c8f13ffccb1800fc3a2dcf02a56ed92d1adb"
+    },
+    {
+      "config": "configs/modulation_carrier/tuev_quadrature_s0.yaml",
+      "name": "tuev-nb16_quadrature_20260915",
+      "seed": 0,
+      "steady_step_seconds": 0.3231429275001574,
+      "peak_GiB": 14.117817878723145,
+      "full_20_epoch_train_hours": 3.8400151217935368,
+      "admission_reference_epochs": 20,
+      "reference_train_hours": 3.8400151217935368,
+      "max_hours": 7.0,
+      "smoke_receipt_sha256": "6187ad4aaf710d19b5fdd23a7d330f4639fd9e535576d29e55e3aa8ccc5f81b7"
+    },
+    {
+      "config": "configs/modulation_carrier/tuev_carrier_s0.yaml",
+      "name": "tuev-nb16_carrier_20260915",
+      "seed": 0,
+      "steady_step_seconds": 0.3228401557498728,
+      "peak_GiB": 14.087056159973145,
+      "full_20_epoch_train_hours": 3.836417184160988,
+      "admission_reference_epochs": 20,
+      "reference_train_hours": 3.836417184160988,
+      "max_hours": 7.0,
+      "smoke_receipt_sha256": "57b2578487e58324fe44f13049012ff6c93c04bb1464cdc47a3482f705cd8945"
+    }
+  ]
+}

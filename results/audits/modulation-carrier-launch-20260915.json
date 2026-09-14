@@ -1,0 +1,76 @@
+{
+  "recorded_utc": "2026-09-14T17:03:21.884232+00:00",
+  "training_job": "419232",
+  "smoke_job": "419229",
+  "code_commit": "53077a29cbf97520e9df097c11858ab3bbf34682",
+  "branch": "codex/nbands-candidates-20260915",
+  "worktree": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-nbands-20260915",
+  "state": "RUNNING",
+  "runs": [
+    {
+      "index": 0,
+      "config": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-nbands-20260915/configs/modulation_carrier/chbmit_quadrature_s0.yaml",
+      "name": "chbmit-nb16_quadrature_20260915",
+      "seed": 0,
+      "gpu": 0,
+      "pid": 50602,
+      "started_at": 1789405287.372965,
+      "log": "logs/F_modcarrier_s0-419232-0-chbmit_quadrature_s0-s0.out"
+    },
+    {
+      "index": 1,
+      "config": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-nbands-20260915/configs/modulation_carrier/chbmit_carrier_s0.yaml",
+      "name": "chbmit-nb16_carrier_20260915",
+      "seed": 0,
+      "gpu": 1,
+      "pid": 50604,
+      "started_at": 1789405287.3906775,
+      "log": "logs/F_modcarrier_s0-419232-1-chbmit_carrier_s0-s0.out"
+    },
+    {
+      "index": 2,
+      "config": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-nbands-20260915/configs/modulation_carrier/tuev_quadrature_s0.yaml",
+      "name": "tuev-nb16_quadrature_20260915",
+      "seed": 0,
+      "gpu": 2,
+      "pid": 50605,
+      "started_at": 1789405287.4075215,
+      "log": "logs/F_modcarrier_s0-419232-2-tuev_quadrature_s0-s0.out"
+    },
+    {
+      "index": 3,
+      "config": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-nbands-20260915/configs/modulation_carrier/tuev_carrier_s0.yaml",
+      "name": "tuev-nb16_carrier_20260915",
+      "seed": 0,
+      "gpu": 3,
+      "pid": 50607,
+      "started_at": 1789405287.4225905,
+      "log": "logs/F_modcarrier_s0-419232-3-tuev_carrier_s0-s0.out"
+    }
+  ],
+  "runtime": {
+    "python": "3.9.16 (main, May 29 2023, 00:00:00) \n[GCC 11.3.1 20221121 (Red Hat 11.3.1-4)]",
+    "torch": "2.7.1+rocm6.3",
+    "rocm": "6.3.42131-fa1d09cbd",
+    "host": "k002-005.hpcfund",
+    "torch_module": "pytorch/2.7.1",
+    "rocblas_override": "0",
+    "device": "AMD Instinct MI210",
+    "git_commit": "53077a29cbf97520e9df097c11858ab3bbf34682"
+  },
+  "cancelled_amd": [
+    418923,
+    418927,
+    418928,
+    419084,
+    419085
+  ],
+  "cancelled_pending_torch": [
+    17777804,
+    17777805
+  ],
+  "preserved_running_torch": [
+    17365676,
+    17365677
+  ]
+}
