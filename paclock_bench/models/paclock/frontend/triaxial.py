@@ -116,8 +116,8 @@ class TriAxialFrontend(nn.Module):
         **_,
     ):
         super().__init__()
-        if waveform_modulation not in ("none", "quadrature", "carrier"):
-            raise ValueError("waveform_modulation must be none/quadrature/carrier")
+        if waveform_modulation not in ("none", "quadrature", "carrier", "anchored"):
+            raise ValueError("waveform_modulation must be none/quadrature/carrier/anchored")
         if waveform_modulation != "none" and (
             tokenizer_mode != "pac_interaction" or interaction_mode != "rotation"
             or local_residual or coupling_strength
@@ -337,6 +337,8 @@ class TriAxialFrontend(nn.Module):
                     1, hidden_dim // 2, kernel_size=patch_len,
                     stride=patch_len, bias=False,
                 )
+            if self.waveform_modulation == "anchored":
+                self.modulation_gate = nn.Parameter(torch.zeros(n_bands, 1))
             if self.waveform_modulation == "quadrature":
                 nn.init.zeros_(self.waveform_quadrature.weight)
 
@@ -535,6 +537,12 @@ class TriAxialFrontend(nn.Module):
                 # The guarantee is conditional on the alignment; it does not
                 # imply that the full nonlinear tokenizer is invertible.
                 carrier = torch.complex(amplitude_feat, waveform_feat)
+                if self.waveform_modulation == "anchored":
+                    # Identity at initialization; |g|<0.5 keeps |1+g*u|>=0.5.
+                    # Bounded complex rotation, not an additive feature bypass.
+                    g = 0.5 * torch.tanh(self.modulation_gate)
+                    anchored = 1.0 + g * unit_phase
+                    unit_phase = anchored / anchored.abs().clamp_min(1e-6)
                 return carrier * unit_phase
             return amplitude_feat.to(unit_phase.dtype) * unit_phase
         # concat: expose the same ingredients, let a learned projection combine
@@ -562,7 +570,7 @@ class TriAxialFrontend(nn.Module):
         pr = _patch_project(self.phase_tokenizer, phase_unit.real.reshape(flat_shape))
         pi = _patch_project(self.phase_tokenizer, phase_unit.imag.reshape(flat_shape))
         amplitude_input = torch.log1p(amplitude)
-        if self.waveform_modulation == "carrier":
+        if self.waveform_modulation in ("carrier", "anchored"):
             if filtered is None:
                 raise ValueError("carrier modulation needs the filtered waveform")
             # Legacy parameter names retained for checkpoint provenance: this
