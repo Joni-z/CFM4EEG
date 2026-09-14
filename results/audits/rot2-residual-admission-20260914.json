@@ -1,6 +1,6 @@
 {
   "created_at": "2026-09-14T05:52:33.074460+00:00",
-  "state": "contract_passed_waiting_per_job_real_batch_smoke",
+  "state": "all_smokes_passed_four_trainers_running",
   "contract_smoke_job": 418677,
   "contract_dependency": "afterok; kill-on-invalid-dep=yes",
   "source_commit_short": "b610bc0",
@@ -23,7 +23,38 @@
       "config": "configs/rot2_residual/tuev_control_s0.yaml",
       "config_sha256": "08d843eaf729b7bf88c30e265effc554be844b44d16adf5bc33900e4d55059fa",
       "canonical_run": "runs/tuev-rot2_residual_control/seed0",
-      "individual_real_batch_smoke_required": true
+      "individual_real_batch_smoke_required": true,
+      "smoke": {
+        "ok": true,
+        "partition": "mi2101x",
+        "job": "418680",
+        "config": "configs/rot2_residual/tuev_control_s0.yaml",
+        "seed": 0,
+        "host": "k006-007-v7.hpcfund",
+        "torch": "2.7.1+rocm6.3",
+        "rocm": "6.3.42131-fa1d09cbd",
+        "device": "AMD Instinct MI210",
+        "visible_gpus": 1,
+        "input_shape": [
+          32,
+          16,
+          1000
+        ],
+        "steps": 5,
+        "warmup_excluded": 2,
+        "steady_step_seconds": [
+          0.22448924696072936,
+          0.22442565485835075,
+          0.22448314493522048
+        ],
+        "augmentation_path_warmups": [],
+        "peak_GiB": 7.015622615814209,
+        "projected_train_seconds": 9602.656146716326,
+        "projection_note": "Excludes data loading and evaluation; not a completion guarantee.",
+        "config_sha256": "08d843eaf729b7bf88c30e265effc554be844b44d16adf5bc33900e4d55059fa",
+        "smoke_sha256": "e2393d9c7edc7df97ac1b41946fee14cfc3482d4f08a140949f2a764adb0a811",
+        "git_commit": "cc4f60b01028f6498cf37548d45d42fb23763f16"
+      }
     },
     {
       "job": 418681,
@@ -32,7 +63,38 @@
       "config": "configs/rot2_residual/tuev_band_s0.yaml",
       "config_sha256": "afe6c873dd2885f8f3bbeccf8f1bc906a096475a0e021f44df8a34edc70a12ee",
       "canonical_run": "runs/tuev-rot2_residual_band/seed0",
-      "individual_real_batch_smoke_required": true
+      "individual_real_batch_smoke_required": true,
+      "smoke": {
+        "ok": true,
+        "partition": "mi2101x",
+        "job": "418681",
+        "config": "configs/rot2_residual/tuev_band_s0.yaml",
+        "seed": 0,
+        "host": "k006-007-v8.hpcfund",
+        "torch": "2.7.1+rocm6.3",
+        "rocm": "6.3.42131-fa1d09cbd",
+        "device": "AMD Instinct MI210",
+        "visible_gpus": 1,
+        "input_shape": [
+          32,
+          16,
+          1000
+        ],
+        "steps": 5,
+        "warmup_excluded": 2,
+        "steady_step_seconds": [
+          0.22397556086070836,
+          0.22339089796878397,
+          0.2234912880230695
+        ],
+        "augmentation_path_warmups": [],
+        "peak_GiB": 7.0156941413879395,
+        "projected_train_seconds": 9566.431470117532,
+        "projection_note": "Excludes data loading and evaluation; not a completion guarantee.",
+        "config_sha256": "afe6c873dd2885f8f3bbeccf8f1bc906a096475a0e021f44df8a34edc70a12ee",
+        "smoke_sha256": "e2393d9c7edc7df97ac1b41946fee14cfc3482d4f08a140949f2a764adb0a811",
+        "git_commit": "cc4f60b01028f6498cf37548d45d42fb23763f16"
+      }
     },
     {
       "job": 418683,
@@ -41,7 +103,38 @@
       "config": "configs/rot2_residual/sleepedf_control_s0.yaml",
       "config_sha256": "e32677ad34c6d4d72f07741de0ec9456b31cdc9570b893f572e4779529eda85c",
       "canonical_run": "runs/sleepedf-rot2_residual_control/seed0",
-      "individual_real_batch_smoke_required": true
+      "individual_real_batch_smoke_required": true,
+      "smoke": {
+        "ok": true,
+        "partition": "mi2101x",
+        "job": "418683",
+        "config": "configs/rot2_residual/sleepedf_control_s0.yaml",
+        "seed": 0,
+        "host": "k006-005-v6.hpcfund",
+        "torch": "2.7.1+rocm6.3",
+        "rocm": "6.3.42131-fa1d09cbd",
+        "device": "AMD Instinct MI210",
+        "visible_gpus": 1,
+        "input_shape": [
+          32,
+          2,
+          3000
+        ],
+        "steps": 5,
+        "warmup_excluded": 2,
+        "steady_step_seconds": [
+          0.10881601204164326,
+          0.10846603102982044,
+          0.10786727885715663
+        ],
+        "augmentation_path_warmups": [],
+        "peak_GiB": 2.7718939781188965,
+        "projected_train_seconds": 8293.475371326009,
+        "projection_note": "Excludes data loading and evaluation; not a completion guarantee.",
+        "config_sha256": "e32677ad34c6d4d72f07741de0ec9456b31cdc9570b893f572e4779529eda85c",
+        "smoke_sha256": "e2393d9c7edc7df97ac1b41946fee14cfc3482d4f08a140949f2a764adb0a811",
+        "git_commit": "cc4f60b01028f6498cf37548d45d42fb23763f16"
+      }
     },
     {
       "job": 418684,
@@ -50,7 +143,38 @@
       "config": "configs/rot2_residual/sleepedf_band_s0.yaml",
       "config_sha256": "6761be041d12c0dff8e674405148dc39aaaa6da2c11b531089c25146013b246a",
       "canonical_run": "runs/sleepedf-rot2_residual_band/seed0",
-      "individual_real_batch_smoke_required": true
+      "individual_real_batch_smoke_required": true,
+      "smoke": {
+        "ok": true,
+        "partition": "mi2101x",
+        "job": "418684",
+        "config": "configs/rot2_residual/sleepedf_band_s0.yaml",
+        "seed": 0,
+        "host": "k006-005-v7.hpcfund",
+        "torch": "2.7.1+rocm6.3",
+        "rocm": "6.3.42131-fa1d09cbd",
+        "device": "AMD Instinct MI210",
+        "visible_gpus": 1,
+        "input_shape": [
+          32,
+          2,
+          3000
+        ],
+        "steps": 5,
+        "warmup_excluded": 2,
+        "steady_step_seconds": [
+          0.1070674650836736,
+          0.10751648317091167,
+          0.10689315502531826
+        ],
+        "augmentation_path_warmups": [],
+        "peak_GiB": 2.771965503692627,
+        "projected_train_seconds": 8199.809314326072,
+        "projection_note": "Excludes data loading and evaluation; not a completion guarantee.",
+        "config_sha256": "6761be041d12c0dff8e674405148dc39aaaa6da2c11b531089c25146013b246a",
+        "smoke_sha256": "e2393d9c7edc7df97ac1b41946fee14cfc3482d4f08a140949f2a764adb0a811",
+        "git_commit": "cc4f60b01028f6498cf37548d45d42fb23763f16"
+      }
     }
   ],
   "source_commit": "b610bc00adae7cf0746567655faca9fd515170cd",
@@ -75,5 +199,6 @@
       "residual_gradient_nonzero": true,
       "checkpoint_roundtrip_exact": true
     }
-  ]
+  ],
+  "training_runtime_source_commit": "cc4f60b01028f6498cf37548d45d42fb23763f16"
 }
