@@ -53,13 +53,26 @@ for our model (no layer decay, no multi-lr), so this is a one-field change.
 
 ## What is running
 
+Two arms, one lever each, both on TUEV because that is where the pathology is clearest at 44 percent
+and cheapest to measure at 2h50 per run.
+
 | arm | change | job |
 |---|---|---|
-| tuev_rot2_augfull | flip, jitter, temporal mask, channel mask, frequency mask | 419049 |
-| tuev_rot2_augsafe | jitter, channel mask (the coupling-preserving subset) | 419050 |
-| caueeg_rot2_augfull / augsafe | same, on a 32%-early-peaking corpus | 419054 / 419055 |
-| tuev_rot2_wd05 | weight_decay 5e-2 | 419061 |
-| tuev_rot2_wd01 | weight_decay 1e-2 | 419062 |
+| tuev_rot2_wd05 | weight_decay 1e-5 -> 5e-2 | 419061 |
+| tuev_rot2_augsafe | jitter and channel mask, the coupling-preserving subset | 419050 |
+
+Four further arms were submitted and cancelled within half an hour, before they could consume a node
+for their full length. They were designed before this audit and are dominated by the two above:
+
+| cancelled | why |
+|---|---|
+| tuev_rot2_augfull | adds flip and frequency mask, the transforms already measured as coupling-hostile. If augsafe fails, augfull fails worse; if augsafe passes, augfull is not needed. |
+| tuev_rot2_wd01 | a weaker dose of the wd05 lever. It only becomes informative if wd05 moves the peak but costs kappa, which is a sequential question, not a parallel one. |
+| caueeg_rot2_augfull, caueeg_rot2_augsafe | CAUEEG is 32 percent early-peaking against 44 percent for TUEV, so it is a muddier readout, and at 7h per run it costs 2.5x more. Find the lever on TUEV first. |
+
+The guard corpus is deliberately NOT running yet. Once a lever moves the TUEV peak, it has to be shown
+to cost nothing on a corpus that already trains properly. That is CHB-MIT at 8 percent or ISRUC at
+0 percent, both with controls on disk, and it is the next round rather than this one.
 
 Control, already on disk at three seeds, not re-run: `tuev-paclock_rot2` 0.7328 +- 0.0161,
 `caueeg-paclock_rot2` 0.4900 +- 0.0344.
