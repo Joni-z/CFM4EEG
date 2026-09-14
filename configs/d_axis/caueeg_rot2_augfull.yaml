@@ -1,0 +1,49 @@
+# D-axis screen (2026-09-14): does training-time augmentation pay on the tri-axial d128 coupling-only stack?
+# Identical to configs/coupling_only/caueeg_paclock_rot2.yaml except model_kwargs.augmentations.
+# augfull = the bundle measured on the folded d192 encoder; augsafe drops the two transforms that attack the
+# coupling statistic itself: flip (time reversal inverts the phase progression that Z_ij measures) and
+# frequency masking (zeroes FFT bins, destroying band content). jitter and channel masking are coupling-neutral.
+name: caueeg-rot2_augfull
+group: d_axis
+dataset: caueeg
+data_root: $PACLOCK_PROC/processed/caueeg
+model: paclock
+optimizer: adamw
+lr: 0.0001
+weight_decay: 1.0e-05
+scheduler: cosine
+grad_clip: 1.0
+num_workers: 8
+device: cuda
+num_classes: 3
+epochs: 20
+batch_size: 32
+eval_every_steps: 0
+patience: 20
+loss: cross_entropy
+label_smoothing: 0.1
+sample_rate: 200
+model_kwargs:
+  arch: triaxial
+  d_model: 128
+  depth: 6
+  n_bands: 8
+  n_heads: 4
+  dropout: 0.2
+  kernel_size: 201
+  patch_len: 50
+  augmentations:
+  - flip0.5
+  - jitter0.05
+  - mask0.2
+  - channel0.2
+  - frequency0.2
+  freq_mixer: attention
+  band_pe: index
+  tokenizer_mode: pac_interaction
+  pac_token_mode: measured
+  interaction_mode: rotation
+  spatial_pe: xyz
+  pac_patch_len: 50
+seed: 0
+max_hours: 4.5
