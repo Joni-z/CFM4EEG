@@ -2,7 +2,7 @@
 
 - Repository: **CFM4EEG**.
 - Model: **CroFreMo**, expanded as **Cross-Frequency Modulation**.
-- Paper title: **Tokenizing EEG through Cross-Frequency Modulation**.
+- Paper title: **Cross-Frequency Modulation for EEG Foundation Models**.
 - PACLock is a legacy implementation name. Preserve existing imports,
   environment variables, checkpoint/config identifiers, and cluster paths.
 

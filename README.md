@@ -11,7 +11,7 @@ retains within-band waveform information. The research goal is a broadly
 useful EEG foundation model; current supervised, transfer, and exploratory
 pretraining results must be interpreted separately.
 
-Paper: **Tokenizing EEG through Cross-Frequency Modulation**.
+Paper: **Cross-Frequency Modulation for EEG Foundation Models**.
 See [project naming and paper story](docs/CFM4EEG.md).
 
 `PACLock`, `paclock_bench`, `PACLOCK_*`, existing configuration names, and
