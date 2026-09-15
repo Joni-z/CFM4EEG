@@ -6,7 +6,7 @@ ROOT = pathlib.Path('/data2/zz5070/CFM4EEG-quad16-breadth-20260915')
 DATA = pathlib.Path('/data2/zz5070/CFM4EEG-data/processed')
 PY = '/data2/zz5070/miniconda3/envs/py312/bin/python'
 ds, seed = sys.argv[1], int(sys.argv[2])
-assert ds in ['chbmit', 'sleepedf', 'tuar', 'siena'] and seed in [1, 2]
+assert ds in ['chbmit', 'sleepedf', 'tuar', 'siena', 'caueeg', 'isruc'] and seed in [0, 1, 2]
 os.chdir(ROOT)
 cfgpath = ROOT / f'configs/quad16_seeds/{ds}_s{seed}.yaml'
 cfg = yaml.safe_load(cfgpath.read_text())
@@ -86,7 +86,7 @@ try:
     commands = [
         ['timeout', '--kill-after=60s', '30m', PY, '-u', 'smoke/verify_modulation_carrier.py'],
         ['timeout', '--kill-after=60s', '30m', PY, '-u', 'smoke/smoke_amd_partition.py', '--config', str(cfgpath), '--output', f'results/shared145-smoke-{ds}-s{seed}.json'],
-        ['timeout', '--signal=TERM', '--kill-after=300s', '24h' if ds == 'chbmit' else '10h',
+        ['timeout', '--signal=TERM', '--kill-after=300s', str(float(cfg.get('max_hours', 22)) + 2) + 'h',
          PY, '-u', '-m', 'paclock_bench.training.train', '--config', str(cfgpath), '--seed', str(seed)]
     ]
     for i, cmd in enumerate(commands):
