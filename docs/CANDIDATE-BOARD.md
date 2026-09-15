@@ -26,3 +26,7 @@ the former axis-A in-flight restriction is superseded by this explicit request.
 | modulation_carrier | A mixing / token construction | Preserve waveform coordinates inside the PAC rotation: analytic-amplitude quadrature versus full waveform carrier; two tasks each | F | screening | docs/MODULATION-CARRIER-GATE-2026-09-15.md | GPU smoke 419229 passed; four trainers RUNNING in packed AMD job 419232, source 53077a2. |
 
 | residual16_backfill | A mixing | Retest per-band waveform residual at 16 bands under n5 recipe | F | admitted | docs/RESIDUAL16-GATE-2026-09-15.md | Reuse free slots in 419232; CHB first, TUEV next free slot; seed0 only. |
+
+## Model identity registry (2026-09-15)
+
+Use [MODEL-VERSIONS.md](MODEL-VERSIONS.md) for all reports. Paper duplex = Duplex-F192 (cf2_v1d192); earlier duplex = Duplex-A128 (paclock_duplex). New candidates must register a stable alias, immutable run ID, structural delta, gate and budget before launch. Never use bare duplex or omit seed count.

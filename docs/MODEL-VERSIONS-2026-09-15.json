@@ -1,0 +1,1620 @@
+{
+  "snapshot_utc": "2026-09-15T05:27:33.940261+00:00",
+  "versions": [
+    {
+      "alias": "Duplex-A128",
+      "label": "早期双路版",
+      "run_suffix": "paclock_duplex",
+      "checkout": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock",
+      "description": "8 频段，D128，显式频段 attention；波形与耦合分成两组 token。",
+      "datasets": {
+        "tuev": {
+          "completed": [
+            {
+              "seed": 0,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-paclock_duplex/seed0/result.json",
+              "sha256": "f83ac97a4176a40bd31c71d02a98bfff3f23b00134c5058f48572cd0239bde09",
+              "test": {
+                "balanced_acc": 0.6463685889546674,
+                "cohen_kappa": 0.7094009170474206,
+                "weighted_f1": 0.8428272605897922
+              },
+              "best_val": 0.6093249914670555,
+              "selected_validation": null,
+              "stopped_by": "epochs",
+              "config": {
+                "name": "tuev-paclock_duplex",
+                "group": "C",
+                "dataset": "tuev",
+                "data_root": "$PACLOCK_PROC/processed/tuev",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 6,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 0,
+                "patience": 20,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "duplex",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50
+                },
+                "seed": 0
+              },
+              "n_params_M": 1.625118
+            },
+            {
+              "seed": 1,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-paclock_duplex/seed1/result.json",
+              "sha256": "b0478b4d4077f244ad859713a9f76643b2aaa262c6869548bf47222c2924e06a",
+              "test": {
+                "balanced_acc": 0.5268500936961721,
+                "cohen_kappa": 0.7108699044467834,
+                "weighted_f1": 0.839430104767149
+              },
+              "best_val": 0.6306424057549964,
+              "selected_validation": null,
+              "stopped_by": "epochs",
+              "config": {
+                "name": "tuev-paclock_duplex",
+                "group": "C",
+                "dataset": "tuev",
+                "data_root": "$PACLOCK_PROC/processed/tuev",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 6,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 0,
+                "patience": 20,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "duplex",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50
+                },
+                "seed": 1
+              },
+              "n_params_M": 1.625118
+            },
+            {
+              "seed": 2,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-paclock_duplex/seed2/result.json",
+              "sha256": "3b1bf22ee54bffabe7a627080fc6d6680bf8c3d846a36c42717c5493f560a832",
+              "test": {
+                "balanced_acc": 0.5352744944619447,
+                "cohen_kappa": 0.6483748464893253,
+                "weighted_f1": 0.8137408654263689
+              },
+              "best_val": 0.6163075954123574,
+              "selected_validation": null,
+              "stopped_by": "epochs",
+              "config": {
+                "name": "tuev-paclock_duplex",
+                "group": "C",
+                "dataset": "tuev",
+                "data_root": "$PACLOCK_PROC/processed/tuev",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 6,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 0,
+                "patience": 20,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "duplex",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50
+                },
+                "seed": 2
+              },
+              "n_params_M": 1.625118
+            }
+          ],
+          "incomplete": []
+        },
+        "chbmit": {
+          "completed": [
+            {
+              "seed": 0,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/chbmit-paclock_duplex/seed0/result.json",
+              "sha256": "36722b4be3a7ffd6f0ac1d523353aeecc84297eabdc7f2fa564958fef60474ea",
+              "test": {
+                "balanced_acc": 0.5163043478260869,
+                "pr_auc": 0.7129981493267712,
+                "auroc": 0.9256435341651208
+              },
+              "best_val": 0.6787276863391541,
+              "selected_validation": null,
+              "stopped_by": "patience",
+              "config": {
+                "name": "chbmit-paclock_duplex",
+                "group": "C",
+                "dataset": "chbmit",
+                "data_root": "$PACLOCK_PROC/processed/chbmit",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 2,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 200,
+                "patience": 20,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "duplex",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50
+                },
+                "seed": 0,
+                "max_hours": 22.5
+              },
+              "n_params_M": 1.624602
+            },
+            {
+              "seed": 1,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/chbmit-paclock_duplex/seed1/result.json",
+              "sha256": "4b004b245d3fc2e25c805e74c6b18a2b120e71fed7ae0e29f733af31a998929f",
+              "test": {
+                "balanced_acc": 0.5669997628304492,
+                "pr_auc": 0.6377477060768548,
+                "auroc": 0.9111080053193742
+              },
+              "best_val": 0.5733532455889528,
+              "selected_validation": null,
+              "stopped_by": "patience",
+              "config": {
+                "name": "chbmit-paclock_duplex",
+                "group": "C",
+                "dataset": "chbmit",
+                "data_root": "$PACLOCK_PROC/processed/chbmit",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 2,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 200,
+                "patience": 20,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "duplex",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50
+                },
+                "seed": 1,
+                "max_hours": 22.5
+              },
+              "n_params_M": 1.624602
+            },
+            {
+              "seed": 2,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/chbmit-paclock_duplex/seed2/result.json",
+              "sha256": "ad825da4f5d0502936cdd70bc7e510536634b9023676725ff8e405e698761971",
+              "test": {
+                "balanced_acc": 0.559753386018855,
+                "pr_auc": 0.7446625190008768,
+                "auroc": 0.9166037743839944
+              },
+              "best_val": 0.6186666456114546,
+              "selected_validation": null,
+              "stopped_by": "patience",
+              "config": {
+                "name": "chbmit-paclock_duplex",
+                "group": "C",
+                "dataset": "chbmit",
+                "data_root": "$PACLOCK_PROC/processed/chbmit",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 2,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 200,
+                "patience": 20,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "duplex",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50
+                },
+                "seed": 2,
+                "max_hours": 22.5
+              },
+              "n_params_M": 1.624602
+            }
+          ],
+          "incomplete": []
+        }
+      }
+    },
+    {
+      "alias": "Duplex-F192",
+      "label": "论文双路版",
+      "run_suffix": "cf2_v1d192",
+      "checkout": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock",
+      "description": "8 频段，D192，关闭独立频段 mixer，将频段并入空间 attention（space_over_bands）。论文当前参考模型。",
+      "datasets": {
+        "tuev": {
+          "completed": [
+            {
+              "seed": 0,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-cf2_v1d192/seed0/result.json",
+              "sha256": "7a8453674189d8bcdfe5ac063e8461adbf0afafc8833484e3261832759665e16",
+              "test": {
+                "balanced_acc": 0.5831124053581637,
+                "cohen_kappa": 0.6804138482423736,
+                "weighted_f1": 0.833758568313244
+              },
+              "best_val": 0.5216950247787022,
+              "selected_validation": null,
+              "stopped_by": "epochs",
+              "config": {
+                "name": "tuev-cf2_v1d192",
+                "group": "cf2",
+                "dataset": "tuev",
+                "data_root": "$PACLOCK_PROC/processed/tuev",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 6,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 0,
+                "patience": 20,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 192,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "none",
+                  "band_pe": "index",
+                  "tokenizer_mode": "duplex",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50,
+                  "space_over_bands": true
+                },
+                "seed": 0
+              },
+              "n_params_M": 2.740254
+            },
+            {
+              "seed": 2,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-cf2_v1d192/seed2/result.json",
+              "sha256": "3657de9cf0885cc84bf30e4485aceeccf10a5c2394de3f9322247e42ecd66460",
+              "test": {
+                "balanced_acc": 0.5885376309042311,
+                "cohen_kappa": 0.6287428633331578,
+                "weighted_f1": 0.8000403536687857
+              },
+              "best_val": 0.5310518701172766,
+              "selected_validation": null,
+              "stopped_by": "epochs",
+              "config": {
+                "name": "tuev-cf2_v1d192",
+                "group": "cf2",
+                "dataset": "tuev",
+                "data_root": "$PACLOCK_PROC/processed/tuev",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 6,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 0,
+                "patience": 20,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 192,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "none",
+                  "band_pe": "index",
+                  "tokenizer_mode": "duplex",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50,
+                  "space_over_bands": true
+                },
+                "seed": 2
+              },
+              "n_params_M": 2.740254
+            }
+          ],
+          "incomplete": []
+        },
+        "chbmit": {
+          "completed": [
+            {
+              "seed": 0,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/chbmit-cf2_v1d192/seed0/result.json",
+              "sha256": "dbba5c26d8ca0549ccb9b22b76114f4b3310543de4ea430c6bac5a702d27a152",
+              "test": {
+                "balanced_acc": 0.5307678787724782,
+                "pr_auc": 0.7163468138227895,
+                "auroc": 0.9287864542305119
+              },
+              "best_val": 0.6917524104992696,
+              "selected_validation": null,
+              "stopped_by": "patience",
+              "config": {
+                "name": "chbmit-cf2_v1d192",
+                "group": "cf2",
+                "dataset": "chbmit",
+                "data_root": "$PACLOCK_PROC/processed/chbmit",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 2,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 200,
+                "patience": 20,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 192,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "none",
+                  "band_pe": "index",
+                  "tokenizer_mode": "duplex",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50,
+                  "space_over_bands": true
+                },
+                "seed": 0,
+                "max_hours": 22.5
+              },
+              "n_params_M": 2.739482
+            },
+            {
+              "seed": 1,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/chbmit-cf2_v1d192/seed1/result.json",
+              "sha256": "064a725fcd5948ccae43e32de3e37637da569fba7b4e87a75bb1b9fe955220d8",
+              "test": {
+                "balanced_acc": 0.5506954150043623,
+                "pr_auc": 0.6510112001567205,
+                "auroc": 0.913741434367562
+              },
+              "best_val": 0.562724805415054,
+              "selected_validation": null,
+              "stopped_by": "patience",
+              "config": {
+                "name": "chbmit-cf2_v1d192",
+                "group": "cf2",
+                "dataset": "chbmit",
+                "data_root": "$PACLOCK_PROC/processed/chbmit",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 2,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 200,
+                "patience": 20,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 192,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "none",
+                  "band_pe": "index",
+                  "tokenizer_mode": "duplex",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50,
+                  "space_over_bands": true
+                },
+                "seed": 1,
+                "max_hours": 22.5
+              },
+              "n_params_M": 2.739482
+            },
+            {
+              "seed": 2,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/chbmit-cf2_v1d192/seed2/result.json",
+              "sha256": "7269ed013860bbf59e66d90cc70753433f24be3e6b469cb1c52176027c52fac5",
+              "test": {
+                "balanced_acc": 0.5398550724637681,
+                "pr_auc": 0.6399643639692287,
+                "auroc": 0.8884775832422773
+              },
+              "best_val": 0.5835477765568213,
+              "selected_validation": null,
+              "stopped_by": "patience",
+              "config": {
+                "name": "chbmit-cf2_v1d192",
+                "group": "cf2",
+                "dataset": "chbmit",
+                "data_root": "$PACLOCK_PROC/processed/chbmit",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 2,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 200,
+                "patience": 20,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 192,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "none",
+                  "band_pe": "index",
+                  "tokenizer_mode": "duplex",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50,
+                  "space_over_bands": true
+                },
+                "seed": 2,
+                "max_hours": 22.5
+              },
+              "n_params_M": 2.739482
+            }
+          ],
+          "incomplete": []
+        }
+      }
+    },
+    {
+      "alias": "PAC8",
+      "label": "8 频段纯耦合版",
+      "run_suffix": "paclock_rot2",
+      "checkout": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock",
+      "description": "8 频段，D128，幅度乘以 PAC 对齐的单位相位；没有独立波形 token。",
+      "datasets": {
+        "tuev": {
+          "completed": [
+            {
+              "seed": 0,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-paclock_rot2/seed0/result.json",
+              "sha256": "83157e53d48f0ebd754ebc1996a1f151c17268d20eea89d0e2158d54012a8164",
+              "test": {
+                "balanced_acc": 0.5677940397069344,
+                "cohen_kappa": 0.7351548117478421,
+                "weighted_f1": 0.8562481643636762
+              },
+              "best_val": 0.6338886563971755,
+              "selected_validation": null,
+              "stopped_by": "epochs",
+              "config": {
+                "name": "tuev-paclock_rot2",
+                "group": "C",
+                "dataset": "tuev",
+                "data_root": "$PACLOCK_PROC/processed/tuev",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 6,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 0,
+                "patience": 20,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "pac_interaction",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50
+                },
+                "seed": 0
+              },
+              "n_params_M": 1.616534
+            },
+            {
+              "seed": 1,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-paclock_rot2/seed1/result.json",
+              "sha256": "602b8c8e3186431a71e82fa8db7fe6a42439d937b7cd072d4b19eb62efc73ae6",
+              "test": {
+                "balanced_acc": 0.5435845103069629,
+                "cohen_kappa": 0.7475457127736307,
+                "weighted_f1": 0.8594236622382113
+              },
+              "best_val": 0.6491159476219825,
+              "selected_validation": null,
+              "stopped_by": "epochs",
+              "config": {
+                "name": "tuev-paclock_rot2",
+                "group": "C",
+                "dataset": "tuev",
+                "data_root": "$PACLOCK_PROC/processed/tuev",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 6,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 0,
+                "patience": 20,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "pac_interaction",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50
+                },
+                "seed": 1
+              },
+              "n_params_M": 1.616534
+            },
+            {
+              "seed": 2,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-paclock_rot2/seed2/result.json",
+              "sha256": "b7070e9ae480b3f773ba9c48adb0e2c9a5289535fb4dd01b91a253e44743ba95",
+              "test": {
+                "balanced_acc": 0.582507417647932,
+                "cohen_kappa": 0.7156225115840169,
+                "weighted_f1": 0.844901084153554
+              },
+              "best_val": 0.6681530577101136,
+              "selected_validation": null,
+              "stopped_by": "epochs",
+              "config": {
+                "name": "tuev-paclock_rot2",
+                "group": "C",
+                "dataset": "tuev",
+                "data_root": "$PACLOCK_PROC/processed/tuev",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 6,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 0,
+                "patience": 20,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "pac_interaction",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50
+                },
+                "seed": 2
+              },
+              "n_params_M": 1.616534
+            }
+          ],
+          "incomplete": []
+        },
+        "chbmit": {
+          "completed": [
+            {
+              "seed": 0,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/chbmit-paclock_rot2/seed0/result.json",
+              "sha256": "0d388696406a75c674155b487bbca878cbb6d348f0d613ec1468d70b3794550b",
+              "test": {
+                "balanced_acc": 0.5542017127029706,
+                "pr_auc": 0.510035963697448,
+                "auroc": 0.9090554299121626
+              },
+              "best_val": 0.634409981962569,
+              "selected_validation": null,
+              "stopped_by": "patience",
+              "config": {
+                "name": "chbmit-paclock_rot2",
+                "group": "C",
+                "dataset": "chbmit",
+                "data_root": "$PACLOCK_PROC/processed/chbmit",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 2,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 200,
+                "patience": 20,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "pac_interaction",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50
+                },
+                "seed": 0,
+                "max_hours": 22.5
+              },
+              "n_params_M": 1.616018
+            },
+            {
+              "seed": 1,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/chbmit-paclock_rot2/seed1/result.json",
+              "sha256": "e4da72812ec770f067d0a99387f8dba6f5091b6d804a2261c23641b05d286df9",
+              "test": {
+                "balanced_acc": 0.5144927536231884,
+                "pr_auc": 0.41789434918071533,
+                "auroc": 0.9041248443574822
+              },
+              "best_val": 0.6205393468834888,
+              "selected_validation": null,
+              "stopped_by": "patience",
+              "config": {
+                "name": "chbmit-paclock_rot2",
+                "group": "C",
+                "dataset": "chbmit",
+                "data_root": "$PACLOCK_PROC/processed/chbmit",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 2,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 200,
+                "patience": 20,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "pac_interaction",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50
+                },
+                "seed": 1,
+                "max_hours": 22.5
+              },
+              "n_params_M": 1.616018
+            },
+            {
+              "seed": 2,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/chbmit-paclock_rot2/seed2/result.json",
+              "sha256": "cc4f7a077003b20d2b843d75216e06172c9976cb6f71f88be6365bdf373cbafb",
+              "test": {
+                "balanced_acc": 0.5741584716116518,
+                "pr_auc": 0.5899958210546564,
+                "auroc": 0.9213007902828247
+              },
+              "best_val": 0.6006900539048979,
+              "selected_validation": null,
+              "stopped_by": "patience",
+              "config": {
+                "name": "chbmit-paclock_rot2",
+                "group": "C",
+                "dataset": "chbmit",
+                "data_root": "$PACLOCK_PROC/processed/chbmit",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 2,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 200,
+                "patience": 20,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 8,
+                  "n_heads": 4,
+                  "dropout": 0.2,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "pac_interaction",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50
+                },
+                "seed": 2,
+                "max_hours": 22.5
+              },
+              "n_params_M": 1.616018
+            }
+          ],
+          "incomplete": []
+        }
+      }
+    },
+    {
+      "alias": "PAC16",
+      "label": "16 频段纯耦合版",
+      "run_suffix": "crofremo_n5",
+      "checkout": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock",
+      "description": "16 频段，D128，纯耦合；n5 配方：wd .05、dropout .35、五种增强。",
+      "datasets": {
+        "tuev": {
+          "completed": [
+            {
+              "seed": 0,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-crofremo_n5/seed0/result.json",
+              "sha256": "29a575af72b078f7251f1f22f74e4236597e5a89d0c34283e71444425c99b978",
+              "test": {
+                "balanced_acc": 0.6925674764766884,
+                "cohen_kappa": 0.7391093253330598,
+                "weighted_f1": 0.8631850944563509
+              },
+              "best_val": 0.6330400610054647,
+              "selected_validation": null,
+              "stopped_by": "epochs",
+              "config": {
+                "name": "tuev-crofremo_n5",
+                "group": "design",
+                "dataset": "tuev",
+                "data_root": "$PACLOCK_PROC/processed/tuev",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 6,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 0,
+                "patience": 20,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 16,
+                  "n_heads": 4,
+                  "dropout": 0.35,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [
+                    "flip0.5",
+                    "jitter0.05",
+                    "mask0.2",
+                    "channel0.2",
+                    "frequency0.2"
+                  ],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "pac_interaction",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50
+                },
+                "seed": 0
+              },
+              "n_params_M": 1.617574
+            }
+          ],
+          "incomplete": []
+        },
+        "chbmit": {
+          "completed": [],
+          "incomplete": []
+        }
+      }
+    },
+    {
+      "alias": "Quad16",
+      "label": "正交载波版",
+      "run_suffix": "nb16_quadrature_20260915",
+      "checkout": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-nbands-20260915",
+      "description": "16 频段，D128，幅度和波形占复数的两个坐标，再作 PAC 旋转；沿用 n5 配方。",
+      "datasets": {
+        "tuev": {
+          "completed": [
+            {
+              "seed": 0,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-nbands-20260915/runs/tuev-nb16_quadrature_20260915/seed0/result.json",
+              "sha256": "beb707175f3733a1f52705af0a5bd7d963e1f272a754fbf7802d66b03ecfbfda",
+              "test": {
+                "balanced_acc": 0.7083120435868043,
+                "cohen_kappa": 0.7278934039809962,
+                "weighted_f1": 0.8587539848763771
+              },
+              "best_val": 0.6616527033959152,
+              "selected_validation": {
+                "selection_metric": "cohen_kappa",
+                "tag": "epoch   8 |",
+                "evaluation_index": 8,
+                "metrics": {
+                  "balanced_acc": 0.5437052387374727,
+                  "cohen_kappa": 0.6616527033959152,
+                  "weighted_f1": 0.9331780145870768
+                }
+              },
+              "stopped_by": "epochs",
+              "config": {
+                "name": "tuev-nb16_quadrature_20260915",
+                "group": "modulation_carrier",
+                "dataset": "tuev",
+                "data_root": "$PACLOCK_PROC/processed/tuev",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 6,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 0,
+                "patience": 20,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 16,
+                  "n_heads": 4,
+                  "dropout": 0.35,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [
+                    "flip0.5",
+                    "jitter0.05",
+                    "mask0.2",
+                    "channel0.2",
+                    "frequency0.2"
+                  ],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "pac_interaction",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50,
+                  "waveform_modulation": "quadrature"
+                },
+                "seed": 0,
+                "max_hours": 7.0
+              },
+              "n_params_M": 1.620774
+            }
+          ],
+          "incomplete": []
+        },
+        "chbmit": {
+          "completed": [],
+          "incomplete": [
+            {
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-nbands-20260915/runs/chbmit-nb16_quadrature_20260915/seed0/progress.json",
+              "last": [
+                {
+                  "tag": "epoch 3 step 9200 |",
+                  "elapsed_sec": 44658.58092665672,
+                  "val_loss": 0.002929972492644616,
+                  "train_loss": 0.002536643126792391,
+                  "metrics": {
+                    "balanced_acc": 0.56,
+                    "pr_auc": 0.49955514866262984,
+                    "auroc": 0.9397217203892112
+                  },
+                  "lr": [
+                    9.076706827344154e-05
+                  ],
+                  "best_val": 0.5873473616637647,
+                  "confusion": [
+                    [
+                      21034,
+                      0
+                    ],
+                    [
+                      132,
+                      18
+                    ]
+                  ],
+                  "class_f1": [
+                    0.9968720379146919,
+                    0.21428571428571427
+                  ],
+                  "target_counts": [
+                    21034,
+                    150
+                  ],
+                  "pred_counts": [
+                    21166,
+                    18
+                  ]
+                }
+              ],
+              "pid": 50602,
+              "note": "Progress snapshot; process liveness verified separately in allocation 419232."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "alias": "Carrier16",
+      "label": "波形载波版",
+      "run_suffix": "nb16_carrier_20260915",
+      "checkout": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-nbands-20260915",
+      "description": "16 频段，D128，复数两个坐标都由波形投影得到，再作 PAC 旋转；沿用 n5 配方。",
+      "datasets": {
+        "tuev": {
+          "completed": [
+            {
+              "seed": 0,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-nbands-20260915/runs/tuev-nb16_carrier_20260915/seed0/result.json",
+              "sha256": "a788b61e5a8b209a4bb17510b72da199737f9b5cdb823dbc8e09e156575149a8",
+              "test": {
+                "balanced_acc": 0.6063555217687794,
+                "cohen_kappa": 0.7213771274730753,
+                "weighted_f1": 0.8482715253093209
+              },
+              "best_val": 0.6306747623623377,
+              "selected_validation": {
+                "selection_metric": "cohen_kappa",
+                "tag": "epoch   1 |",
+                "evaluation_index": 1,
+                "metrics": {
+                  "balanced_acc": 0.5822043426291531,
+                  "cohen_kappa": 0.6306747623623377,
+                  "weighted_f1": 0.9245859876736133
+                }
+              },
+              "stopped_by": "epochs",
+              "config": {
+                "name": "tuev-nb16_carrier_20260915",
+                "group": "modulation_carrier",
+                "dataset": "tuev",
+                "data_root": "$PACLOCK_PROC/processed/tuev",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 6,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 0,
+                "patience": 20,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 16,
+                  "n_heads": 4,
+                  "dropout": 0.35,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [
+                    "flip0.5",
+                    "jitter0.05",
+                    "mask0.2",
+                    "channel0.2",
+                    "frequency0.2"
+                  ],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "pac_interaction",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50,
+                  "waveform_modulation": "carrier"
+                },
+                "seed": 0,
+                "max_hours": 7.0
+              },
+              "n_params_M": 1.620774
+            }
+          ],
+          "incomplete": []
+        },
+        "chbmit": {
+          "completed": [
+            {
+              "seed": 0,
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-nbands-20260915/runs/chbmit-nb16_carrier_20260915/seed0/result.json",
+              "sha256": "90fd480292eaf16ab2a6139f63524103e5deb0a462c0db1c0175c360bed86a3b",
+              "test": {
+                "balanced_acc": 0.661085770673985,
+                "pr_auc": 0.6914489029764315,
+                "auroc": 0.9215239837708264
+              },
+              "best_val": 0.48345502230832765,
+              "selected_validation": {
+                "selection_metric": "pr_auc",
+                "tag": "epoch 2 step 3600 |",
+                "evaluation_index": 117,
+                "metrics": {
+                  "balanced_acc": 0.6133333333333333,
+                  "pr_auc": 0.48345502230832765,
+                  "auroc": 0.9184769103990365
+                }
+              },
+              "stopped_by": "patience",
+              "config": {
+                "name": "chbmit-nb16_carrier_20260915",
+                "group": "modulation_carrier",
+                "dataset": "chbmit",
+                "data_root": "$PACLOCK_PROC/processed/chbmit",
+                "model": "paclock",
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "grad_clip": 1.0,
+                "num_workers": 8,
+                "device": "cuda",
+                "num_classes": 2,
+                "epochs": 20,
+                "batch_size": 32,
+                "eval_every_steps": 200,
+                "patience": 20,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "sample_rate": 200,
+                "model_kwargs": {
+                  "arch": "triaxial",
+                  "d_model": 128,
+                  "depth": 6,
+                  "n_bands": 16,
+                  "n_heads": 4,
+                  "dropout": 0.35,
+                  "kernel_size": 201,
+                  "patch_len": 50,
+                  "augmentations": [
+                    "flip0.5",
+                    "jitter0.05",
+                    "mask0.2",
+                    "channel0.2",
+                    "frequency0.2"
+                  ],
+                  "freq_mixer": "attention",
+                  "band_pe": "index",
+                  "tokenizer_mode": "pac_interaction",
+                  "pac_token_mode": "measured",
+                  "interaction_mode": "rotation",
+                  "spatial_pe": "xyz",
+                  "pac_patch_len": 50,
+                  "waveform_modulation": "carrier"
+                },
+                "seed": 0,
+                "max_hours": 22.0
+              },
+              "n_params_M": 1.620258
+            }
+          ],
+          "incomplete": []
+        }
+      }
+    },
+    {
+      "alias": "Anchor16",
+      "label": "有界调制版",
+      "run_suffix": "nb16_anchored_20260915",
+      "checkout": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-anchored-watch-20260915",
+      "description": "16 频段，D128，波形载波从恒等映射起步，学习有界 PAC 旋转；沿用 n5 配方。",
+      "datasets": {
+        "tuev": {
+          "completed": [],
+          "incomplete": [
+            {
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-anchored-watch-20260915/runs/tuev-nb16_anchored_20260915/seed0/progress.json",
+              "last": [
+                {
+                  "tag": "epoch   0 |",
+                  "elapsed_sec": 747.7494554519653,
+                  "val_loss": 0.6608755496168924,
+                  "train_loss": 0.8645706782975225,
+                  "metrics": {
+                    "balanced_acc": 0.5277613164563504,
+                    "cohen_kappa": 0.6487096778015898,
+                    "weighted_f1": 0.9299726360057133
+                  },
+                  "lr": [
+                    9.938441702975624e-05
+                  ],
+                  "best_val": 0.6487096778015898,
+                  "confusion": [
+                    [
+                      0,
+                      78,
+                      8,
+                      0,
+                      0,
+                      33
+                    ],
+                    [
+                      0,
+                      253,
+                      21,
+                      0,
+                      17,
+                      0
+                    ],
+                    [
+                      0,
+                      287,
+                      335,
+                      0,
+                      18,
+                      29
+                    ],
+                    [
+                      0,
+                      78,
+                      2,
+                      2,
+                      0,
+                      4
+                    ],
+                    [
+                      0,
+                      0,
+                      1,
+                      0,
+                      406,
+                      93
+                    ],
+                    [
+                      0,
+                      444,
+                      71,
+                      0,
+                      22,
+                      13285
+                    ]
+                  ],
+                  "class_f1": [
+                    0.0,
+                    0.3535988819007687,
+                    0.6052393857271906,
+                    0.045454545454545456,
+                    0.8431983385254413,
+                    0.9744737035135334
+                  ],
+                  "target_counts": [
+                    119,
+                    291,
+                    669,
+                    86,
+                    500,
+                    13822
+                  ],
+                  "pred_counts": [
+                    0,
+                    1140,
+                    438,
+                    2,
+                    463,
+                    13444
+                  ]
+                }
+              ],
+              "pid": 63800,
+              "note": "Progress snapshot; process liveness verified separately in allocation 419232."
+            }
+          ]
+        },
+        "chbmit": {
+          "completed": [],
+          "incomplete": [
+            {
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-anchored-watch-20260915/runs/chbmit-nb16_anchored_20260915/seed0/progress.json",
+              "last": [
+                {
+                  "tag": "epoch 0 step 1000 |",
+                  "elapsed_sec": 1159.7772932052612,
+                  "val_loss": 0.0041547540545898275,
+                  "train_loss": 0.005557482443409753,
+                  "metrics": {
+                    "balanced_acc": 0.5,
+                    "pr_auc": 0.0058345231474321605,
+                    "auroc": 0.4476761433868974
+                  },
+                  "lr": [
+                    9.999368343573188e-05
+                  ],
+                  "best_val": 0.005935474346805591,
+                  "confusion": [
+                    [
+                      21034,
+                      0
+                    ],
+                    [
+                      150,
+                      0
+                    ]
+                  ],
+                  "class_f1": [
+                    0.9964470131223648,
+                    0.0
+                  ],
+                  "target_counts": [
+                    21034,
+                    150
+                  ],
+                  "pred_counts": [
+                    21184,
+                    0
+                  ]
+                }
+              ],
+              "pid": 63799,
+              "note": "Progress snapshot; process liveness verified separately in allocation 419232."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "alias": "Residual16",
+      "label": "波形残差版",
+      "run_suffix": "nb16_residual_20260915",
+      "checkout": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-anchored-watch-20260915",
+      "description": "16 频段，D128，纯耦合 token 加可学习的频段内波形残差；沿用 n5 配方。",
+      "datasets": {
+        "tuev": {
+          "completed": [],
+          "incomplete": []
+        },
+        "chbmit": {
+          "completed": [],
+          "incomplete": [
+            {
+              "path": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-anchored-watch-20260915/runs/chbmit-nb16_residual_20260915/seed0/progress.json",
+              "last": [
+                {
+                  "tag": "epoch 0 step 400 |",
+                  "elapsed_sec": 464.6932020187378,
+                  "val_loss": 0.004094425259383812,
+                  "train_loss": 0.005987290293205092,
+                  "metrics": {
+                    "balanced_acc": 0.5,
+                    "pr_auc": 0.00629278440432807,
+                    "auroc": 0.4782746981078254
+                  },
+                  "lr": [
+                    9.999898933184189e-05
+                  ],
+                  "best_val": 0.00629278440432807,
+                  "confusion": [
+                    [
+                      21034,
+                      0
+                    ],
+                    [
+                      150,
+                      0
+                    ]
+                  ],
+                  "class_f1": [
+                    0.9964470131223648,
+                    0.0
+                  ],
+                  "target_counts": [
+                    21034,
+                    150
+                  ],
+                  "pred_counts": [
+                    21184,
+                    0
+                  ]
+                }
+              ],
+              "pid": 64400,
+              "note": "Progress snapshot; process liveness verified separately in allocation 419232."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "rule": "Alias is human-facing only. Never rename original runs, checkpoints, or paper table keys. Test summaries describe existing results, not model-selection gates."
+}
