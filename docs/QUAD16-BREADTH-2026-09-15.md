@@ -12,3 +12,15 @@ Maximum requested GPU-hours44; training caps36. Release on completion. Never sub
 Validation selects checkpoints. Compare same split and metric to A128 seed0: TUSZ PR 0.3460204, SleepEDF kappa 0.6363762, TUAR kappa 0.6172852, Siena PR 0.4486612. Exploratory tolerance is -0.03 absolute: thresholds 0.3160204, 0.6063762, 0.5872852, 0.4186612. Require at least 3/4 completed tasks within tolerance, and no completed task worse by >0.10, before recommending a small host-replacement/pretraining pilot. This is an engineering screen, not statistical equivalence or a SOTA claim. Do not kill on one early epoch or retune from test results. Inspect final held-out results once and report any validation/test divergence. Numerical failures stop immediately. Censored runs do not count as passing. Host replacement and pretraining are not submitted by this batch.
 
 External baseline performance remains the final target: the paper reports SleepEDF ContraWR kappa0.6916, TUAR FFCL kappa0.7025, Siena REVE PR0.5181, TUSZ FFCL PR0.5449. These are TEST references, never validation thresholds; protocol comparability still needs checking.
+
+## Submission receipt, 2026-09-15 06:50 UTC
+Training code/config commit: 18148c6. Isolated worktrees on both clusters; shared dirty checkouts preserved.
+- b2 46027491: TUSZ, L40S,14h allocation.
+- b2 46027492: SleepEDF,L40S,10h allocation.
+- Torch 17832550: TUAR,H200/L40S,10h allocation.
+- Torch 17832551: Siena,H200/L40S,10h allocation.
+All four PENDING/Priority at verification. Smoke has NOT run yet; no new training metrics. Formal squeue start time unknown. Test-only estimates were b2 Sept19 and Torch Sept28; these are not promised dates. Testing Torch H200 alone with4h did not improve estimate. Other generic GPU partitions rejected by cluster admission (a100 invalid for this account/job); retained accepted public partitions, with no duplicate jobs.
+
+Cross-cluster audit: canonical JSON of protocol+splits matches AMD exactly for all four manifests (including subject lists, class counts, window shapes). Creation timestamps can differ; neither timestamps nor metadata equality alone establish bitwise signal-array equality.
+
+Logs in each isolated CFM4EEG-quad16-breadth-20260915 worktree: logs/Q16_*-<jobid>.out. GPU smoke receipts results/breadth-smoke-<jobid>.json; final results runs/<dataset>-quad16_breadth_20260915/seed0/result.json. No large data transfers and no other users' jobs modified.
