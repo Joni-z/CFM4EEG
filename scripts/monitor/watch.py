@@ -55,10 +55,20 @@ for name in {NAMES!r}:
   prog=read(p/'progress.json') or {{}};r.update(history=prog.get('history',[]),pid=prog.get('pid'),result=read(p/'result.json'),stopped=read(p/'stopped.json'),progress_age=time.time()-(p/'progress.json').stat().st_mtime if (p/'progress.json').exists() else None)
  except Exception as e:r['read_error']=str(e)
  runs[name]=r
+adopted=read(prep/'results/amd-handover-419232.json')
+if adopted:
+ for ds,record in adopted.get('runs',{{}}).items():
+  name=ds+'-nb16_anchored_20260915';p=prep/'runs'/name/'seed0'
+  try:
+   prog=read(p/'progress.json') or {{}};result=read(p/'result.json');stopped=read(p/'stopped.json')
+   runs[name]={{'active':adopted.get('phase')=='training' and record.get('pid') is not None and record.get('exit_code') is None and not result and not stopped,'pid':record.get('pid'),'history':prog.get('history',[]),'result':result,'stopped':stopped,'exit_code':record.get('exit_code'),'progress_age':time.time()-(p/'progress.json').stat().st_mtime if (p/'progress.json').exists() else None}}
+  except Exception as e:runs[name]={{'active':False,'read_error':str(e)}}
+for r in runs.values():
+ if r.get('result') or r.get('stopped'):r['active']=False
 smoke={{'contract':read(prep/'results/anchored-contract.json'),'tuev':read(prep/'results/anchored-smoke-tuev.json'),'chbmit':read(prep/'results/anchored-smoke-chbmit.json')}}
 smoke['accounting']=subprocess.check_output(['sacct','-n','-X','-j','419454','--format=JobIDRaw,State,ExitCode','-P'],universal_newlines=True)
 queue=subprocess.check_output(['squeue','-h','-u',__import__('os').environ['USER'],'-o','%i|%j|%T|%M|%R'],universal_newlines=True)
-print(json.dumps(dict(runs=runs,smoke=smoke,queue=queue)))
+print(json.dumps(dict(runs=runs,smoke=smoke,queue=queue,adopted=adopted)))
 '''
 TORCH_READ=fr'''from pathlib import Path
 import json,re,subprocess,os
@@ -91,7 +101,17 @@ def smoke_ready(s):
  return True
 
 def stop(name,r,reason):
- assert name in NAMES
+ if name not in NAMES:
+  assert name in ['chbmit-nb16_anchored_20260915','tuev-nb16_anchored_20260915']
+  return ssh('amd',f'''from pathlib import Path
+import json
+root=Path({PREP!r});name={name!r};p=root/'runs'/name/'seed0';ds=name.split('-')[0]
+s=json.loads((root/'results/amd-handover-419232.json').read_text());record=s['runs'][ds]
+assert s['phase']=='training' and record['pid']=={r.get('pid')!r} and record.get('exit_code') is None
+assert not (p/'result.json').exists() and (p/'best.pt').exists()
+(p/'STOP').write_text({reason!r})
+print(json.dumps(dict(stop_requested=True,name=name,checkpoint_preserved=True)))
+''')
  code=f'''from pathlib import Path
 import json,os
 root=Path({AMD!r});name={name!r};p=root/'runs'/name/'seed0'
@@ -151,7 +171,7 @@ def main():
  if torch:
   for ds,entry in torch.get('fallback',{}).items():
    receipt=entry.get('submission',{});old=state['submissions'].get(ds,{})
-   if receipt.get('state')=='submitted' and receipt.get('replaces')==old.get('job_id') and old.get('job_id'):
+   if receipt.get('state') in ('submitted','migrated_amd') and (receipt.get('replaces')==old.get('job_id') or receipt.get('job_id')==old.get('job_id')) and old.get('job_id'):
     state['submissions'][ds]=receipt
   for line in torch['queue'].splitlines():
    if '|F_anchor_' in line and ('QOS' in line or 'Assoc' in line):state['alerts'].append('fallback scheduler constraint: '+line)

@@ -55,3 +55,20 @@ their log PR is not the selection criterion. They retain their 23h cap.
 Controller runs every 180s via local launchd, survives CLI/terminal exit;
 requires this Mac awake and SSH reachable. Deadline 72h, state/log/decision
 receipts on disk. No automatic external messages. STOP sentinel disables it.
+
+## User-directed AMD migration, 2026-09-15
+
+Both pending Torch jobs 17828676/17828677 were cancelled before starting.
+Anchored CHB/TUEV now run inside existing AMD allocation 419232, logical HIP
+slots 1/2; original quadrature CHB retains slot 0. No new whole node allocated.
+The static dispatcher PID 50534 is suspended, not its original trainer PID
+50602; this holds the batch allocation while an attached srun controller
+63597 supervises new trainer PIDs 63799/63800. It resumes the dispatcher on
+completion/error. A separate rescue process resumes it if the controller dies
+or stops writing its heartbeat. STOP files preserve selection checkpoints.
+Controller: results/amd-handover-419232.json in CFM4EEG-anchored-watch-20260915.
+Entry point: slurm/adopt_existing.sh; launch only once after ownership checks.
+Actual-config smokes passed on this node before cancelling Torch. Runtime
+caps remain CHB 10.5h / TUEV 6.5h, within allocation's remaining ~12h.
+New runs are now included in the local watcher; no third candidate is auto-launched.
+ROCm-SMI and HIP slot numbering differ; utilization verified three busy GPUs.
