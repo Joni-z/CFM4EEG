@@ -16,7 +16,7 @@
 | 简称 | 中文名 | 原始 run 后缀 | 结构 |
 |---|---|---|---|
 | Duplex-A128 | 早期双路版 | `paclock_duplex` | 8 频段，D128，显式频段 attention；波形与耦合分成两组 token。 |
-| Duplex-F192 | 论文双路版 | `cf2_v1d192` | 8 频段，D192，关闭独立频段 mixer，将频段并入空间 attention（space_over_bands）。论文当前参考模型。 |
+| Duplex-F192 | 论文双路版 | `cf2_v1d192` | 8 频段，D192，关闭独立频段 mixer，将频段并入空间 attention（space_over_bands）。替换前的论文参考模型，现保留为结构消融。 |
 | PAC8 | 8 频段纯耦合版 | `paclock_rot2` | 8 频段，D128，幅度乘以 PAC 对齐的单位相位；没有独立波形 token。 |
 | PAC16 | 16 频段纯耦合版 | `crofremo_n5` | 16 频段，D128，纯耦合；n5 配方：wd .05、dropout .35、五种增强。 |
 | Quad16 | 正交载波版 | `nb16_quadrature_20260915` | 16 频段，D128，幅度和波形占复数的两个坐标，再作 PAC 旋转；沿用 n5 配方。 |
@@ -41,7 +41,7 @@
 
 ## 当前判断与在跑任务
 
-- **Duplex-F192 是论文版**；Duplex-A128 是早期版。此前将 A128 的数字用来回答论文版比较，已纠正。
+- **最新论文主参考已改为 Duplex-A128**，按用户要求统一替换全部12数据集；36份正常完成结果均已核对。Duplex-F192 是替换前的论文版，现保留为结构消融。
 - Carrier16 两项主指标的 seed0 数字都高于论文版均值；不能据此宣称稳定领先。TUEV balanced accuracy 只有 .6064，不能说所有指标都强。
 - 旧 CHB 验证筛选门槛参照 Duplex-A128，而非论文版。该历史门槛不因查看测试分数而倒改；未达门槛不等于模型没有研究价值。
 - 当前 allocation 419232：Quad16/CHB、Anchor16/CHB、Anchor16/TUEV、Residual16/CHB。Residual16/TUEV 在下一张空卡冒烟后补位。
@@ -50,4 +50,4 @@
 ## 溯源
 
 逐 seed 测试值、选中验证指标、完整配置、原始绝对路径及 SHA256：`MODEL-VERSIONS-2026-09-15.json`。
-论文映射：`scripts/gen_tables.py` 的主表 CroFreMo → `cf2_v1d192`。不手改生成表格。
+最新论文映射：`scripts/gen_tables.py` 的主表 CroFreMo → `paclock_duplex`；旧表映射为 `cf2_v1d192`。不手改生成表格。
