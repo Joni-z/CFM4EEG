@@ -1,0 +1,56 @@
+[
+  {
+    "dataset": "tuev",
+    "metric": "cohen_kappa",
+    "scratch_seed0": 0.6804138482423736,
+    "raw150k_seed0": 0.6405654500316079,
+    "scratch_path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-cf2_v1d192/seed0/result.json",
+    "pretrain_path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-cf2_v1d192_ptR/seed0/result.json",
+    "stop": "epochs"
+  },
+  {
+    "dataset": "chbmit",
+    "metric": "pr_auc",
+    "scratch_seed0": 0.7163468138227895,
+    "raw150k_seed0": 0.6270344317023174,
+    "scratch_path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/chbmit-cf2_v1d192/seed0/result.json",
+    "pretrain_path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/chbmit-cf2_v1d192_ptR/seed0/result.json",
+    "stop": "patience"
+  },
+  {
+    "dataset": "tusz",
+    "metric": "pr_auc",
+    "scratch_seed0": 0.6979473917566501,
+    "raw150k_seed0": 0.5610186445436443,
+    "scratch_path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tusz-cf2_v1d192/seed0/result.json",
+    "pretrain_path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tusz-cf2_v1d192_ptR/seed0/result.json",
+    "stop": "patience"
+  },
+  {
+    "dataset": "siena",
+    "metric": "pr_auc",
+    "scratch_seed0": 0.20092031854810583,
+    "raw150k_seed0": 0.34221733225628403,
+    "scratch_path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/siena-cf2_v1d192/seed0/result.json",
+    "pretrain_path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/siena-cf2_v1d192_ptR/seed0/result.json",
+    "stop": "patience"
+  },
+  {
+    "dataset": "isruc",
+    "metric": "cohen_kappa",
+    "scratch_seed0": 0.6979291283362897,
+    "raw150k_seed0": 0.7514182900357045,
+    "scratch_path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/isruc-cf2_v1d192/seed0/result.json",
+    "pretrain_path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/isruc-cf2_v1d192_ptR/seed0/result.json",
+    "stop": "epochs"
+  },
+  {
+    "dataset": "tuar",
+    "metric": "cohen_kappa",
+    "scratch_seed0": 0.5997105344774113,
+    "raw150k_seed0": 0.497808216074228,
+    "scratch_path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-cf2_v1d192/seed0/result.json",
+    "pretrain_path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-cf2_v1d192_ptR/seed0/result.json",
+    "stop": "epochs"
+  }
+]
