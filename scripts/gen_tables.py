@@ -97,59 +97,6 @@ def table(ds_list, label, caption):
         L += lines
     L += ["\\bottomrule", "\\end{tabular}}", "\\end{table}"]
     return "\n".join(L)
-# A snapshot-preserving paper update: model cells from runs, baseline cells
-# retained from the reviewed paper export. Recompute best marks, never edit numbers.
-def update_paper_reference(paper):
-    import pathlib,re,hashlib
-    paper=pathlib.Path(paper)
-    source=json.loads((paper/'sources/pre-a128-main-tables.json').read_text())
-    pairs={'tab:seizure':['tusz','chbmit'],'tab:events':['tuev','iiic'],
-      'tab:app-siena-tuep':['siena','tuep'],'tab:app-tuab-tuar':['tuab','tuar'],
-      'tab:app-adfd-caueeg':['adfd','caueeg'],'tab:app-sleep':['sleepedf','isruc']}
-    outputs={};audit={}
-    for label,dslist in pairs.items():
-        columns=[(ds,m) for ds in dslist for m in DS[ds][1]]
-        vals=[load(ds,'paclock_duplex')[m] for ds,m in columns]
-        assert all(len(v)==3 for v in vals),'require complete three-seed coverage'
-        for ds in dslist:
-            for file in sorted(glob.glob(f'runs/{ds}-paclock_duplex/seed*/result.json')):
-                r=json.load(open(file));assert r['stopped_by'] in ('epochs','patience')
-                audit[file]={'sha256':hashlib.sha256(open(file,'rb').read()).hexdigest(),'seed':r['seed'],'test':r['test'],'stopped_by':r['stopped_by'],'n_params_M':r['n_params_M']}
-        lines=source[label].splitlines()
-        row='CroFreMo (1.6M) & '+' & '.join(fmt(v,False) for v in vals)+r' \\'
-        lines=[row if line.startswith('CroFreMo (2.7M) &') else line for line in lines]
-        entries=[]
-        for i,line in enumerate(lines):
-            if ' & ' not in line or not line.rstrip().endswith(r'\\'):continue
-            fields=line.rsplit(r'\\',1)[0].split(' & ')
-            if len(fields)!=7 or not re.search(r'\d\.\d',fields[1]):continue
-            fields=[re.sub(r'\\textbf\{([^{}]+)\}',r'\1',x) for x in fields]
-            entries.append((i,fields))
-        for col in range(1,7):
-            valid=[]
-            for i,f in entries:
-                match=re.search(r'(?<!\d)(\d\.\d+)',f[col])
-                if match and r'\dagger' not in f[col]:valid.append((float(match[1]),i))
-            best=max(x[0] for x in valid)
-            for i,f in entries:
-                match=re.search(r'(?<!\d)(\d\.\d+)',f[col])
-                if match and float(match[1])==best and r'\dagger' not in f[col]:f[col]=r'\textbf{'+f[col].strip()+'}'
-        for i,f in entries:lines[i]=' & '.join(f).rstrip()+r' \\'
-        outputs[label]='\n'.join(lines)
-    for name in ['results','appendix']:
-        p=paper/f'sections/{name}.tex';s=p.read_text()
-        def replace(match):
-            block=match[0];label=re.search(r'\\label\{([^}]+)\}',block)
-            return outputs.get(label[1],block) if label else block
-        s=re.sub(r'\\begin\{table\}.*?\\end\{table\}',replace,s,flags=re.S);p.write_text(s)
-    (paper/'sources/a128-coverage.json').write_text(json.dumps(audit,indent=2)+'\n')
-    print('Regenerated six tables: 12 datasets, 36 completed runs; baseline cells preserved.')
-
-if '--paper-reference-dir' in __import__('sys').argv:
-    args=__import__('sys').argv
-    update_paper_reference(args[args.index('--paper-reference-dir')+1])
-    raise SystemExit(0)
-
 os.makedirs("results/tables", exist_ok=True)
 main = [(["tusz","chbmit"], "tab:seizure", "Seizure detection. Mean $\\pm$ std over three seeds; a superscript gives the seed count when fewer. Best eligible mean per column in bold. $^{!}$: cell withheld because at least one seed has a recorded diagnostic flag; $^{\\dagger}$: includes a budget-stopped run, shown but not ranked. Raw flagged results are retained in the reporting audit."),
         (["tuev","iiic"], "tab:events", "Epileptiform event and pattern classification. Format as in Table~\\ref{tab:seizure}.")]
