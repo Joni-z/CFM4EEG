@@ -27,6 +27,9 @@ def build_model(cfg: dict, input_shape: tuple[int, ...]) -> nn.Module:
     )
     kwargs.update(mk)
 
+    if name in ('cbramod_a128', 'biot_a128'):
+        from .foundation.a128_adapter import build_a128_host
+        return build_a128_host(cfg, input_shape)
     if name in ('cbramod_quad16', 'biot_quad16'):
         from .foundation.quad16_adapter import build_quad_host
         return build_quad_host(cfg, input_shape)
