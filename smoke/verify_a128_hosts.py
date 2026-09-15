@@ -81,3 +81,6 @@ result=dict(ok=True,host=host,config=cfg,source_tail_tensors=len(compared),shape
  projected_full_train_hours=sum(times[2:])/3*len(tr)*cfg['epochs']/3600,params=sum(p.numel() for p in model.parameters()),peak_gib=torch.cuda.max_memory_allocated()/2**30,
  note='Projection excludes validation and may overestimate patience-limited training')
 p=Path('results')/f'a128-host-smoke-{run_id}-{cfg["name"]}.json';p.write_text(json.dumps(result,indent=2));print(json.dumps(result),flush=True)
+
+if not cfg.get("patience") and cfg.get("max_hours"):
+ assert result["projected_full_train_hours"] < cfg["max_hours"] * .9, "No-patience host schedule does not fit this runtime budget"
