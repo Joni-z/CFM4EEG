@@ -2,7 +2,7 @@
 EMA targets, fixed numbered snapshots, atomic optimizer resume, bounded runtime.
 No labels/validation/test data participate in this objective.
 """
-import argparse,copy,json,math,os,random,signal,time
+import argparse,copy,json,math,os,random,signal,time,hashlib,subprocess
 from pathlib import Path
 import numpy as np
 import torch
@@ -99,6 +99,10 @@ def save_atomic(path,obj):
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--config',required=True);ap.add_argument('--resume',action='store_true');ap.add_argument('--smoke',action='store_true');args=ap.parse_args()
     cfg=yaml.safe_load(Path(args.config).read_text());set_seed(cfg['seed'])
+    source_sha=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+    revision=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip() if Path('.git').exists() else 'standalone-smoke'
+    manifest=Path(expand(cfg['data_root']))/'manifest.json'
+    manifest_sha=hashlib.sha256(manifest.read_bytes()).hexdigest()
     assert torch.cuda.is_available()
     out=Path('pretrain_runs')/cfg['name'];out.mkdir(parents=True,exist_ok=True)
     path=out/'checkpoint.pt'
@@ -109,6 +113,7 @@ def main():
     if path.exists() and args.resume:
         ck=torch.load(path,map_location='cpu',weights_only=False)
         assert ck['cfg']==cfg
+        assert ck['source_sha256']==source_sha, 'Code changed across resume'
         net.load_state_dict(ck['full']);opt.load_state_dict(ck['opt']);start=ck['step']
         torch.set_rng_state(ck['rng']);np.random.set_state(ck['numpy_rng']);random.setstate(ck['python_rng'])
         torch.cuda.set_rng_state_all(ck['cuda_rng'])
@@ -135,6 +140,7 @@ def main():
         stop_now=stop[0] or time.monotonic()-t0>cfg['max_hours']*3600
         if step%cfg['save_every']==0 or step==steps or stop_now:
             ck=dict(model=net.student.state_dict(),full=net.state_dict(),opt=opt.state_dict(),cfg=cfg,step=step,
+                    source_sha256=source_sha,git_commit=revision,data_manifest_sha256=manifest_sha,
                     rng=torch.get_rng_state(),numpy_rng=np.random.get_state(),python_rng=random.getstate(),cuda_rng=torch.cuda.get_rng_state_all(),
                     stopped_by='signal_or_budget' if stop_now else ('steps' if step==steps else 'snapshot'))
             save_atomic(path,ck)

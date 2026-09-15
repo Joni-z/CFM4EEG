@@ -8,7 +8,9 @@ from paclock_bench.training.train import set_seed
 from paclock_bench.training.losses import build_loss
 ap=argparse.ArgumentParser();ap.add_argument('--config',required=True);args=ap.parse_args()
 cfg=yaml.safe_load(Path(args.config).read_text());host=cfg['model'].removesuffix('_quad16')
-assert torch.cuda.is_available() and os.environ.get('SLURM_JOB_ID')
+run_id=os.environ.get('SLURM_JOB_ID') or os.environ.get('CFM_STANDALONE_RUN_ID')
+assert torch.cuda.is_available() and run_id
+assert os.environ.get('SLURM_JOB_ID') or os.environ.get('CUDA_VISIBLE_DEVICES') is not None
 if cfg.get('loader')=='biot':
  from paclock_bench.data.biot_dataset import build_biot_dataloaders as loaders
 else:
@@ -71,11 +73,11 @@ for i in range(5):
  opt.step();torch.cuda.synchronize();times.append(time.monotonic()-start)
 model.eval()
 with torch.no_grad(): before=model(x[:2])
-ck=Path('results')/f'host-roundtrip-{os.environ["SLURM_JOB_ID"]}-{cfg["name"]}.pt';ck.parent.mkdir(exist_ok=True)
+ck=Path('results')/f'host-roundtrip-{run_id}-{cfg["name"]}.pt';ck.parent.mkdir(exist_ok=True)
 torch.save(model.state_dict(),ck);model.load_state_dict(torch.load(ck,weights_only=True),strict=True)
 with torch.no_grad(): assert torch.equal(before,model(x[:2]))
 ck.unlink()
 result=dict(ok=True,host=host,config=cfg,source_tail_tensors=len(compared),shape=list(t.shape),steady_step_seconds=sum(times[2:])/3,
  projected_full_train_hours=sum(times[2:])/3*len(tr)*cfg['epochs']/3600,params=sum(p.numel() for p in model.parameters()),peak_gib=torch.cuda.max_memory_allocated()/2**30,
  note='Projection excludes validation and may overestimate patience-limited training')
-p=Path('results')/f'quad-host-smoke-{os.environ["SLURM_JOB_ID"]}-{cfg["name"]}.json';p.write_text(json.dumps(result,indent=2));print(json.dumps(result),flush=True)
+p=Path('results')/f'quad-host-smoke-{run_id}-{cfg["name"]}.json';p.write_text(json.dumps(result,indent=2));print(json.dumps(result),flush=True)

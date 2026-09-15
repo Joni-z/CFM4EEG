@@ -1,0 +1,8 @@
+Admitted GPU 7
+{"step": 1, "loss": 1.194994330406189, "prediction": 0.7196567058563232, "student_sample_std": 0.024662384763360023, "teacher_sample_std": 0.07258977741003036, "mask_fraction": 0.528124988079071, "step_seconds": 0.6917010564357042, "peak_gib": 3.9545607566833496}
+{"step": 2, "loss": 1.1789695024490356, "prediction": 0.7210099101066589, "student_sample_std": 0.042040400207042694, "teacher_sample_std": 0.09955505281686783, "mask_fraction": 0.5546875, "step_seconds": 0.4082076931372285, "peak_gib": 3.968276023864746}
+{"step": 3, "loss": 1.1852753162384033, "prediction": 0.7195970416069031, "student_sample_std": 0.034321658313274384, "teacher_sample_std": 0.09500505030155182, "mask_fraction": 0.535937488079071, "step_seconds": 0.31306768022477627, "peak_gib": 3.968276023864746}
+{"step": 4, "loss": 1.1929221153259277, "prediction": 0.7209011316299438, "student_sample_std": 0.027979057282209396, "teacher_sample_std": 0.09365750849246979, "mask_fraction": 0.5375000238418579, "step_seconds": 0.2653388031758368, "peak_gib": 3.968276023864746}
+{"step": 5, "loss": 1.1900664567947388, "prediction": 0.7204601764678955, "student_sample_std": 0.0303936954587698, "teacher_sample_std": 0.08655580878257751, "mask_fraction": 0.542187511920929, "step_seconds": 0.23634250089526176, "peak_gib": 3.968276023864746}
+[paclock] loaded 154 pretrained backbone tensors from /data2/zz5070/CFM4EEG-transfer-pretrain-20260915/pretrain_runs/quad_latent_contract145/smoke-transfer.pt
+{"smoke_ok": true, "mask_leak_check": true, "transfer_tensors": 154, "steady_step_seconds": 0.12176570606728394}
