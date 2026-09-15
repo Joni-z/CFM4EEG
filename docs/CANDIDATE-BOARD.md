@@ -24,3 +24,5 @@ the former axis-A in-flight restriction is superseded by this explicit request.
 |---|---|---|---|---|---|---|
 | nb16_n5_followup | A/B | At 16 bands, compare pure coupling, waveform residual and separate waveform rows under one n5 recipe | F | closed | docs/NB16-FOLLOWUP-GATE-2026-09-15.md | Superseded by user structural-priority correction before full training; only hardware smoke 419224 ran. |
 | modulation_carrier | A mixing / token construction | Preserve waveform coordinates inside the PAC rotation: analytic-amplitude quadrature versus full waveform carrier; two tasks each | F | screening | docs/MODULATION-CARRIER-GATE-2026-09-15.md | GPU smoke 419229 passed; four trainers RUNNING in packed AMD job 419232, source 53077a2. |
+
+| residual16_backfill | A mixing | Retest per-band waveform residual at 16 bands under n5 recipe | F | admitted | docs/RESIDUAL16-GATE-2026-09-15.md | Reuse free slots in 419232; CHB first, TUEV next free slot; seed0 only. |

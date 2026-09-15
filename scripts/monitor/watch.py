@@ -63,12 +63,20 @@ if adopted:
    prog=read(p/'progress.json') or {{}};result=read(p/'result.json');stopped=read(p/'stopped.json')
    runs[name]={{'active':adopted.get('phase')=='training' and record.get('pid') is not None and record.get('exit_code') is None and not result and not stopped,'pid':record.get('pid'),'history':prog.get('history',[]),'result':result,'stopped':stopped,'exit_code':record.get('exit_code'),'progress_age':time.time()-(p/'progress.json').stat().st_mtime if (p/'progress.json').exists() else None}}
   except Exception as e:runs[name]={{'active':False,'read_error':str(e)}}
+backfill=read(prep/'results/backfill-419232.json')
+if backfill:
+ for ds,record in backfill.get('runs',{{}}).items():
+  name=record['name'];p=prep/'runs'/name/'seed0'
+  try:
+   prog=read(p/'progress.json') or {{}};result=read(p/'result.json');stopped=read(p/'stopped.json')
+   runs[name]={{'active':record.get('phase')=='training' and record.get('exit_code') is None and not result and not stopped,'pid':record.get('pid'),'history':prog.get('history',[]),'result':result,'stopped':stopped,'exit_code':record.get('exit_code'),'progress_age':time.time()-(p/'progress.json').stat().st_mtime if (p/'progress.json').exists() else None,'stop_owner':'backfill_controller'}}
+  except Exception as e:runs[name]={{'active':False,'read_error':str(e)}}
 for r in runs.values():
  if r.get('result') or r.get('stopped'):r['active']=False
 smoke={{'contract':read(prep/'results/anchored-contract.json'),'tuev':read(prep/'results/anchored-smoke-tuev.json'),'chbmit':read(prep/'results/anchored-smoke-chbmit.json')}}
 smoke['accounting']=subprocess.check_output(['sacct','-n','-X','-j','419454','--format=JobIDRaw,State,ExitCode','-P'],universal_newlines=True)
 queue=subprocess.check_output(['squeue','-h','-u',__import__('os').environ['USER'],'-o','%i|%j|%T|%M|%R'],universal_newlines=True)
-print(json.dumps(dict(runs=runs,smoke=smoke,queue=queue,adopted=adopted)))
+print(json.dumps(dict(runs=runs,smoke=smoke,queue=queue,adopted=adopted,backfill=backfill)))
 '''
 TORCH_READ=fr'''from pathlib import Path
 import json,re,subprocess,os
@@ -101,6 +109,7 @@ def smoke_ready(s):
  return True
 
 def stop(name,r,reason):
+ if r.get("stop_owner")=="backfill_controller":return {"delegated_to_live_backfill_controller":True}
  if name not in NAMES:
   assert name in ['chbmit-nb16_anchored_20260915','tuev-nb16_anchored_20260915']
   return ssh('amd',f'''from pathlib import Path
