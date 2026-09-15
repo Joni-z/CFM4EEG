@@ -1,0 +1,118 @@
+{
+  "gate_job": "421019",
+  "gate_receipt": "results/a128-contract-smoke.json",
+  "max_active": 4,
+  "packs": [
+    {
+      "name": "A128R1_core0",
+      "partition": "mi2104x",
+      "specs": [
+        "configs/a128_r1/tuev_s0.yaml:0",
+        "configs/a128_r1/iiic_s0.yaml:0",
+        "configs/a128_r1/tusz_s0.yaml:0",
+        "configs/a128_r1/chbmit_s0.yaml:0"
+      ]
+    },
+    {
+      "name": "A128R1_core1",
+      "partition": "mi2104x",
+      "specs": [
+        "configs/a128_r1/tuev_s1.yaml:1",
+        "configs/a128_r1/iiic_s1.yaml:1",
+        "configs/a128_r1/tusz_s1.yaml:1",
+        "configs/a128_r1/chbmit_s1.yaml:1"
+      ]
+    },
+    {
+      "name": "A128R1_core2",
+      "partition": "mi2104x",
+      "specs": [
+        "configs/a128_r1/tuev_s2.yaml:2",
+        "configs/a128_r1/iiic_s2.yaml:2",
+        "configs/a128_r1/tusz_s2.yaml:2",
+        "configs/a128_r1/chbmit_s2.yaml:2"
+      ]
+    },
+    {
+      "name": "A128_host0",
+      "partition": "mi2104x",
+      "specs": [
+        "configs/a128_hosts/tuev_biot_s0.yaml:0",
+        "configs/a128_hosts/chbmit_biot_s0.yaml:0",
+        "configs/a128_hosts/tuev_cbramod_s0.yaml:0",
+        "configs/a128_hosts/chbmit_cbramod_s0.yaml:0"
+      ]
+    },
+    {
+      "name": "A128_host1",
+      "partition": "mi2104x",
+      "specs": [
+        "configs/a128_hosts/tuev_biot_s1.yaml:1",
+        "configs/a128_hosts/chbmit_biot_s1.yaml:1",
+        "configs/a128_hosts/tuev_cbramod_s1.yaml:1",
+        "configs/a128_hosts/chbmit_cbramod_s1.yaml:1"
+      ]
+    },
+    {
+      "name": "A128_host2",
+      "partition": "mi2104x",
+      "specs": [
+        "configs/a128_hosts/tuev_biot_s2.yaml:2",
+        "configs/a128_hosts/chbmit_biot_s2.yaml:2",
+        "configs/a128_hosts/tuev_cbramod_s2.yaml:2",
+        "configs/a128_hosts/chbmit_cbramod_s2.yaml:2"
+      ]
+    },
+    {
+      "name": "A128_evidence0",
+      "partition": "mi2104x",
+      "specs": [
+        "configs/a128_r1/tuab_s0.yaml:0",
+        "configs/a128_r1/tuab_s1.yaml:1",
+        "configs/a128_r1/tuab_s2.yaml:2",
+        "configs/a128_r1/adfd_s0.yaml:0"
+      ]
+    },
+    {
+      "name": "A128_evidence1",
+      "partition": "mi2104x",
+      "specs": [
+        "configs/a128_r1/adfd_s1.yaml:1",
+        "configs/a128_r1/adfd_s2.yaml:2",
+        "configs/a128_own/tuev_s0.yaml:0",
+        "configs/a128_own/chbmit_s0.yaml:0"
+      ]
+    },
+    {
+      "name": "A128_evidence2",
+      "partition": "mi2104x",
+      "specs": [
+        "configs/a128_own/tuev_s1.yaml:1",
+        "configs/a128_own/chbmit_s1.yaml:1",
+        "configs/a128_own/tuev_s2.yaml:2",
+        "configs/a128_own/chbmit_s2.yaml:2"
+      ]
+    },
+    {
+      "name": "A128R1_tuep0",
+      "partition": "mi2101x",
+      "specs": [
+        "configs/a128_r1/tuep_s0.yaml:0"
+      ]
+    },
+    {
+      "name": "A128R1_tuep1",
+      "partition": "mi2101x",
+      "specs": [
+        "configs/a128_r1/tuep_s1.yaml:1"
+      ]
+    },
+    {
+      "name": "A128R1_tuep2",
+      "partition": "mi2101x",
+      "specs": [
+        "configs/a128_r1/tuep_s2.yaml:2"
+      ]
+    }
+  ]
+}

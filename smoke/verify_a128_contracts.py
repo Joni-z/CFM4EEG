@@ -10,11 +10,11 @@ from paclock_bench.models.foundation.a128_adapter import A128HostTokens
 assert os.environ.get('SLURM_JOB_ID') and torch.cuda.is_available()
 c=yaml.safe_load(Path('configs/a128_r1/tuev_s0.yaml').read_text())
 r=copy.deepcopy(c);r['model_kwargs']['augmentations']=[]
-set_seed(0);a=build_model(c,(4,400)).cuda()
-set_seed(0);b=build_model(r,(4,400)).cuda()
+set_seed(0);a=build_model(c,(16,400)).cuda()
+set_seed(0);b=build_model(r,(16,400)).cuda()
 assert a.state_dict().keys()==b.state_dict().keys()
 assert all(torch.equal(v,b.state_dict()[k]) for k,v in a.state_dict().items())
-x=torch.randn(2,4,400,device='cuda');a.eval();b.eval()
+x=torch.randn(2,16,400,device='cuda');a.eval();b.eval()
 with torch.no_grad():assert torch.equal(a(x),b(x))
 assert a.frontend.n_output_bands==16 if hasattr(a.frontend,'n_output_bands') else True
 a.train();loss=a(x).square().mean();loss.backward()
