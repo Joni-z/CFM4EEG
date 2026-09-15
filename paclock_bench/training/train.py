@@ -210,7 +210,16 @@ def main():
     opt_cls = {"adam": torch.optim.Adam, "adamw": torch.optim.AdamW}[opt_name]
     lr = cfg.get("lr", 1e-4)
     wd = cfg.get("weight_decay", 1e-5)
-    if cfg.get("layer_decay"):
+    if cfg.get("loaded_lr_multiplier") is not None:
+        loaded=getattr(model,"_loaded_keys",set())
+        if not loaded:raise ValueError("loaded_lr_multiplier requires loaded checkpoint parameters")
+        multiplier=float(cfg["loaded_lr_multiplier"])
+        if not 0 < multiplier <= 1:raise ValueError(multiplier)
+        old=[p for n,p in model.named_parameters() if n in loaded and p.requires_grad]
+        fresh=[p for n,p in model.named_parameters() if n not in loaded and p.requires_grad]
+        optimizer=opt_cls([{"params":old,"lr":lr*multiplier},{"params":fresh,"lr":lr}],weight_decay=wd)
+        print(f"  loaded backbone lr={lr*multiplier:g}; fresh head/spatial lr={lr:g}",flush=True)
+    elif cfg.get("layer_decay"):
         # LaBraM scales the LR by depth (--layer_decay 0.65). Without it the
         # pretrained blocks train at the head's rate and the recipe is not
         # LaBraM's any more.

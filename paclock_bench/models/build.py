@@ -27,6 +27,10 @@ def build_model(cfg: dict, input_shape: tuple[int, ...]) -> nn.Module:
     )
     kwargs.update(mk)
 
+    if name in ('cbramod_quad16', 'biot_quad16'):
+        from .foundation.quad16_adapter import build_quad_host
+        return build_quad_host(cfg, input_shape)
+
     if name in LIGHT_REGISTRY:
         return LIGHT_REGISTRY[name](**kwargs)
 
@@ -195,6 +199,11 @@ def build_model(cfg: dict, input_shape: tuple[int, ...]) -> nn.Module:
         if ckpt:
             report = load_pretrained_backbone(
                 model, expand(ckpt), exclude=tuple(cfg.get("checkpoint_exclude", ())))
+            if cfg.get('checkpoint_require_full'):
+                from .paclock.build import _BACKBONE_PREFIXES
+                expected={k for k in model.state_dict() if k.startswith(_BACKBONE_PREFIXES)}
+                if report['skipped_shape'] or report['skipped_excluded'] or set(report['loaded']) != expected:
+                    raise ValueError(f'Incomplete pretrained backbone load: {report}')
             print(f"[paclock] loaded {len(report['loaded'])} pretrained backbone "
                   f"tensors from {ckpt}"
                   + (f"; skipped {len(report['skipped_shape'])} shape mismatches: "

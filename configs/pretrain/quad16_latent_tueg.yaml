@@ -1,0 +1,58 @@
+name: quad16_latent_tueg_20260915
+data_root: $PACLOCK_PROC/processed/tueg_slice_clean
+model_config:
+  name: tuar-quad16_breadth_20260915
+  group: quad16_breadth
+  dataset: pretrain
+  data_root: $PACLOCK_PROC/processed/tuar
+  model: paclock
+  optimizer: adamw
+  lr: 0.0001
+  weight_decay: 0.05
+  scheduler: cosine
+  grad_clip: 1.0
+  num_workers: 8
+  device: cuda
+  num_classes: 2
+  epochs: 20
+  batch_size: 32
+  eval_every_steps: 0
+  patience: 20
+  loss: cross_entropy
+  label_smoothing: 0.1
+  sample_rate: 200
+  model_kwargs:
+    arch: triaxial
+    d_model: 128
+    depth: 6
+    n_bands: 16
+    n_heads: 4
+    dropout: 0.1
+    kernel_size: 201
+    patch_len: 50
+    augmentations: []
+    freq_mixer: attention
+    band_pe: index
+    tokenizer_mode: pac_interaction
+    pac_token_mode: measured
+    interaction_mode: rotation
+    spatial_pe: index
+    pac_patch_len: 50
+    waveform_modulation: quadrature
+  seed: 0
+  max_hours: 8.0
+channels: 4
+crop_samples: 1000
+batch_size: 32
+steps: 20000
+warmup_steps: 1000
+lr: 0.0001
+max_hours: 8
+save_every: 1000
+snapshots:
+- 2000
+- 5000
+- 10000
+- 20000
+mask_ratio: 0.5
+seed: 0
