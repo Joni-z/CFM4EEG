@@ -5,7 +5,7 @@ sys.path.insert(0,os.getcwd())
 import torch,yaml
 from paclock_bench.models.build import build_model
 from paclock_bench.training.train import set_seed
-run_id=os.environ.get('SLURM_JOB_ID') or os.environ.get('CFM_STANDALONE_RUN_ID')
+run_id=(os.environ['SLURM_JOB_ID']+'-'+os.environ.get('SLURM_STEP_ID','batch')) if os.environ.get('SLURM_JOB_ID') else os.environ.get('CFM_STANDALONE_RUN_ID')
 assert run_id and torch.cuda.is_available()
 assert os.environ.get('SLURM_JOB_ID') or os.environ.get('CUDA_VISIBLE_DEVICES') is not None
 base=yaml.safe_load(Path('configs/design/tuev_crofremo_n5.yaml').read_text())
