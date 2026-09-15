@@ -33,3 +33,12 @@ Torch pending jobs17833526/17833527 cancelled. Identical seed0 configs migrated 
 
 ## 145 extension
 User authorized selective dataset transfer and use of145 GPUs. Transfer ADFD (~1GB) then SleepEDF (~4.4GB), using local relay and full SHA256 verification before launch. Standalone GPU0/1 only, explicit runtime ID (not simulated Slurm), check vacancy and acquire per-dataset lock, same numerical and real-data smoke, train cap8h/external10h limit. SleepEDF replaces pending b2 job46027492 only after destination data readiness; cancel pending source before launch to avoid duplicate. ADFD adds independent breadth evidence (A128 seed0 validation balanced accuracy0.4830212; exploratory -0.03 tolerance0.4530212) and does not retroactively replace any of the four original decision gates. Original repositories and conda environments preserved; only conda tarballs/index/log caches cleaned.145 data2 user directory68GB before cleaning; ~4.6GB cache freed,82GB free afterward.
+
+## First completed breadth results
+All comparisons below seed0 versus A128 seed0, same processed split.
+- TUAR Quad16: val kappa0.6103729, test0.6243238,20epochs complete,5203s. A128 val0.6172852/test0.6289274. Near parity; validation tolerance passed.
+- Siena Quad16: val PR0.4344283, test0.3450361,patience5epochs,5599s. A128 val0.4486612/test0.1098043. Validation tolerance passed, large single-seed test gain; still below paper REVE reference0.5181 (protocol comparison not established).
+- ADFD Quad16 on145: val balanced accuracy0.5648308,test0.4214106,30epochs complete,3554s. A128 val0.4830212/test0.5616955. Validation improved but held-out score fell0.140285; do not hide this divergence or declare breadth success from validation gates alone. Thirty epochs inherited from task-specific A128 config. This additional dataset was registered before results, not substituted for original gate tasks.
+- SleepEDF transfer verified by full SHA256; b2 pending46027492 cancelled,145 GPU1 training launched (supervisor2153031), first4epochs bestval kappa0.6239 versus A128seed0 best0.6363762. Provisional, not completed gate pass.
+- TUSZ b2 46027491 stillPENDING/Priority.
+AMD single-card allocations420346/420347 completed and released. Original419232 remains with Anchor16 and Residual16 pairs: CHB second epoch bestPR0.3581/0.2034; TUEV bestval kappa0.6487/0.6525. No candidate replacement justified yet.
