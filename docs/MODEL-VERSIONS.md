@@ -34,10 +34,10 @@
 | Duplex-F192 | 0.6546 ± 0.0365（2 seeds） | 0.6691 ± 0.0413（3 seeds） |
 | PAC8 | 0.7328 ± 0.0161（3 seeds） | 0.5060 ± 0.0861（3 seeds） |
 | PAC16 | 0.7391（1 seed） | 本次核对未发现该配置完整结果 |
-| Quad16 | 0.7279（1 seed） | 训练中，暂无完整测试结果 |
+| Quad16 | 0.7279（1 seed） | 0.7319（1 seed） |
 | Carrier16 | 0.7214（1 seed） | 0.6914（1 seed） |
 | Anchor16 | 训练中，暂无完整测试结果 | 训练中，暂无完整测试结果 |
-| Residual16 | 节点内补位队列，尚未开跑 | 训练中，暂无完整测试结果 |
+| Residual16 | 训练中，暂无完整测试结果 | 训练中，暂无完整测试结果 |
 
 ## 当前判断与在跑任务
 
@@ -51,3 +51,5 @@
 
 逐 seed 测试值、选中验证指标、完整配置、原始绝对路径及 SHA256：`MODEL-VERSIONS-2026-09-15.json`。
 最新论文映射：`scripts/gen_tables.py` 的主表 CroFreMo → `paclock_duplex`；旧表映射为 `cf2_v1d192`。不手改生成表格。
+
+更新：Quad16 两项seed0均完成；Residual16/TUEV已在HIP0自动补位，PID65447。详见 QUAD16-OUTCOME-2026-09-15.md。
