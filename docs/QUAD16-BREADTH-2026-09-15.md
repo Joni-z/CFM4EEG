@@ -24,3 +24,6 @@ All four PENDING/Priority at verification. Smoke has NOT run yet; no new trainin
 Cross-cluster audit: canonical JSON of protocol+splits matches AMD exactly for all four manifests (including subject lists, class counts, window shapes). Creation timestamps can differ; neither timestamps nor metadata equality alone establish bitwise signal-array equality.
 
 Logs in each isolated CFM4EEG-quad16-breadth-20260915 worktree: logs/Q16_*-<jobid>.out. GPU smoke receipts results/breadth-smoke-<jobid>.json; final results runs/<dataset>-quad16_breadth_20260915/seed0/result.json. No large data transfers and no other users' jobs modified.
+
+## Torch account correction
+Legacy pr_63_tandon_priority rejected as invalid by Slurm admission. User association torch_pr_63_tandon_advanced with h200_tandon passed test submission. In-place account update failed. Replacement jobs submitted held, original pending jobs 17832550/17832551 cancelled, then replacements released: TUAR 17833489, Siena 17833492. Same configs/seed/budget, explicit account+partition CLI overrides; no duplicate running jobs. Advanced account does not guarantee immediate scheduling. Launcher defaults corrected accordingly.

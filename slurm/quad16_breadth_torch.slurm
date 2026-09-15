@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --account=torch_pr_63_general
-#SBATCH --partition=h200_public,l40s_public
+#SBATCH --account=torch_pr_63_tandon_advanced
+#SBATCH --partition=h200_tandon
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
