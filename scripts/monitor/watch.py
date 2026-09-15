@@ -57,7 +57,7 @@ for name in {NAMES!r}:
  runs[name]=r
 smoke={{'contract':read(prep/'results/anchored-contract.json'),'tuev':read(prep/'results/anchored-smoke-tuev.json'),'chbmit':read(prep/'results/anchored-smoke-chbmit.json')}}
 smoke['accounting']=subprocess.check_output(['sacct','-n','-X','-j','419454','--format=JobIDRaw,State,ExitCode','-P'],universal_newlines=True)
-queue=subprocess.check_output(['squeue','-h','-u',__import__('os').environ['USER'],'-o','%i|%j|%T|%M'],universal_newlines=True)
+queue=subprocess.check_output(['squeue','-h','-u',__import__('os').environ['USER'],'-o','%i|%j|%T|%M|%R'],universal_newlines=True)
 print(json.dumps(dict(runs=runs,smoke=smoke,queue=queue)))
 '''
 TORCH_READ=fr'''from pathlib import Path
@@ -79,7 +79,7 @@ for ds in ['chbmit','tuev']:
  receipt=root/'controller'/f'{{ds}}.json'
  if receipt.exists():d['submission']=json.loads(receipt.read_text())
  new[ds]=d
-queue=subprocess.check_output(['squeue','-h','-u',os.environ['USER'],'-o','%i|%j|%T|%M'],universal_newlines=True)
+queue=subprocess.check_output(['squeue','-h','-u',os.environ['USER'],'-o','%i|%j|%T|%M|%R'],universal_newlines=True)
 print(json.dumps(dict(legacy=out,fallback=new,queue=queue)))
 '''
 def smoke_ready(s):
@@ -148,6 +148,13 @@ def main():
  except Exception as e:state['errors'].append(str(e));amd=None
  try:torch=ssh('torch',TORCH_READ);dump(ROOT/'torch-latest.json',torch)
  except Exception as e:state['errors'].append(str(e));torch=None
+ if torch:
+  for ds,entry in torch.get('fallback',{}).items():
+   receipt=entry.get('submission',{});old=state['submissions'].get(ds,{})
+   if receipt.get('state')=='submitted' and receipt.get('replaces')==old.get('job_id') and old.get('job_id'):
+    state['submissions'][ds]=receipt
+  for line in torch['queue'].splitlines():
+   if '|F_anchor_' in line and ('QOS' in line or 'Assoc' in line):state['alerts'].append('fallback scheduler constraint: '+line)
  if amd:
   for name,r in amd['runs'].items():
    age=r.get('progress_age')
