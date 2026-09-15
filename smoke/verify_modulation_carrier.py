@@ -5,7 +5,9 @@ sys.path.insert(0,os.getcwd())
 import torch,yaml
 from paclock_bench.models.build import build_model
 from paclock_bench.training.train import set_seed
-assert os.environ.get('SLURM_JOB_ID') and torch.cuda.is_available()
+run_id=os.environ.get('SLURM_JOB_ID') or os.environ.get('CFM_STANDALONE_RUN_ID')
+assert run_id and torch.cuda.is_available()
+assert os.environ.get('SLURM_JOB_ID') or os.environ.get('CUDA_VISIBLE_DEVICES') is not None
 base=yaml.safe_load(Path('configs/design/tuev_crofremo_n5.yaml').read_text())
 set_seed(0);baseline=build_model(base,(16,1000)).cuda()
 records=[]
@@ -63,7 +65,7 @@ for arm in ['quadrature','carrier']:
   rank=int(torch.linalg.matrix_rank(matrix).item());assert rank==50
  torch.optim.AdamW(model.parameters(),lr=1e-4).step()
  model.eval()
- checkpoint=Path('results')/f'carrier-roundtrip-{os.environ["SLURM_JOB_ID"]}-{arm}.pt'
+ checkpoint=Path('results')/f'carrier-roundtrip-{run_id}-{arm}.pt'
  torch.save(model.state_dict(),checkpoint)
  clone=build_model(cfg,(16,1000)).cuda().eval()
  clone.load_state_dict(torch.load(checkpoint,map_location='cuda',weights_only=True),strict=True)
@@ -76,5 +78,5 @@ for arm in ['quadrature','carrier']:
  del model,clone,shared,changed,x,actual,b,out,expected,left,right,zero,phase,pac,amp,wave,unit
  if arm=='quadrature':del a
  torch.cuda.empty_cache()
-p=Path('results')/f'modulation-contract-{os.environ["SLURM_JOB_ID"]}.json'
+p=Path('results')/f'modulation-contract-{run_id}.json'
 p.write_text(json.dumps(records,indent=2)+'\n');print(p.read_text(),flush=True)

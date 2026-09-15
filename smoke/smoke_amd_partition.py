@@ -9,7 +9,9 @@ from paclock_bench.data.datasets import build_dataloaders
 from paclock_bench.models.build import build_model
 from paclock_bench.training.losses import build_loss
 from paclock_bench.training.train import set_seed
-assert os.environ.get('SLURM_JOB_ID') and torch.cuda.is_available()
+run_id=os.environ.get('SLURM_JOB_ID') or os.environ.get('CFM_STANDALONE_RUN_ID')
+assert run_id and torch.cuda.is_available()
+assert os.environ.get('SLURM_JOB_ID') or os.environ.get('CUDA_VISIBLE_DEVICES') is not None
 ap=argparse.ArgumentParser()
 ap.add_argument('--config',default='configs/selfcoup/tuev_crofremo_s2.yaml')
 ap.add_argument('--require-budget-fit',action='store_true')
@@ -56,10 +58,10 @@ projected_train_seconds=statistics.mean(times[2:])*len(tr)*cfg['epochs']
 if args.require_budget_fit:
  assert cfg.get('max_hours') and projected_train_seconds<cfg['max_hours']*3600*.8, \
   ('Training alone would consume over 80% of the budget',projected_train_seconds,cfg.get('max_hours'))
-p=Path(args.output) if args.output else Path('results')/('amd-partition-smoke-'+os.environ['SLURM_JOB_ID']+'.json')
+p=Path(args.output) if args.output else Path('results')/('amd-partition-smoke-'+run_id+'.json')
 p.parent.mkdir(parents=True,exist_ok=True)
 p.write_text(json.dumps(dict(ok=True,partition=os.environ.get('SLURM_JOB_PARTITION'),
- job=os.environ['SLURM_JOB_ID'],config=args.config,seed=int(cfg.get('seed',0)),host=os.uname().nodename,torch=torch.__version__,rocm=torch.version.hip,
+ job=run_id,config=args.config,seed=int(cfg.get('seed',0)),host=os.uname().nodename,torch=torch.__version__,rocm=torch.version.hip,
  device=torch.cuda.get_device_name(),visible_gpus=torch.cuda.device_count(),
  input_shape=list(x.shape),steps=steps,warmup_excluded=2,steady_step_seconds=times[2:],
  augmentation_path_warmups=path_warmups,
