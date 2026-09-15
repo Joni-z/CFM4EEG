@@ -27,3 +27,6 @@ Logs in each isolated CFM4EEG-quad16-breadth-20260915 worktree: logs/Q16_*-<jobi
 
 ## Torch account correction
 Legacy pr_63_tandon_priority rejected as invalid by Slurm admission. User association torch_pr_63_tandon_advanced with h200_tandon passed test submission. In-place account update failed. Replacement jobs submitted held, original pending jobs 17832550/17832551 cancelled, release also failed (Unspecified error); held replacements 17833489/17833492 cancelled. Final unheld replacements: TUAR 17833526, Siena 17833527. Queue confirms advanced account and h200_tandon; initial TUAR reason QOSGrpGRES, Siena None pending scheduler evaluation. Same configs/seed/budget, explicit account+partition CLI overrides; no duplicate running jobs. Advanced account does not guarantee immediate scheduling. Launcher defaults corrected accordingly.
+
+## AMD migration authorized by user
+Torch pending jobs17833526/17833527 cancelled. Identical seed0 configs migrated to AMD mi2101x single-card nodes: TUAR420346 k006-004-v3; Siena420347 k006-004-v4. Each10h allocation, training cap8h. Both RUNNING and modulation contract passed; real-data smoke in progress at first check. Existing four-card allocation419232 preserved. b2 jobs unchanged. Launcher slurm/quad16_breadth_amd.slurm, code62efb9d. Submission filter reports allocation used1845.49 of2250.
