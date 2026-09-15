@@ -47,7 +47,7 @@ batch_size: 32
 steps: 20000
 warmup_steps: 1000
 lr: 0.0001
-max_hours: 8
+max_hours: 3
 save_every: 1000
 snapshots:
 - 2000

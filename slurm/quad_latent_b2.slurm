@@ -4,7 +4,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
-#SBATCH --time=10:00:00
+#SBATCH --time=04:00:00
 #SBATCH --signal=B:TERM@180
 #SBATCH --output=logs/%x-%j.out
 set -euo pipefail

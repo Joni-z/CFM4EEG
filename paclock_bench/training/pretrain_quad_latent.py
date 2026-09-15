@@ -55,7 +55,11 @@ class QuadLatent(nn.Module):
     def forward(self,x,mask=None):
         mask=self.mask(x) if mask is None else mask
         self.teacher.eval()
-        with torch.no_grad(): target=F.layer_norm(self.encode(self.teacher,x).float(),(128,))
+        with torch.no_grad():
+            target=self.encode(self.teacher,x).float()
+            # Remove the batch-shared positional/DC component before feature
+            # normalization: predicting only a band identity must not solve SSL.
+            target=F.layer_norm(target-target.mean(0,keepdim=True),(128,))
         h=self.encode(self.student,x,mask)
         pred=F.layer_norm(self.predictor(h).float(),(128,))
         weights=mask[:,None,None,:].expand(h.shape[:-1])
@@ -64,7 +68,7 @@ class QuadLatent(nn.Module):
         pooled=F.layer_norm(h.float().mean((1,2,3)),(128,))
         std=pooled.std(dim=0,unbiased=False)
         varloss=F.relu(.5-std).mean()
-        loss=prediction+.1*varloss
+        loss=prediction+varloss
         stats={'loss':float(loss.detach()),'prediction':float(prediction.detach()),
                'student_sample_std':float(std.detach().mean()),
                'teacher_sample_std':float(target.mean((1,2,3)).std(0,unbiased=False).mean()),
@@ -148,6 +152,16 @@ def main():
         target=build_model(cfg['model_config'],(16,1000))
         keys=[k for k in target.state_dict() if k.startswith(_BACKBONE_PREFIXES)]
         src=net.student.state_dict();assert all(k in src and src[k].shape==target.state_dict()[k].shape for k in keys)
+        temp=out/'smoke-transfer.pt'
+        save_atomic(temp,{'model':src})
+        ftcfg=dict(cfg['model_config'],checkpoint=str(temp.resolve()),checkpoint_require_full=True)
+        transferred=build_model(ftcfg,(16,1000))
+        assert all(torch.equal(transferred.state_dict()[k],src[k].cpu()) for k in keys)
+        broken=dict(src);broken.pop(keys[0]);save_atomic(temp,{'model':broken})
+        try:build_model(ftcfg,(16,1000))
+        except ValueError:pass
+        else:raise AssertionError('Missing transfer tensor was silently accepted')
+        temp.unlink()
         print(json.dumps({'smoke_ok':True,'mask_leak_check':True,'transfer_tensors':len(keys),'steady_step_seconds':float(np.mean(times[2:]))}),flush=True)
 
 if __name__=='__main__':main()

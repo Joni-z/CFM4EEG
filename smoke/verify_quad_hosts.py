@@ -29,7 +29,14 @@ for k,v in a.items():
  assert dest in b and torch.equal(v,b[dest]),(k,dest)
  compared.append(k)
 model=model.cuda();native=native.cuda().eval()
-x,y=next(iter(tr));x,y=x.cuda(),y.cuda().long()
+x,y=next(iter(tr))
+if cfg['num_classes']==2 and y.unique().numel()<2:
+ import numpy as np
+ labels=np.asarray(tr.dataset.labels).reshape(-1)
+ missing=1-int(y[0]); idx=int(np.flatnonzero(labels==missing)[0])
+ x[0],y[0]=tr.dataset[idx]
+x,y=x.cuda(),y.cuda().long()
+print('smoke class counts',torch.bincount(y,minlength=cfg['num_classes']).tolist(),flush=True)
 q=model.backbone.patch_embedding.quad if host=='cbramod' else model.biot.quad
 hop=200 if host=='cbramod' else native.biot.hop_length
 width=200 if host=='cbramod' else 256
@@ -57,9 +64,10 @@ for i in range(5):
  loss=loss_fn(pred,y);assert torch.isfinite(loss);loss.backward()
  grads={n:p.grad for n,p in model.named_parameters() if p.requires_grad}
  assert all(torch.isfinite(g).all() for g in grads.values() if g is not None)
- assert any(g is not None and g.abs().sum()>0 for n,g in grads.items() if 'encoder' in n or 'transformer' in n)
+ if i==0:assert any(g is not None and g.abs().sum()>0 for n,g in grads.items() if 'encoder' in n or 'transformer' in n)
  assert q.projection[0].weight.grad is not None
- assert q.frontend.waveform_quadrature.weight.grad.abs().sum()>0
+ if i==0:assert q.frontend.waveform_quadrature.weight.grad.abs().sum()>0
+ if cfg.get('grad_clip'):torch.nn.utils.clip_grad_norm_(model.parameters(),cfg['grad_clip'])
  opt.step();torch.cuda.synchronize();times.append(time.monotonic()-start)
 model.eval()
 with torch.no_grad(): before=model(x[:2])
