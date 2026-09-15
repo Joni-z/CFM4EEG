@@ -12,252 +12,297 @@
       "seed": 0,
       "dataset": "tuev",
       "reference": "runs/tuev-paclock_duplex/seed0/result.json",
-      "reference_sha256": "dcbc28618fa8ad4393607ee1a1c3c0db5357cbabd978829fb19d19b9f93b3922"
+      "reference_sha256": "dcbc28618fa8ad4393607ee1a1c3c0db5357cbabd978829fb19d19b9f93b3922",
+      "stage": "breadth"
     },
     {
       "config": "configs/a128_r1/tuev_s1.yaml",
       "seed": 1,
       "dataset": "tuev",
       "reference": "runs/tuev-paclock_duplex/seed1/result.json",
-      "reference_sha256": "b21796dc77ba24ac295a662db6ef826eaf64c40a5488528d32f8fb05d1a5ae8a"
+      "reference_sha256": "b21796dc77ba24ac295a662db6ef826eaf64c40a5488528d32f8fb05d1a5ae8a",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/tuev_s2.yaml",
       "seed": 2,
       "dataset": "tuev",
       "reference": "runs/tuev-paclock_duplex/seed2/result.json",
-      "reference_sha256": "2f65def64e7ee0c48f5032bc38a426abfd0dd9caba7542cdcfa74fc8d6485d30"
+      "reference_sha256": "2f65def64e7ee0c48f5032bc38a426abfd0dd9caba7542cdcfa74fc8d6485d30",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/iiic_s0.yaml",
       "seed": 0,
       "dataset": "iiic",
       "reference": "runs/iiic-paclock_duplex/seed0/result.json",
-      "reference_sha256": "14849614c53705433235becec1e8fa3e3d082462fa6891b7ecd0e525286ca58f"
+      "reference_sha256": "14849614c53705433235becec1e8fa3e3d082462fa6891b7ecd0e525286ca58f",
+      "stage": "breadth"
     },
     {
       "config": "configs/a128_r1/iiic_s1.yaml",
       "seed": 1,
       "dataset": "iiic",
       "reference": "runs/iiic-paclock_duplex/seed1/result.json",
-      "reference_sha256": "9e22376ab5f2f9996e79477f3fa5a3d33120ef956694b61179ee1357276969a0"
+      "reference_sha256": "9e22376ab5f2f9996e79477f3fa5a3d33120ef956694b61179ee1357276969a0",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/iiic_s2.yaml",
       "seed": 2,
       "dataset": "iiic",
       "reference": "runs/iiic-paclock_duplex/seed2/result.json",
-      "reference_sha256": "7b7b366c92efeb15b21c9addfeed8f1fed963f36ed808116aaa5dadce1fbbd18"
+      "reference_sha256": "7b7b366c92efeb15b21c9addfeed8f1fed963f36ed808116aaa5dadce1fbbd18",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/tusz_s0.yaml",
       "seed": 0,
       "dataset": "tusz",
       "reference": "runs/tusz-paclock_duplex/seed0/result.json",
-      "reference_sha256": "5ac3167099302e8741a350797fe6e8f09b1d4df0907292044b7d1e55b1d80cf9"
+      "reference_sha256": "5ac3167099302e8741a350797fe6e8f09b1d4df0907292044b7d1e55b1d80cf9",
+      "stage": "breadth"
     },
     {
       "config": "configs/a128_r1/tusz_s1.yaml",
       "seed": 1,
       "dataset": "tusz",
       "reference": "runs/tusz-paclock_duplex/seed1/result.json",
-      "reference_sha256": "49d18b10c4bf8551ecdb7442ee177675974c3d9acb58227c18f4faf71b291847"
+      "reference_sha256": "49d18b10c4bf8551ecdb7442ee177675974c3d9acb58227c18f4faf71b291847",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/tusz_s2.yaml",
       "seed": 2,
       "dataset": "tusz",
       "reference": "runs/tusz-paclock_duplex/seed2/result.json",
-      "reference_sha256": "40b1302afffe860abfe638e56558d29d77f6df7dce8407a5cf4a2a8b604ab183"
+      "reference_sha256": "40b1302afffe860abfe638e56558d29d77f6df7dce8407a5cf4a2a8b604ab183",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/chbmit_s0.yaml",
       "seed": 0,
       "dataset": "chbmit",
       "reference": "runs/chbmit-paclock_duplex/seed0/result.json",
-      "reference_sha256": "3cf482379b32c6fde047029eb06c4a56aaba6c20ea6a86ab6ed0d2eea13d5328"
+      "reference_sha256": "3cf482379b32c6fde047029eb06c4a56aaba6c20ea6a86ab6ed0d2eea13d5328",
+      "stage": "breadth"
     },
     {
       "config": "configs/a128_r1/chbmit_s1.yaml",
       "seed": 1,
       "dataset": "chbmit",
       "reference": "runs/chbmit-paclock_duplex/seed1/result.json",
-      "reference_sha256": "14f269d3cb77cf22eec62e5a71e1affbe7b7162af079d4a2c5bcd9157efa7ce9"
+      "reference_sha256": "14f269d3cb77cf22eec62e5a71e1affbe7b7162af079d4a2c5bcd9157efa7ce9",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/chbmit_s2.yaml",
       "seed": 2,
       "dataset": "chbmit",
       "reference": "runs/chbmit-paclock_duplex/seed2/result.json",
-      "reference_sha256": "5709ae46d3af4bc525ea33347ed6d7338b916031d9309958793c5f7663407b08"
+      "reference_sha256": "5709ae46d3af4bc525ea33347ed6d7338b916031d9309958793c5f7663407b08",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/tuab_s0.yaml",
       "seed": 0,
       "dataset": "tuab",
       "reference": "runs/tuab-paclock_duplex/seed0/result.json",
-      "reference_sha256": "7806512044b652067b15f985b8b2db93925fe6ec11bc7a9df36fbbd53ce5b0f1"
+      "reference_sha256": "7806512044b652067b15f985b8b2db93925fe6ec11bc7a9df36fbbd53ce5b0f1",
+      "stage": "breadth"
     },
     {
       "config": "configs/a128_r1/tuab_s1.yaml",
       "seed": 1,
       "dataset": "tuab",
       "reference": "runs/tuab-paclock_duplex/seed1/result.json",
-      "reference_sha256": "23f3342605b2329217223f65c55d0404e6890a925d94fd7d4c636589b29fdf82"
+      "reference_sha256": "23f3342605b2329217223f65c55d0404e6890a925d94fd7d4c636589b29fdf82",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/tuab_s2.yaml",
       "seed": 2,
       "dataset": "tuab",
       "reference": "runs/tuab-paclock_duplex/seed2/result.json",
-      "reference_sha256": "c2099372cd6142f0dd0a87f18292d74048c317c459d53a18550e824e86ebfb8d"
+      "reference_sha256": "c2099372cd6142f0dd0a87f18292d74048c317c459d53a18550e824e86ebfb8d",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/tuep_s0.yaml",
       "seed": 0,
       "dataset": "tuep",
       "reference": "runs/tuep-paclock_duplex/seed0/result.json",
-      "reference_sha256": "0aad6248b4195358c2d72c0bcca51a01d7e5f524baca146e2ba885f232e6d0ca"
+      "reference_sha256": "0aad6248b4195358c2d72c0bcca51a01d7e5f524baca146e2ba885f232e6d0ca",
+      "stage": "breadth"
     },
     {
       "config": "configs/a128_r1/tuep_s1.yaml",
       "seed": 1,
       "dataset": "tuep",
       "reference": "runs/tuep-paclock_duplex/seed1/result.json",
-      "reference_sha256": "6c7f49af5c4b09b6af22b62db5c874d86c90026efd0cd101fddf99e94b8a6bc5"
+      "reference_sha256": "6c7f49af5c4b09b6af22b62db5c874d86c90026efd0cd101fddf99e94b8a6bc5",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/tuep_s2.yaml",
       "seed": 2,
       "dataset": "tuep",
       "reference": "runs/tuep-paclock_duplex/seed2/result.json",
-      "reference_sha256": "8f8e0ffc9fc41930847ea1702ecaaf6bc2e05cee37ab8ee9f33d4731c57a872d"
+      "reference_sha256": "8f8e0ffc9fc41930847ea1702ecaaf6bc2e05cee37ab8ee9f33d4731c57a872d",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/adfd_s0.yaml",
       "seed": 0,
       "dataset": "adfd",
       "reference": "runs/adfd-paclock_duplex/seed0/result.json",
-      "reference_sha256": "0a956a661cfcc4b2607e09a57e083784511961b4e400f1cb89a4f8536de1f374"
+      "reference_sha256": "0a956a661cfcc4b2607e09a57e083784511961b4e400f1cb89a4f8536de1f374",
+      "stage": "breadth"
     },
     {
       "config": "configs/a128_r1/adfd_s1.yaml",
       "seed": 1,
       "dataset": "adfd",
       "reference": "runs/adfd-paclock_duplex/seed1/result.json",
-      "reference_sha256": "405715f6c31e91c6c9e484dd0781f3c8bfeceefba9e33ab114f4a2bc443450df"
+      "reference_sha256": "405715f6c31e91c6c9e484dd0781f3c8bfeceefba9e33ab114f4a2bc443450df",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/adfd_s2.yaml",
       "seed": 2,
       "dataset": "adfd",
       "reference": "runs/adfd-paclock_duplex/seed2/result.json",
-      "reference_sha256": "9aa0e0600c2e4e5abfd38af46f6dfc686d97f9fa72ab692c1c9dafd7d23abd4d"
+      "reference_sha256": "9aa0e0600c2e4e5abfd38af46f6dfc686d97f9fa72ab692c1c9dafd7d23abd4d",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/tuar_s0.yaml",
       "seed": 0,
       "dataset": "tuar",
       "reference": "runs/tuar-paclock_duplex/seed0/result.json",
-      "reference_sha256": "f87a21d1b73fcafd4baa9ab9112a29b47cbedfff3dd28808339bdb0d918a3455"
+      "reference_sha256": "f87a21d1b73fcafd4baa9ab9112a29b47cbedfff3dd28808339bdb0d918a3455",
+      "stage": "breadth"
     },
     {
       "config": "configs/a128_r1/tuar_s1.yaml",
       "seed": 1,
       "dataset": "tuar",
       "reference": "runs/tuar-paclock_duplex/seed1/result.json",
-      "reference_sha256": "c1b817492b4fe5c418dbfdf8143ab97c229875e10fd89eb147061a2add590e32"
+      "reference_sha256": "c1b817492b4fe5c418dbfdf8143ab97c229875e10fd89eb147061a2add590e32",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/tuar_s2.yaml",
       "seed": 2,
       "dataset": "tuar",
       "reference": "runs/tuar-paclock_duplex/seed2/result.json",
-      "reference_sha256": "98f6b02d0d20197755dd59d1a2e2409fa7b6d1ef461b6c481d10078b40f389e5"
+      "reference_sha256": "98f6b02d0d20197755dd59d1a2e2409fa7b6d1ef461b6c481d10078b40f389e5",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/siena_s0.yaml",
       "seed": 0,
       "dataset": "siena",
       "reference": "runs/siena-paclock_duplex/seed0/result.json",
-      "reference_sha256": "ad7b2e8afab130a6d9e4dc0c74b839a9f887f896c2bfc5519f2dd7cc09d615d6"
+      "reference_sha256": "ad7b2e8afab130a6d9e4dc0c74b839a9f887f896c2bfc5519f2dd7cc09d615d6",
+      "stage": "breadth"
     },
     {
       "config": "configs/a128_r1/siena_s1.yaml",
       "seed": 1,
       "dataset": "siena",
       "reference": "runs/siena-paclock_duplex/seed1/result.json",
-      "reference_sha256": "3f377dc934f607f5bf7c9f7f8c880fe03b8fd9df3108b7f4adb89944f155ee2a"
+      "reference_sha256": "3f377dc934f607f5bf7c9f7f8c880fe03b8fd9df3108b7f4adb89944f155ee2a",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/siena_s2.yaml",
       "seed": 2,
       "dataset": "siena",
       "reference": "runs/siena-paclock_duplex/seed2/result.json",
-      "reference_sha256": "7f3db88dd6eb96d6952f31b6e068f60861e51d1aff385e3822174b4d0d806ab5"
+      "reference_sha256": "7f3db88dd6eb96d6952f31b6e068f60861e51d1aff385e3822174b4d0d806ab5",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/caueeg_s0.yaml",
       "seed": 0,
       "dataset": "caueeg",
       "reference": "runs/caueeg-paclock_duplex/seed0/result.json",
-      "reference_sha256": "8ff24791f3fe6fa4fee0e13b370416d4d95e1ee854b9719991995b3177dc9801"
+      "reference_sha256": "8ff24791f3fe6fa4fee0e13b370416d4d95e1ee854b9719991995b3177dc9801",
+      "stage": "breadth"
     },
     {
       "config": "configs/a128_r1/caueeg_s1.yaml",
       "seed": 1,
       "dataset": "caueeg",
       "reference": "runs/caueeg-paclock_duplex/seed1/result.json",
-      "reference_sha256": "671157e1e21c820af3bc6418039c136a52486db4fd423ea34664d82b16da8ec8"
+      "reference_sha256": "671157e1e21c820af3bc6418039c136a52486db4fd423ea34664d82b16da8ec8",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/caueeg_s2.yaml",
       "seed": 2,
       "dataset": "caueeg",
       "reference": "runs/caueeg-paclock_duplex/seed2/result.json",
-      "reference_sha256": "945cee816a993e0e73b0d3c2b1b861401db02f53f3e97ebff8470a8d03bc3629"
+      "reference_sha256": "945cee816a993e0e73b0d3c2b1b861401db02f53f3e97ebff8470a8d03bc3629",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/sleepedf_s0.yaml",
       "seed": 0,
       "dataset": "sleepedf",
       "reference": "runs/sleepedf-paclock_duplex/seed0/result.json",
-      "reference_sha256": "262b6e3fd895d300a57d29b3feef1ac6ebf018c86d271c118a3a8a774de0da14"
+      "reference_sha256": "262b6e3fd895d300a57d29b3feef1ac6ebf018c86d271c118a3a8a774de0da14",
+      "stage": "breadth"
     },
     {
       "config": "configs/a128_r1/sleepedf_s1.yaml",
       "seed": 1,
       "dataset": "sleepedf",
       "reference": "runs/sleepedf-paclock_duplex/seed1/result.json",
-      "reference_sha256": "acf1b778fee620dcfaa96d9971711f3a107c20f56419a0fefaf52b08c8d96edd"
+      "reference_sha256": "acf1b778fee620dcfaa96d9971711f3a107c20f56419a0fefaf52b08c8d96edd",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/sleepedf_s2.yaml",
       "seed": 2,
       "dataset": "sleepedf",
       "reference": "runs/sleepedf-paclock_duplex/seed2/result.json",
-      "reference_sha256": "a8e5ed2c2fea147b5d3b730582e2d5c1ffc26baf7df4e451d1b0f1eccb5132c2"
+      "reference_sha256": "a8e5ed2c2fea147b5d3b730582e2d5c1ffc26baf7df4e451d1b0f1eccb5132c2",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/isruc_s0.yaml",
       "seed": 0,
       "dataset": "isruc",
       "reference": "runs/isruc-paclock_duplex/seed0/result.json",
-      "reference_sha256": "f3080bb58cd7ee2fdfb3836d15bba3d5b8b71e8bdac2e149e22a890220781315"
+      "reference_sha256": "f3080bb58cd7ee2fdfb3836d15bba3d5b8b71e8bdac2e149e22a890220781315",
+      "stage": "breadth"
     },
     {
       "config": "configs/a128_r1/isruc_s1.yaml",
       "seed": 1,
       "dataset": "isruc",
       "reference": "runs/isruc-paclock_duplex/seed1/result.json",
-      "reference_sha256": "498de5d2249f71298eb485b0d8abf57142923e1175b2f99bc96c97dd1b70549c"
+      "reference_sha256": "498de5d2249f71298eb485b0d8abf57142923e1175b2f99bc96c97dd1b70549c",
+      "stage": "deferred_replication"
     },
     {
       "config": "configs/a128_r1/isruc_s2.yaml",
       "seed": 2,
       "dataset": "isruc",
       "reference": "runs/isruc-paclock_duplex/seed2/result.json",
-      "reference_sha256": "296e05ebbed0c989491f31ad1395123834b7a9343847e83b6dbb77ac45653cff"
+      "reference_sha256": "296e05ebbed0c989491f31ad1395123834b7a9343847e83b6dbb77ac45653cff",
+      "stage": "deferred_replication"
     }
-  ]
+  ],
+  "execution_stage": "single-seed breadth first",
+  "active_seeds": [
+    0
+  ],
+  "deferred_seeds": [
+    1,
+    2
+  ],
+  "replication_policy": "No automatic seed1/2 submissions; review seed0 coverage and validation diagnostics before a separate replication schedule."
 }

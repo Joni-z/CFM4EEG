@@ -14,26 +14,6 @@
       ]
     },
     {
-      "name": "A128R1_core1",
-      "partition": "mi2104x",
-      "specs": [
-        "configs/a128_r1/tuev_s1.yaml:1",
-        "configs/a128_r1/iiic_s1.yaml:1",
-        "configs/a128_r1/tusz_s1.yaml:1",
-        "configs/a128_r1/chbmit_s1.yaml:1"
-      ]
-    },
-    {
-      "name": "A128R1_core2",
-      "partition": "mi2104x",
-      "specs": [
-        "configs/a128_r1/tuev_s2.yaml:2",
-        "configs/a128_r1/iiic_s2.yaml:2",
-        "configs/a128_r1/tusz_s2.yaml:2",
-        "configs/a128_r1/chbmit_s2.yaml:2"
-      ]
-    },
-    {
       "name": "A128_host0",
       "partition": "mi2104x",
       "specs": [
@@ -44,61 +24,25 @@
       ]
     },
     {
-      "name": "A128_host1",
+      "name": "A128R1_breadth0a",
       "partition": "mi2104x",
       "specs": [
-        "configs/a128_hosts/tuev_biot_s1.yaml:1",
-        "configs/a128_hosts/chbmit_biot_s1.yaml:1",
-        "configs/a128_hosts/tuev_cbramod_s1.yaml:1",
-        "configs/a128_r1/tuab_s0.yaml:0"
-      ]
-    },
-    {
-      "name": "A128_host2",
-      "partition": "mi2104x",
-      "specs": [
-        "configs/a128_hosts/tuev_biot_s2.yaml:2",
-        "configs/a128_hosts/chbmit_biot_s2.yaml:2",
-        "configs/a128_hosts/tuev_cbramod_s2.yaml:2",
-        "configs/a128_r1/tuab_s1.yaml:1"
-      ]
-    },
-    {
-      "name": "A128_evidence0",
-      "partition": "mi2104x",
-      "specs": [
-        "configs/a128_r1/tuab_s2.yaml:2",
-        "configs/a128_r1/adfd_s0.yaml:0",
-        "configs/a128_r1/adfd_s1.yaml:1",
-        "configs/a128_r1/adfd_s2.yaml:2"
-      ]
-    },
-    {
-      "name": "A128_evidence1",
-      "partition": "mi2104x",
-      "specs": [
-        "configs/a128_own/tuev_s0.yaml:0",
-        "configs/a128_own/chbmit_s0.yaml:0",
-        "configs/a128_own/tuev_s1.yaml:1",
-        "configs/a128_own/chbmit_s1.yaml:1"
-      ]
-    },
-    {
-      "name": "A128_evidence2",
-      "partition": "mi2104x",
-      "specs": [
-        "configs/a128_own/tuev_s2.yaml:2",
-        "configs/a128_own/chbmit_s2.yaml:2",
+        "configs/a128_r1/tuab_s0.yaml:0",
         "configs/a128_r1/tuep_s0.yaml:0",
-        "configs/a128_r1/tuep_s1.yaml:1"
+        "configs/a128_r1/adfd_s0.yaml:0",
+        "configs/a128_r1/tuar_s0.yaml:0"
       ]
     },
     {
-      "name": "A128R1_tuep2",
-      "partition": "mi2101x",
+      "name": "A128R1_breadth0b",
+      "partition": "mi2104x",
       "specs": [
-        "configs/a128_r1/tuep_s2.yaml:2"
+        "configs/a128_r1/sleepedf_s0.yaml:0",
+        "configs/a128_r1/siena_s0.yaml:0",
+        "configs/a128_r1/caueeg_s0.yaml:0",
+        "configs/a128_r1/isruc_s0.yaml:0"
       ]
     }
-  ]
+  ],
+  "strategy": "seed0_breadth_first; replication held for review"
 }
