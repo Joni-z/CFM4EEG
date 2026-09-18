@@ -1,110 +1,45 @@
-# CFM4EEG
+# CFM4EEG / CroFreMo
 
-**CFM4EEG** is the repository for **CroFreMo (Cross-Frequency Modulation)**,
-an EEG tokenizer built around phase-amplitude coupling (PAC), and its
-cross-corpus representation-learning benchmark.
+**Project status: paused for archival closeout on 2026-09-19.** The current manuscript is frozen; no new training campaign or conference submission is planned until the project is explicitly resumed.
 
-CroFreMo learns frequency bands, measures patch-level phase-amplitude
-covariation, and uses the resulting phase alignment to construct
-cross-frequency modulation tokens. A complementary duplex representation
-retains within-band waveform information. The research goal is a broadly
-useful EEG foundation model; current supervised, transfer, and exploratory
-pretraining results must be interpreted separately.
+CroFreMo (Cross-Frequency Modulation) is a PAC-inspired EEG tokenizer. It learns frequency bands, computes local phase–amplitude moments, and uses measured relation directions to rotate paired envelope and waveform features. The last reference implementation uses 16 bands, quadrature content, and a two-axis encoder with temporal attention and joint electrode–band row attention. Legacy names such as `PACLock`, `paclock_bench`, `A128`, and `quad` remain in historical configurations and paths.
 
-Paper: **Cross-Frequency Modulation for EEG Foundation Models**.
-See [project naming and paper story](docs/CFM4EEG.md).
+The frozen manuscript is titled **Cross-Frequency Modulation for EEG Tokenization**. The paper's Overleaf repository and this code repository are separate Git histories. The closeout archive provides one entry point linking both, their editable figures, experimental records and available weights.
 
-`PACLock`, `paclock_bench`, `PACLOCK_*`, existing configuration names, and
-cluster checkout paths are legacy implementation identifiers retained for
-reproducibility and compatibility with running experiments. The repository
-name is CFM4EEG; the model name is CroFreMo.
+## Start here
 
-## Start here on a new cluster
+- [Closeout and restart guide](docs/CLOSEOUT-2026-09-19.md): what is preserved, where to look, and how to resume.
+- [Documentation index](docs/INDEX.md): current guidance versus historical experiments.
+- [Data protocols](docs/PROTOCOLS.md): corpus and loader definitions.
+- [Previous README](docs/history/README-before-closeout.md): historical setup and invocation details.
 
-```bash
-export PACLOCK_DATA=/path/to/raw          # raw corpora, read-only
-export PACLOCK_PROC=/path/to/processed    # parent of processed*/
+## Source layout
 
-sbatch slurm/bootstrap.slurm              # clone upstream repos, audit checkpoints
-sbatch slurm/run.slurm scripts.verify_frontend   # frontend invariants
-sbatch slurm/run.slurm scripts.smoke_paths       # real config -> loader -> model
-```
+| Path | Purpose |
+|---|---|
+| `paclock_bench/` | Models, loaders, metrics, training and runtime support |
+| `paclock_bench/models/paclock/frontend/triaxial.py` | Learned filtering, analytic features, cross-frequency token construction; filename retained for compatibility |
+| `configs/` | Dataset-, architecture-, host- and control-specific configurations |
+| `preprocessing/` | Dataset preparation and manifests |
+| `slurm/`, `scripts/`, `smoke/` | Resource-specific execution and checks |
+| `docs/` | Protocols and dated research records |
+| `runs/`, `results/` | Historical artifacts; availability varies by checkout |
 
-Both variables default to the paths this was built on, so nothing needs setting
-to keep working there. `docs/STATUS.md` is the full checklist; `docs/PROTOCOLS.md`
-covers where each corpus comes from.
+The last two-axis runtime includes uncommitted changes beyond the default branch. Its live source/config snapshot and the Sean-control runtime snapshot are preserved in the private closeout archive. **Do not assume that cloning `main` alone recreates the frozen manuscript's full runtime.** Git bundles, working-tree patches and source snapshots are retained together.
 
-Nothing heavier than an editor belongs on the login node — that includes
-anything importing torch or touching the preprocessed arrays. `slurm/run.slurm`
-takes any module: `sbatch slurm/run.slurm scripts.collect_waves`.
+## Experimental source of truth
 
-### Third cluster (NYU Torch)
+Use original run artifacts, not manuscript cells or hand-maintained spreadsheets. The closeout ledger includes per-seed test metrics, validation selection, stopping reason, actual completed seed counts and artifact locations. Identical copies are deduplicated. Different artifacts for the same configuration/seed remain unresolved rather than selecting the higher score. Single-seed results have no inferred standard deviation.
 
-Set `PACLOCK_DATA` / `PACLOCK_PROC` / `PACLOCK_CKPT` (see `paclock_bench/paths.py`), pull the `ckpt` branch for
-pretraining checkpoints (`git checkout origin/ckpt -- ckpt/`), and use `slurm/torch_run.slurm` / `slurm/torch_cpu.slurm`.
-Details and the current cluster split are in `docs/STATUS.md` section 9.
+A frozen manuscript is a versioned writing artifact, not an experimental database. Source-derived records and manuscript figure inputs are stored separately. Dataset/loader differences and compute truncation must be checked before comparing rows.
 
-## Running an experiment
+## Restarting
 
-```bash
-sbatch slurm/preprocess.slurm frozen tuev              # once per corpus+protocol
-sbatch slurm/seeds_single.slurm configs/experiments/tuev_paclock_full.yaml
-sbatch slurm/run.slurm scripts.fill_xlsx --xlsx results/_in.xlsx
-```
+1. Read the closeout guide and recover the matching code/configuration, checkpoint and data manifest.
+2. Inspect any runs that finished after the archive snapshot; the closeout collector only records results and never submits training.
+3. Verify dataset paths and subject splits, then smoke-test the exact configuration on a compute node.
+4. Re-establish the model and comparison protocol before launching new experiments.
 
-AMD has a finite allocation balance. `train.slurm`, `seeds_single.slurm`, and
-the legacy `seeds_packed.slurm` entry point now request single-card `mi2101x`
-nodes. No GPU GRES flags are used. `configs_packed.slurm` supports 1, 4, or 8
-independent trainers according to the selected partition and rejects
-underfilled multi-card packs. `python3 scripts/slurm/submit_packed.py --dry-run
-cfg.yaml:0` validates a submission before allocating a node. See
-[AMD scheduling and verification](docs/AMD-SCHEDULING-2026-09-13.md) for runtime
-requirements, billing caveats, and commands.
+Do not compute on cluster login nodes. On AMD, use a suitable single-GPU partition or fill all GPUs in a packed node allocation. B2 is a shared account and must be scoped by project directory. The 145 machine is shared: check device occupancy before use. All existing checkpoints are retained; no closeout task deletes model weights or dataset arrays.
 
-## Layout
-
-```
-paclock_bench/     the package
-  paths.py           every filesystem location, resolved once
-  training/          loop, metrics (hard rule 3), losses, LaBraM layer decay
-  data/              three loaders: frozen/PAC, BIOT+TFM, LaBraM
-  models/
-    paclock/         frontend/triaxial.py is the core: sinc -> Hilbert -> PAC
-    foundation/      five upstream adapters
-    baselines/       the light supervised group
-configs/           datasets, experiments (the matrix), deliverable, _cand, _diag
-preprocessing/     four protocols, one module per corpus
-scripts/           collection, verification, config generation
-slurm/             seven scripts; run.slurm is the generic one
-docs/              read PERF, ARCH_SEARCH, DELIVERABLE, PROTOCOLS
-runs/              every result.json — config, val curve, verdict
-archive/           superseded results, with why each was retired
-```
-
-## Four rules the results depend on
-
-1. **Reproduction gate.** Group A must reproduce published numbers before any
-   group B/C number is believed. A mismatch is the pipeline, not the model.
-2. **Each model runs its own repo's recipe** — preprocessing, normalisation and
-   finetuning. Feeding a foundation model our pipeline instead of its own turned
-   0.6772 into 0.4436 once. Hence four preprocessing protocols, not one.
-3. **A mis-configured cell is not written.** `training/metrics.py` refuses cells
-   whose validation curve is flat, or that never clear chance.
-4. **Fewer than three seeds is withheld.**
-
-And one learned the hard way: **seed spread is measured per corpus, never
-assumed.** ISRUC sd 0.0021, TUEV sd 0.0235 — eleven times apart. A delta has to
-clear roughly twice its own corpus's sd to mean anything.
-
-## Two results worth knowing before changing code
-
-**Training was 9.4x slower than it needed to be** — `set_seed()` forces
-`cudnn.deterministic=True`, which on ROCm made the `in_channels=1` patch
-convolutions select an atomics-free backward-weights kernel. Replaced with a
-GEMM. Neither factor costs anything alone; together they cost 3.76x. On CUDA
-this may not reproduce — check with the 2x2 in `docs/FINDINGS.md`
-(`scripts/bench_ab.py`), do not assume.
-
-**A mathematically identical frontend change moved an ISRUC result by 0.0276 —
-13.4 seed standard deviations.** After any numerical change to the frontend,
-re-run rather than reuse. That is why `archive/runs_conv_tokenizer/` exists.
+No validated CroFreMo pretraining result or universal host-transfer improvement is claimed by this README. Supervised results, architecture controls, host replacements and exploratory pretraining are distinct records.
