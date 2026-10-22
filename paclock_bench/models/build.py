@@ -1,215 +1,40 @@
-"""Model builder. One entry point for every group in the matrix."""
-
+"""Construct CfFT. Baselines execute their own original upstream trainers."""
 from __future__ import annotations
 
 import torch.nn as nn
-
-from .baselines.light_supervised import REGISTRY as LIGHT_REGISTRY
-from .baselines.braindecode_models import REGISTRY as BD_REGISTRY
-LIGHT_REGISTRY = {**LIGHT_REGISTRY, **BD_REGISTRY}
 from ..paths import expand
 
 
 def build_model(cfg: dict, input_shape: tuple[int, ...]) -> nn.Module:
-    """``input_shape`` is (C, T) taken from the data, not from the config, so a
-    config/data mismatch surfaces as a shape error at build time rather than as
-    a silently wrong model."""
-    name = cfg["model"]
-    C, T = input_shape[-2], input_shape[-1]
-    mk = dict(cfg.get("model_kwargs", {}))
-    # model_kwargs overrides rather than duplicates: splatting it alongside the
-    # derived defaults raises TypeError on any key that appears in both.
-    kwargs = dict(
-        in_channels=C,
-        seq_len=T,
-        num_classes=cfg["num_classes"],
-        sample_rate=cfg.get("sample_rate", 200),
-    )
-    kwargs.update(mk)
-
-    if name in LIGHT_REGISTRY:
-        return LIGHT_REGISTRY[name](**kwargs)
-
-    if name == "reve":
-        # Group B: REVE (NeurIPS 2025), official weights via HF snapshot;
-        # positions from their released bank, bipolar = midpoint (their rule).
-        from .foundation.reve_adapter import build_reve
-        return build_reve(cfg["num_classes"], C, T, cfg.get("dataset"),
-                          pretrained=cfg.get("pretrained", True),
-                          dropout=mk.get("dropout", 0.15))
-
-    if name == "reve_paclockfe":
-        # CF1 replacement transplant: CroFreMo tokenizer inside REVE's encoder (from scratch).
-        from .foundation.reve_paclockfe_adapter import build_reve_paclockfe
-        mk = cfg.get("model_kwargs", {}) or {}
-        return build_reve_paclockfe(
-            cfg["num_classes"], C, T, cfg.get("dataset"),
-            dropout=float(mk.get("dropout", 0.15)),
-            tokenizer_mode=mk.get("tokenizer_mode", "pac_interaction"),
-            interaction_mode=mk.get("interaction_mode", "rotation"),
+    if cfg["model"] != "paclock":
+        raise ValueError(
+            f"Baseline {cfg['model']!r} must use its original entrypoint under "
+            "scripts/rebuild/. Generic baseline construction has been retired."
         )
+    from .paclock.build import build_model as build_cfft, load_pretrained_backbone
 
-    if name == "csbrain":
-        # Group B: CSBrain (NeurIPS 2025 spotlight), official code + released
-        # weights; pretrained=False would be a group-C row (not scheduled).
-        from .foundation.csbrain_adapter import build_csbrain
-        return build_csbrain(cfg["num_classes"], C, T, cfg.get("dataset"),
-                             pretrained=cfg.get("pretrained", True),
-                             dropout=mk.get("dropout", 0.1),
-                             n_layer=mk.get("n_layer", 12))
-
-    if name == "biot":
-        # Group B/C: official BIOT code and, for group B, official weights.
-        # checkpoint=None is the from-scratch (group C / "Vanilla BIOT") row.
-        from .foundation.biot_adapter import build_biot
-
-        return build_biot(
-            n_classes=cfg["num_classes"],
-            n_channels=C,
-            checkpoint=cfg.get("checkpoint"),
-            token_size=mk.get("token_size", 200),
-            hop_length=mk.get("hop_length", 100),
-            # cross-corpus rows: length fed to temporal_interpolation before the
-            # 1x1 channel projection (see channel_adapt). Absent for the TUH /
-            # CHB-MIT rows, whose channel count already matches the checkpoint.
-            target_len=mk.get("target_len"),
+    channels, length = input_shape[-2:]
+    model_config = {
+        **cfg.get("model_kwargs", {}),
+        "n_channels": channels,
+        "seq_len": length,
+        "num_classes": cfg["num_classes"],
+        "sample_rate": cfg.get("sample_rate", 200),
+        "sampling_rate": cfg.get("sample_rate", 200),
+        "dataset": cfg["dataset"],
+    }
+    model = build_cfft(model_config)
+    checkpoint = cfg.get("checkpoint")
+    if checkpoint:
+        report = load_pretrained_backbone(
+            model, expand(checkpoint),
+            exclude=tuple(cfg.get("checkpoint_exclude", ())),
         )
-
-    if name == "labram":
-        # Group B/C: official LaBraM code + labram-base.pth.
-        # pretrained=False is the from-scratch (group C) row.
-        from .foundation.labram_adapter import build_labram
-
-        return build_labram(
-            n_classes=cfg["num_classes"],
-            n_channels=C,
-            pretrained=bool(cfg.get("pretrained", True)),
-            # 'electrode' for the TUH corpora, where LaBraM ships a dataset
-            # maker defining the montage; 'positional' elsewhere, following
-            # EEGPT's cross-corpus scripts.
-            montage_mode=mk.get("montage_mode", "electrode"),
-            target_len=mk.get("target_len"),
-        )
-
-    if name == "labram_paclockfe":
-        # CF1 replacement transplant: CroFreMo tokenizer inside LaBraM's encoder.
-        from .foundation.labram_paclockfe_adapter import build_labram_paclockfe
-        mk = cfg.get("model_kwargs", {}) or {}
-        return build_labram_paclockfe(
-            n_classes=cfg["num_classes"], n_channels=C,
-            montage_mode=mk.get("montage_mode", "electrode"),
-            target_len=mk.get("target_len"),
-            tokenizer_mode=mk.get("tokenizer_mode", "pac_interaction"),
-            interaction_mode=mk.get("interaction_mode", "rotation"),
-        )
-
-    if name == "eegpt":
-        # Group B/C: official EEGPT code + eegpt_mcae_58chs_4s_large4E.ckpt.
-        # The channel list and window length come from the dataset, since
-        # upstream sizes img_size per corpus.
-        from .foundation.eegpt_adapter import build_eegpt
-
-        return build_eegpt(
-            n_classes=cfg["num_classes"],
-            n_channels=C,
-            dataset=cfg["dataset"],
-            pretrained=bool(cfg.get("pretrained", True)),
-        )
-
-    if name == "cbramod":
-        # Group B/C: official CBraMod code + pretrained_weights.pth.
-        # Uses shared frozen data; task-head and native-protocol parity need
-        # dataset-specific checks (see the CBraMod head/protocol audits).
-        from .foundation.cbramod_adapter import build_cbramod
-
-        from ..paths import expand as _expand
-        return build_cbramod(
-            pretrained_path=_expand(cfg["pretrained_path"]) if cfg.get("pretrained_path") else None,
-            n_classes=cfg["num_classes"],
-            n_channels=C,
-            seq_len=T,
-            pretrained=bool(cfg.get("pretrained", True)),
-            dropout=cfg.get("model_kwargs", {}).get("dropout", 0.1),
-            classifier_hidden_dim=cfg.get("model_kwargs", {}).get("classifier_hidden_dim", 800),
-            # a 3-D sample (seq, channels, time) means the corpus is stored as
-            # epoch sequences -- ISRUC -- where upstream uses model_for_isruc.py
-            # rather than the flatten-and-classify head
-            sequence=len(input_shape) == 3,
-        )
-
-    if name == "cbramod_paclockfe":
-        # Ablation, not a matrix row: CBraMod's architecture (encoder,
-        # positional encoding, classifier head, all vendor code, all
-        # unmodified) with its own tokenizer replaced by PACLock's frontend.
-        # See foundation/cbramod_paclockfe_adapter.py for exactly what is and
-        # is not swapped.
-        from .foundation.cbramod_paclockfe_adapter import build_cbramod_paclockfe
-
-        mk = cfg.get("model_kwargs", {})
-        from ..paths import expand as _expand
-        return build_cbramod_paclockfe(
-            pretrained_path=_expand(cfg["pretrained_path"]) if cfg.get("pretrained_path") else None,
-            n_classes=cfg["num_classes"],
-            n_channels=C,
-            seq_len=T,
-            dropout=mk.get("dropout", 0.1),
-            sequence=len(input_shape) == 3,
-            tokenizer_mode=mk.get("tokenizer_mode", "pac_interaction"),
-            interaction_mode=mk.get("interaction_mode", "product"),
-            band_mode=mk.get("band_mode", "mean"),
-            adapter=mk.get("adapter", "replace"),
-            readout=mk.get("readout", "native"),
-            pretrained=cfg.get("pretrained", False),
-        )
-
-    if name == "tfm":
-        # Group B/C: official TFM-Tokenizer code + its shipped weights.
-        from .foundation.tfm_adapter import build_tfm
-
-        return build_tfm(
-            n_classes=cfg["num_classes"],
-            dataset=cfg["dataset"],
-            pretrained=bool(cfg.get("pretrained", True)),
-            setting=cfg.get("tfm_setting", "single"),
-            n_channels=C,
-        )
-
-    if name == "paclock":
-        from .paclock.build import build_model as build_paclock, load_pretrained_backbone
-
-        # the vendored builder is config-driven; hand it the resolved shape
-        pac_cfg = {
-            **cfg.get("model_kwargs", {}),
-            "n_channels": C,
-            "seq_len": T,
-            "num_classes": cfg["num_classes"],
-            "sample_rate": cfg.get("sample_rate", 200),
-            "sampling_rate": cfg.get("sample_rate", 200),
-            "dataset": cfg["dataset"],
-        }
-        model = build_paclock(pac_cfg)
-        # cfg['checkpoint'] points at a training/pretrain.py checkpoint.pt --
-        # transfers frontend/band_pe/encoder only (see load_pretrained_backbone's
-        # docstring for why spatial_pe and the head are excluded).
-        ckpt = cfg.get("checkpoint")
-        if ckpt:
-            report = load_pretrained_backbone(
-                model, expand(ckpt), exclude=tuple(cfg.get("checkpoint_exclude", ())))
-            print(f"[paclock] loaded {len(report['loaded'])} pretrained backbone "
-                  f"tensors from {ckpt}"
-                  + (f"; skipped {len(report['skipped_shape'])} shape mismatches: "
-                     f"{report['skipped_shape']}" if report["skipped_shape"] else "")
-                  + (f"; deliberately NOT loaded (checkpoint_exclude): "
-                     f"{report['skipped_excluded']}" if report["skipped_excluded"] else ""))
-        return model
-
-    raise KeyError(
-        f"unknown model {name!r}. Registered: "
-        f"{sorted(LIGHT_REGISTRY)} + ['paclock']. "
-        f"Group B/C foundation models are added under models/foundation/."
-    )
+        print(f"[CfFT] loaded {len(report['loaded'])} tensors from {checkpoint}; "
+              f"skipped shapes: {report['skipped_shape']}; "
+              f"excluded: {report['skipped_excluded']}")
+    return model
 
 
 def count_params(model: nn.Module) -> float:
-    """Millions of parameters -- the matrix reports this per row."""
-    return sum(p.numel() for p in model.parameters()) / 1e6
+    return sum(parameter.numel() for parameter in model.parameters()) / 1e6

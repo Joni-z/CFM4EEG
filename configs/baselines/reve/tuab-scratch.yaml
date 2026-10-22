@@ -1,0 +1,51 @@
+name: tuab-reve_scratch_rebuild20261021
+group: C
+model: reve
+dataset: tuab
+num_classes: 2
+sample_rate: 200
+data_root: $PACLOCK_PROC/processed/tuab
+pretrained: false
+seed: 0
+batch_size: 16
+num_workers: 8
+native_stages:
+- n_epochs: 50
+  patience: 10
+  warmup_epochs: 5
+  mixup: true
+  dropout: 0.3
+  optimizer:
+    _target_: utils.stable_adamw.StableAdamW
+    lr: 0.0001
+    weight_decay: 0.01
+    betas:
+    - 0.92
+    - 0.999
+    eps: 1.0e-09
+  name: ft
+  scheduler:
+    _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+    mode: max
+    factor: 0.5
+    patience: 5
+train_drop_last: false
+save_checkpoint: true
+run_monitor: true
+runner: scripts/rebuild/run_reve_native.py
+reproduction:
+  kind: official_recipe_shared_cohort
+  vendor: reve
+  commit: 06a7059a07c3dabd80aee60c3dbc1eca4bdbe1c7
+  source_recipe: tuab
+  unused_upstream_fields:
+  - task.clip
+  - stage.dropout
+  effective_clip: 2.0
+  effective_dropout: 0.0
+  deviations:
+  - shared fixed patient cohort
+  - test access deferred until final validation-selected checkpoint
+  - Scratch uses full fine-tuning stage from random initialization, no meaningless
+    frozen-random LP.
+require_rebuild_ready: true

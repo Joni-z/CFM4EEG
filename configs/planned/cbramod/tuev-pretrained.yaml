@@ -1,0 +1,50 @@
+name: tuev-cbramod_pretrained_rebuild20261021
+group: B
+dataset: tuev
+data_root: $PACLOCK_PROC/processed/tuev
+model: cbramod
+loader: null
+pretrained: true
+optimizer: adamw
+lr: 0.0001
+weight_decay: 0.05
+epochs: 50
+batch_size: 64
+multi_lr: true
+scheduler: cosine_updates
+grad_clip: 1.0
+patience: 0
+num_workers: 8
+device: cuda
+eval_every_steps: 0
+model_kwargs:
+  dropout: 0.1
+  classifier_hidden_dim: 1000
+num_classes: 6
+sample_rate: 200
+loss: cross_entropy
+label_smoothing: 0.1
+seed: 0
+model_output_classes: 6
+max_hours: 0
+scheduler_min_lr: 1.0e-06
+train_drop_last: false
+select_metric: cohen_kappa
+run_monitor: true
+save_checkpoint: true
+amp: false
+reproduction:
+  kind: official_recipe_shared_cohort
+  vendor: cbramod
+  commit: b9e961003214326972c567eff390e75b0287e32a
+  source:
+  - models/model_for_tuev.py
+  - finetune_main.py
+  - finetune_trainer.py
+  deviations:
+  - Shared patient cohort and preprocessed signals; not exact original-paper data
+    reproduction.
+  - Runtime loader workers differ only.
+  data_gate: accepted manifest; CHB/TUAB must be corrected version
+disabled_reason: Original entrypoint/input adaptation is not verified for this arm.
+  Reference configuration only; do not launch.

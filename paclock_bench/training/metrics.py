@@ -15,6 +15,8 @@ from __future__ import annotations
 import numpy as np
 from sklearn.metrics import (
     auc,
+    accuracy_score,
+    average_precision_score,
     balanced_accuracy_score,
     cohen_kappa_score,
     f1_score,
@@ -36,7 +38,7 @@ def _softmax(logits: np.ndarray) -> np.ndarray:
 
 
 def compute_metrics(y_true: np.ndarray, logits: np.ndarray,
-                    num_classes: int) -> dict[str, float]:
+                    num_classes: int, threshold: float = .5) -> dict[str, float]:
     """Return every metric the protocol asks for, for any dataset.
 
     ``logits`` is (N, num_classes) for multiclass, or (N,) / (N, 1) raw logits
@@ -50,15 +52,18 @@ def compute_metrics(y_true: np.ndarray, logits: np.ndarray,
             score = _softmax(logits)[:, 1]
         else:                                   # single-logit BCE head
             score = 1.0 / (1.0 + np.exp(-logits.ravel()))
-        y_pred = (score >= 0.5).astype(np.int64)
+        y_pred = (score >= threshold).astype(np.int64)
         return {
+            "accuracy": float(accuracy_score(y_true, y_pred)),
             "balanced_acc": float(balanced_accuracy_score(y_true, y_pred)),
             "pr_auc": pr_auc(y_true, score),
+            "average_precision": float(average_precision_score(y_true, score)),
             "auroc": float(roc_auc_score(y_true, score)),
         }
 
     y_pred = logits.argmax(axis=-1)
     return {
+        "accuracy": float(accuracy_score(y_true, y_pred)),
         "balanced_acc": float(balanced_accuracy_score(y_true, y_pred)),
         "cohen_kappa": float(cohen_kappa_score(y_true, y_pred)),
         "weighted_f1": float(f1_score(y_true, y_pred, average="weighted")),
@@ -93,7 +98,7 @@ def primary_metric(dataset: str) -> str:
     if dataset not in PRIMARY_METRIC:
         raise KeyError(
             f"unknown dataset {dataset!r}; add its primary metric to "
-            f"PRIMARY_METRIC (see docs/PROTOCOLS.md appendix A)"
+            f"PRIMARY_METRIC (see docs/DATA.md)"
         )
     return PRIMARY_METRIC[dataset]
 

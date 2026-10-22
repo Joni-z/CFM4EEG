@@ -1,4 +1,4 @@
-"""TUEV v2.0.1 -> event-centred npy + manifest. Protocol: docs/PROTOCOLS.md sec.2.
+"""TUEV v2.0.1 -> event-centred npy + manifest. Protocol: docs/DATA.md.
 
     python -m preprocessing.tuev --config configs/datasets/tuev.yaml [--jobs 32]
 

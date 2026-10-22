@@ -1,0 +1,58 @@
+name: tuab-labram_pretrained_rebuild20261021
+group: B
+dataset: tuab
+data_root: $PACLOCK_PROC/processed/tuab
+model: labram
+loader: labram
+pretrained: true
+optimizer: adamw
+lr: 0.0005
+weight_decay: 0.05
+epochs: 50
+batch_size: 64
+warmup_epochs: 5
+layer_decay: 0.65
+scheduler: labram_cosine
+grad_clip: null
+patience: 0
+num_workers: 8
+device: cuda
+eval_every_steps: 0
+num_classes: 2
+sample_rate: 200
+loss: bce_with_logits
+seed: 0
+model_output_classes: 1
+loader_divisor: 1.0
+max_hours: 0
+run_monitor: true
+save_checkpoint: true
+reproduction:
+  kind: official_recipe_shared_montage_adaptation
+  deviations:
+  - Shared16 bipolar montage uses positional channel indices; native original23 unipolar
+    input is a separate protocol.
+  - Original TUAB no relative-position bias and no common-average input transform
+    retained.
+  - 8 microbatches of64 replace8 distributed ranks at sameglobal512; trailing incomplete
+    accumulation skipped.
+  effective_global_batch: 512
+model_kwargs:
+  montage_mode: positional
+  target_len: 2000
+  use_rel_pos_bias: false
+  apply_temporal_transform: false
+scheduler_min_lr: 1.0e-06
+warmup_start_lr: 0.0
+train_drop_last: true
+select_metric: accuracy
+require_rebuild_ready: true
+optimizer_betas:
+- 0.9
+- 0.999
+optimizer_eps: 1.0e-08
+label_smoothing: 0.0
+accum_steps: 8
+drop_incomplete_accumulation: true
+disabled_reason: Original entrypoint/input adaptation is not verified for this arm.
+  Reference configuration only; do not launch.

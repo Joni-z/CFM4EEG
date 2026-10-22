@@ -1,5 +1,5 @@
 # Values shared by the TUH-family protocols. Datasets that deviate override.
-# Transcribed from docs/PROTOCOLS.md -- do not edit without a CHANGELOG entry.
+# Dataset changes require a new manifest and acceptance receipt; see docs/DATA.md.
 tuh_bipolar_16:
   - FP1-F7
   - F7-T3

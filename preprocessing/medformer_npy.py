@@ -7,7 +7,7 @@ Both corpora ship in Medformer's preprocessed release: one
 ``Feature/feature_XX.npy`` per subject shaped (n_segments, 256, n_channels) --
 consecutive ONE-SECOND segments at 256 Hz -- plus ``Label/label.npy`` shaped
 (n_subjects, 2) = [class, subject_id]. Using the published release rather than
-re-deriving from raw follows the FACED precedent (docs/PROTOCOLS.md sec.8:
+re-deriving from raw follows the FACED precedent (docs/DATA.md:
 when an official preprocessed release exists, we take it, because bit-exact
 reproduction of upstream cleaning is impossible and any divergence would be
 silent).

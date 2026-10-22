@@ -1,4 +1,4 @@
-"""TUSZ v2.0.6 -> windowed npy + manifest. Protocol: docs/PROTOCOLS.md sec.3.
+"""TUSZ v2.0.6 -> windowed npy + manifest. Protocol: docs/DATA.md.
 
     python -m preprocessing.tusz --config configs/datasets/tusz.yaml [--jobs 32]
 

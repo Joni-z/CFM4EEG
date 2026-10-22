@@ -1,21 +1,20 @@
-# Provenance
+# CfFT implementation
 
-Vendored verbatim from `Joni-z/PACLock` @ the NVIDIA-cluster codebase
-(`models/`), which is where this architecture was developed and validated.
+This package contains the project’s learned filterbank, analytic-signal features,
+relation-conditioned tokenizer and Transformer encoder. The `paclock` module and
+class names are retained for checkpoint compatibility; the project/model name is
+CfFT.
 
-Kept as-is so the architecture is bit-identical to the one that produced the
-published-in-AGENT.md ablations. Only two things were removed, both out of scope
-for the current baseline stage:
+Current configurations are under `configs/model/`. They select16bands,
+quadrature envelope/waveform content, measured relations, temporal attention and
+joint electrode–band row attention. Filename `triaxial.py` also contains the
+older axis options; the selected configuration determines the actual encoder.
 
-* `pretrain.py` -- MAE pretraining
-(augment.py is retained: build.py imports it. Baseline configs pass
-`augmentations: []`, so it is a no-op.)
+The repository cleanup did not change these tokenizer/encoder computations or
+checkpoint tensor keys. Historical `_prev` and `_reference` copies are preserved
+outside the active source tree. The pre-cleanup source snapshot and a fixed-input
+forward/state comparison are recorded in the external maintenance directory.
 
-ROCm compatibility of this code was verified on MI210 before vendoring; see
-`tests/test_rocm_compat.py`. The FFT/complex/BF16 risks flagged in the original
-`BIG_CLUSTER_HANDOFF.md` sec.7 do not materialise -- no AMD-specific rewrite
-was needed.
-
-**Do not** copy `scripts/preprocess_*.py` from that repo: it follows the BIOT
-protocol, while this benchmark is frozen on the CBraMod protocol. See
-`docs/PROTOCOLS.md`.
+Baseline reproduction uses original-author code and separate adapters; it does
+not instantiate baselines through this model package. Dataset contracts are in
+`docs/DATA.md`.

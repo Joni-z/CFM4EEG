@@ -1,0 +1,61 @@
+name: tuab-biot_shhs_prest18_rebuild20261021
+group: B
+dataset: tuab
+data_root: $PACLOCK_PROC/processed/tuab
+checkpoint: shhs_prest18
+model: biot
+loader: biot
+optimizer: adam
+lr: 0.001
+weight_decay: 1.0e-05
+epochs: 100
+scheduler: null
+grad_clip: null
+patience: 5
+num_workers: 8
+device: cuda
+model_kwargs:
+  token_size: 200
+  hop_length: 100
+  encoder_channels: 18
+  channel_mode: prefix
+num_classes: 2
+sample_rate: 200
+batch_size: 512
+loss: bce_with_logits
+eval_every_steps: 0
+seed: 0
+model_output_classes: 1
+max_hours: 0
+train_drop_last: true
+select_metric: auroc
+run_monitor: true
+save_checkpoint: true
+amp: false
+label_smoothing: 0.0
+loader_input_multiplier: 100.0
+reproduction:
+  kind: official_recipe_shared_cohort
+  vendor: biot
+  commit: d138e32634e52ae9fa6ec98ac9c4087b14ca869a
+  source:
+  - run_binary_supervised.py
+  - model/biot.py
+  - README.md
+  deviations:
+  - Shared patient cohort, not original BIOT split.
+  - 18-channel capacity consumes the documented first16 bipolar channel tokens; unused2
+    SHHS channels are not synthesized.
+  - Scratch uses identical18-channel architecture to isolate initial weights.
+  pretraining_corpora:
+  - MGH-PREST
+  - SHHS
+  data_gate: accepted manifest; CHB/TUAB must be corrected version
+  checkpoint_rule: Upstream default unmonitored Lightning ModelCheckpoint + test(ckpt_path=best)
+    selects terminal epoch. Validation-best retained separately but not used for native
+    report.
+require_rebuild_ready: true
+binary_threshold: validation_prevalence
+checkpoint_selection: terminal
+disabled_reason: Original entrypoint/input adaptation is not verified for this arm.
+  Reference configuration only; do not launch.

@@ -1,0 +1,58 @@
+name: tuev-labram_pretrained_rebuild20261021
+group: B
+dataset: tuev
+data_root: $PACLOCK_PROC/processed/tuev
+model: labram
+loader: labram
+pretrained: true
+optimizer: adamw
+lr: 0.0005
+weight_decay: 0.05
+epochs: 50
+batch_size: 64
+warmup_epochs: 5
+layer_decay: 0.65
+scheduler: labram_cosine
+grad_clip: null
+patience: 0
+num_workers: 16
+device: cuda
+eval_every_steps: 0
+num_classes: 6
+sample_rate: 200
+loss: cross_entropy
+label_smoothing: 0.1
+seed: 0
+loader_divisor: 1.0
+max_hours: 0
+accum_steps: 8
+scheduler_min_lr: 1.0e-06
+warmup_start_lr: 0.0
+train_drop_last: true
+select_metric: accuracy
+save_checkpoint: true
+run_monitor: true
+reproduction:
+  kind: official_recipe_shared_montage_adaptation
+  vendor: labram
+  commit: c431221e6cfd23dbfa9950e0180682fb322b0548
+  effective_global_batch: 512
+  deviations:
+  - Shared16 bipolar montage uses positional channel indices instead of native23 electrode
+    identities; same accepted event/window cohort as every shared-table model.
+  - Preserve native head, no relative-position bias, no common-average input transform,
+    and physical microvolts/100 scale.
+  - Eight microbatches of64 replace eight distributed ranks at same global512; trailing
+    incomplete accumulation is skipped.
+optimizer_betas:
+- 0.9
+- 0.999
+optimizer_eps: 1.0e-08
+drop_incomplete_accumulation: true
+model_kwargs:
+  montage_mode: positional
+  target_len: 1000
+  use_rel_pos_bias: false
+  apply_temporal_transform: false
+disabled_reason: Original entrypoint/input adaptation is not verified for this arm.
+  Reference configuration only; do not launch.

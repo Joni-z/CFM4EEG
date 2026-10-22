@@ -92,7 +92,22 @@ class TriAxialPACLock(nn.Module):
         if self.learned_montage:
             self.montage_delta = nn.Parameter(
                 torch.zeros(cfg["n_channels"], cfg["n_channels"]))
-        self.frontend = TriAxialFrontend(
+        if cfg.get("local_residual", False) and cfg.get("tokenizer_mode") != "pac_interaction":
+            raise ValueError("local_residual requires tokenizer_mode=pac_interaction")
+        frontend_cls = TriAxialFrontend
+        frontend_extra = {"filter_range": cfg.get("filter_range"),
+                          "waveform_content": cfg.get("waveform_content", True)}
+        if cfg.get("tokenizer_mode") == "factorized":
+            from .frontend.factorized import FactorizedFrontend
+            frontend_cls = FactorizedFrontend
+            frontend_extra = dict(
+                coupling_dim=cfg.get("coupling_dim", 128),
+                content_source=cfg.get("content_source", "band"),
+                content_scale=cfg.get("content_scale", 1.0),
+                filter_range=cfg.get("filter_range"),
+            )
+        self.frontend = frontend_cls(
+            **frontend_extra,
             n_bands=cfg["n_bands"], hidden_dim=d, sample_rate=cfg["sample_rate"],
             kernel_size=cfg.get("kernel_size", 201), patch_len=cfg.get("patch_len", 200),
             pac_patch_len=cfg.get("pac_patch_len"),
@@ -105,6 +120,9 @@ class TriAxialPACLock(nn.Module):
             raw_stem=cfg.get("raw_stem", "linear"),
             coupling_strength=cfg.get("coupling_strength", False),
             coupling_self=cfg.get("coupling_self", False),
+            coupling_angle_pool=cfg.get("coupling_angle_pool", "none"),
+            local_residual=cfg.get("local_residual", False),
+            waveform_modulation=cfg.get("waveform_modulation", "none"),
         )
         if self.frontend.tokenizer_mode in ("hybrid", "duplex"):
             # The coupling/phase mixers consume an (nb, nb) coupling matrix and
@@ -131,6 +149,7 @@ class TriAxialPACLock(nn.Module):
             freq_mixer=self.freq_mixer,
             n_heads=cfg.get("n_heads", 4), dropout=cfg.get("dropout", 0.1),
             space_over_bands=cfg.get("space_over_bands", False),
+            block_variant=cfg.get("block_variant", "legacy"),
             # Only FreqMITopology reads this; every other mixer swallows it via **_,
             # so passing it unconditionally leaves existing configs bit-identical.
             mi_k=cfg.get("mi_k", 3),
@@ -140,6 +159,17 @@ class TriAxialPACLock(nn.Module):
                                       n_bands=grid_bands,
                                       n_channels=cfg["n_channels"],
                                       n_patches=cfg["seq_len"] // cfg.get("patch_len", 200))
+
+        self.duplex_routing = bool(cfg.get("duplex_routing", False))
+        if self.duplex_routing:
+            if (cfg.get("tokenizer_mode") != "duplex" or self.freq_mixer != "attention"
+                    or cfg.get("space_over_bands", False) or cfg.get("head", "mean") != "mean"
+                    or cfg.get("aux_recon", False)):
+                raise ValueError("duplex_routing requires duplex/attention/mean, no folded space or aux reconstruction")
+            from .duplex_routing import DuplexReadout
+            # Leave initialization of all existing modules on the legacy RNG path.
+            with torch.random.fork_rng(devices=[]):
+                self.head = DuplexReadout(d, cfg.get("n_heads", 4), cfg["num_classes"])
 
         # Optional crossfreq-reconstruction auxiliary head (AGENT.md sec. 13.15).
         # When aux_recon_weight > 0, supervised training adds a masked-amplitude
@@ -329,6 +359,10 @@ class TriAxialPACLock(nn.Module):
         # physics positional encodings: band by center-freq, electrode by position
         tokens = tokens + self.band_pe(band_hz).view(1, 1, nb, 1, D)
         tokens = tokens + self.spatial_pe(C, tokens.device).view(1, C, 1, 1, D)
+        if self.duplex_routing:
+            from .duplex_routing import encode_sources
+            wave, cpl = encode_sources(self.encoder, tokens, coupling, pac_vector)
+            return self.head(wave, cpl)
         h = self.encoder(tokens, coupling, pac_vector)   # (B,C,nb,P,D)
         # the grid shape travels with the tokens so a readout can use the axes
         return self.head(h.reshape(B, C * nb * P, D), (C, nb, P))

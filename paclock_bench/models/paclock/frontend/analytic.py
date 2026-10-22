@@ -1,8 +1,7 @@
 """OURS: differentiable analytic signal via an FFT-based Hilbert transform.
 
-Mathematically identical to the NVIDIA-cluster original
-(``_reference/frontend/analytic.py``); ``tests/test_paclock_equivalence.py``
-asserts that numerically. Two AMD/ROCm-motivated changes, neither of which
+Numerical functions are unchanged by the repository cleanup; the earlier
+reference comparison and source are retained in the external history snapshot. Two AMD/ROCm-motivated changes, neither of which
 touches the architecture:
 
 1. **Explicit float32 around the FFT.** The original builds the step function

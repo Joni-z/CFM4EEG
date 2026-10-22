@@ -1,5 +1,5 @@
 """Sleep-EDF Expanded v1.0.0 (SC subset) -> epoch npy + manifest.
-Protocol: docs/PROTOCOLS.md sec.5.
+Protocol: docs/DATA.md.
 
     python -m preprocessing.sleepedf --config configs/datasets/sleepedf.yaml
 

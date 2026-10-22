@@ -1,0 +1,53 @@
+name: tuab-cbramod_scratch_native20261022
+group: C
+dataset: tuab
+data_root: $PACLOCK_PROC/processed/tuab
+model: cbramod
+loader: null
+pretrained: false
+optimizer: adamw
+lr: 0.0001
+weight_decay: 0.05
+epochs: 50
+batch_size: 64
+multi_lr: true
+scheduler: cosine_updates
+grad_clip: 1.0
+patience: 0
+num_workers: 0
+device: cuda
+eval_every_steps: 0
+model_kwargs:
+  dropout: 0.1
+  classifier_hidden_dim: 2000
+num_classes: 2
+sample_rate: 200
+loss: bce_with_logits
+seed: 0
+select_metric: auroc
+model_output_classes: 1
+max_hours: 0
+scheduler_min_lr: 1.0e-06
+train_drop_last: false
+run_monitor: true
+save_checkpoint: true
+amp: false
+label_smoothing: 0.1
+reproduction:
+  kind: original_entrypoint_shared_cohort
+  vendor: cbramod
+  commit: b9e961003214326972c567eff390e75b0287e32a
+  source:
+  - models/model_for_tuab.py
+  - finetune_main.py
+  - finetune_trainer.py
+  deviations:
+  - Accepted corrected shared cohort replaces original pickle storage/cohort.
+  - Native main, model, trainer, evaluator, AdamW, schedule and validation-AUROC selection
+    run directly.
+  - Stored uV/100 reshapes directly to native16x10x200; no repeated scaling.
+  - User-requested seed0; original actual loader uses workers0.
+  - Native parser label_smoothing=.1 is retained although binary criterion is BCEWithLogitsLoss.
+  data_gate: accepted manifest; CHB/TUAB must be corrected version
+require_rebuild_ready: true
+runner: scripts/rebuild/native_cbramod_clinical_entry.py

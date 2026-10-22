@@ -1,0 +1,9 @@
+# Observed local CPU-check environment; native GPU runtimes are separate.
+numpy==2.5.1
+scipy==1.18.0
+mne==1.13.2
+scikit-learn==1.9.1
+PyYAML==6.0.3
+torch==2.14.1
+einops==0.8.2
+pytest==9.1.1

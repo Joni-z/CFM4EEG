@@ -13,7 +13,7 @@ class NativeLoaderManifestTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             manifest = dict(created_utc='2026-09-13T00:00:00+00:00',
-                            dataset='synthetic', protocol={'fixture': True})
+                            dataset='synthetic', protocol={'fixture': True, 'units': 'uV'})
             (root/'manifest.json').write_text(json.dumps(manifest))
             signal = np.arange(64, dtype=np.float32).reshape(4,2,8)-20
             labels = np.array([0,1,1,0], dtype=np.int64)
@@ -28,9 +28,9 @@ class NativeLoaderManifestTests(unittest.TestCase):
                 self.assertEqual(info['n_samples']['val'], 4)
                 for i in range(4):
                     x, y = va.dataset[i]
-                    expected = signal[i]/100 if build is build_labram_dataloaders else (
+                    expected = (signal[i]/100).astype(np.float32) if build is build_labram_dataloaders else (
                         signal[i]/(np.quantile(np.abs(signal[i]), q=.95,
-                                              method='linear', axis=-1, keepdims=True)+1e-8))
+                                              method='linear', axis=-1, keepdims=True)+1e-8)).astype(np.float32)
                     np.testing.assert_array_equal(x.numpy(), expected)
                     self.assertEqual(y, int(labels[i]))
 

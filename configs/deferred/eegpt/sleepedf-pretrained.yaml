@@ -1,0 +1,47 @@
+name: sleepedf-eegpt_pretrained_rebuild20261021
+group: B
+dataset: sleepedf
+data_root: $PACLOCK_PROC/processed/sleepedf
+model: eegpt
+loader: default
+pretrained: true
+sample_rate: 100
+optimizer: adamw
+weight_decay: 0.01
+lr: 0.0004
+max_lr: 0.0004
+scheduler: onecycle
+pct_start: 0.2
+batch_size: 32
+grad_clip: null
+patience: 0
+num_workers: 8
+device: cuda
+eval_every_steps: 0
+num_classes: 5
+loss: cross_entropy
+epochs: 40
+seed: 0
+save_checkpoint: true
+run_monitor: true
+max_hours: 0
+model_kwargs:
+  task_variant: sleep_decoder
+  freeze_encoder: true
+reproduction:
+  kind: official_task_recipe_shared_input_adaptation
+  vendor: eegpt
+  source: downstream/finetune_EEGPT_SleepEDF.py
+  gate: Native class/optimizer CPU review plus full-checkpoint GPU smoke; shared patient
+    split is an explicit adaptation from published ten-fold protocol.
+  deviations:
+  - "Shared fixed patient cohort and0.3\u201335Hz filtering replace upstream ten-fold\
+    \ experiment and30Hz lowpass. No shared data or cohort is silently changed."
+  - Native per-epoch channel-wise zscore replaces shared cache training-stat normalization
+    before native100to256Hz interpolation/CAR.
+  - Encoder optimizer exclusion implemented as requires_gradFalse; input gradients
+    to channel projection remain enabled.
+train_drop_last: false
+checkpoint_selection: terminal
+amp: true
+runner: scripts/rebuild/run_eegpt_sleep_native.py

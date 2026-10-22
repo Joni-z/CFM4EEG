@@ -1,0 +1,18 @@
+{
+  "seed": 0,
+  "pretrained": false,
+  "batch_size": 64,
+  "update_freq": 1,
+  "epochs": 50,
+  "warmup_epochs": 5,
+  "lr": 0.0005,
+  "layer_decay": 1.0,
+  "num_workers": 8,
+  "recipe_scope": "Actual upstream main/engine/AdamW/step cosine/native AMP/checkpoints; scratch uses layer_decay1.0, no external weights.50epochs; single rank; binary new-task adaptation of published TUAB settings.",
+  "dataset": "CHBMIT",
+  "data_root": "$PACLOCK_PROC/processed/chbmit",
+  "input_scope": "Corrected accepted CHB16bipolar.16distinct ordinal scratch slots index1..16; no electrode identity claim; q95 inverted to physicaluV usingfloat64sidecar.Originalengine then divides100.",
+  "runner": "scripts/rebuild/run_labram_original.py",
+  "runner_interface": "direct_cli",
+  "model": "labram"
+}

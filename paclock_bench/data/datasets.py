@@ -1,15 +1,8 @@
-"""Datasets over the preprocessed npy pairs.
+"""Datasets over shared preprocessed arrays.
 
-All normalisation already happened in `preprocessing/` -- exactly once, recorded
-in the manifest, and identical for every model. Nothing here rescales the
-signal. That is deliberate: the reference repo normalised inside __getitem__,
-which made the effective input a property of the loader rather than of the
-frozen protocol, and any model that brought its own loader silently got
-different data.
-
-The one exception is group B (official pretrained weights), which the protocol
-requires to run each repo's own preprocessing and normalisation. Those models
-get their own loaders under `models/foundation/`, never this one.
+Stored normalization is preserved by default. Rebuild configurations may request
+physical microvolts/100 using explicitly stored q95 denominators; transformations,
+sampling rate, and manifest identity are recorded in the input contract.
 """
 
 from __future__ import annotations
@@ -18,6 +11,7 @@ import json
 import os
 
 from ..paths import expand
+from .contracts import verify_arrays, describe_contract, labram_divisor, resolve_signal_transform
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset, Subset
@@ -51,7 +45,7 @@ class WindowDataset(Dataset):
     """
 
     def __init__(self, root: str, split: str, *, flatten_sequences: bool = False,
-                 preload: bool | None = None):
+                 preload: bool | None = None, normalization_scales=None, input_multiplier: float = 1.0):
         sig_path = os.path.join(root, f"{split}_signals.npy")
         lab_path = os.path.join(root, f"{split}_labels.npy")
         for p in (sig_path, lab_path):
@@ -70,7 +64,12 @@ class WindowDataset(Dataset):
             print(f"  [{split}] {size_gb:.1f} GB left on disk (mmap), over the "
                   f"{PRELOAD_LIMIT_GB:.0f} GB preload limit", flush=True)
         self.labels = np.load(lab_path)
+        verify_arrays(self.signals, self.labels, sig_path, lab_path)
         self.split = split
+        self.normalization_scales = normalization_scales
+        self.input_multiplier = input_multiplier
+        if normalization_scales is not None and len(normalization_scales)!=len(self.labels):
+            raise ValueError("normalizer/label count mismatch")
 
         # ISRUC is stored as (n_seq, 20, C, T) sequences. Models that consume one
         # epoch at a time set flatten_sequences and see (n_seq*20, C, T).
@@ -87,7 +86,10 @@ class WindowDataset(Dataset):
         # np.array (a copy) rather than asarray: the mmap is read-only, and
         # torch.from_numpy on a non-writable buffer warns on every call and
         # hands back a tensor that is unsafe to write in place.
-        x = torch.from_numpy(np.array(self.signals[i], dtype=np.float32))
+        x = np.array(self.signals[i], dtype=np.float32)
+        if self.normalization_scales is not None:
+            x = x * self.normalization_scales[i]
+        x = torch.from_numpy((x * self.input_multiplier).astype(np.float32))
         y = self.labels[i]
         y = torch.from_numpy(np.array(y, dtype=np.int64)) if np.ndim(y) else int(y)
         return x, y
@@ -163,12 +165,16 @@ def build_dataloaders(cfg: dict) -> tuple[DataLoader, DataLoader, DataLoader, di
     """train/val/test loaders plus the manifest the data came from."""
     root = expand(cfg["data_root"])
     manifest = load_manifest(root)
+    contract = describe_contract(cfg, manifest, root, "shared")
     flatten = bool(cfg.get("flatten_sequences", False))
     # None lets each split decide from its own size; set explicitly to force
     preload = cfg.get("preload")
 
+    transforms = {s: resolve_signal_transform(root,s,cfg,manifest) for s in ("train","val","test")}
+    contract["loader_signal_mode"] = cfg.get("loader_signal_mode","stored")
     sets = {
-        s: WindowDataset(root, s, flatten_sequences=flatten, preload=preload)
+        s: WindowDataset(root, s, flatten_sequences=flatten, preload=preload,
+            normalization_scales=transforms[s][0], input_multiplier=transforms[s][1])
         for s in ("train", "val", "test")
     }
 
@@ -189,15 +195,17 @@ def build_dataloaders(cfg: dict) -> tuple[DataLoader, DataLoader, DataLoader, di
     bs = cfg.get("batch_size", 32)
     nw = cfg.get("num_workers", 8)
     common = dict(num_workers=nw, pin_memory=True,
-                  persistent_workers=nw > 0, drop_last=False)
+                  persistent_workers=nw > 0)
 
     loaders = (
-        DataLoader(sets["train"], batch_size=bs, shuffle=True, **common),
-        DataLoader(sets["val"], batch_size=bs, shuffle=False, **common),
-        DataLoader(sets["test"], batch_size=bs, shuffle=False, **common),
+        DataLoader(sets["train"], batch_size=bs, shuffle=True,
+                   drop_last=bool(cfg.get("train_drop_last", False)), **common),
+        DataLoader(sets["val"], batch_size=bs, shuffle=False, drop_last=False, **common),
+        DataLoader(sets["test"], batch_size=bs, shuffle=False, drop_last=False, **common),
     )
     info = {
         "manifest": manifest,
+        "input_contract": contract,
         "input_shape": (sets["train"].dataset.shape
                         if isinstance(sets["train"], Subset)
                         else sets["train"].shape),

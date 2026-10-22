@@ -1,0 +1,18 @@
+{
+  "seed": 0,
+  "pretrained": false,
+  "batch_size": 64,
+  "update_freq": 1,
+  "epochs": 50,
+  "warmup_epochs": 5,
+  "lr": 0.0005,
+  "layer_decay": 1.0,
+  "num_workers": 8,
+  "recipe_scope": "NewtaskADFD, samepreviouslyreviewed scratchrecipe50epochs/batch64/lr5e-4/AdamWwd.05/CE smoothing.1/warmup5/layerdecay1. Actualoriginalmain/engine/optimizer/schedule/AMP. No externalweights, no tuning.",
+  "dataset": "ADFD",
+  "data_root": "$PACLOCK_PROC/processed/adfd",
+  "input_scope": "Accepted Medformer derivative19x2000float32microvolts/100. Storagebridge returnsphysicaluV; originalengine divides100.19distinct random trainable ordinalslots1..19 with no electrode identity claim because originalchannel metadata unavailable.",
+  "runner": "scripts/rebuild/run_labram_original.py",
+  "runner_interface": "direct_cli",
+  "model": "labram"
+}

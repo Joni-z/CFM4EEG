@@ -1,0 +1,36 @@
+dataset: chbmit
+model: eegconformer
+seed: 0
+pretrained: false
+runner: scripts/rebuild/native_eegconformer_clinical_entry.py
+runner_interface: explicit_cli_not_generic_launch
+upstream_repository: https://github.com/eeyhsong/EEG-Conformer
+upstream_commit: 9ae149ba62487ceae723277d13adac27837113d2
+upstream_file: conformer.py
+upstream_source_sha256: 866ea540a20bf158dc22450ff393c136def016bcf75ee3d3d646d24161f6954c
+reproduction_kind: declared_new_task_adaptation_of_author_model_and_optimization_loop
+channels: 16
+n_times: 2000
+num_classes: 2
+batch_size: 72
+epochs: 100
+patience: 8
+checkpoint_selection: val_pr_auc
+optimizer: Adam
+lr: 0.0002
+betas:
+- 0.5
+- 0.999
+weight_decay: 0
+loss: CrossEntropyLoss
+class_weights: null
+amp: false
+scheduler: null
+grad_clip: null
+augmentation: none
+normalization: accepted_CHB_channel_q95
+test_evaluations: 1
+data_receipt_required:
+- ACCEPTED.json
+- READY.json
+actual_gpu_smoke_required: true

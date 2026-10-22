@@ -1,0 +1,19 @@
+name: tuev-eegpt_scratch_native23_20261022
+dataset: tuev
+data_root: $PACLOCK_NATIVE/tuev-labram23
+model: eegpt
+pretrained: false
+num_classes: 6
+num_workers: 4
+batch_size: 400
+seed: 0
+epochs: 30
+runner: scripts/rebuild/run_eegpt_tuev_official.py
+reproduction:
+  kind: actual_official_entry_native23_cohort
+  deviations:
+  - No pretrained checkpoint, from-scratch setting requested by user.
+  - Upstream native AMP branch replaces original shell DeepSpeed0.4; full native model/main/engine/AdamW/schedule/batch
+    retained.
+  - Test metrics deferred to final selected checkpoint; original validation accuracy
+    selection unchanged.

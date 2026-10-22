@@ -1,0 +1,53 @@
+name: chbmit-cbramod_scratch_native20261022
+group: C
+dataset: chbmit
+data_root: $PACLOCK_PROC/processed/chbmit
+model: cbramod
+loader: null
+pretrained: false
+optimizer: adamw
+lr: 0.0001
+weight_decay: 0.05
+epochs: 50
+batch_size: 64
+multi_lr: true
+scheduler: cosine_updates
+grad_clip: 1.0
+patience: 0
+num_workers: 0
+device: cuda
+eval_every_steps: 0
+model_kwargs:
+  dropout: 0.1
+  classifier_hidden_dim: 2000
+num_classes: 2
+sample_rate: 200
+loss: bce_with_logits
+seed: 0
+select_metric: auroc
+model_output_classes: 1
+max_hours: 0
+scheduler_min_lr: 1.0e-06
+train_drop_last: false
+run_monitor: true
+save_checkpoint: true
+amp: false
+label_smoothing: 0.1
+loader_signal_mode: uv_div100
+reproduction:
+  kind: original_entrypoint_shared_cohort
+  vendor: cbramod
+  commit: b9e961003214326972c567eff390e75b0287e32a
+  source:
+  - models/model_for_chb.py
+  - finetune_main.py
+  - finetune_trainer.py
+  deviations:
+  - Accepted shared corrected CHB arrays; reverse Q95 with saved denominator then
+    use original FFT resample and /100; whole-record resampling remains shared preprocessing.
+  - Actual finetune_main.main/Trainer/Evaluator unmodified; scoped use_pretrained_weights
+    boolean fix makes scratch False expressible.
+  - Requested seed0; original loader effective num_workers0 preserved.
+  data_gate: accepted manifest; CHB/TUAB must be corrected version
+require_rebuild_ready: true
+runner: scripts/rebuild/native_cbramod_clinical_entry.py

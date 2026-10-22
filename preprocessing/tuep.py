@@ -1,23 +1,7 @@
-"""TUEP v2.0.1 -> windowed npy + manifest.
+"""Recording-level epilepsy classification with subject-disjoint splitting.
 
-    sbatch slurm/preprocess.slurm  (or)  python -m preprocessing.tuep --config configs/datasets/tuep.yaml
-
-Why this corpus joins the suite: the 12-set downstream slate needs corpora in
-the regimes this architecture is measured to be strong in, and TUEP is the
-closest sibling of two of them -- a recording-level clinical binary
-(epilepsy=1 / no_epilepsy=0), TUAB's task shape on TUSZ's clinical question.
-The label comes from the top-level directory, exactly like TUAB; unlike TUAB
-there is NO official train/eval split, so whole subjects are held out by
-sorted ID, the same rule every unofficial-split corpus in this benchmark uses
-(docs/PROTOCOLS.md).
-
-Differences from preprocessing/tuab.py, which this otherwise mirrors:
-  * recordings live under <label_dir>/<subject>/<session>/<montage>/*.edf
-    rather than <split>/<label>/<montage>/*.edf -- collected by os.walk;
-  * one subject can carry many sessions; all of a subject's recordings follow
-    the subject into its split (subject-disjoint by construction);
-  * only 01_tcp_ar-montage recordings are used, matching channel_std
-    everywhere else in the suite.
+Labels come from the corpus directory. The shared TUH bipolar reader and the
+configured filtering/windowing settings are applied before storing arrays.
 """
 
 from __future__ import annotations
@@ -40,7 +24,6 @@ from .common import (
     sha256_file,
     window_signal,
 )
-from .tuab import _filter_args
 from .tuh_common import MissingChannels, load_bipolar_uv, sort_subject_split, subject_of
 from paclock_bench.paths import expand
 
@@ -50,7 +33,9 @@ def process_one(path_label: tuple[str, int], cfg: dict):
     try:
         sig, fs = load_bipolar_uv(path)
         sig = preprocess_signal(
-            sig, fs, fs_out=cfg["sample_rate"], **_filter_args(cfg),
+            sig, fs, fs_out=cfg["sample_rate"],
+            band=tuple(cfg["band"]) if cfg.get("band") else None,
+            hp=cfg.get("hp"), notch_freq=cfg.get("notch"),
         )
         win = int(cfg["window_sec"] * cfg["sample_rate"])
         stride = int(cfg["stride_sec"] * cfg["sample_rate"])

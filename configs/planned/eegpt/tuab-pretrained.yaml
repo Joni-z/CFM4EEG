@@ -1,0 +1,50 @@
+name: tuab-eegpt_pretrained_rebuild20261021
+group: B
+dataset: tuab
+data_root: $PACLOCK_PROC/processed/tuab
+model: eegpt
+loader: null
+pretrained: true
+sample_rate: 200
+optimizer: adamw
+weight_decay: 0.05
+lr: 0.0005
+scheduler: labram_cosine
+batch_size: 100
+grad_clip: null
+patience: 0
+num_workers: 8
+device: cuda
+eval_every_steps: 0
+num_classes: 2
+loss: bce_with_logits
+epochs: 50
+seed: 0
+model_output_classes: 1
+loader_divisor: 1.0
+max_hours: 0
+run_monitor: true
+save_checkpoint: true
+reproduction:
+  kind: official_recipe_shared_montage_adaptation
+  deviations:
+  - shared16 bipolar input rather than native23unipolar forTUAB
+  - corrected patient/window cohort
+  - Native TUAB training uses 2 ranks, global batch 200, and 50 epochs; retain its
+    optimizer, schedule, and validation accuracy selection.
+  required_world_size: 2
+  effective_global_batch: 200
+model_kwargs:
+  task_variant: tuab
+  freeze_encoder: false
+native_task: tuab
+scheduler_min_lr: 1.0e-06
+warmup_start_lr: 0.0
+layer_decay: 0.65
+label_smoothing: 0.1
+select_metric: accuracy
+warmup_epochs: 5
+optimizer_eps: 1.0e-08
+require_rebuild_ready: true
+disabled_reason: Original entrypoint/input adaptation is not verified for this arm.
+  Reference configuration only; do not launch.

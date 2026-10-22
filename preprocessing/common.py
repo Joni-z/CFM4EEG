@@ -2,7 +2,7 @@
 
 Every dataset script in this package builds on these. The protocol values
 themselves live in ``configs/datasets/*.yaml`` and are transcribed from
-``docs/PROTOCOLS.md``; nothing here hard-codes a frozen parameter.
+``docs/DATA.md``; nothing here hard-codes a frozen parameter.
 
 Two invariants this module enforces:
 

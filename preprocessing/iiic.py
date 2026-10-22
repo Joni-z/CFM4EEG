@@ -4,7 +4,7 @@
 
 Uses the official prepared arrays (``sparcnet_data/all_train_*.npy``) rather
 than re-deriving from raw EDF -- the FACED/Medformer precedent
-(docs/PROTOCOLS.md sec.8): when the authors publish a preprocessed release,
+(docs/DATA.md): when the authors publish a preprocessed release,
 we take it, because silent divergence from their cleaning is worse than
 inheriting it. Facts verified against the authors' own runSPaRCNet.py:
 the 16 rows are the bipolar double banana in LL/RL/LP/RP order -- exactly

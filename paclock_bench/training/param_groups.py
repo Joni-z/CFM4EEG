@@ -43,6 +43,10 @@ def layer_decay_param_groups(model: nn.Module, base_lr: float,
     names match what upstream's function expects.
     """
     inner = getattr(model, "model", model)          # unwrap LaBraMWrapper
+    # Honor the upstream model's own exclusions (notably LaBraM time_embed).
+    skip_list = set(skip_list)
+    if hasattr(inner, "no_weight_decay"):
+        skip_list.update(inner.no_weight_decay())
     if n_layers is None:
         n_layers = (inner.get_num_layers() if hasattr(inner, "get_num_layers")
                     else len(getattr(inner, "blocks", [])))

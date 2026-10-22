@@ -1,0 +1,59 @@
+name: tuev-biot_scratch_native20261022
+group: C
+dataset: tuev
+data_root: $PACLOCK_PROC/processed/tuev
+checkpoint: null
+model: biot
+loader: biot
+optimizer: adam
+lr: 0.001
+weight_decay: 1.0e-05
+epochs: 100
+scheduler: null
+grad_clip: null
+patience: 5
+num_workers: 32
+device: cuda
+model_kwargs:
+  token_size: 200
+  hop_length: 100
+  encoder_channels: 16
+  channel_mode: strict
+num_classes: 6
+sample_rate: 200
+batch_size: 128
+loss: cross_entropy
+label_smoothing: 0.0
+eval_every_steps: 0
+seed: 0
+model_output_classes: 6
+max_hours: 0
+train_drop_last: true
+select_metric: cohen_kappa
+run_monitor: true
+save_checkpoint: true
+amp: false
+loader_input_multiplier: 0.0001
+reproduction:
+  kind: original_entrypoint_shared_cohort
+  vendor: biot
+  commit: d138e32634e52ae9fa6ec98ac9c4087b14ca869a
+  source:
+  - run_multiclass_supervised.py
+  - utils.py
+  - model/biot.py
+  - README.md
+  deviations:
+  - Accepted shared NPY cohort and preprocessing replace native pickle dataset; no
+    claim of native data protocol identity.
+  - Stored uV/100 converted to volts before native q95; native TUEV FFT resample branch
+    retained (accepted 1000-point rows map to 1000 points).
+  - User-requested seed0 replaces native hardcoded4523; task/optimizer/trainer/fit/test
+    entrypoint remains native.
+  - One explicit callback-registration-only source patch records audit outputs without
+    changing model,optimizer,selection.
+  checkpoint_rule: 'Literal released code under Lightning1.6.4: default unmonitored
+    checkpoint selects terminal; conflicts with paper validation-best wording.'
+  runtime: Python3.9,Torch1.13.1+cu117,Lightning1.6.4 isolated environment
+checkpoint_selection: terminal
+runner: scripts/rebuild/native_biot_entry.py

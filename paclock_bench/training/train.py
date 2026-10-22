@@ -1,12 +1,8 @@
-"""Training loop for one (dataset, model, seed) cell of the matrix.
+"""CfFT training over accepted arrays.
 
-    python -m paclock_bench.training.train --config configs/experiments/<exp>.yaml \
-        [--seed 0] [--out runs/]
-
-Writes ``runs/<name>/seed<k>/result.json`` holding the test metrics, the full
-validation curve, the parameter count, and the manifest the data came from. The
-result carries its own verdict from the epoch-0-peak check (hard rule 3), so the
-table writer never has to re-derive whether a cell is admissible.
+Baseline reproduction uses scripts/rebuild/ and the original authors' trainers.
+This trainer records validation selection, stopping reason, test metrics and
+checkpoints under the requested output root.
 """
 
 from __future__ import annotations
@@ -27,6 +23,8 @@ from ..models.build import build_model, count_params
 from .run_control import RunControl
 from .losses import build_loss
 from .metrics import compute_metrics, epoch0_peak_check, primary_metric
+from .recipe_runtime import make_schedule, normalize_gradients, provenance
+from .run_control import atomic_json
 
 
 def set_seed(seed: int) -> None:
@@ -109,6 +107,8 @@ def main():
     ap.add_argument("--config", required=True)
     ap.add_argument("--seed", type=int, default=None)
     ap.add_argument("--out", default="runs")
+    ap.add_argument("--smoke-steps", type=int, default=0,
+                    help="Train a few batches and validate two batches, without testing")
     args = ap.parse_args()
 
     cfg = yaml.safe_load(open(args.config))
@@ -199,6 +199,12 @@ def main():
     criterion = build_loss(cfg)
     n_params = count_params(model)
 
+    out_dir = os.path.join(args.out, cfg["name"], f"seed{seed}")
+    if os.path.exists(os.path.join(out_dir, "result.json")) or os.path.exists(os.path.join(out_dir, "best.pt")):
+        raise FileExistsError(f"Existing run in {out_dir}; refusing to overwrite")
+    os.makedirs(out_dir, exist_ok=True)
+    atomic_json(os.path.join(out_dir, "provenance.json"), provenance(args.config, cfg, info))
+
     print(f"[{cfg['name']}] seed={seed} {n_params:.2f}M params on {device}", flush=True)
     print(f"  input {info['input_shape']} | samples {info['n_samples']}", flush=True)
     print(f"  primary metric: {key} | loss: {cfg['loss']}", flush=True)
@@ -208,6 +214,11 @@ def main():
     # decay, which at wd=1e-5 is a small but real difference in the objective.
     opt_name = cfg.get("optimizer", "adamw").lower()
     opt_cls = {"adam": torch.optim.Adam, "adamw": torch.optim.AdamW}[opt_name]
+    opt_kwargs = {}
+    if "optimizer_betas" in cfg:
+        opt_kwargs["betas"] = tuple(cfg["optimizer_betas"])
+    if "optimizer_eps" in cfg:
+        opt_kwargs["eps"] = float(cfg["optimizer_eps"])
     lr = cfg.get("lr", 1e-4)
     wd = cfg.get("weight_decay", 1e-5)
     if cfg.get("layer_decay"):
@@ -220,7 +231,7 @@ def main():
             groups = paclock_layer_decay_param_groups(model, lr, wd, cfg["layer_decay"])
         else:
             groups = layer_decay_param_groups(model, lr, wd, cfg["layer_decay"])
-        optimizer = opt_cls(groups)
+        optimizer = opt_cls(groups, **opt_kwargs)
         lrs = sorted({round(g["lr"], 8) for g in groups})
         print(f"  layer_decay={cfg['layer_decay']}: {len(groups)} groups, "
               f"lr {lrs[0]:.2e} .. {lrs[-1]:.2e}", flush=True)
@@ -233,51 +244,84 @@ def main():
             [{"params": list(model.backbone_parameters()), "lr": lr},
              {"params": list(model.head_parameters()), "lr": head_lr}],
             weight_decay=wd,
+            **opt_kwargs,
         )
         print(f"  multi_lr: backbone={lr:g} head={head_lr:g}", flush=True)
     else:
-        optimizer = opt_cls(model.parameters(), lr=lr, weight_decay=wd)
+        optimizer = opt_cls((p for p in model.parameters() if p.requires_grad),
+                            lr=lr, weight_decay=wd, **opt_kwargs)
     epochs = cfg.get("epochs", 20)
-    steps_per_epoch = max(len(train_loader), 1)
-    scheduler = None
-    if cfg.get("scheduler") == "cosine":
-        total_steps = epochs * steps_per_epoch
-        warmup_epochs = cfg.get("warmup_epochs", 0)
-        if warmup_epochs:
-            # LaBraM's --warmup_epochs 5: linear ramp from ~0, then cosine.
-            # Starting a pretrained model at full LR undoes the pretraining in
-            # the first few hundred steps, which is what warmup exists to avoid.
-            warmup_steps = warmup_epochs * steps_per_epoch
-            scheduler = torch.optim.lr_scheduler.SequentialLR(
-                optimizer,
-                [torch.optim.lr_scheduler.LinearLR(
-                     optimizer, start_factor=1e-3, total_iters=max(warmup_steps, 1)),
-                 torch.optim.lr_scheduler.CosineAnnealingLR(
-                     optimizer, T_max=max(total_steps - warmup_steps, 1))],
-                milestones=[max(warmup_steps, 1)],
-            )
-            print(f"  warmup {warmup_epochs} epochs ({warmup_steps} steps) "
-                  f"then cosine", flush=True)
-        else:
-            scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
-                optimizer, T_max=total_steps)
-    elif cfg.get("scheduler") == "onecycle":
-        # EEGPT's cross-corpus fine-tuning scripts (finetune_BIOT_SleepEDF.py,
-        # finetune_LaBraM_SleepEDF.py, linear_probe_*_BCIC2A.py) all use:
-        #   OneCycleLR(optimizer, max_lr=max_lr, steps_per_epoch=...,
-        #              epochs=max_epochs, pct_start=0.2)
-        # Those scripts are the published provenance of the BIOT/LaBraM numbers
-        # on the corpora neither repo ships a maker for, so their schedule is
-        # used verbatim on those rows rather than each repo's own TUH recipe.
-        scheduler = torch.optim.lr_scheduler.OneCycleLR(
-            optimizer,
-            max_lr=cfg.get("max_lr", lr),
-            steps_per_epoch=steps_per_epoch,
-            epochs=epochs,
-            pct_start=cfg.get("pct_start", 0.2),
-        )
-        print(f"  onecycle max_lr={cfg.get('max_lr', lr)} pct_start="
-              f"{cfg.get('pct_start', 0.2)}", flush=True)
+    scheduler = make_schedule(optimizer, cfg, len(train_loader))
+    # Persist the effective parameter grouping, rather than just requested YAML.
+    param_names = {id(p): n for n, p in model.named_parameters()}
+    atomic_json(os.path.join(out_dir, "optimizer_groups.json"), [
+        {**{k: v for k, v in g.items() if k != "params"},
+         "parameters": [param_names[id(p)] for p in g["params"]]}
+        for g in optimizer.param_groups])
+
+    if args.smoke_steps:
+        import itertools
+        model.train()
+        trainable = [p for p in model.parameters() if p.requires_grad]
+        smoke = {"config": cfg, "seed": seed, "n_params_M": n_params,
+                 "train_steps": [], "test_evaluated": False}
+        for step, (X, y) in enumerate(itertools.islice(train_loader, args.smoke_steps)):
+            started = time.monotonic()
+            optimizer.zero_grad(set_to_none=True)
+            with amp_context(cfg, device):
+                pred = model(X.to(device))
+            pred, y = _flatten_seq(pred.float(), y.to(device).long())
+            loss = criterion(pred, y)
+            if not torch.isfinite(loss):
+                raise FloatingPointError("Nonfinite smoke loss")
+            loss.backward()
+            grads = [p.grad for p in trainable if p.grad is not None]
+            if not grads or not all(torch.isfinite(g).all() for g in grads):
+                raise FloatingPointError("Missing or nonfinite smoke gradients")
+            if not any(torch.count_nonzero(g).item() for g in grads):
+                raise FloatingPointError("All smoke gradients are zero")
+            if cfg.get("grad_clip"):
+                torch.nn.utils.clip_grad_norm_(trainable, cfg["grad_clip"])
+            optimizer.step()
+            if scheduler is not None:
+                scheduler.step()
+            if str(device).startswith("cuda"):
+                torch.cuda.synchronize()
+            smoke["train_steps"].append({"step": step, "loss": loss.item(),
+                                        "seconds": time.monotonic()-started})
+        model.eval()
+        vx, vy = next(iter(val_loader))
+        vx, vy = vx.to(device), vy.to(device).long()
+        with torch.no_grad(), amp_context(cfg, device):
+            reference_logits = model(vx).float()
+        vp, vy = _flatten_seq(reference_logits, vy)
+        vloss = criterion(vp, vy)
+        if not torch.isfinite(vloss):
+            raise FloatingPointError("Nonfinite validation smoke loss")
+        # Exercise the actual checkpoint serialization and strict restoration.
+        smoke_checkpoint = os.path.join(out_dir, "smoke.pt")
+        torch.save({"model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
+                    "config": cfg, "purpose": "smoke only; not a trained result"}, smoke_checkpoint)
+        # Release optimizer state and training model GPU memory before reload.
+        del optimizer, scheduler, grads, trainable, pred, loss
+        for parameter in model.parameters():
+            parameter.grad = None
+        model.cpu()
+        if str(device).startswith("cuda"):
+            torch.cuda.empty_cache()
+        restored = build_model(cfg, info["input_shape"]).to(device)
+        restored.load_state_dict(torch.load(smoke_checkpoint, map_location="cpu",
+                                           weights_only=False)["model"], strict=True)
+        restored.eval()
+        with torch.no_grad(), amp_context(cfg, device):
+            restored_logits = restored(vx).float()
+        torch.testing.assert_close(restored_logits, reference_logits, rtol=1e-5, atol=1e-6)
+        smoke.update(validation_loss=vloss.item(), checkpoint_reload="passed",
+                     status="passed", full_test_not_used=True)
+        smoke["provenance"] = provenance(args.config, cfg, info)
+        atomic_json(os.path.join(out_dir, "smoke.json"), smoke)
+        print("SMOKE PASS (validation subset only, no test evaluation)", flush=True)
+        return
 
     # Mid-epoch validation: on the large corpora one epoch is thousands of steps
     # and models peak inside epoch 0-1, so validating once per epoch samples the
@@ -286,6 +330,11 @@ def main():
 
     best, best_state, val_curve = -np.inf, None, []
     best_val_metrics, best_val_tag, best_val_index = None, None, None
+    best_threshold = .5
+    last_threshold, last_val_metrics, last_val_tag = .5, None, None
+    checkpoint_selection = cfg.get("checkpoint_selection", "validation_best")
+    if checkpoint_selection not in ("validation_best", "terminal"):
+        raise ValueError(f"Unknown checkpoint selection: {checkpoint_selection}")
     patience, since_best = cfg.get("patience", 0), 0
     # Hours of training after which the run stops and reports what it has. None
     # keeps the old behaviour exactly.
@@ -300,8 +349,25 @@ def main():
     def validate(tag: str):
         nonlocal best, best_state, since_best
         nonlocal best_val_metrics, best_val_tag, best_val_index
+        nonlocal best_threshold, last_threshold, last_val_metrics, last_val_tag
         val_loss, m, val_logits, val_y = evaluate(
             model, val_loader, device, criterion, cfg["num_classes"], cfg, return_raw=True)
+        threshold = .5
+        if cfg.get("binary_threshold") == "validation_prevalence":
+            if cfg["num_classes"] != 2:
+                raise ValueError("Binary threshold requested for nonbinary task")
+            positive = int(val_y.sum())
+            if not 0 < positive < len(val_y):
+                raise ValueError("Validation threshold requires both classes")
+            binary_logits = (val_logits[:, 1]-val_logits[:, 0]
+                             if val_logits.ndim == 2 and val_logits.shape[1] == 2
+                             else val_logits.reshape(-1))
+            probabilities = 1 / (1 + np.exp(-np.clip(binary_logits, -80, 80)))
+            threshold = float(np.sort(probabilities)[-positive])
+            m = compute_metrics(val_y, val_logits, 2, threshold=threshold)
+        last_threshold = threshold
+        last_val_metrics = {metric: float(value) for metric, value in m.items()}
+        last_val_tag = tag
         # The curve stays on the reported metric -- it is what rule 3 reads and
         # what the workbook's provenance notes quote -- while selection follows
         # select_key.
@@ -312,6 +378,7 @@ def main():
             best, since_best = m[select_key], 0
             best_val_metrics = {metric: float(value) for metric, value in m.items()}
             best_val_tag, best_val_index = tag, len(val_curve) - 1
+            best_threshold = threshold
             best_state = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}
         else:
             since_best += 1
@@ -355,7 +422,17 @@ def main():
         prof_n = int(cfg.get("profile_steps", 0))
         prof = {"wait": 0.0, "h2d": 0.0, "fwd": 0.0, "bwd": 0.0, "opt": 0.0}
         _mark = time.time()
+        accum = int(cfg.get("accum_steps", 1))
+        train_batch_limit = len(train_loader)
+        if cfg.get("drop_incomplete_accumulation"):
+            train_batch_limit = (train_batch_limit // accum) * accum
+            if not train_batch_limit:
+                raise ValueError("No full effective batch for native LaBraM recipe")
+        accumulated_examples = 0
+        optimizer.zero_grad(set_to_none=True)
         for step, (X, y) in enumerate(train_loader):
+            if step >= train_batch_limit:
+                break
             if prof_n:
                 torch.cuda.synchronize(); prof["wait"] += time.time() - _mark
                 _mark = time.time()
@@ -370,6 +447,8 @@ def main():
             # precision in the log-sum-exp to change the gradient direction
             logits, y = _flatten_seq(logits.float(), y)
             loss = criterion(logits, y)
+            if not torch.isfinite(loss):
+                raise FloatingPointError(f"Nonfinite loss at epoch {epoch}, batch {step}")
             if prof_n:
                 torch.cuda.synchronize(); prof["fwd"] += time.time() - _mark
                 _mark = time.time()
@@ -382,22 +461,24 @@ def main():
             # 386667, 387122). Equal-sized micro-batches with loss/accum
             # reproduce the large-batch mean-loss gradient exactly; the
             # scheduler steps once per OPTIMIZER step, not per micro-batch.
-            accum = int(cfg.get("accum_steps", 1))
-            if accum == 1:
-                optimizer.zero_grad(set_to_none=True)
-            elif step % accum == 0:
-                optimizer.zero_grad(set_to_none=True)
-            (loss / accum).backward() if accum > 1 else loss.backward()
+            # Accumulate summed example losses. Divide once per optimizer
+            # update, including the final short group, instead of dropping it.
+            examples = y.numel()
+            (loss * examples).backward()
+            accumulated_examples += examples
             if prof_n:
                 torch.cuda.synchronize(); prof["bwd"] += time.time() - _mark
                 _mark = time.time()
-            if accum == 1 or (step + 1) % accum == 0:
+            if (step + 1) % accum == 0 or step + 1 == train_batch_limit:
+                normalize_gradients(model.parameters(), accumulated_examples)
                 if cfg.get("grad_clip"):
                     torch.nn.utils.clip_grad_norm_(model.parameters(),
                                                    cfg["grad_clip"])
                 optimizer.step()
                 if scheduler is not None:
                     scheduler.step()
+                optimizer.zero_grad(set_to_none=True)
+                accumulated_examples = 0
             running.append(loss.item())
             if prof_n:
                 torch.cuda.synchronize(); prof["opt"] += time.time() - _mark
@@ -465,11 +546,32 @@ def main():
         control.restore_handlers()
         print(f"operator stop: {control.reason}; best checkpoint retained; test not evaluated", flush=True)
         return
-    if best_state is not None:
+    selected_threshold = best_threshold
+    selected_val_metrics, selected_val_tag = best_val_metrics, best_val_tag
+    selected_val_index = best_val_index
+    selected_checkpoint = "best.pt"
+    if checkpoint_selection == "terminal":
+        # BIOT's released entrypoints enable Lightning's default unmonitored
+        # ModelCheckpoint: ckpt_path='best' refers to its terminal checkpoint.
+        # Retain validation-best for auditing, but report the native terminal
+        # weights and the threshold computed by that same final validation.
+        selected_checkpoint = "terminal.pt"
+        selected_threshold = last_threshold
+        selected_val_metrics, selected_val_tag = last_val_metrics, last_val_tag
+        selected_val_index = len(val_curve) - 1
+        path = os.path.join(out_dir, selected_checkpoint)
+        torch.save({"model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
+                    "config": cfg, "validation": last_val_metrics,
+                    "threshold": last_threshold, "selection": "terminal",
+                    "stopped_by": stopped_by}, path + ".tmp")
+        os.replace(path + ".tmp", path)
+    elif best_state is not None:
         model.load_state_dict(best_state)
     _, test_m, test_logits, test_y = evaluate(
         model, test_loader, device, criterion, cfg["num_classes"], cfg,
         return_raw=True)
+    if cfg.get("binary_threshold") == "validation_prevalence":
+        test_m = compute_metrics(test_y, test_logits, 2, threshold=selected_threshold)
     print("test | " + " ".join(f"{k}={v:.4f}" for k, v in test_m.items()), flush=True)
 
     # Hard rule 3 is evaluated here so it travels with the result.
@@ -479,11 +581,13 @@ def main():
     prevalence = None
     if val_counts and len(val_counts) == 2 and sum(val_counts):
         prevalence = val_counts[1] / sum(val_counts)
-    verdict = epoch0_peak_check(val_curve, key, cfg["num_classes"],
-                                prevalence, test_m)
-    if not verdict["ok"]:
-        print(f"WARNING mis-configured: {verdict['reason']} -- "
-              f"this cell must not be written to the matrix", flush=True)
+    diagnostic = epoch0_peak_check(val_curve, key, cfg["num_classes"],
+                                  prevalence, None)
+    # A weak score or first-evaluation peak is a diagnostic, not permission to
+    # remove a completed seed. Test scores never decide result admissibility.
+    verdict = {"ok": stopped_by in ("epochs", "patience"),
+               "status": "complete" if stopped_by in ("epochs", "patience") else "incomplete",
+               "reason": stopped_by}
 
     out_dir = os.path.join(args.out, cfg["name"], f"seed{seed}")
     os.makedirs(out_dir, exist_ok=True)
@@ -493,7 +597,7 @@ def main():
     # of this dump referenced an undefined run_dir and killed SIENA_d2 at
     # the finish line after a completed 2h training.
     np.savez_compressed(os.path.join(out_dir, "test_scores.npz"),
-                        logits=test_logits.astype(np.float16), y=test_y)
+                        logits=test_logits.astype(np.float32), y=test_y)
     result = {
         "name": cfg["name"],
         "dataset": dataset,
@@ -504,16 +608,21 @@ def main():
         "primary_metric": key,
         "test": test_m,
         "best_val": float(best),
+        "binary_threshold": selected_threshold if cfg["num_classes"] == 2 else None,
+        "checkpoint_selection": checkpoint_selection,
+        "selected_checkpoint": selected_checkpoint,
         # Keep best_val as the selection score for backward compatibility.
         # These metrics belong to exactly the same selected model state.
         "selected_validation": {
-            "selection_metric": select_key,
-            "tag": best_val_tag,
-            "evaluation_index": best_val_index,
-            "metrics": best_val_metrics,
-        } if best_val_metrics is not None else None,
+            "selection_metric": select_key if checkpoint_selection == "validation_best" else None,
+            "early_stopping_metric": select_key,
+            "tag": selected_val_tag,
+            "evaluation_index": selected_val_index,
+            "metrics": selected_val_metrics,
+        } if selected_val_metrics is not None else None,
         "val_curve": [float(v) for v in val_curve],
         "verdict": verdict,
+        "validation_diagnostic": diagnostic,
         "epochs_run": epoch + 1,
         # "epochs" | "patience" | "time_budget" -- a cell stopped by the budget
         # was not trained to its own schedule and must be reported as such.
@@ -522,6 +631,7 @@ def main():
         "config": cfg,
         "data_manifest_created": info["manifest"].get("created_utc"),
         "class_counts": info["class_counts"],
+        "input_contract": info.get("input_contract"),
     }
     # Learned coupling gates, reported per corpus in the paper: |beta_b|
     # (fused-row blend, zero-init) and gamma_b (interaction-row gate,
@@ -538,8 +648,7 @@ def main():
             result["gates"] = gates
     except Exception as e:                                    # noqa: BLE001
         print(f"[gates] not recorded: {type(e).__name__}: {e}", flush=True)
-    with open(os.path.join(out_dir, "result.json"), "w") as f:
-        json.dump(result, f, indent=2)
+    atomic_json(os.path.join(out_dir, "result.json"), result)
     print(f"-> {out_dir}/result.json", flush=True)
     if control is not None:
         control.restore_handlers()

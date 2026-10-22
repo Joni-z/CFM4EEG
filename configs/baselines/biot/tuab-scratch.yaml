@@ -1,0 +1,65 @@
+name: tuab-biot_scratch_native20261022
+group: C
+dataset: tuab
+data_root: $PACLOCK_PROC/processed/tuab
+checkpoint: null
+model: biot
+loader: biot
+optimizer: adam
+lr: 0.001
+weight_decay: 1.0e-05
+epochs: 100
+scheduler: null
+grad_clip: null
+patience: 5
+num_workers: 32
+device: cuda
+model_kwargs:
+  token_size: 200
+  hop_length: 100
+  encoder_channels: 16
+  channel_mode: strict
+num_classes: 2
+sample_rate: 200
+batch_size: 512
+loss: bce_with_logits
+label_smoothing: 0.0
+eval_every_steps: 0
+seed: 0
+model_output_classes: 1
+max_hours: 0
+train_drop_last: true
+select_metric: auroc
+run_monitor: true
+save_checkpoint: true
+amp: false
+loader_input_multiplier: 0.0001
+reproduction:
+  kind: original_entrypoint_shared_cohort
+  vendor: biot
+  commit: d138e32634e52ae9fa6ec98ac9c4087b14ca869a
+  source:
+  - run_binary_supervised.py
+  - utils.py
+  - model/biot.py
+  - README.md
+  deviations:
+  - Accepted shared NPY cohort and preprocessing replace native pickle dataset; no
+    claim of native data protocol identity.
+  - Stored uV/100 converted to volts before the unchanged native TUAB q95(+1e-8) normalization;
+    200Hz 10s windows retained.
+  - User-requested seed0 replaces native hardcoded12345; task/model/optimizer/trainer/fit/test
+    entrypoint remains native.
+  - One explicit callback-registration-only source patch records audit outputs without
+    changing model,optimizer,selection.
+  - Native validation prevalence threshold is retained on the same LightningModule
+    for terminal checkpoint test; it is not recomputed on test labels.
+  checkpoint_rule: 'Literal released code under Lightning1.6.4: default unmonitored
+    checkpoint selects terminal; conflicts with paper validation-best wording.'
+  runtime: Python3.9,Torch1.13.1+cu117,Lightning1.6.4 isolated environment
+  data_gate: Accepted corrected TUAB manifest and matching READY.json required before
+    smoke or training.
+checkpoint_selection: terminal
+runner: scripts/rebuild/native_biot_entry.py
+binary_threshold: validation_prevalence
+require_rebuild_ready: true

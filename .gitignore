@@ -1,31 +1,25 @@
 __pycache__/
-*.pyc
-*.pyo
-.ipynb_checkpoints/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+._*
+.venv/
+venv/
+.env
 
-# Logs churn constantly and are reproducible from the runs they describe.
-logs/
-slurm-*.out
-
-# Preprocessed signal arrays live outside the repo (see docs/STATUS.md).
-*.npy
-*.pkl
-
-# Vendored upstream repos + their pretrained weights: 1.6 GB of third-party
-# code and checkpoints. Copied, not cloned, on migration -- see
-# docs/STATUS.md. Tracking them would make the repo unusable to move.
+# Original-author repos; data, checkpoints and outputs live outside source.
 vendor/
-
-# runs/ and runs_*/ are deliberately NOT ignored. They are ~2 MB of result.json
-# holding every stored config, val curve and verdict -- the provenance the
-# paper rests on, and the only record that survives a cluster change.
-
-# Pretraining checkpoints: 125 MB across four runs, against a 13 MB repo. The
-# repo is meant to be cloneable/bundleable to move between clusters (see
-# docs/STATUS.md), and these would end that. They are produced on b2 and copied
-# to the finetuning cluster by hand; scripts/ckpt_steps.py records which run
-# used which checkpoint at how many steps, so provenance survives without them.
-pretrain_runs/
-pretrain_runs_60k/
+data/
 ckpt/
+runs/
+results/
+logs/
+pretrain_runs*/
+*.npy
 *.npz
+*.pkl
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+slurm-*.out

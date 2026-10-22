@@ -1,0 +1,71 @@
+name: tusz-tfm_multiple_rebuild20261021
+group: B
+model: tfm
+dataset: tusz
+num_classes: 2
+model_output_classes: 1
+sample_rate: 200
+data_root: $PACLOCK_PROC/processed/tusz
+loader: biot
+loader_input_multiplier: 100.0
+seed: 0
+pretrained: true
+tfm_setting: multiple
+batch_size: 512
+num_workers: 8
+epochs: 50
+patience: 0
+max_hours: 0
+eval_every_steps: 0
+optimizer: adamw
+lr: 0.001
+weight_decay: 1.0e-05
+optimizer_betas:
+- 0.9
+- 0.999
+scheduler: labram_cosine
+scheduler_min_lr: 0.005
+warmup_start_lr: 0.0
+warmup_epochs: 5
+train_drop_last: false
+grad_clip: null
+amp: false
+loss: bce_with_logits
+label_smoothing: 0.0
+select_metric: auroc
+save_checkpoint: true
+run_monitor: true
+model_kwargs:
+  channel_strategy: strict
+reproduction:
+  kind: released_checkpoint_reference_shared_cohort
+  vendor: tfm
+  commit: 2d6da482b16dabbb2ebec808fa9f505fc6f367c4
+  setting: multiple
+  source:
+  - downstream_transformer_finetuning.py
+  - configs/tfm_tokenizer_training_configs.yaml
+  deviations:
+  - shared fixed patient cohort
+  - released pretraining cohorts must be checked against validation/test patients
+  - Use unchanged native IIIC tokenizer pretraining recipe for this new task, then
+    native generic MTP/fine-tuning recipe; no target test tuning.
+runner: scripts/rebuild/run_tfm_stage.py
+stage_devices: 2
+stage_seed: 0
+allow_new_task_adaptation: true
+finetune_devices: 1
+pretraining_cohort_review:
+  status: released_checkpoint_reference
+  known_test_overlap: null
+  released_patient_manifest: not published
+  declared_pretraining_corpora:
+  - TUAB
+  - TUEV
+  - CHBMIT
+  test_overlap_evidence: None established; cross-TUH mapping unavailable. This is
+    not proof of universal patient independence.
+  validation_exposure: Native train/validation partition may differ from shared cohort;
+    exact released training subject manifest unavailable.
+  strict_same_protocol_ranking: false
+  source_audit_sha256: aa7f123831960a4f416de018ab58fadfebb7aef0a3fe3ac2449011c526a3c4f3

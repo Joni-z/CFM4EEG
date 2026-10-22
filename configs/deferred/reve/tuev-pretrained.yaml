@@ -1,0 +1,67 @@
+name: tuev-reve_pretrained_rebuild20261021
+group: B
+model: reve
+dataset: tuev
+num_classes: 6
+sample_rate: 200
+data_root: $PACLOCK_PROC/processed/tuev
+pretrained: true
+seed: 0
+batch_size: 256
+num_workers: 8
+native_stages:
+- n_epochs: 20
+  patience: 5
+  warmup_epochs: 5
+  mixup: true
+  dropout: 0.5
+  optimizer:
+    _target_: utils.stable_adamw.StableAdamW
+    lr: 0.005
+    weight_decay: 0.1
+    betas:
+    - 0.92
+    - 0.999
+    eps: 1.0e-09
+  name: lp
+  scheduler:
+    _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+    mode: max
+    factor: 0.5
+    patience: 5
+- n_epochs: 50
+  patience: 10
+  warmup_epochs: 5
+  mixup: true
+  dropout: 0.15
+  optimizer:
+    _target_: utils.stable_adamw.StableAdamW
+    lr: 0.0001
+    weight_decay: 0.01
+    betas:
+    - 0.92
+    - 0.999
+    eps: 1.0e-09
+  name: ft
+  scheduler:
+    _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+    mode: max
+    factor: 0.5
+    patience: 5
+train_drop_last: false
+save_checkpoint: true
+run_monitor: true
+runner: scripts/rebuild/run_reve_native.py
+reproduction:
+  kind: official_recipe_shared_cohort
+  vendor: reve
+  commit: 06a7059a07c3dabd80aee60c3dbc1eca4bdbe1c7
+  source_recipe: tuev
+  unused_upstream_fields:
+  - task.clip
+  - stage.dropout
+  effective_clip: 2.0
+  effective_dropout: 0.0
+  deviations:
+  - shared fixed patient cohort
+  - test access deferred until final validation-selected checkpoint

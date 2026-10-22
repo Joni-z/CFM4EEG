@@ -1,0 +1,84 @@
+{
+  "status": "compatible",
+  "cache_preprocessing_source_sha256": "f9e7b85a4e43e6838280b920f6ca5f040cc8b47ada5e5b9e0338a39eaf0dfcc2",
+  "eegpt_source_sha256": {
+    "dataset_maker/make_TUEV.py": "60cc2172bffae3dbdfbc9210350eaf84ba8aeafc5c49ae4ed254690593618716",
+    "utils.py": "95d476b0f69f5eb760a7fa445231830ddeb9af461b8d7c5d0922c4799ffc4e67",
+    "engine_for_finetuning_EEGPT.py": "0c7d88d7ce6525d304902a994797204379c23327dd21e615229fc52e97a831ee",
+    "run_class_finetuning_EEGPT_change_tuev.py": "b0dfab8513751483235090e11380742fa1c5f0282223795b4a59b5122e42b0d0",
+    "Modules/models/EEGPT_mcae_finetune_change_tuev.py": "d2c89f4d58b689164a3c5c4b315b22b03a9df578e965bf14120dffa8ce447a90"
+  },
+  "source_comparison": {
+    "method": "Python AST with only root path assignments removed; comments do not affect AST",
+    "all_executable_statements_identical": true,
+    "all_functions_identical": true,
+    "differences": [
+      "LaBraM copyright header only",
+      "raw/output root filesystem path assignments only"
+    ]
+  },
+  "contracts": {
+    "pickle": {
+      "producer": "make_TUEV.py:load_up_objects -> save_pickle",
+      "fields": [
+        "signal",
+        "offending_channel",
+        "label"
+      ],
+      "consumer": "utils.py:TUEVLoader.__getitem__ reads signal and int(label[0]-1); offending_channel unused",
+      "one_based_labels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "physical_units": {
+      "producer": "readEDF -> Rawdata.get_data(units=\"uV\")",
+      "consumer": "TUEVLoader creates FloatTensor without amplitude normalization; engine train/evaluate divides by100 exactly once",
+      "cached_values": "microvolts, not volts or uV/100"
+    },
+    "channels": {
+      "producer": "readEDF drops only specified auxiliary channels, reorders chOrder_standard, asserts exact channel-list equality; no bipolar conversion because convert_signals call commented out",
+      "order": [
+        "EEG FP1-REF",
+        "EEG FP2-REF",
+        "EEG F3-REF",
+        "EEG F4-REF",
+        "EEG C3-REF",
+        "EEG C4-REF",
+        "EEG P3-REF",
+        "EEG P4-REF",
+        "EEG O1-REF",
+        "EEG O2-REF",
+        "EEG F7-REF",
+        "EEG F8-REF",
+        "EEG T3-REF",
+        "EEG T4-REF",
+        "EEG T5-REF",
+        "EEG T6-REF",
+        "EEG A1-REF",
+        "EEG A2-REF",
+        "EEG FZ-REF",
+        "EEG CZ-REF",
+        "EEG PZ-REF",
+        "EEG T1-REF",
+        "EEG T2-REF"
+      ],
+      "consumer": "TUEV get_models and TUEV get_dataset use the same23-entry electrode order; original learned 23->20 conv is unchanged"
+    },
+    "time_frequency": {
+      "producer": "readEDF filter0.1-75Hz, notch50Hz, MNE resample200Hz; BuildEvents fs200 and5s centered event extraction",
+      "consumer": "TUEVLoader defaults both rates to200, therefore no resample; engine reshapes B\u00d723\u00d71000 to B\u00d723\u00d75\u00d7200",
+      "samples": 1000,
+      "sample_rate_hz": 200
+    },
+    "split": {
+      "producer": "seed4523,20% training subjects validation, original evaluation test; executable split statements identical after root replacement",
+      "consumer": "prepare_TUEV_dataset processed_train/train, processed_eval/val, processed_test/test; exact original accepted file-order restored after transfer"
+    }
+  },
+  "cohort_scope": "Accepted native23 v2.0.1 cohort, not the shared16 cohort. Both preprocessors retain historicalv2.0.0 path strings; EEGPT actual task main pointsv2.0.1. This verifies matching computation/input contract, not identity to every published-score cohort."
+}

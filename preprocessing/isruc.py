@@ -1,4 +1,4 @@
-"""ISRUC-Sleep Subgroup I -> sequence npy + manifest. Protocol: docs/PROTOCOLS.md sec.6.
+"""ISRUC-Sleep Subgroup I -> sequence npy + manifest. Protocol: docs/DATA.md.
 
     python -m preprocessing.isruc --config configs/datasets/isruc.yaml
 

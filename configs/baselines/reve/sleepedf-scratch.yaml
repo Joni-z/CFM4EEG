@@ -1,0 +1,58 @@
+name: sleepedf-reve_scratch_rebuild20261021
+group: C
+model: reve
+dataset: sleepedf
+num_classes: 5
+sample_rate: 100
+data_root: $PACLOCK_PROC/processed/sleepedf
+pretrained: false
+seed: 0
+batch_size: 32
+num_workers: 8
+native_stages:
+- n_epochs: 50
+  patience: 2
+  warmup_epochs: 5
+  mixup: true
+  dropout: 0.3
+  optimizer:
+    _target_: utils.stable_adamw.StableAdamW
+    lr: 0.0001
+    weight_decay: 0.01
+    betas:
+    - 0.92
+    - 0.999
+    eps: 1.0e-09
+  name: ft
+  scheduler:
+    _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+    mode: max
+    factor: 0.5
+    patience: 5
+train_drop_last: false
+save_checkpoint: true
+run_monitor: true
+runner: scripts/rebuild/run_reve_native.py
+reproduction:
+  kind: declared_new_task_adaptation
+  vendor: reve
+  commit: 06a7059a07c3dabd80aee60c3dbc1eca4bdbe1c7
+  source_recipe: isruc
+  unused_upstream_fields:
+  - task.clip
+  - stage.dropout
+  - task.classifier.dropout
+  effective_clip: 2.0
+  effective_dropout: 0.0
+  deviations:
+  - Shared fixed patient cohort and original30-second windows.
+  - "Reuse native ISRUC sleep-staging recipe, classifier pooling:last, and physical\xB5\
+    V/10 scale without tuning on target test."
+  - Invert cached training-only per-channel affine normalization, Fourier resample100to200Hz,
+    and use bipolar midpoint scalp positions.
+  - Scratch uses FT only from random initialization.
+native_classifier:
+  pooling: last
+  dropout: 0.0
+native_input_bridge: uv_div10
+model_sample_rate: 200

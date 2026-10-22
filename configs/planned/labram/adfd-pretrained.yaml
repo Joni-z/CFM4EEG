@@ -1,0 +1,51 @@
+batch_size: 64
+data_root: $PACLOCK_PROC/processed/adfd
+dataset: adfd
+device: cuda
+epochs: 50
+eval_every_steps: 0
+grad_clip: null
+group: B
+label_smoothing: 0.1
+layer_decay: 0.65
+loader: labram
+loss: cross_entropy
+lr: 0.0001
+max_hours: 0
+model: labram
+model_kwargs:
+  montage_mode: positional
+  target_len: 2000
+name: adfd-labram_pretrained_rebuild20261021
+num_classes: 3
+num_workers: 8
+optimizer: adamw
+patience: 0
+pretrained: true
+sample_rate: 200
+scheduler: labram_cosine
+seed: 0
+warmup_epochs: 5
+weight_decay: 0.05
+loader_divisor: 1.0
+train_drop_last: true
+select_metric: accuracy
+scheduler_min_lr: 1.0e-06
+warmup_start_lr: 0.0
+optimizer_betas:
+- 0.9
+- 0.999
+optimizer_eps: 1.0e-08
+run_monitor: true
+save_checkpoint: true
+amp: false
+reproduction:
+  kind: declared_new_task_adaptation
+  vendor: labram
+  commit: c431221e6cfd23dbfa9950e0180682fb322b0548
+  deviations:
+  - ADFD is not an original LaBraM task.
+  - Retain previously declared AD/FTD task adaptation lr1e-4 batch64, no new tuning.
+  - Physical input units and patient/label crosswalk require acceptance.
+disabled_reason: Original entrypoint/input adaptation is not verified for this arm.
+  Reference configuration only; do not launch.

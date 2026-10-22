@@ -1,0 +1,63 @@
+name: sleepedf-tfm_single_rebuild20261021
+group: A
+model: tfm
+dataset: sleepedf
+num_classes: 5
+model_output_classes: 5
+sample_rate: 100
+data_root: $PACLOCK_PROC/processed/sleepedf
+loader: biot
+loader_input_multiplier: 100.0
+seed: 0
+pretrained: true
+tfm_setting: single
+batch_size: 512
+num_workers: 8
+epochs: 50
+patience: 0
+max_hours: 0
+eval_every_steps: 0
+optimizer: adamw
+lr: 0.001
+weight_decay: 1.0e-05
+optimizer_betas:
+- 0.9
+- 0.999
+scheduler: labram_cosine
+scheduler_min_lr: 0.005
+warmup_start_lr: 0.0
+warmup_epochs: 5
+train_drop_last: false
+grad_clip: null
+amp: false
+loss: cross_entropy
+label_smoothing: 0.1
+select_metric: cohen_kappa
+save_checkpoint: true
+run_monitor: true
+model_kwargs:
+  channel_strategy: strict
+reproduction:
+  kind: declared_new_task_adaptation
+  vendor: tfm
+  commit: 2d6da482b16dabbb2ebec808fa9f505fc6f367c4
+  setting: single
+  source:
+  - downstream_transformer_finetuning.py
+  - configs/tfm_tokenizer_training_configs.yaml
+  deviations:
+  - shared fixed patient cohort
+  - released pretraining cohorts must be checked against validation/test patients
+  - Use unchanged native IIIC tokenizer pretraining recipe for this new task, then
+    native generic MTP/fine-tuning recipe; no target test tuning.
+  - Invert shared train-stat affine normalization, Fourier resample100to200Hz, then
+    native channelwiseq95 normalization before fixed200-point STFT.
+tokenizer_path: $PACLOCK_CKPT/rebuild_20261021/sleepedf/tokenizer_train_only/tfm_tokenizer_last.pth
+encoder_path: $PACLOCK_CKPT/rebuild_20261021/sleepedf/mtp_train_only/tfm_encoder_mtp.pth
+stage_devices: 2
+stage_seed: 0
+stage_runner: scripts/rebuild/run_tfm_stage.py
+runner: scripts/rebuild/run_tfm_stage.py
+allow_new_task_adaptation: true
+finetune_devices: 1
+model_sample_rate: 200

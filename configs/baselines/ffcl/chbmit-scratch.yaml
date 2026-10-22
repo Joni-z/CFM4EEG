@@ -1,0 +1,58 @@
+name: chbmit-ffcl_scratch_native20261022
+group: A
+model: ffcl
+dataset: chbmit
+data_root: $PACLOCK_PROC/processed/chbmit
+num_classes: 2
+sample_rate: 200
+loss: bce_with_logits
+batch_size: 512
+num_workers: 32
+epochs: 100
+optimizer: adam
+lr: 0.001
+weight_decay: 1.0e-05
+scheduler: null
+grad_clip: null
+patience: 5
+eval_every_steps: 0
+seed: 0
+device: cuda
+label_smoothing: 0.0
+loader: biot
+loader_input_multiplier: 1.0
+train_drop_last: true
+max_hours: 0
+select_metric: auroc
+amp: false
+run_monitor: true
+save_checkpoint: true
+reproduction:
+  kind: original_binary_entrypoint_declared_CHB_dispatch
+  vendor: biot
+  commit: d138e32634e52ae9fa6ec98ac9c4087b14ca869a
+  source:
+  - run_binary_supervised.py
+  - utils.py
+  - model/ffcl.py
+  - README.md
+  deviations:
+  - Accepted corrected shared CHB cohort; not original BIOT segmentation/split or
+    preprocessing.
+  - Float64 stored Q95 denominator restores physical microvolts before unchanged native
+    CHBMITLoader FFT resampling and Q95(+1e-8), matching upstream pyedflib physical
+    units.
+  - Released supervised() dispatch only includes TUAB although CHB loader exists;
+    add one explicit elif to select that existing loader. Native binary model, loss,
+    optimizer, callbacks, Trainer, test unchanged.
+  - Seed0 replaces native hardcoded12345; scratch BIOT capacity16 from original binary
+    constructor.
+  - Checkpoint selection follows literal released unmonitored terminal checkpoint,
+    with validation-best separately archived.
+  checkpoint_rule: 'Literal released code under Lightning1.6.4: default unmonitored
+    checkpoint selects terminal; conflicts with paper validation-best wording.'
+  runtime: Python3.9,Torch1.13.1+cu117,Lightning1.6.4 isolated environment
+checkpoint_selection: terminal
+runner: scripts/rebuild/native_biot_entry.py
+model_output_classes: 1
+require_rebuild_ready: true

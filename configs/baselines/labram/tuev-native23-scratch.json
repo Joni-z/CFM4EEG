@@ -1,0 +1,18 @@
+{
+  "seed": 0,
+  "pretrained": false,
+  "batch_size": 64,
+  "update_freq": 8,
+  "epochs": 50,
+  "warmup_epochs": 5,
+  "lr": 0.0005,
+  "layer_decay": 1.0,
+  "num_workers": 8,
+  "recipe_scope": "Actualupstreammain/engine; scratchlayer_decay1;8x64microbatch givesglobal512matching8ranks64inpublishedTUAB;50epochs/warmup5/AdamW5e-4/wd.05/nativeAMP.Explicit single-rank accumulation adaptation, not exactdistributednumerics.",
+  "dataset": "TUEV",
+  "data_root": "$PACLOCK_NATIVE/tuev-labram23",
+  "input_scope": "Official23monopolar source preprocessing/split; rawuV; actual nativeTUEVLoader.Split counts in acceptance.Originaltestexcludes1missing-electrodeEDF.OfficialpublishedTUABrecipe is adapted toTUEV; no publishedTUEVcommand in pinnedREADME.",
+  "runner": "scripts/rebuild/run_labram_original.py",
+  "runner_interface": "direct_cli",
+  "model": "labram"
+}
