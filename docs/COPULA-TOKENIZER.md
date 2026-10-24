@@ -40,7 +40,7 @@ The complete new frontend is
 when `tokenizer_mode: copula`; older configurations retain their own frontend.
 `configs/model/tuev-copula-lenovo.yaml` trains the TUEV pilot from scratch with
 seed 0, the accepted shared16 cohort and validation-best checkpoint selection.
-Physical batch 8 and four accumulation steps give effective batch 32; stochastic
+Physical batch 16 and two accumulation steps give effective batch 32; stochastic
 augmentation/dropout draws differ from a single physical batch of 32.
 
 Windows uses memory-mapped arrays and zero DataLoader workers to avoid spawning

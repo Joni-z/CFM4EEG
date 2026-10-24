@@ -13,8 +13,8 @@ preload: false
 device: cuda
 num_classes: 6
 epochs: 20
-batch_size: 8
-accum_steps: 4
+batch_size: 16
+accum_steps: 2
 eval_every_steps: 0
 patience: 20
 loss: cross_entropy
@@ -50,6 +50,6 @@ reproduction:
   kind: new_method_pilot
   reference: Sklar-motivated content/dependence separation; Gaussian-copula dependence per Ince et al. 2017
   data_gate: immutable ACCEPTED shared16 arrays, exact original file hashes
-  execution: native Windows, physical batch 8 and accumulation 4; effective batch 32
+  execution: native Windows, physical batch 16 and accumulation 2; effective batch 32
   relation_estimator: empirical midrank CDF, Gaussian scores, 0.05 correlation shrinkage; stop-gradient
   comparison: architecture pilot; not a matched reproduction of the former rotation frontend
