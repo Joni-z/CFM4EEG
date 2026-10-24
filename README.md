@@ -13,7 +13,7 @@ This repository contains the model, clinical EEG preprocessing, and baseline rep
 | `preprocessing/` | Clinical readers and dataset preparation |
 | `configs/datasets/` | Dataset definitions |
 | `configs/baselines/<model>/` | Supported original-code baseline configurations |
-| `configs/model/` | CfFT configurations |
+| `configs/model/` | CfFT and the explicit waveform-patch control configurations |
 | `configs/deferred/` | Native pretraining/pretrained recipes, kept separate from scratch work |
 | `configs/planned/` | Unfinished adaptations; explicitly blocked from launch |
 | `scripts/rebuild/` | Original-code baseline entrypoints and input bridges |

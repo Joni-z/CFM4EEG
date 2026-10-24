@@ -1,4 +1,4 @@
-"""Construct CfFT. Baselines execute their own original upstream trainers."""
+"""Construct CfFT or its explicit waveform control; baselines use author trainers."""
 from __future__ import annotations
 
 import torch.nn as nn
@@ -6,7 +6,7 @@ from ..paths import expand
 
 
 def build_model(cfg: dict, input_shape: tuple[int, ...]) -> nn.Module:
-    if cfg["model"] != "paclock":
+    if cfg["model"] not in ("paclock", "wave_patch_twoaxis"):
         raise ValueError(
             f"Baseline {cfg['model']!r} must use its original entrypoint under "
             "scripts/rebuild/. Generic baseline construction has been retired."
@@ -23,6 +23,11 @@ def build_model(cfg: dict, input_shape: tuple[int, ...]) -> nn.Module:
         "sampling_rate": cfg.get("sample_rate", 200),
         "dataset": cfg["dataset"],
     }
+    if cfg["model"] == "wave_patch_twoaxis":
+        if cfg.get("checkpoint"):
+            raise ValueError("Waveform-patch control is trained from scratch")
+        from .wave_patch import WavePatchTwoAxis
+        return WavePatchTwoAxis(model_config)
     model = build_cfft(model_config)
     checkpoint = cfg.get("checkpoint")
     if checkpoint:

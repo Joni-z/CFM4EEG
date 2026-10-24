@@ -42,5 +42,9 @@
   "configs/deferred/reve/iiic-pretrained.yaml": "6ee3b758ab99f768001002137f376558b4b012d9f58808d9bb441daed6f250a1",
   "configs/deferred/reve/sleepedf-pretrained.yaml": "7a578906726dd83825213b6112d1e57ad51e41543bd7def7cf84030c075c4d5a",
   "configs/deferred/reve/tusz-pretrained.yaml": "885dbeeaec087a8d8e5413ae15ba233aebda637138aab38fe628266d597da1c8",
-  "configs/deferred/reve/tuev-pretrained.yaml": "899b478163399b1cc0c0b3c10f29a9cac70a3239628884b03126f558db92134d"
+  "configs/deferred/reve/tuev-pretrained.yaml": "899b478163399b1cc0c0b3c10f29a9cac70a3239628884b03126f558db92134d",
+  "configs/model/tuev-scratch.yaml": "09ac4f69637ab211925dffa528c3b2a98f7dd235b40ad30556e474c44e8f6292",
+  "configs/model/tuev-wave-patch.yaml": "985a27e72e6c71fdd1b81bddae680ee40d91fa38d3fdb8defe52210fe49bf086",
+  "configs/model/tuev-scratch-noaug.yaml": "3496386ed37a8ee012d96b50215912e56144e4505ab4c3ebb6cfcac5f05a2850",
+  "configs/model/tuev-wave-patch-noaug.yaml": "46ff1ff3b5089bba46c053f0bc146ae38412eeaeb9f9c9cc418bb5bf47a3703e"
 }

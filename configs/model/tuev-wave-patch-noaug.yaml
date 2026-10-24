@@ -1,0 +1,48 @@
+name: tuev-wave_patch_twoaxis_noaug_rebuild20261022
+group: tuev_tokenizer_control_20261022
+dataset: tuev
+data_root: $PACLOCK_PROC/processed/tuev
+model: wave_patch_twoaxis
+optimizer: adamw
+lr: 0.0001
+weight_decay: 0.05
+scheduler: cosine
+grad_clip: 1.0
+num_workers: 4
+device: cuda
+num_classes: 6
+epochs: 20
+batch_size: 32
+eval_every_steps: 0
+patience: 20
+loss: cross_entropy
+label_smoothing: 0.1
+sample_rate: 200
+model_kwargs:
+  d_model: 128
+  depth: 6
+  n_heads: 4
+  dropout: 0.35
+  patch_len: 50
+  augmentations: []
+  freq_mixer: none
+  spatial_pe: xyz
+seed: 0
+max_hours: 0
+save_checkpoint: true
+run_monitor: true
+require_rebuild_ready: false
+amp: false
+checkpoint_selection: validation_best
+reproduction:
+  kind: project_control
+  tokenizer: per-electrode nonoverlapping 50-sample waveform patches with shared linear
+    projection
+  encoder: exact same two-axis Transformer class, width, depth, attention and readout
+    as CfFT
+  data_gate: immutable ACCEPTED shared16 arrays; TUEV is not a newly rebuilt EDF cohort
+  differences:
+  - No filterbank, analytic features, PAC, band embeddings or repeated pseudo-band
+    tokens.
+  - Token counts and frontend parameter counts differ; this is not a parameter-matched
+    component ablation.
