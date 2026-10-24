@@ -106,6 +106,17 @@ class TriAxialPACLock(nn.Module):
                 content_scale=cfg.get("content_scale", 1.0),
                 filter_range=cfg.get("filter_range"),
             )
+        elif cfg.get("tokenizer_mode") == "copula":
+            from .frontend.copula import CopulaFrontend
+            if self.freq_mixer not in ("none", "attention") or cfg.get("aux_recon_weight", 0):
+                raise ValueError("copula pilot requires none/attention frequency mixer and no auxiliary loss")
+            frontend_cls = CopulaFrontend
+            frontend_extra = dict(
+                filter_range=cfg.get("filter_range"),
+                relation_window_samples=cfg.get("relation_window_samples", cfg["sample_rate"]),
+                fusion_heads=cfg.get("fusion_heads", 4),
+                copula_shrinkage=cfg.get("copula_shrinkage", 0.05),
+            )
         self.frontend = frontend_cls(
             **frontend_extra,
             n_bands=cfg["n_bands"], hidden_dim=d, sample_rate=cfg["sample_rate"],

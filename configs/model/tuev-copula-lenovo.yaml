@@ -1,0 +1,55 @@
+name: tuev-cfft_copula_v1_lenovo_20261025
+group: copula_tokenizer_pilot
+dataset: tuev
+data_root: D:/Research/CFM4EEG/data/tuev
+model: paclock
+optimizer: adamw
+lr: 0.0001
+weight_decay: 0.05
+scheduler: cosine
+grad_clip: 1.0
+num_workers: 0
+preload: false
+device: cuda
+num_classes: 6
+epochs: 20
+batch_size: 8
+accum_steps: 4
+eval_every_steps: 0
+patience: 20
+loss: cross_entropy
+label_smoothing: 0.1
+sample_rate: 200
+model_kwargs:
+  arch: triaxial
+  d_model: 128
+  depth: 6
+  n_bands: 16
+  n_heads: 4
+  dropout: 0.35
+  kernel_size: 201
+  patch_len: 50
+  augmentations: [flip0.5, jitter0.05, mask0.2, channel0.2, frequency0.2]
+  freq_mixer: none
+  band_pe: index
+  tokenizer_mode: copula
+  spatial_pe: xyz
+  filter_range: [0.5, 75.0]
+  space_over_bands: true
+  relation_window_samples: 200
+  fusion_heads: 4
+  copula_shrinkage: 0.05
+seed: 0
+max_hours: 0
+save_checkpoint: true
+run_monitor: true
+require_rebuild_ready: false
+amp: false
+checkpoint_selection: validation_best
+reproduction:
+  kind: new_method_pilot
+  reference: Sklar-motivated content/dependence separation; Gaussian-copula dependence per Ince et al. 2017
+  data_gate: immutable ACCEPTED shared16 arrays, exact original file hashes
+  execution: native Windows, physical batch 8 and accumulation 4; effective batch 32
+  relation_estimator: empirical midrank CDF, Gaussian scores, 0.05 correlation shrinkage; stop-gradient
+  comparison: architecture pilot; not a matched reproduction of the former rotation frontend

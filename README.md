@@ -4,6 +4,10 @@ CfFT is an EEG tokenizer that represents band content using measured cross-frequ
 
 This repository contains the model, clinical EEG preprocessing, and baseline reproduction code. Baselines call the original authors’ model and training code; dataset and runtime adaptations stay in small, explicit entrypoints. The Python package name `paclock_bench` is retained so existing checkpoint keys and imports remain usable.
 
+The [copula-guided tokenizer](docs/COPULA-TOKENIZER.md) is an explicit alternative
+frontend: empirical marginal transforms provide dependence summaries that guide
+residual fusion of band content, followed by the same two-axis encoder.
+
 ## Layout
 
 | Path | Contents |
