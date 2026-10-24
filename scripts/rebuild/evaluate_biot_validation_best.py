@@ -33,6 +33,8 @@ def main():
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--vendor', type=Path, required=True)
     parser.add_argument('--data-root', type=Path, required=True)
+    parser.add_argument('--device', choices=('cuda', 'cpu'), default='cuda',
+                        help='Inference device; CPU avoids preempting shared GPUs.')
     args = parser.parse_args()
     run, out, vendor, data = (p.resolve() for p in (args.run, args.out, args.vendor, args.data_root))
     if out.exists() or out == run or run in out.parents or out in run.parents:
@@ -86,7 +88,7 @@ def main():
     saved = torch.load(checkpoint, map_location='cpu')
     if saved['epoch'] != selected['epoch'] or saved['global_step'] != selected['step']:
         raise ValueError('Archived checkpoint epoch/step differs from validation selection')
-    if not torch.cuda.is_available():
+    if args.device == 'cuda' and not torch.cuda.is_available():
         raise RuntimeError('A free CUDA device is required; this tool does not allocate or kill jobs')
 
     sys.path.insert(0, str(vendor))
@@ -97,7 +99,8 @@ def main():
         if vendor not in Path(sys.modules[name].__file__).resolve().parents:
             raise RuntimeError('Imported a non-vendor module: ' + name)
     torch.manual_seed(0)
-    torch.cuda.manual_seed_all(0)
+    if args.device == 'cuda':
+        torch.cuda.manual_seed_all(0)
     np.random.seed(0)
     if native_args.model == 'BIOT':
         model = native.BIOTClassifier(n_classes=6, n_channels=16, n_fft=200, hop_length=100)
@@ -106,7 +109,7 @@ def main():
                             sample_length=1000, shrink_steps=20)
     module = native.LitModel_finetune(native_args, model)
     module.load_state_dict(saved['state_dict'], strict=True)
-    module.float().cuda().eval()
+    module.float().to(args.device).eval()
     bridge = bridge_code.NpyPickleBridge(data, 'TUEV')
     native_utils = sys.modules['utils']
     native_utils.open = bridge.open
@@ -118,7 +121,7 @@ def main():
         labels, logits = [], []
         with torch.no_grad():
             for x, y in loader:
-                z = module.model(x.cuda().float())
+                z = module.model(x.to(args.device).float())
                 if z.ndim != 2 or z.shape[1] != 6 or not torch.isfinite(z).all():
                     raise RuntimeError('Invalid evaluation logits')
                 labels.append(y.numpy())
@@ -142,7 +145,7 @@ def main():
                    original_terminal_metrics=original['native_metrics'], manifest_sha256=manifest_sha,
                    upstream_commit=provenance['upstream_commit'], upstream_sha256=provenance['upstream_sha256'],
                    script_sha256=bridge_code.sha(Path(__file__)), wrapper_sha256=wrapper_sha, runtime=runtime,
-                   dtype='float32', evaluation_workers=0,
+                   dtype='float32', evaluation_device=args.device, evaluation_workers=0,
                    source_result_sha256=bridge_code.sha(run / 'result.json'),
                    validation_history_sha256=bridge_code.sha(run / 'validation_audit.json'))
     bridge_code.atomic_json(out / 'provenance.json', receipt)
