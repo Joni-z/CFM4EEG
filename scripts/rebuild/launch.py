@@ -37,6 +37,11 @@ def main() -> None:
     if runner not in standard | {distributed}:
         parser.error("Use the model's explicit native CLI in docs/UPSTREAM.md; "
                      "generic baseline training is disabled.")
+    if runner == distributed:
+        import torch
+        if torch.cuda.device_count() < 2:
+            parser.error("CHB EEGPT requires two visible GPUs; request --gres=gpu:2 "
+                         "when submitting slurm/rebuild/torch_native.slurm.")
     output = (Path(os.environ["CFM_REBUILD_ROOT"])
               / ("smoke" if args.mode == "smoke" else "runs") / cfg["name"] / "seed0")
     gate = [sys.executable, "scripts/rebuild/preflight.py", "--config", str(args.config)]

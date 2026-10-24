@@ -10,6 +10,8 @@
 #SBATCH --time=48:00:00
 #SBATCH --output=logs/%x-%j.out
 set -euo pipefail
+# Default allocation is one GPU. CHB EEGPT requires the submission override
+# `sbatch --gres=gpu:2 ...`; launch.py checks visible devices before dispatch.
 RELEASE=${1:?immutable source release}
 PYTHON=${2:?absolute path to the baseline environment python}
 CONFIG=${3:?config relative to release}

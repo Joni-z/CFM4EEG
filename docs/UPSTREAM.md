@@ -60,6 +60,12 @@ python -m torch.distributed.run --standalone --nproc_per_node=2 \
 
 The native23 reader verifies the original preprocessor/consumer hashes and accepted transfer. Formal execution uses the same command with a fresh `runs/` output and without `--smoke-steps`; the job must depend on that smoke succeeding. CHB’s two-rank entry uses the common launcher. Never replace a trainable scratch encoder with a frozen random encoder.
 
+The generic `slurm/rebuild/torch_native.slurm` defaults to one GPU. For CHB EEGPT, submit it with `sbatch --gres=gpu:2 ...`; the launcher refuses to start its two ranks with fewer than two visible devices.
+
+CHB EEGPT also accepts an explicit `--resume` with a trusted local full training checkpoint. Continuation restores the optimizer and scaler, starts at the saved epoch plus one, and preserves the best validation-selected weights across segments. Keep the existing output directory and its validation history. The adapter corrects the upstream hardcoded resume epoch; model and training-engine sources remain unchanged. Upstream checkpoints do not store RNG state, so continuation does not reproduce the interrupted dropout trajectory exactly.
+
+The default arithmetic is FP16. An explicit `--precision bf16` or `--precision fp32` applies consistently to training, validation and final testing and is recorded as a runtime adaptation. Verify a fresh recovery smoke with the same checkpoint and precision before continuation; a successful forward diagnostic alone does not establish that a training instability has been resolved.
+
 TFM single-dataset work consists of tokenizer100epochs, masked-token prediction50epochs, then downstream50epochs. Run `run_tfm_chain.py CONFIG --plan` for the stage paths; each stage uses `--stage tokenizer|mtp|finetune --seed 0 --mode auto --resume auto`. The first two require2GPUs; downstream requires1. A stage’s `completed.json`, not a partial checkpoint, permits the next stage. Released multiple-dataset weights have separate exposure/protocol checks.
 
 ## Runtime differences

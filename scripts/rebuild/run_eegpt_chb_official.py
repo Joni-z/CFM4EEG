@@ -7,7 +7,7 @@ Validation/test use complete sequential cohorts (no distributed padding).
 """
 
 from __future__ import annotations
-import argparse, hashlib, importlib.util, itertools, json, os, sys
+import argparse, functools, hashlib, importlib.util, itertools, json, math, os, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -18,12 +18,65 @@ class SmokeFinished(Exception):
     pass
 
 
+def restore_training_checkpoint(path, args, model, optimizer, scaler):
+    """Restore a trusted local training checkpoint without restarting its schedule."""
+    import torch
+
+    checkpoint = torch.load(path, map_location="cpu", weights_only=False)
+    epoch = checkpoint.get("epoch")
+    if type(epoch) is not int or not 0 <= epoch < args.epochs:
+        raise ValueError("Resume needs an integer completed epoch, not a best-model checkpoint")
+    if "optimizer" not in checkpoint or "scaler" not in checkpoint:
+        raise ValueError("Resume requires the original optimizer and scaler states")
+    tensors = list(checkpoint["model"].values())
+    for values in checkpoint["optimizer"]["state"].values():
+        tensors.extend(v for v in values.values() if torch.is_tensor(v))
+    if any(not torch.isfinite(value).all().item() for value in tensors):
+        raise ValueError("Cannot resume nonfinite model or optimizer state")
+    model.load_state_dict(checkpoint["model"], strict=True)
+    optimizer.load_state_dict(checkpoint["optimizer"])
+    scaler.load_state_dict(checkpoint["scaler"])
+    args.start_epoch = epoch + 1
+    return epoch
+
+
+def previous_best_accuracy(path, through_epoch):
+    """Use completed validation records only; held-out scores never select weights."""
+    scores = []
+    for line in Path(path).read_text().splitlines():
+        record = json.loads(line)
+        if record["epoch"] > through_epoch:
+            raise ValueError("Resume checkpoint predates preserved validation history")
+        score = float(record["val_accuracy"])
+        if not math.isfinite(score):
+            raise ValueError("Nonfinite historical validation accuracy")
+        scores.append(score)
+    if not scores:
+        raise ValueError("Resume checkpoint has no matching validation history")
+    return max(scores)
+
+
+def save_if_validation_improves(score, best, save):
+    if not math.isfinite(score):
+        raise ValueError("Nonfinite validation accuracy")
+    if score > best:
+        save()
+        return score
+    return best
+
+
+def fp32_logits(module, inputs, output):
+    """Keep BF16 model values/gradients while supporting the native NumPy metrics."""
+    return output.float()
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("config")
     parser.add_argument("--out", required=True)
     parser.add_argument("--seed", type=int)
     parser.add_argument("--resume", default="")
+    parser.add_argument("--precision", choices=("fp16", "bf16", "fp32"), default="fp16")
     parser.add_argument("--smoke-steps", type=int, default=0)
     parser.add_argument(
         "--native-amp",
@@ -38,6 +91,17 @@ def main():
     from paclock_bench.paths import vendored
     from paclock_bench.data.datasets import build_dataloaders
     from paclock_bench.training.metrics import compute_metrics
+
+    amp_dtype = torch.bfloat16 if cli.precision == "bf16" else torch.float16
+    amp_enabled = cli.precision != "fp32"
+    if cli.precision == "bf16" and not torch.cuda.is_bf16_supported():
+        raise RuntimeError("This GPU does not support the requested BF16 runtime")
+    if cli.precision != "fp16":
+        # The author engine uses this context for training and validation.
+        # Keep the engine, optimizer and GradScaler; change arithmetic precision only.
+        torch.cuda.amp.autocast = functools.partial(
+            torch.cuda.amp.autocast, dtype=amp_dtype, enabled=amp_enabled
+        )
 
     cfg = yaml.safe_load(Path(cli.config).read_text())
     ds = cfg["dataset"]
@@ -58,6 +122,8 @@ def main():
         )
     seed = int(cfg.get("seed", 0) if cli.seed is None else cli.seed)
     out = Path(cli.out).resolve()
+    if cli.resume and not cli.smoke_steps and Path(cli.resume).resolve().parent != out:
+        raise ValueError("Formal continuation must preserve the existing output and selected model")
     rank = int(os.environ.get("RANK", "0"))
     if out.exists() and any(out.iterdir()) and not cli.resume and rank == 0:
         raise FileExistsError(f"Refusing to overwrite {out}; use explicit --resume")
@@ -157,7 +223,36 @@ def main():
         return datasets[0], datasets[2], datasets[1], None, metrics
 
     native.get_dataset = get_dataset
-    state = {}
+    state = {"best_validation_accuracy": 0.0}
+    original_load = native.utils.auto_load_model
+
+    def auto_load_model(*args, **kwargs):
+        if not cli.resume:
+            return original_load(*args, **kwargs)
+        if kwargs.get("model_ema") is not None:
+            raise ValueError("This recovery supports the recorded non-EMA native recipe only")
+        saved_epoch = restore_training_checkpoint(
+            cli.resume, kwargs["args"], kwargs["model_without_ddp"],
+            kwargs["optimizer"], kwargs["loss_scaler"],
+        )
+        history = Path(cli.resume).resolve().parent / "log.txt"
+        state["best_validation_accuracy"] = previous_best_accuracy(history, saved_epoch)
+        if not cli.smoke_steps and not (out / "selected_model.pt").is_file():
+            raise FileNotFoundError("Historical validation-selected weights must be preserved")
+        state["resume"] = {
+            "checkpoint": str(Path(cli.resume).resolve()),
+            "checkpoint_sha256": hashlib.sha256(Path(cli.resume).read_bytes()).hexdigest(),
+            "completed_epoch": saved_epoch, "start_epoch": saved_epoch + 1,
+            "previous_best_validation_accuracy": state["best_validation_accuracy"],
+            "rng_state_available": False,
+        }
+        if rank == 0:
+            (out / "resume_state.json").write_text(
+                json.dumps(dict(state["resume"], precision=cli.precision), indent=2) + "\n"
+            )
+        print("RESUMED_NATIVE_STATE", json.dumps(state["resume"]), flush=True)
+
+    native.utils.auto_load_model = auto_load_model
 
     def get_model(args):
         # Official TUAB constructor; its learned channel convolution projects
@@ -170,6 +265,8 @@ def main():
             in_channels=channels, img_size=[len(names), samples],
             use_channels_names=names, use_chan_conv=True,
             use_mean_pooling=args.use_mean_pooling)
+        if cli.precision == "bf16":
+            model.register_forward_hook(fp32_logits)
         active = [(name, value) for name, value in model.target_encoder.named_parameters()
                   if value.requires_grad]
         if not active or not all(value.requires_grad for name, value in
@@ -187,19 +284,30 @@ def main():
     def evaluate(loader, model, device, header="Test:", **kwargs):
         if header.startswith("Test"):
             return {k: 0.0 for k in metrics + ["loss"]}
-        return original_eval(loader, model, device, header=header, **kwargs)
+        result = original_eval(loader, model, device, header=header, **kwargs)
+        if header.startswith("Val"):
+            state["validation_accuracy"] = float(result["accuracy"])
+        return result
 
     native.evaluate = evaluate
     original_save = native.utils.save_model
 
     def save_model(*args, **kwargs):
-        original_save(*args, **kwargs)
-        if kwargs.get("epoch") == "best" and rank == 0:
-            path = out / "selected_model.pt"
-            torch.save(
-                kwargs["model_without_ddp"].state_dict(), path.with_suffix(".tmp")
+        def save():
+            original_save(*args, **kwargs)
+            if kwargs.get("epoch") == "best" and rank == 0:
+                path = out / "selected_model.pt"
+                torch.save(
+                    kwargs["model_without_ddp"].state_dict(), path.with_suffix(".tmp")
+                )
+                os.replace(path.with_suffix(".tmp"), path)
+
+        if kwargs.get("epoch") == "best":
+            state["best_validation_accuracy"] = save_if_validation_improves(
+                state["validation_accuracy"], state["best_validation_accuracy"], save
             )
-            os.replace(path.with_suffix(".tmp"), path)
+        else:
+            save()
 
     native.utils.save_model = save_model
     original_train = native.train_one_epoch
@@ -240,6 +348,7 @@ def main():
             "input": info,
             "global_batch": batch * 2,
             "native_amp_compatibility_override": cli.native_amp,
+            "precision": cli.precision,
             "native_source_sha256": {str(path.relative_to(vendor)): hashlib.sha256(path.read_bytes()).hexdigest()
                  for path in (vendor / file, vendor / "engine_for_finetuning_EEGPT.py",
                               vendor / "Modules/models/EEGPT_mcae_finetune_change.py")},
@@ -264,14 +373,14 @@ def main():
             x, _ = next(iter(val))
             x = x[:2].to("cuda").float()
             x = x.reshape(x.shape[0], channels, -1, 200)
-            with torch.no_grad(), torch.autocast("cuda", dtype=torch.float16):
+            with torch.no_grad(), torch.autocast("cuda", dtype=amp_dtype, enabled=amp_enabled):
                 reference = model(x).float()
             path = out / "smoke_checkpoint.pt"
             torch.save(model.state_dict(), path)
             model.load_state_dict(
                 torch.load(path, map_location="cpu", weights_only=False), strict=True
             )
-            with torch.no_grad(), torch.autocast("cuda", dtype=torch.float16):
+            with torch.no_grad(), torch.autocast("cuda", dtype=amp_dtype, enabled=amp_enabled):
                 restored = model(x).float()
             torch.testing.assert_close(reference, restored, rtol=0, atol=0)
             (out / "smoke.json").write_text(
@@ -288,6 +397,8 @@ def main():
                         "scratch_encoder_updated": True,
                         "world_size": 2,
                         "per_rank_batch": batch,
+                        "precision": cli.precision,
+                        "resume": state.get("resume"),
                     },
                     indent=2,
                 )
@@ -310,7 +421,7 @@ def main():
         with torch.no_grad():
             for x, y in test:
                 x = x.to("cuda").float().reshape(x.shape[0], channels, -1, 200)
-                with torch.autocast("cuda", dtype=torch.float16):
+                with torch.autocast("cuda", dtype=amp_dtype, enabled=amp_enabled):
                     pred = model(x)
                 truth.append(y.numpy())
                 scores.append(pred.float().cpu().numpy())
@@ -323,6 +434,8 @@ def main():
             "test": compute_metrics(y, logits, cfg["num_classes"]),
             "selected_checkpoint": str(out / "selected_model.pt"),
             "selection_metric": "accuracy",
+            "precision": cli.precision,
+            "resume": state.get("resume"),
             "config": cfg,
         }
         (out / "result.json").write_text(json.dumps(result, indent=2) + "\n")
