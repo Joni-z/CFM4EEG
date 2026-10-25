@@ -11,8 +11,8 @@ Exact repositories, commits and author entry files are listed in [sources.json](
 | CBraMod, CHB/TUAB | `native_cbramod_clinical_entry.py` | Same original main/Trainer/Evaluator, original task heads | CHB inverse-Q95 sidecar; TUAB stored µV/100; original validation selection |
 | EEGConformer | `native_eegconformer_clinical_entry.py` | Author model forwards and extracted Adam/CE update block | Clinical tasks are new: explicit shape changes, no MI S&R, validation selection and clinical budget |
 | EEGPT, CHB | `run_eegpt_chb_official.py` | Original TUAB main/model/engine, trainable encoder with explicit scratch or pretrained initialization | New binary task; input convolution16→20 instead of23→20; full sequential validation/test |
-| EEGPT, TUEV | `run_eegpt_tuev_official.py` | Original23-channel model, main, pickle reader and engine | Original native AMP branch instead of the released shell’s DeepSpeed backend |
-| LaBraM | `run_labram_original.py` | Original main/engine, AdamW, cosine schedule and native checkpoint functions | CHB/ADFD scratch uses ordinal slots; pretrained CHB uses explicit fresh bipolar positions; TUEV uses native23 inputs and disclosed accumulation |
+| EEGPT, TUEV | `run_eegpt_tuev_official.py` | Original TUEV model, main and engine | Shared16 changes only the learned input convolution width; retained native23 uses the original pickle cohort. Native AMP replaces the released shell's DeepSpeed backend |
+| LaBraM | `run_labram_original.py` | Original main/engine, AdamW, cosine schedule and native checkpoint functions | Shared16 TUEV uses fresh ordinal/bipolar spatial slots and disclosed accumulation; native23 is a separate cohort. CHB/ADFD scratch uses ordinal slots; pretrained CHB uses fresh bipolar positions |
 | REVE | `run_reve_native.py` | Original downstream LP/FT loops, StableAdamW, warmup and criterion | Shared-cohort array/coordinate bridge; scratch runs full FT from random initialization |
 | TFM-Tokenizer | `run_tfm_chain.py`, `run_tfm_stage.py` | Original tokenizer, MTP and downstream Lightning modules | Target-only train data for single-dataset stages; explicit stage dependencies |
 
