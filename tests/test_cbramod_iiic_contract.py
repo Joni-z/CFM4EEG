@@ -2,7 +2,25 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 import torch
-from scripts.rebuild.native_cbramod_entry import adapt_iiic_classifier, make_array_loader
+from scripts.rebuild.native_cbramod_entry import adapt_iiic_classifier, adapt_iiic_constructor, make_array_loader
+
+
+def test_native_explicit_super_keeps_original_class_binding():
+    namespace = {"torch": torch}
+    exec('''
+class Model(torch.nn.Module):
+    def __init__(self, params):
+        super(Model, self).__init__()
+        self.classifier = torch.nn.Sequential(
+            torch.nn.Flatten(1), torch.nn.Linear(16000, 1000, device="meta"),
+            torch.nn.ELU(), torch.nn.Linear(1000, 200, device="meta"),
+            torch.nn.ELU(), torch.nn.Linear(200, 6, device="meta"))
+''', namespace)
+    original_class = namespace["Model"]
+    adapt_iiic_constructor(original_class)
+    model = namespace["Model"](None)
+    assert namespace["Model"] is original_class
+    assert model.classifier(torch.empty(2, 16, 10, 200, device="meta")).shape == (2, 6)
 
 
 def test_iiic_head_accepts_full_ten_seconds_without_hidden_width_change():

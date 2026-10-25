@@ -181,6 +181,17 @@ def load_native(vendor):
     return module
 
 
+def adapt_iiic_constructor(model_class: type) -> None:
+    """Keep the native class binding used by its explicit super(Model, self)."""
+    original_init = model_class.__init__
+
+    def iiic_init(self, *args, **kwargs):
+        original_init(self, *args, **kwargs)
+        adapt_iiic_classifier(self)
+
+    model_class.__init__ = iiic_init
+
+
 @contextmanager
 def native_arguments(argv, pretrained, captured):
     old_argv, old_parse = sys.argv, argparse.ArgumentParser.parse_args
@@ -281,13 +292,7 @@ def main():
     native.tuev_dataset.LoadDataset = make_array_loader(native.tuev_dataset, args.data_root,
                                                         smoke_steps=args.smoke_steps, dataset=cfg["dataset"])
     if cfg["dataset"] == "iiic":
-        import torch
-        original_model = native.model_for_tuev.Model
-
-        def iiic_model(params):
-            return adapt_iiic_classifier(original_model(params))
-
-        native.model_for_tuev.Model = iiic_model
+        adapt_iiic_constructor(native.model_for_tuev.Model)
     args.out.mkdir(parents=True, exist_ok=True)
     captured = {}
     observed = {}
