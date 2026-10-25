@@ -65,7 +65,7 @@ def main():
     iiic = cfg["dataset"] == "IIIC"
     if iiic and pretrained:
         raise ValueError("Only the reviewed scratch IIIC task is supported")
-    audited_export = pretrained or iiic
+    audited_export = pretrained or iiic or cfg["dataset"] == "TUEV_SHARED16"
     weights = Path(os.path.expandvars(os.path.expanduser(cfg["pretrained_path"]))) if pretrained else None
     if weights is not None and (not weights.is_file() or sha(weights) != cfg["pretrained_sha256"]):
         raise ValueError("Released pretrained checkpoint missing or hash mismatch")
@@ -143,7 +143,7 @@ def main():
         if shared_tuev or iiic:
             dataset_id = "iiic" if iiic else "tuev"
             verify_shared_receipt(root, accepted, dataset_id,
-                                  cfg["expected_manifest_sha256"] if iiic else None)
+                                  cfg["expected_manifest_sha256"] if iiic else cfg.get("expected_manifest_sha256"))
             if manifest.get("dataset") != dataset_id:
                 raise ValueError("Wrong shared dataset manifest")
             if iiic and (manifest["protocol"].get("num_classes") != 6
@@ -221,7 +221,7 @@ def main():
         m = original_models(args)
         captured["model"] = m
         captured["head_before"] = m.head.weight.detach().cpu().clone()
-        if iiic:
+        if audited_export and not pretrained:
             captured["backbone_before"] = m.blocks[-1].attn.qkv.weight.detach().cpu().clone()
         if pretrained and cfg.get("channel_initialization") == "fresh_bipolar_slots":
             captured["fresh_spatial"] = m.pos_embed[:, 1:17].detach().clone()

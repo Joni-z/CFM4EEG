@@ -1,0 +1,20 @@
+{
+  "seed": 0,
+  "pretrained": false,
+  "batch_size": 64,
+  "update_freq": 8,
+  "epochs": 50,
+  "warmup_epochs": 5,
+  "lr": 0.0005,
+  "layer_decay": 1.0,
+  "num_workers": 8,
+  "recipe_scope": "Shared16TUEV scratch; original six-class native model/main/engine/AdamW. Fixed50epochTUABbudget,lr5e-4,wd.05,warmup5,drop_path.1,smoothing.1. Scratch layer_decay1. SingleGPU64microbatch x8accumulation global512 matches published8x64batch; explicit accumulation/task adaptation, not identical distributed numerics. Native validation accuracy selects checkpoint-best; held-out test deferred until selection.",
+  "dataset": "TUEV_SHARED16",
+  "data_root": "$PACLOCK_PROC/processed/tuev",
+  "input_scope": "Accepted shared16TUEV cohort68445/15487/29421;16bipolar channels200Hz,1000samples,storedphysicaluV/100. Bridge restoresphysicaluV and nativeengine divides100. Every model parameter initialized from scratch, with16fresh ordinal channel slots and no pretrained monopolar identity. Same held-out test windows as common baseline table.",
+  "runner": "scripts/rebuild/run_labram_original.py",
+  "runner_interface": "direct_cli",
+  "model": "labram",
+  "channel_initialization": "fresh_ordinal_scratch_slots",
+  "expected_manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661"
+}
