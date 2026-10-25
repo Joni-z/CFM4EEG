@@ -69,7 +69,7 @@ def main():
     np.random.seed(seed)
     random.seed(seed)
     device = "cuda"
-    train, val, test, info = build_dataloaders(cfg)
+    train, val, test, info = build_dataloaders(cfg, include_test=not bool(args.smoke_steps))
     channels, samples = info["input_shape"][-2:]
     if len(info["input_shape"]) != 2:
         raise ValueError("REVE sequence flattening must be an explicit data contract")
@@ -96,6 +96,8 @@ def main():
             return x, y, positions.clone()
 
     def convert(loader, training):
+        if loader is None:
+            return None
         return DataLoader(
             Positioned(loader.dataset),
             batch_size=cfg["batch_size"],
@@ -109,10 +111,15 @@ def main():
     train, val, test = convert(train, True), convert(val, False), convert(test, False)
     weights = str(Path(vendored("reve")).parent / "reve_weights")
     query = None
+    initialization_audit = None
     if cfg.get("pretrained", True):
         encoder, query = REVE.from_pretrained(weights, local_files_only=True)
         if query is None:
             raise RuntimeError("Released REVE query missing")
+        from scripts.rebuild.reve_pretrained_audit import verify_initialization
+        initialization_audit = verify_initialization(
+            encoder, query, Path(weights)/"model.safetensors", cfg["pretrained_sha256"])
+        (out / "pretrained_audit.json").write_text(json.dumps(initialization_audit, indent=2) + "\n")
     else:
         enc_cfg = yaml.safe_load((native_src / "configs/encoder/base.yaml").read_text())
         encoder = REVE(
@@ -135,6 +142,8 @@ def main():
     if query is not None:
         with torch.no_grad():
             model.cls_query_token.copy_(query)
+        if not torch.equal(model.cls_query_token.detach().cpu(), query.detach().cpu()):
+            raise RuntimeError("Classifier query differs from the verified released query")
     # Upstream reads the autocast dtype from trainer.torch_dtype but the scaler
     # dtype from top-level torch_dtype. Set both supported options consistently.
     runtime = OmegaConf.create(

@@ -65,5 +65,16 @@ reproduction:
   deviations:
   - shared fixed patient cohort
   - test access deferred until final validation-selected checkpoint
+  - Author TUH loader raw physical volts x1e4 equals physical microvolts/100; shared
+    stored (CHB sidecar-restored) uV/100 is used directly. Native FREQ200 retained;
+    no extra scaling/resampling.
+  - Every local encoder tensor and released cls_query_token verified exactly against
+    SHA-bound model.safetensors before optimization; no partial-weight fallback.
+  - Smoke constructs only train/validation loaders; test data is deferred to final
+    selected FT checkpoint.
 loader_signal_mode: uv_div100
 require_rebuild_ready: true
+pretrained_sha256: 8ecc650619598748286c2457f81f5c6bd12e8bb59db44f7b02af1955c44de8fe
+native_input_bridge: stored
+model_sample_rate: 200
+preload: false
