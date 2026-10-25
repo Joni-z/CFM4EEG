@@ -161,8 +161,12 @@ def stratified_subset(dataset, cap: int, seed: int):
     return Subset(dataset, np.sort(idx).tolist())
 
 
-def build_dataloaders(cfg: dict) -> tuple[DataLoader, DataLoader, DataLoader, dict]:
-    """train/val/test loaders plus the manifest the data came from."""
+def build_dataloaders(cfg: dict, *, include_test: bool = True) -> tuple[DataLoader, DataLoader, DataLoader | None, dict]:
+    """Load splits and their manifest; omit test payloads entirely when requested.
+
+    include_test=False returns None in the third position and reports only
+    train/val sample counts. The manifest still describes the full dataset.
+    """
     root = expand(cfg["data_root"])
     manifest = load_manifest(root)
     contract = describe_contract(cfg, manifest, root, "shared")
@@ -170,12 +174,13 @@ def build_dataloaders(cfg: dict) -> tuple[DataLoader, DataLoader, DataLoader, di
     # None lets each split decide from its own size; set explicitly to force
     preload = cfg.get("preload")
 
-    transforms = {s: resolve_signal_transform(root,s,cfg,manifest) for s in ("train","val","test")}
+    splits = ("train", "val", "test") if include_test else ("train", "val")
+    transforms = {s: resolve_signal_transform(root,s,cfg,manifest) for s in splits}
     contract["loader_signal_mode"] = cfg.get("loader_signal_mode","stored")
     sets = {
         s: WindowDataset(root, s, flatten_sequences=flatten, preload=preload,
             normalization_scales=transforms[s][0], input_multiplier=transforms[s][1])
-        for s in ("train", "val", "test")
+        for s in splits
     }
 
     # Sample-size ablation (docs/FINDINGS.md): the tier boundary in this
@@ -201,7 +206,7 @@ def build_dataloaders(cfg: dict) -> tuple[DataLoader, DataLoader, DataLoader, di
         DataLoader(sets["train"], batch_size=bs, shuffle=True,
                    drop_last=bool(cfg.get("train_drop_last", False)), **common),
         DataLoader(sets["val"], batch_size=bs, shuffle=False, drop_last=False, **common),
-        DataLoader(sets["test"], batch_size=bs, shuffle=False, drop_last=False, **common),
+        DataLoader(sets["test"], batch_size=bs, shuffle=False, drop_last=False, **common) if include_test else None,
     )
     info = {
         "manifest": manifest,
