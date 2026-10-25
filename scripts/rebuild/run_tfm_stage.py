@@ -343,7 +343,7 @@ def main():
                 raise RuntimeError(
                     "TFM smoke did not complete requested backward steps"
                 )
-            if a.smoke_steps > 1 and torch.equal(audit.initial, audit.parameter):
+            if a.smoke_steps > 1 and torch.equal(audit.initial.detach().cpu(), audit.parameter.detach().cpu()):
                 raise RuntimeError("TFM optimizer did not update a trainable parameter")
             saved = torch.load(
                 out / "last.ckpt", map_location="cpu", weights_only=False
