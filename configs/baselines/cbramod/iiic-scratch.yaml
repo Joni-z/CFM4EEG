@@ -1,0 +1,61 @@
+name: iiic-cbramod_scratch_native20261025
+group: C
+dataset: iiic
+data_root: $PACLOCK_PROC/processed/iiic
+model: cbramod
+loader: null
+pretrained: false
+optimizer: adamw
+lr: 0.0001
+weight_decay: 0.05
+epochs: 50
+batch_size: 64
+multi_lr: true
+scheduler: cosine_updates
+grad_clip: 1.0
+patience: 0
+num_workers: 0
+device: cuda
+eval_every_steps: 0
+model_kwargs:
+  dropout: 0.1
+  classifier_hidden_dim: 1000
+num_classes: 6
+sample_rate: 200
+loss: cross_entropy
+label_smoothing: 0.1
+seed: 0
+model_output_classes: 6
+max_hours: 0
+scheduler_min_lr: 1.0e-06
+train_drop_last: false
+select_metric: cohen_kappa
+run_monitor: true
+save_checkpoint: true
+amp: false
+reproduction:
+  kind: declared_IIIC_new_task_native_multiclass
+  vendor: cbramod
+  commit: b9e961003214326972c567eff390e75b0287e32a
+  source:
+  - models/model_for_tuev.py
+  - finetune_main.py
+  - finetune_trainer.py
+  deviations:
+  - Accepted IIIC patient cohort,16bipolar channels200Hz10s release windows storeduV/100;
+    no resampling, cropping or extra scaling.
+  - No official IIIC downstream model; released TUEV multiclass training/optimizer/schedule/selection
+    unchanged.
+  - First classifier Linear input16000->32000 to accept10s instead of5s; hidden1000/200
+    dimensions and six outputs unchanged.
+  - Requested seed0 replaces native3407; scratch boolean supplied through scoped parser
+    fix.
+  data_gate: accepted manifest; CHB/TUAB must be corrected version
+  execution: Pinned official finetune_main.main -> Trainer/Evaluator; no generic training
+    loop.
+  checkpoint_rule: Native strict validation-kappa maximum over50 epochs, restore best
+    before test.
+runner: scripts/rebuild/native_cbramod_entry.py
+window_sec: 10.0
+classifier_input_features: 32000
+expected_manifest_sha256: 3c9d3e148c6cb3f07d4e7861d321bf5a47bbba9327897850b265b6f2d71ab715

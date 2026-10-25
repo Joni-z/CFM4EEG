@@ -1,0 +1,71 @@
+name: iiic-biot_scratch_native20261025
+group: C
+dataset: iiic
+data_root: $PACLOCK_PROC/processed/iiic
+checkpoint: null
+model: biot
+loader: biot
+optimizer: adam
+lr: 0.001
+weight_decay: 1.0e-05
+epochs: 100
+scheduler: null
+grad_clip: null
+patience: 5
+num_workers: 32
+device: cuda
+model_kwargs:
+  token_size: 200
+  hop_length: 100
+  encoder_channels: 16
+  channel_mode: strict
+num_classes: 6
+sample_rate: 200
+batch_size: 128
+loss: cross_entropy
+label_smoothing: 0.0
+eval_every_steps: 0
+seed: 0
+model_output_classes: 6
+max_hours: 0
+train_drop_last: true
+select_metric: cohen_kappa
+run_monitor: true
+save_checkpoint: true
+amp: false
+loader_input_multiplier: 100.0
+reproduction:
+  kind: declared_IIIC_task_adaptation
+  vendor: biot
+  commit: d138e32634e52ae9fa6ec98ac9c4087b14ca869a
+  source:
+  - run_multiclass_supervised.py
+  - utils.py:EEGSupervisedPretrainLoader.iiic_load
+  - model/biot.py
+  deviations:
+  - Accepted shared IIIC cohort and preprocessing;16channels x2000samples at200Hz;
+    six integer classes0..5. Explicit standalone task adaptation, not a published
+    IIIC downstream recipe.
+  - 'Stored physical microvolts/100 multiplied by100 lazily, then processed by unchanged
+    upstream EEGSupervisedPretrainLoader.iiic_load: FloatTensor, channel-wise torch
+    Q95(+1e-8), one-hot argmax. No TUEVLoader, no temporal resampling.'
+  - Original TUEV multiclass supervised loop, Adam lr1e-3/wd1e-5, batch128,100epochs,patience5,32workers
+    and scratch BIOT capacity16 retained. No augmentation or tuning.
+  - Scoped native supervised() dispatch adds IIIC dataloader; source model/optimizer/Trainer/fit/test
+    remain unchanged. Source callback registration archives checkpoints and metrics.
+  - Seed0 explicitly replaces native hardcoded task seeds. Smoke opens train/val only;
+    final test remains complete and sequential.
+  - Native default checkpoint remains terminal; each strict validation-kappa improvement
+    is archived independently for the same explicit validation-selected audit policy
+    used in other scratch rows.
+  checkpoint_rule: 'Literal released code under Lightning1.6.4: default unmonitored
+    checkpoint selects terminal; conflicts with paper validation-best wording.'
+  runtime: Python3.9,Torch1.13.1+cu117,Lightning1.6.4 isolated environment
+checkpoint_selection: terminal
+runner: scripts/rebuild/native_biot_entry.py
+pretrained: false
+expected_manifest_sha256: 3c9d3e148c6cb3f07d4e7861d321bf5a47bbba9327897850b265b6f2d71ab715
+expected_split_sizes:
+  train: 73637
+  val: 15778
+  test: 15780

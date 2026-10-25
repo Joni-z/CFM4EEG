@@ -1,0 +1,20 @@
+{
+  "seed": 0,
+  "pretrained": false,
+  "batch_size": 64,
+  "update_freq": 8,
+  "epochs": 50,
+  "warmup_epochs": 5,
+  "lr": 0.0005,
+  "layer_decay": 1.0,
+  "num_workers": 8,
+  "recipe_scope": "New IIIC multiclass task; no official IIIC command in pinned upstream. Original TUEV six-class loss/head and native main/engine/AdamW/schedule; published TUAB budget50epochs,lr5e-4,wd.05,warmup5,drop_path.1,smoothing.1. Scratch layer_decay1. Single-GPU64microbatch x8accumulation preserves published8x64global512; distributed numerical identity is not claimed. Native validation accuracy selects checkpoint-best; test deferred until selection.",
+  "dataset": "IIIC",
+  "data_root": "$PACLOCK_PROC/processed/iiic",
+  "expected_manifest_sha256": "3c9d3e148c6cb3f07d4e7861d321bf5a47bbba9327897850b265b6f2d71ab715",
+  "input_scope": "Accepted shared IIIC16bipolar,200Hz,10s,6classes0..5; train/val/test73637/15778/15780. Cache storesphysicalmicrovolts/100; bridge returnsphysicalmicrovolts and unchanged author engine divides100. Fresh ordinal channel slots1..16 for scratch, without anatomical pretrained identity. Manifest omits channel names; recorded bipolar order is documented in configs/datasets/iiic.yaml.",
+  "runner": "scripts/rebuild/run_labram_original.py",
+  "runner_interface": "direct_cli",
+  "model": "labram",
+  "channel_initialization": "fresh_ordinal_scratch_slots"
+}

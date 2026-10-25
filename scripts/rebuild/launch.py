@@ -50,6 +50,8 @@ def main() -> None:
     if runner == distributed:
         command += ["-m", "torch.distributed.run", "--standalone", "--nproc_per_node=2"]
     command += [runner, str(args.config), "--seed", "0", "--out", str(output)]
+    if runner == distributed and cfg.get("precision"):
+        command += ["--precision", cfg["precision"]]
     if args.mode == "smoke":
         command += ["--smoke-steps", "4"]
     subprocess.run(command, check=True)

@@ -50,7 +50,7 @@ def verify_source(vendor):
             for p in sorted(vendor.rglob("*.py")) if ".git" not in p.parts}
 
 
-def verify_input(root, *, smoke=False):
+def verify_input(root, *, smoke=False, dataset="tuev", expected_manifest_sha256=None):
     root = Path(root).resolve()
     manifest = json.loads((root / "manifest.json").read_text())
     accepted = json.loads((root / "ACCEPTED.json").read_text())
@@ -58,9 +58,17 @@ def verify_input(root, *, smoke=False):
     if accepted.get("status") != "accepted" or accepted.get("manifest_sha256") != manifest_hash:
         raise ValueError("Missing or stale accepted input receipt")
     protocol = manifest["protocol"]
-    if (manifest["dataset"] != "tuev" or protocol["sample_rate"] != 200
-            or protocol["normalization"] != "div100" or protocol["channels"] != CHANNELS):
-        raise ValueError("Expected accepted TUEV 16-channel bipolar, 200 Hz, microvolts/100")
+    if dataset not in ("tuev", "iiic") or manifest["dataset"] != dataset:
+        raise ValueError("Unexpected accepted multiclass dataset")
+    if protocol["sample_rate"] != 200 or protocol["normalization"] != "div100":
+        raise ValueError("Expected 200 Hz microvolts/100")
+    if dataset == "tuev" and protocol["channels"] != CHANNELS:
+        raise ValueError("Unexpected TUEV montage")
+    if dataset == "iiic" and manifest_hash != expected_manifest_sha256:
+        raise ValueError("IIIC manifest differs from the reviewed configuration")
+    if dataset == "iiic" and (protocol.get("window_sec") != 10. or protocol.get("num_classes") != 6):
+        raise ValueError("IIIC requires original ten-second six-class release windows")
+    samples = 2000 if dataset == "iiic" else 1000
     shapes = {}
     for split in (("train", "val") if smoke else ("train", "val", "test")):
         for kind in ("signals", "labels"):
@@ -72,7 +80,7 @@ def verify_input(root, *, smoke=False):
                 raise ValueError(f"Array changed since full-hash acceptance: {name}")
         x = np.load(root / f"{split}_signals.npy", mmap_mode="r")
         y = np.load(root / f"{split}_labels.npy", mmap_mode="r")
-        if x.dtype != np.float32 or x.ndim != 3 or x.shape[1:] != (16, 1000):
+        if x.dtype != np.float32 or x.ndim != 3 or x.shape[1:] != (16, samples):
             raise ValueError(f"Wrong native input layout: {split}: {x.shape}/{x.dtype}")
         if y.shape != (len(x),) or y.dtype.kind not in "iu" or not ((y >= 0) & (y < 6)).all():
             raise ValueError(f"Wrong native label layout/range: {split}")
@@ -81,6 +89,8 @@ def verify_input(root, *, smoke=False):
         # The unchanged official evaluator squeezes singleton batches to scalars.
         if split != "train" and len(x) % 64 == 1:
             raise ValueError(f"Native evaluator singleton-tail bug would affect {split}; do not silently drop rows")
+        if dataset == "iiic" and len(x) != {"train":73637,"val":15778,"test":15780}[split]:
+            raise ValueError("Unexpected accepted IIIC patient cohort")
         shapes[split] = list(x.shape)
     return {"manifest_sha256": manifest_hash, "accepted_sha256": sha256(root / "ACCEPTED.json"),
             "shapes": shapes, "units": "microvolts/100; no second division"}
@@ -110,9 +120,10 @@ class NoTestData:
         raise AssertionError("A smoke run must never iterate test data")
 
 
-def make_array_loader(native_dataset, root, *, smoke_steps=0):
+def make_array_loader(native_dataset, root, *, smoke_steps=0, dataset="tuev"):
     """Preserve native collate and all actual DataLoader options, including workers=0."""
     from torch.utils.data import DataLoader, Subset
+    seconds = 10 if dataset == "iiic" else 5
 
     class ArrayDataset(native_dataset.CustomDataset):
         def __init__(self, split):
@@ -125,7 +136,7 @@ def make_array_loader(native_dataset, root, *, smoke_steps=0):
         def __getitem__(self, index):
             # Native pickle path divides physical microvolts by100 then collate
             # converts to float32. The accepted array already stores that result.
-            return self.signals[index].reshape(16, 5, 200), int(self.labels[index])
+            return self.signals[index].reshape(16, seconds, 200), int(self.labels[index])
 
     class ArrayLoader:
         def __init__(self, params):
@@ -189,6 +200,17 @@ def native_arguments(argv, pretrained, captured):
         argparse.ArgumentParser.parse_args = old_parse
 
 
+def adapt_iiic_classifier(model):
+    """Change only the original multiclass head's input width for 10-s windows."""
+    import torch
+    first = model.classifier[1]
+    if not isinstance(first, torch.nn.Linear) or (first.in_features, first.out_features) != (16000, 1000):
+        raise ValueError("Pinned native classifier layout changed")
+    model.classifier[1] = torch.nn.Linear(32000, first.out_features,
+                                         device=first.weight.device, dtype=first.weight.dtype)
+    return model
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("config", type=Path)
@@ -205,8 +227,8 @@ def main():
     from paclock_bench.paths import vendored, expand
     from paclock_bench.training.recipe_runtime import provenance
     cfg = yaml.safe_load(args.config.read_text())
-    if cfg["model"] != "cbramod" or cfg["dataset"] != "tuev":
-        raise ValueError("This wrapper has only reviewed the native TUEV clinical entry")
+    if cfg["model"] != "cbramod" or cfg["dataset"] not in ("tuev", "iiic"):
+        raise ValueError("This wrapper supports the reviewed TUEV and IIIC multiclass interfaces")
     expected = {"epochs": 50, "batch_size": 64, "lr": 1e-4, "weight_decay": .05,
                 "multi_lr": True, "grad_clip": 1., "label_smoothing": .1,
                 "num_classes": 6, "amp": False, "train_drop_last": False,
@@ -226,7 +248,8 @@ def main():
     args.pretrained_path = (Path(expand(cfg.get("pretrained_path") or str(args.vendor / "pretrained_weights/pretrained_weights.pth")))
                             if args.setting == "pretrained" else None)
     source = verify_source(args.vendor)
-    input_receipt = verify_input(args.data_root, smoke=bool(args.smoke_steps))
+    input_receipt = verify_input(args.data_root, smoke=bool(args.smoke_steps), dataset=cfg["dataset"],
+                                 expected_manifest_sha256=cfg.get("expected_manifest_sha256"))
     if (args.setting == "pretrained") != (args.pretrained_path is not None):
         raise ValueError("pretrained setting requires exactly one explicit checkpoint; scratch forbids it")
     argv = ["finetune_main.py", "--seed", str(args.seed), "--cuda", str(args.cuda),
@@ -242,6 +265,11 @@ def main():
                            "Only use_pretrained_weights boolean is supplied via scoped parser bridge."],
                "checkpoint_rule": "Native strict validation-kappa maximum across50epochs; test after restoring best; save native pth.",
                "resume": "Official trainer has no loop-resume and writes selected checkpoint only after finishing; no resume is claimed."}
+    if cfg["dataset"] == "iiic":
+        if cfg.get("window_sec") != 10. or cfg.get("classifier_input_features") != 32000:
+            raise ValueError("IIIC head must cover sixteen channels by ten 200-point patches")
+        receipt["changes"].append("IIIC is a new task: native TUEV multiclass loop, with first classifier input width16000->32000 for10s windows; hidden dimensions and all optimizer settings unchanged.")
+        receipt["dataset"] = "iiic"
     if args.inspect:
         print(json.dumps(receipt, indent=2))
         return
@@ -251,7 +279,15 @@ def main():
         raise FileExistsError("Output is not empty; native trainer cannot safely resume or overwrite it")
     native = load_native(args.vendor)
     native.tuev_dataset.LoadDataset = make_array_loader(native.tuev_dataset, args.data_root,
-                                                        smoke_steps=args.smoke_steps)
+                                                        smoke_steps=args.smoke_steps, dataset=cfg["dataset"])
+    if cfg["dataset"] == "iiic":
+        import torch
+        original_model = native.model_for_tuev.Model
+
+        def iiic_model(params):
+            return adapt_iiic_classifier(original_model(params))
+
+        native.model_for_tuev.Model = iiic_model
     args.out.mkdir(parents=True, exist_ok=True)
     captured = {}
     observed = {}

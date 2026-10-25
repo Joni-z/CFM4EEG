@@ -75,3 +75,7 @@ The package lists under `environments/` document actual executed environments. T
 ## Released-pretrained finetuning
 
 See [pretrained baseline contracts](PRETRAINED-BASELINES.md) for the eight TUEV/CHB seed-0 configurations, strict weight loading, original task recipes, runtime adaptations and cohort distinctions. These entries load released weights; they do not run pretraining.
+
+## IIIC scratch tasks
+
+[IIIC task contracts](IIIC-BASELINES.md) document the four native new-task adaptations, their full ten-second input windows, exact accepted cohort, fixed recipes and smoke gates. They reuse original author code and explicitly adapt new input/task interfaces.

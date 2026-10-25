@@ -1,4 +1,4 @@
-"""Run released EEGPT TUAB trainer for an explicit CHB-MIT scratch adaptation.
+"""Run released EEGPT TUAB trainer for explicit CHB-MIT / IIIC adaptations.
 
 Launch with torchrun --nproc_per_node=2. The official task model, optimizer,
 schedule, actual per-rank batch, and TUEV DeepSpeed path are retained. Dataset
@@ -70,6 +70,57 @@ def fp32_logits(module, inputs, output):
     return output.float()
 
 
+def verify_iiic_contract(root, cfg):
+    """Validate accepted IIIC cohort/units using metadata; no test array is opened."""
+    root = Path(root)
+    expected_recipe = {'pretrained': False, 'native_task': 'tuab', 'seed': 0,
+                       'num_classes': 6, 'epochs': 50, 'batch_size': 100,
+                       'precision': 'bf16', 'lr': 0.0005, 'weight_decay': 0.05,
+                       'select_metric': 'accuracy', 'loader_signal_mode': 'uv_div100'}
+    for key, expected in expected_recipe.items():
+        if cfg.get(key) != expected:
+            raise ValueError('IIIC differs from declared native TUAB adaptation: '+key)
+    manifest_file = root / 'manifest.json'
+    manifest = json.loads(manifest_file.read_text())
+    accepted = json.loads((root / 'ACCEPTED.json').read_text())
+    digest = hashlib.sha256(manifest_file.read_bytes()).hexdigest()
+    if (accepted.get('status') != 'accepted' or accepted.get('dataset') != 'iiic'
+            or manifest.get('dataset') != 'iiic' or accepted.get('manifest_sha256') != digest
+            or digest != cfg['expected_manifest_sha256']):
+        raise RuntimeError('IIIC accepted manifest does not match the reviewed cohort')
+    protocol = manifest['protocol']
+    if (protocol.get('sample_rate') != 200 or protocol.get('normalization') != 'div100'
+            or protocol.get('num_classes') != 6):
+        raise RuntimeError('IIIC must be declared 200Hz, microvolts/100, six classes')
+    counts = {'train': 73637, 'val': 15778, 'test': 15780}
+    if ({k: v['n_windows'] for k, v in manifest['splits'].items()} != counts
+            or any(v['shape'] != [16, 2000] for v in manifest['splits'].values())):
+        raise RuntimeError('IIIC must retain the accepted16x2000 cohort')
+    required = {split+'_'+kind+'.npy' for split in counts for kind in ['signals', 'labels']}
+    if not required.issubset(accepted.get('files', {})):
+        raise RuntimeError('IIIC acceptance does not cover all six arrays')
+    for name, receipt in accepted['files'].items():
+        actual = (root / name).stat()
+        if actual.st_size != receipt['size'] or actual.st_mtime_ns != receipt['mtime_ns']:
+            raise RuntimeError('Accepted IIIC file changed: '+name)
+    return manifest
+
+
+def verify_iiic_split(dataset, split, manifest):
+    """Validate only a split already opened by the selected smoke/formal path."""
+    import numpy as np
+    meta = manifest['splits'][split]
+    labels = dataset.labels
+    if (dataset.signals.shape != (meta['n_windows'], 16, 2000)
+            or dataset.signals.dtype != np.float32 or labels.ndim != 1
+            or labels.dtype.kind not in 'iu' or len(labels) != meta['n_windows']
+            or np.any(labels < 0) or np.any(labels >= 6)):
+        raise RuntimeError('Invalid IIIC array layout/labels: '+split)
+    expected = [meta['class_counts'][str(i)] for i in range(6)]
+    if np.bincount(labels, minlength=6).tolist() != expected:
+        raise RuntimeError('IIIC class counts disagree with accepted manifest: '+split)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("config")
@@ -102,18 +153,21 @@ def main():
 
     cfg = yaml.safe_load(Path(cli.config).read_text())
     ds = cfg["dataset"]
-    if ds != "chbmit" or type(cfg.get("pretrained")) is not bool:
+    if ds not in ("chbmit", "iiic") or type(cfg.get("pretrained")) is not bool:
         raise ValueError("Explicit scratch/pretrained setting is required")
     from scripts.rebuild.eegpt_pretrained import load_released_pretraining, smoke_identity, require_smoke
     pretrained_identity = None
-    if cfg["pretrained"] and cli.precision != cfg.get("precision", "fp16"):
-        raise ValueError("Pretrained arithmetic must match the explicit reviewed config")
+    if (cfg["pretrained"] or ds == "iiic") and cli.precision != cfg.get("precision", "fp16"):
+        raise ValueError("Arithmetic must match the explicit reviewed config")
     data_root = Path(os.path.expandvars(cfg["data_root"]))
     accepted = json.loads((data_root / "ACCEPTED.json").read_text())
-    ready = json.loads((data_root / "READY.json").read_text())
-    manifest_hash = hashlib.sha256((data_root / "manifest.json").read_bytes()).hexdigest()
-    if accepted.get("status") != "accepted" or accepted.get("manifest_sha256") != manifest_hash or ready.get("manifest_sha256") != manifest_hash:
-        raise RuntimeError("CHB-MIT accepted/ready manifest hashes disagree")
+    if ds == 'iiic':
+        manifest = verify_iiic_contract(data_root, cfg)
+    else:
+        ready = json.loads((data_root / "READY.json").read_text())
+        manifest_hash = hashlib.sha256((data_root / "manifest.json").read_bytes()).hexdigest()
+        if accepted.get("status") != "accepted" or accepted.get("manifest_sha256") != manifest_hash or ready.get("manifest_sha256") != manifest_hash:
+            raise RuntimeError("CHB-MIT accepted/ready manifest hashes disagree")
     if cfg['pretrained']:
         pretrained_identity = smoke_identity(cli.config, __file__, str(data_root / 'ACCEPTED.json'), cfg)
         if not cli.smoke_steps:
@@ -126,6 +180,8 @@ def main():
             "EEGPT native recipe needs 2 ranks, not gradient accumulation in place of BatchNorm microbatch"
         )
     seed = int(cfg.get("seed", 0) if cli.seed is None else cli.seed)
+    if ds == "iiic" and seed != 0:
+        raise ValueError("This reviewed IIIC cell is seed0 only")
     out = Path(cli.out).resolve()
     if cli.resume and not cli.smoke_steps and Path(cli.resume).resolve().parent != out:
         raise ValueError("Formal continuation must preserve the existing output and selected model")
@@ -211,6 +267,9 @@ def main():
                 'test_payload_opened': False}
     else:
         train, val, test, info = build_dataloaders(cfg)
+    if ds == 'iiic':
+        for split, loader in [('train', train), ('val', val)] + ([] if cli.smoke_steps else [('test', test)]):
+            verify_iiic_split(loader.dataset, split, manifest)
     channels, samples = info["input_shape"]
     if samples != (1000 if task == "tuev" else 2000):
         raise ValueError("Native task temporal head and dataset duration disagree")
@@ -278,7 +337,7 @@ def main():
     def get_model(args):
         # Official TUAB constructor; its learned channel convolution projects
         # sixteen recorded bipolar inputs into twenty native latent positions.
-        # Only in_channels changes for the newly supported CHB-MIT task.
+        # Only in_channels changes for the declared CHB-MIT / IIIC tasks.
         names = ['FP1', 'FPZ', 'FP2', 'F7', 'F3', 'FZ', 'F4', 'F8',
                  'T7', 'C3', 'CZ', 'C4', 'T8', 'P7', 'P3', 'PZ', 'P4',
                  'P8', 'O1', 'O2']
@@ -378,12 +437,13 @@ def main():
                  for path in (vendor / file, vendor / "engine_for_finetuning_EEGPT.py",
                               vendor / "Modules/models/EEGPT_mcae_finetune_change.py")},
             "adaptations": [
-                "new task CHB-MIT, official TUAB binary recipe unchanged",
+                f"new task {ds}, official TUAB model/main/engine/optimizer/schedule retained; output classes set to task labels",
                 "learned input channel convolution 23->20 changed to 16->20; no padding or electrode relabeling",
                 ("released pretrained weights strictly loaded; native full finetuning" if cfg["pretrained"] else "no pretrained weights; active target encoder verified trainable and updated"),
                 "validation and test sequential without sampler padding",
                 "test metrics deferred to final checkpoint",
                 "dataset bridge restores uV before native engine division",
+                "IIIC six-class adaptation selects native multiclass cross-entropy and validation accuracy" if ds == "iiic" else "CHB binary loss retained",
             ],
         }
         (out / "provenance.json").write_text(

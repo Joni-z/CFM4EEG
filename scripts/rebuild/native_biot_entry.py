@@ -77,9 +77,39 @@ def verify_accepted(root: Path) -> dict:
             raise ValueError('Accepted dataset changed: ' + name)
     p = manifest['protocol']
     expected_norm = 'q95' if manifest['dataset'] == 'chbmit' else 'div100'
-    if p.get('sample_rate') != 200 or p.get('normalization') != expected_norm or len(p['channels']) != 16:
+    channels_ok = len(p.get('channels', [])) == 16 or (manifest['dataset'] == 'iiic' and 'channels' not in p)
+    if p.get('sample_rate') != 200 or p.get('normalization') != expected_norm or not channels_ok:
         raise ValueError('Expected shared200Hz16-channel arrays with declared normalization')
     return manifest
+
+
+class PhysicalIIICRows:
+    """Lazy uV/100 -> physical uV bridge; preserve all2000 time samples."""
+    def __init__(self, signals):
+        self.signals = signals
+
+    def __len__(self):
+        return len(self.signals)
+
+    def __getitem__(self, index):
+        return np.asarray(self.signals[index], dtype=np.float32) * 100.0
+
+
+class NativeIIICDataset(torch.utils.data.Dataset):
+    """Reuse the author's IIIC Q95/label processing, without TUH resampling."""
+    def __init__(self, signals, labels, native_utils):
+        one_hot = np.eye(6, dtype=np.float32)[labels]
+        self.native = native_utils.EEGSupervisedPretrainLoader(
+            ('', []), ('', []), (PhysicalIIICRows(signals), one_hot), ('', []))
+
+    def __len__(self):
+        return len(self.native)
+
+    def __getitem__(self, index):
+        signal, label, dataset_id = self.native[index]
+        if dataset_id != 2 or signal.shape != (16, 2000) or not torch.isfinite(signal).all():
+            raise ValueError('Invalid native IIIC sample')
+        return signal, int(label)
 
 
 class NpyPickleBridge:
@@ -89,6 +119,8 @@ class NpyPickleBridge:
     microvolts /100, so multiply by1e-4 before native q95(+1e-8). Already200Hz
     arrays keep their200Hz/5s shape. The native TUEV resample branch is retained:
     it maps1000 samples to1000 samples (FFT roundtrip), without changing duration.
+    IIIC bypasses virtual pickles and reuses the native raw-array iiic_load at
+    its original2000 samples, restoring physical microvolts before native Q95.
     """
     def __init__(self, root: Path, dataset: str, smoke: bool = False):
         self.dataset = dataset
@@ -98,11 +130,13 @@ class NpyPickleBridge:
             x = np.load(root / (split + '_signals.npy'), mmap_mode='r')
             y = np.load(root / (split + '_labels.npy'), mmap_mode='r')
             length = 1000 if dataset == 'TUEV' else 2000
-            classes = 6 if dataset == 'TUEV' else 2
+            classes = 6 if dataset in ('TUEV', 'IIIC') else 2
             if x.ndim != 3 or x.shape[1:] != (16, length) or x.dtype != np.float32 or len(x) != len(y):
                 raise ValueError('Invalid native bridge layout: ' + split)
             if y.dtype.kind not in 'iu' or np.any(y < 0) or np.any(y >= classes):
                 raise ValueError('Invalid native labels: ' + split)
+            if dataset == 'IIIC' and y.ndim != 1:
+                raise ValueError('IIIC requires one integer label per row')
             self.arrays[split] = (x, y)
             if dataset == 'CHB_MIT':
                 scale = np.load(root / (split + '_q95_denominators.npy'), mmap_mode='r')
@@ -127,6 +161,10 @@ class NpyPickleBridge:
         return io.BytesIO(pickle.dumps(record, protocol=pickle.HIGHEST_PROTOCOL))
 
     def native_dataset(self, native_utils, split: str, files=None):
+        if self.dataset == 'IIIC':
+            result = NativeIIICDataset(*self.arrays[split], native_utils)
+            return (torch.utils.data.Subset(result, [int(f) for f in files])
+                    if files is not None else result)
         files = list(map(str, range(len(self.arrays[split][1])))) if files is None else files
         cls = {'TUEV': native_utils.TUEVLoader, 'TUAB': native_utils.TUABLoader, 'CHB_MIT': native_utils.CHBMITLoader}[self.dataset]
         result = cls(self.prefix + split, files, sampling_rate=200)
@@ -170,8 +208,10 @@ def native_args(cfg: dict) -> argparse.Namespace:
     pretrained = cfg.get('pretrained', False)
     if type(pretrained) is not bool:
         raise ValueError('pretrained must be an explicit boolean')
-    if dataset not in ('TUEV', 'TUAB', 'CHB_MIT') or model is None:
-        raise ValueError('Native wrapper supports reviewed TUEV/TUAB/CHB BIOT/FFCL only')
+    if dataset not in ('TUEV', 'TUAB', 'CHB_MIT', 'IIIC') or model is None:
+        raise ValueError('Unsupported native dataset/model')
+    if dataset == 'IIIC' and (model != 'BIOT' or pretrained):
+        raise ValueError('IIIC is reviewed only for scratch BIOT')
     checkpoint = cfg.get('checkpoint')
     if bool(checkpoint) != pretrained or (pretrained and model != 'BIOT'):
         raise ValueError('Exactly one released BIOT checkpoint is required for pretrained; scratch forbids it')
@@ -188,15 +228,16 @@ def native_args(cfg: dict) -> argparse.Namespace:
     for key in ('scheduler', 'grad_clip'):
         if cfg.get(key) not in (None, 'none'):
             raise ValueError('Native recipe has no ' + key)
-    if cfg.get('checkpoint_selection') != 'terminal' or cfg.get('loader_input_multiplier') != (1.0 if dataset == 'CHB_MIT' else 1e-4):
-        raise ValueError('Native code uses terminal checkpoint and volt-unit q95; config must declare both')
-    classes = 6 if dataset == 'TUEV' else 1
-    if cfg['num_classes'] != (6 if dataset == 'TUEV' else 2) or cfg['sample_rate'] != 200:
+    multiplier = 100.0 if dataset == 'IIIC' else (1.0 if dataset == 'CHB_MIT' else 1e-4)
+    if cfg.get('checkpoint_selection') != 'terminal' or cfg.get('loader_input_multiplier') != multiplier:
+        raise ValueError('Native terminal selection and dataset-specific input units must be declared')
+    classes = 6 if dataset in ('TUEV', 'IIIC') else 1
+    if cfg['num_classes'] != (6 if dataset in ('TUEV', 'IIIC') else 2) or cfg['sample_rate'] != 200:
         raise ValueError('Native task shape mismatch')
     capacity = 18 if pretrained else 16
     if model == 'BIOT' and cfg.get('model_kwargs', {}).get('encoder_channels') != capacity:
         raise ValueError('BIOT channel capacity must match the reviewed scratch/released checkpoint constructor')
-    batch = 128 if dataset == 'TUEV' and model == 'BIOT' else 512
+    batch = 128 if dataset in ('TUEV', 'IIIC') and model == 'BIOT' else 512
     if cfg['batch_size'] != batch or int(cfg.get('num_workers', 32)) < 1:
         raise ValueError('Native batch/workers contract failed')
     return argparse.Namespace(dataset=dataset, model=model, in_channels=capacity,
@@ -315,12 +356,17 @@ def audit_callback(pl, *, cfg, out, smoke_steps, provenance):
 
 
 def load_native(vendor: Path, dataset: str, callback):
-    filename = 'run_multiclass_supervised.py' if dataset == 'TUEV' else 'run_binary_supervised.py'
+    filename = 'run_multiclass_supervised.py' if dataset in ('TUEV', 'IIIC') else 'run_binary_supervised.py'
     original = (vendor / filename).read_text()
     before = 'callbacks=[early_stop_callback],'
     if original.count(before) != 1:
         raise ValueError('Audited callback injection anchor changed')
     patched = original.replace(before, 'callbacks=[early_stop_callback, _cfft_audit_callback],')
+    if dataset == 'IIIC':
+        anchor = '        train_loader, test_loader, val_loader = prepare_TUEV_dataloader(args)'
+        if original.count(anchor) != 1:
+            raise ValueError('Native multiclass task dispatch anchor changed')
+        patched = patched.replace(anchor, anchor + '\n\n    elif args.dataset == "IIIC":\n        train_loader, test_loader, val_loader = prepare_IIIC_dataloader(args)')
     if dataset == 'CHB_MIT':
         anchor = '        train_loader, test_loader, val_loader = prepare_TUAB_dataloader(args)'
         if original.count(anchor) != 1:
@@ -355,6 +401,10 @@ def main():
         raise FileExistsError('Refusing to overwrite an existing native run: ' + str(out))
     root = Path(os.path.expandvars(cfg['data_root'])).resolve()
     manifest = verify_accepted(root)
+    if native.dataset == 'IIIC' and (manifest['dataset'] != 'iiic'
+            or sha(root/'manifest.json') != cfg.get('expected_manifest_sha256')
+            or cfg.get('expected_split_sizes') != {'train': 73637, 'val': 15778, 'test': 15780}):
+        raise ValueError('IIIC must use the reviewed shared cohort and manifest')
     if cfg.get('require_rebuild_ready'):
         ready = json.loads((root/'READY.json').read_text())
         if ready.get('manifest_sha256') != sha(root/'manifest.json'):
@@ -374,9 +424,9 @@ def main():
         os.environ.pop(key, None)
     from paclock_bench.training.recipe_runtime import provenance as make_provenance
     contract = dict(manifest_sha256=sha(root / 'manifest.json'), sample_rate=200,
-                    native_input_units=('uV' if native.dataset == 'CHB_MIT' else 'V'),
+                    native_input_units=('uV' if native.dataset in ('CHB_MIT', 'IIIC') else 'V'),
                     stored_normalization=manifest['protocol']['normalization'],
-                    multiplier=(None if native.dataset == 'CHB_MIT' else 1e-4),
+                    multiplier=(None if native.dataset == 'CHB_MIT' else cfg['loader_input_multiplier']),
                     inverse_q95_sidecar=native.dataset == 'CHB_MIT')
     prov = make_provenance(str(config_path), cfg, {'input_contract': contract})
     callback = audit_callback(pl, cfg=cfg, out=out, smoke_steps=args.smoke_steps, provenance=prov)
@@ -385,6 +435,9 @@ def main():
     if Path(native_utils.__file__).resolve() != vendor / 'utils.py':
         raise RuntimeError('Wrong module named utils was imported')
     bridge = NpyPickleBridge(root, native.dataset, bool(args.smoke_steps))
+    if native.dataset == 'IIIC' and any(len(rows[1]) != cfg['expected_split_sizes'][split]
+                                      for split, rows in bridge.arrays.items()):
+        raise ValueError('IIIC array row counts differ from reviewed split sizes')
     prepare = partial(prepare_data, bridge=bridge, native_utils=native_utils, seed=0, smoke_steps=args.smoke_steps)
     setattr(module, 'prepare_' + native.dataset + '_dataloader', prepare)
     (out / 'upstream-audit-only.patch').write_text(diff)
@@ -394,10 +447,10 @@ def main():
                 removed_incompatible_allocator_configuration=ALLOCATOR_COMPATIBILITY,
                 python=platform.python_version(), torch=torch.__version__, lightning=pl.__version__,
                 adaptation=['accepted shared cohort/preprocessing retained; not native preprocessing reproduction',
-                            'native loaders consume virtual pickle records: V for TUH, physical uV for CHB, using exact inverse-Q95 sidecars',
-                            'native TUEV resample branch retained: accepted1000-point rows map to1000points',
+                            'native loaders consume virtual pickle records: V for TUH, physical uV for CHB; IIIC reuses original iiic_load with physical uV arrays',
+                            ('IIIC keeps all2000 samples; original raw-array Q95 transform, no resampling, one-hot labels map back unchanged' if native.dataset == 'IIIC' else 'native TUEV resample branch retained: accepted1000-point rows map to1000points'),
                             'native hardcoded seed4523(TUEV)/12345(TUAB) explicitly overridden with user seed0',
-                            'callback registration patched; CHB_MIT additionally selects existing native CHB loader; model/optimizer/Trainer/fit/test untouched'],
+                            'callback registration patched; CHB_MIT/IIIC additionally dispatch declared existing author dataset transforms; model/optimizer/Trainer/fit/test untouched'],
                 smoke_steps=args.smoke_steps, provenance=prov))
     original_cwd = Path.cwd()
     try:

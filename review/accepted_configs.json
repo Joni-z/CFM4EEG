@@ -56,5 +56,9 @@
   "configs/baselines/labram/chbmit-pretrained.json": "f469839da095e520b2e245436749b7b4ecdf2277a4a64228a6994949864a1e2f",
   "configs/baselines/labram/tuev-native23-pretrained.json": "59488cbc7c70befa0664cc4a7ee05408fa0e68d5f86878b83ce0f6fa536b595f",
   "configs/baselines/eegpt/tuev-shared16-pretrained.yaml": "64508460e2d0ab2a7633ad1dc2828eda5e9449c87a5d87563f6a390a14936196",
-  "configs/baselines/labram/tuev-shared16-pretrained.json": "3ebca9d17046f8c390d3b16833d6d9e4c090b98935c77d55e93ab8af8456e738"
+  "configs/baselines/labram/tuev-shared16-pretrained.json": "3ebca9d17046f8c390d3b16833d6d9e4c090b98935c77d55e93ab8af8456e738",
+  "configs/baselines/biot/iiic-scratch.yaml": "d5d0460453b3a2cf5840ecfe24c49445c7a4b798edc253816905a47c8b6e2ba0",
+  "configs/baselines/cbramod/iiic-scratch.yaml": "e7a0a6bdae6362c9899a1bd823166e4a58929467ad82c026a258305bf67a429a",
+  "configs/baselines/eegpt/iiic-scratch.yaml": "44e5375b7f21a9dc5be2c4cc9329df594440677e7d57a6f1ee17f3639c423232",
+  "configs/baselines/labram/iiic-scratch.json": "a4646e281efcd513e7094fc7dfd7a1c98125139b59ac6a4382c99ef19d10832a"
 }

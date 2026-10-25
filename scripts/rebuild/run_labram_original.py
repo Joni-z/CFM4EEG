@@ -32,6 +32,24 @@ def sha(path):
     return h.hexdigest()
 
 
+def verify_shared_receipt(root, accepted, dataset, expected_manifest_sha256=None):
+    """Check the accepted array identities without reading held-out payloads."""
+    if accepted.get("dataset") != dataset or accepted.get("status") != "accepted":
+        raise ValueError("Wrong accepted shared dataset")
+    actual_hash = sha(root / "manifest.json")
+    if actual_hash != accepted.get("manifest_sha256") or (
+            expected_manifest_sha256 is not None and actual_hash != expected_manifest_sha256):
+        raise ValueError("Shared dataset manifest hash mismatch")
+    files = {f"{s}_{k}.npy" for s in ("train", "val", "test") for k in ("signals", "labels")}
+    if not files.issubset(accepted.get("files", {})):
+        raise ValueError("Acceptance must cover all six shared arrays")
+    for name in files:
+        actual, recorded = (root / name).stat(), accepted["files"][name]
+        if (actual.st_size != recorded["size"] or actual.st_mtime_ns != recorded["mtime_ns"]
+                or len(recorded.get("sha256", "")) != 64):
+            raise ValueError("Accepted shared file changed: " + name)
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("config", type=Path)
@@ -44,6 +62,10 @@ def main():
     if cfg["seed"] != 0 or not isinstance(cfg.get("pretrained"), bool):
         raise ValueError("An explicit scratch/pretrained seed0 setting is required")
     pretrained = cfg["pretrained"]
+    iiic = cfg["dataset"] == "IIIC"
+    if iiic and pretrained:
+        raise ValueError("Only the reviewed scratch IIIC task is supported")
+    audited_export = pretrained or iiic
     weights = Path(os.path.expandvars(os.path.expanduser(cfg["pretrained_path"]))) if pretrained else None
     if weights is not None and (not weights.is_file() or sha(weights) != cfg["pretrained_sha256"]):
         raise ValueError("Released pretrained checkpoint missing or hash mismatch")
@@ -105,7 +127,7 @@ def main():
                 te = va  # no held-out test payload is read by the smoke
             final_data.update(test=te, names=names, metrics=metrics)
             return tr, te, va, names, metrics
-    elif cfg["dataset"] in ("CHBMIT", "ADFD", "TUEV_SHARED16"):
+    elif cfg["dataset"] in ("CHBMIT", "ADFD", "TUEV_SHARED16", "IIIC"):
         manifest = json.loads((root / "manifest.json").read_text())
         expected_manifest = accepted["manifest_sha256"]
         is_chb = cfg["dataset"] == "CHBMIT"
@@ -114,21 +136,19 @@ def main():
         if sha(root / "manifest.json") != expected_manifest or ready["manifest_sha256"] != expected_manifest:
             raise ValueError("Manifest/build completion mismatch")
         norm = "q95" if is_chb else "div100"
-        n_channels, n_classes = (16, 6) if shared_tuev else ((16, 2) if is_chb else (19, 3))
+        n_channels, n_classes = (16, 6) if shared_tuev or iiic else ((16, 2) if is_chb else (19, 3))
         n_samples = 1000 if shared_tuev else 2000
         if manifest["protocol"]["sample_rate"] != 200 or manifest["protocol"]["normalization"] != norm:
             raise ValueError("Unexpected stored units or sample rate")
-        if shared_tuev:
-            if accepted.get("dataset") != "tuev" or manifest.get("dataset") != "tuev":
-                raise ValueError("Shared16 TUEV acceptance required")
-            expected_files = {f"{s}_{k}.npy" for s in ("train", "val", "test") for k in ("signals", "labels")}
-            if not expected_files.issubset(accepted.get("files", {})):
-                raise ValueError("Acceptance must cover all six shared16 arrays")
-            for name in expected_files:
-                actual, recorded = (root/name).stat(), accepted["files"][name]
-                if (actual.st_size != recorded["size"] or actual.st_mtime_ns != recorded["mtime_ns"]
-                        or len(recorded.get("sha256", "")) != 64):
-                    raise ValueError("Accepted shared16 file changed: " + name)
+        if shared_tuev or iiic:
+            dataset_id = "iiic" if iiic else "tuev"
+            verify_shared_receipt(root, accepted, dataset_id,
+                                  cfg["expected_manifest_sha256"] if iiic else None)
+            if manifest.get("dataset") != dataset_id:
+                raise ValueError("Wrong shared dataset manifest")
+            if iiic and (manifest["protocol"].get("num_classes") != 6
+                         or manifest["protocol"].get("window_sec") != 10.):
+                raise ValueError("Expected the six-class ten-second IIIC protocol")
         class SharedCHB(Dataset):
             def __init__(self, split):
                 self.x = np.load(root / (split + "_signals.npy"), mmap_mode="r")
@@ -136,10 +156,11 @@ def main():
                 self.scale = np.load(root / (split + "_q95_denominators.npy"), mmap_mode="r") if is_chb else None
                 if self.x.shape[1:] != (n_channels, n_samples) or len(self.y) != len(self.x):
                     raise ValueError("Array shape mismatch")
-                if shared_tuev and (self.x.dtype != np.float32 or self.y.dtype.kind not in "iu"
+                counts = {"train":73637,"val":15778,"test":15780} if iiic else {"train":68445,"val":15487,"test":29421}
+                if (shared_tuev or iiic) and (self.x.dtype != np.float32 or self.y.dtype.kind not in "iu"
                         or np.any(self.y < 0) or np.any(self.y >= n_classes)
-                        or len(self.x) != {"train":68445,"val":15487,"test":29421}[split]):
-                    raise ValueError("Shared16 TUEV dtype/labels/cohort mismatch")
+                        or len(self.x) != counts[split]):
+                    raise ValueError("Shared array dtype/labels/cohort mismatch")
                 if is_chb and self.scale.shape != (len(self.x), n_channels, 1):
                     raise ValueError("CHB scale mismatch")
             def __len__(self):
@@ -177,7 +198,7 @@ def main():
     else:
         raise ValueError("Unsupported native bridge")
     native.get_dataset = get_dataset
-    argv = ["--dataset", "TUEV" if cfg["dataset"] in ("TUEV", "TUEV_SHARED16") else "TUAB",
+    argv = ["--dataset", "TUEV" if cfg["dataset"] in ("TUEV", "TUEV_SHARED16", "IIIC") else "TUAB",
             "--output_dir", str(a.out), "--model", "labram_base_patch200_200",
             "--seed", "0", "--batch_size", str(cfg["batch_size"]),
             "--update_freq", "1" if a.smoke else str(cfg["update_freq"]),
@@ -200,11 +221,13 @@ def main():
         m = original_models(args)
         captured["model"] = m
         captured["head_before"] = m.head.weight.detach().cpu().clone()
+        if iiic:
+            captured["backbone_before"] = m.blocks[-1].attn.qkv.weight.detach().cpu().clone()
         if pretrained and cfg.get("channel_initialization") == "fresh_bipolar_slots":
             captured["fresh_spatial"] = m.pos_embed[:, 1:17].detach().clone()
         return m
     native.get_models = capture
-    if pretrained:
+    if audited_export:
         captured["optimizer_updates"] = 0
         original_optimizer = native.create_optimizer
         def counted_optimizer(*args, **kwargs):
@@ -214,6 +237,7 @@ def main():
             optimizer.register_step_post_hook(updated)
             return optimizer
         native.create_optimizer = counted_optimizer
+    if pretrained:
         original_load = utils.load_state_dict
         def checked_load(model, state_dict, prefix="", **kwargs):
             """Validate the native student extraction before its permissive loader."""
@@ -242,6 +266,7 @@ def main():
                          exact_loaded_tensor_equality=True)
             (a.out / "pretrained_load.json").write_text(json.dumps(audit, indent=2))
         utils.load_state_dict = checked_load
+    if audited_export:
         # Native selection is validation accuracy; held-out testing is deferred.
         original_evaluate = native.evaluate
         def deferred_test(loader, model, device, header="Test:", **kwargs):
@@ -254,7 +279,7 @@ def main():
         smoke=a.smoke, test_payload_read=not a.smoke), indent=2))
     native.main(args, ds_init)
     model = captured["model"]
-    checkpoint = a.out / ("checkpoint-best.pth" if pretrained and not a.smoke else "checkpoint.pth")
+    checkpoint = a.out / ("checkpoint-best.pth" if audited_export and not a.smoke else "checkpoint.pth")
     ckpt = torch.load(checkpoint, map_location="cpu", weights_only=False)
     model.load_state_dict(ckpt["model"], strict=True)
     if not all(torch.isfinite(t).all().item() for t in model.state_dict().values()):
@@ -263,12 +288,12 @@ def main():
         raise RuntimeError("Native optimizer made no classifier update")
     proof = dict(status="passed", identity=identity, checkpoint_strict_reload=True,
                  classifier_updated=True, finite_model=True, smoke=a.smoke)
-    if pretrained:
+    if audited_export:
         if captured["optimizer_updates"] < 1:
             raise RuntimeError("Native scaler skipped every optimizer update")
         if torch.equal(captured["backbone_before"], model.blocks[-1].attn.qkv.weight.detach().cpu()):
-            raise RuntimeError("Pretrained backbone did not update")
-        proof["pretrained_backbone_loaded_and_updated"] = True
+            raise RuntimeError("Active backbone did not update")
+        proof["pretrained_backbone_loaded_and_updated" if pretrained else "scratch_backbone_updated"] = True
         proof["optimizer_updates"] = captured["optimizer_updates"]
         outputs, labels, native_predictions = [], [], []
         loader = DataLoader(final_data["test"], batch_size=int(1.5 * cfg["batch_size"]),
@@ -302,7 +327,7 @@ def main():
                             y_true=y_true, logits=raw_logits.float().numpy(), y_prob=probabilities,
                             native_predictions=native_values)
         (a.out / ("smoke_export.json" if a.smoke else "result.json")).write_text(json.dumps(dict(config=cfg, seed=0, metrics=scores,
-            pretrained_load=json.loads((a.out/"pretrained_load.json").read_text()),
+            pretrained_load=json.loads((a.out/"pretrained_load.json").read_text()) if pretrained else None,
             evaluation_split="validation" if a.smoke else "test",
             checkpoint_selection="smoke_terminal" if a.smoke else "native_validation_accuracy",
             selected_checkpoint=str(checkpoint), selected_checkpoint_sha256=sha(checkpoint)), indent=2))

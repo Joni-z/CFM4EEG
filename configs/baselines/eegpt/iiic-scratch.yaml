@@ -1,0 +1,64 @@
+name: iiic-eegpt_scratch_nativeadapt_20261025
+group: C
+dataset: iiic
+data_root: $PACLOCK_PROC/processed/iiic
+model: eegpt
+loader: null
+pretrained: false
+sample_rate: 200
+optimizer: adamw
+weight_decay: 0.05
+lr: 0.0005
+scheduler: labram_cosine
+batch_size: 100
+grad_clip: null
+patience: 0
+num_workers: 4
+device: cuda
+eval_every_steps: 0
+num_classes: 6
+loss: cross_entropy
+epochs: 50
+seed: 0
+model_output_classes: 6
+loader_divisor: 1.0
+max_hours: 0
+run_monitor: true
+save_checkpoint: true
+reproduction:
+  kind: declared_new_IIIC_task_original_TUAB_trainer
+  deviations:
+  - No official EEGPT IIIC downstream recipe exists; this is a declared new-task adaptation
+    of the released TUAB main/model/engine, not a claimed published IIIC reproduction.
+  - Current accepted IIIC16x2000 cohort and physical uV/100 shared arrays, with splits73637/15778/15780
+    and six labels0..5; no CHB READY or inverse-Q95 sidecar is applicable.
+  - Original TUAB temporal decoder supports2000 samples; only learned input convolution23->20
+    changes to16->20 and task head output changes1->6. No electrode relabeling or
+    channel padding.
+  - Randomly initialized full trainable encoder; no pretrained weights. Native multiclass
+    LabelSmoothingCrossEntropy selected by nb_classes6; original AdamW5e-4,wd.05,50epochs,warmup5,layerdecay.65,batch100/rank,two
+    ranks retained.
+  - Explicit BF16 native-AMP runtime avoids known FP16 overflow; FP32 logits bridge
+    supports original NumPy metrics. Arithmetic is recorded.
+  - Restore physical microvolts in the input bridge; native engine divides100 exactly
+    once. Smoke opens train/val only; formal testing follows validation-accuracy checkpoint
+    selection; preserve predictions and checkpoints.
+  required_world_size: 2
+  effective_global_batch: 200
+loader_signal_mode: uv_div100
+model_kwargs:
+  task_variant: tuab
+  freeze_encoder: false
+runner: scripts/rebuild/run_eegpt_chb_official.py
+native_task: tuab
+scheduler_min_lr: 1.0e-06
+warmup_start_lr: 0.0
+layer_decay: 0.65
+label_smoothing: 0.1
+select_metric: accuracy
+warmup_epochs: 5
+optimizer_eps: 1.0e-08
+require_rebuild_ready: false
+precision: bf16
+expected_manifest_sha256: 3c9d3e148c6cb3f07d4e7861d321bf5a47bbba9327897850b265b6f2d71ab715
+preload: false
