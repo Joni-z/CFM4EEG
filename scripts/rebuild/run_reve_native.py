@@ -295,6 +295,11 @@ def main():
             )
             scaler = torch.amp.GradScaler(device="cuda", enabled=True)
             before = model.cls_query_token.detach().clone()
+            head_before = {n: p.detach().clone() for n, p in model.linear_head.named_parameters()}
+            backbone = next(p for n, p in model.encoder.named_parameters() if 'to_qkv.weight' in n)
+            backbone_before = backbone.detach().clone() if name == 'ft' else None
+            steps = []
+            step_hook = optimizer.register_step_post_hook(lambda *unused: steps.append(1))
             loss = native.train_one_epoch(
                 model,
                 torch.nn.CrossEntropyLoss(),
@@ -312,10 +317,21 @@ def main():
                 or not torch.isfinite(model.cls_query_token.grad).all()
             ):
                 raise RuntimeError("missing/nonfinite native query gradient")
-            if args.smoke_steps > 1 and torch.equal(before, model.cls_query_token):
-                raise RuntimeError(
-                    "native query did not update across warmup smoke steps"
-                )
+            step_hook.remove()
+            head_updated = any(not torch.equal(head_before[n], p) for n, p in model.linear_head.named_parameters())
+            backbone_updated = None if backbone_before is None else not torch.equal(backbone_before, backbone)
+            diagnostics = dict(stage=name, optimizer_updates=len(steps),
+                head_updated=head_updated, backbone_updated=backbone_updated,
+                query_grad_norm=float(model.cls_query_token.grad.float().norm()),
+                query_max_delta=float((model.cls_query_token.detach()-before).abs().max()),
+                learning_rates=[g['lr'] for g in optimizer.param_groups], scale=scaler.get_scale(),
+                loss=float(loss), query_updated=not torch.equal(before,model.cls_query_token))
+            (out / (name + "_smoke_diagnostics.json")).write_text(json.dumps(diagnostics, indent=2) + "\n")
+            gradients = [p.grad for p in model.parameters() if p.requires_grad and p.grad is not None]
+            if not steps or not head_updated or (name == 'ft' and not backbone_updated):
+                raise RuntimeError("Native smoke needs actual optimizer steps and head/backbone updates: " + str(diagnostics))
+            if not gradients or not all(torch.isfinite(g).all() for g in gradients):
+                raise RuntimeError("Nonfinite native smoke gradients")
             checks.append(
                 {
                     "stage": name,
@@ -323,6 +339,7 @@ def main():
                     "query_updated": not torch.equal(before, model.cls_query_token),
                     "optimizer": type(optimizer).__name__,
                     "scale": scaler.get_scale(),
+                    "diagnostics": diagnostics,
                 }
             )
         model.eval()
