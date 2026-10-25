@@ -8,6 +8,7 @@ These configurations load the authors' released pretraining checkpoints and run 
 | CBraMod | `tuev-pretrained.yaml`, `chbmit-pretrained.yaml` | Strict native backbone loading followed by removal of the pretraining projection; native full finetuning, task head and 50-epoch recipe |
 | EEGPT | `tuev-shared16-pretrained.yaml`, `chbmit-pretrained.yaml` | Complete released target encoder verified tensor by tensor; original two-rank TUEG full-finetuning recipes, 30 epochs for TUEV and 50 for the CHB adaptation |
 | LaBraM | `tuev-shared16-pretrained.json`, `chbmit-pretrained.json` | Released student backbone; original finetuning engine and validation-accuracy selection; 64-sample microbatches accumulated eight times to preserve the published global batch of 512 |
+| REVE | `tuev-pretrained.yaml`, `chbmit-pretrained.yaml` | Released encoder and query verified exactly against the SHA-bound safetensors file; original LP followed by FT, StableAdamW, native warmup and validation-balanced-accuracy selection |
 
 ## Data and task adaptations
 
@@ -20,6 +21,8 @@ CHB is an added task for EEGPT and LaBraM. EEGPT retains the author's TUAB decod
 Checkpoint SHA256 is fixed in each configuration. Missing weights or unexpected active tensor omissions fail before training. Audits compare loaded values to released values, then verify real optimizer updates and exact checkpoint reload. New task classifiers remain randomly initialized.
 
 EEGPT's four-step FP16 pilot had nonfinite gradients and skipped every optimizer update, so the pretrained configurations explicitly use BF16. Both BF16 two-rank smokes passed with finite gradients and updated encoder/classifier weights. This runtime adaptation is recorded; the model, optimizer, schedule and batch are unchanged. BIOT retains its isolated legacy environment and documented cuFFT compatibility wrapper. CBraMod uses its original full-precision training; LaBraM retains native AMP.
+
+REVE retains 200 Hz and physical microvolts/100, matching its TUH loader's raw-volts multiplier of 10,000. CHB uses its inverse-Q95 sidecar before this scaling. Smoke loaders exclude test signals, labels and sidecars. The smoke records actual optimizer steps, classifier updates and FT backbone updates through native AMP/warmup; query movement is recorded separately, since a short initial warmup may produce no representable change. Formal training retains the original recipe.
 
 ## Selection and artifacts
 
