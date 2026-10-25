@@ -78,6 +78,7 @@ def main():
     parser.add_argument("--resume", default="")
     parser.add_argument("--precision", choices=("fp16", "bf16", "fp32"), default="fp16")
     parser.add_argument("--smoke-steps", type=int, default=0)
+    parser.add_argument("--smoke-proof")
     parser.add_argument(
         "--native-amp",
         action="store_true",
@@ -96,23 +97,27 @@ def main():
     amp_enabled = cli.precision != "fp32"
     if cli.precision == "bf16" and not torch.cuda.is_bf16_supported():
         raise RuntimeError("This GPU does not support the requested BF16 runtime")
-    if cli.precision != "fp16":
-        # The author engine uses this context for training and validation.
-        # Keep the engine, optimizer and GradScaler; change arithmetic precision only.
-        torch.cuda.amp.autocast = functools.partial(
-            torch.cuda.amp.autocast, dtype=amp_dtype, enabled=amp_enabled
-        )
+    from scripts.rebuild.eegpt_pretrained import configure_native_autocast
+    configure_native_autocast(cli.precision)
 
     cfg = yaml.safe_load(Path(cli.config).read_text())
     ds = cfg["dataset"]
-    if ds != "chbmit" or cfg.get("pretrained") is not False:
-        raise ValueError("This release only permits CHB-MIT from scratch")
+    if ds != "chbmit" or type(cfg.get("pretrained")) is not bool:
+        raise ValueError("Explicit scratch/pretrained setting is required")
+    from scripts.rebuild.eegpt_pretrained import load_released_pretraining, smoke_identity, require_smoke
+    pretrained_identity = None
+    if cfg["pretrained"] and cli.precision != cfg.get("precision", "fp16"):
+        raise ValueError("Pretrained arithmetic must match the explicit reviewed config")
     data_root = Path(os.path.expandvars(cfg["data_root"]))
     accepted = json.loads((data_root / "ACCEPTED.json").read_text())
     ready = json.loads((data_root / "READY.json").read_text())
     manifest_hash = hashlib.sha256((data_root / "manifest.json").read_bytes()).hexdigest()
     if accepted.get("status") != "accepted" or accepted.get("manifest_sha256") != manifest_hash or ready.get("manifest_sha256") != manifest_hash:
         raise RuntimeError("CHB-MIT accepted/ready manifest hashes disagree")
+    if cfg['pretrained']:
+        pretrained_identity = smoke_identity(cli.config, __file__, str(data_root / 'ACCEPTED.json'), cfg)
+        if not cli.smoke_steps:
+            require_smoke(cli.smoke_proof, pretrained_identity)
     task = cfg.get("native_task", ds)
     if task not in ("tuev", "tuab"):
         raise ValueError("A native EEGPT task recipe must be declared as tuev or tuab")
@@ -188,8 +193,24 @@ def main():
     # Pretrained loading is strict in the adapter. Native utils.load_state_dict
     # accepts arbitrary missing tensors, so its permissive path is not reused.
     opts.finetune = ""
-    loaders = build_dataloaders(cfg)
-    train, val, test, info = loaders
+    if cli.smoke_steps:
+        from paclock_bench.data.datasets import WindowDataset
+        from paclock_bench.data.contracts import resolve_signal_transform, describe_contract
+        manifest = json.loads((data_root / 'manifest.json').read_text())
+        smoke_sets = []
+        for split in ['train', 'val']:
+            scales, multiplier = resolve_signal_transform(str(data_root), split, cfg, manifest)
+            smoke_sets.append(WindowDataset(str(data_root), split, preload=False,
+                normalization_scales=scales, input_multiplier=multiplier))
+        train, val = [DataLoader(d, batch_size=cfg['batch_size'], num_workers=0)
+                      for d in smoke_sets]
+        test = val
+        info = {'input_shape': smoke_sets[0].shape, 'manifest': manifest,
+                'input_contract': describe_contract(cfg, manifest, str(data_root), 'shared'),
+                'n_samples': {split: len(d) for split, d in zip(['train', 'val'], smoke_sets)},
+                'test_payload_opened': False}
+    else:
+        train, val, test, info = build_dataloaders(cfg)
     channels, samples = info["input_shape"]
     if samples != (1000 if task == "tuev" else 2000):
         raise ValueError("Native task temporal head and dataset duration disagree")
@@ -265,6 +286,10 @@ def main():
             in_channels=channels, img_size=[len(names), samples],
             use_channels_names=names, use_chan_conv=True,
             use_mean_pooling=args.use_mean_pooling)
+        if cfg['pretrained']:
+            state['pretrained'] = load_released_pretraining(model, cfg)
+            if rank == 0:
+                (out / 'pretrained_audit.json').write_text(json.dumps(state['pretrained'], indent=2) + '\n')
         if cli.precision == "bf16":
             model.register_forward_hook(fp32_logits)
         active = [(name, value) for name, value in model.target_encoder.named_parameters()
@@ -355,7 +380,7 @@ def main():
             "adaptations": [
                 "new task CHB-MIT, official TUAB binary recipe unchanged",
                 "learned input channel convolution 23->20 changed to 16->20; no padding or electrode relabeling",
-                "no pretrained weights; active target encoder verified trainable and updated",
+                ("released pretrained weights strictly loaded; native full finetuning" if cfg["pretrained"] else "no pretrained weights; active target encoder verified trainable and updated"),
                 "validation and test sequential without sampler padding",
                 "test metrics deferred to final checkpoint",
                 "dataset bridge restores uV before native engine division",
@@ -394,7 +419,10 @@ def main():
                         "provenance": runtime_provenance(cli.config, cfg, info),
                         "stats": state["smoke"],
                         "strict_reload_identical": True,
-                        "scratch_encoder_updated": True,
+                        "encoder_updated": True,
+                        "scratch_encoder_updated": not cfg["pretrained"],
+                        "pretrained_identity": pretrained_identity,
+                        "pretrained_weights": state.get("pretrained"),
                         "world_size": 2,
                         "per_rank_batch": batch,
                         "precision": cli.precision,

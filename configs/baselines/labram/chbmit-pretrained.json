@@ -1,0 +1,22 @@
+{
+  "seed": 0,
+  "pretrained": true,
+  "batch_size": 64,
+  "update_freq": 8,
+  "epochs": 50,
+  "warmup_epochs": 5,
+  "lr": 0.0005,
+  "layer_decay": 0.65,
+  "num_workers": 8,
+  "recipe_scope": "Released TUAB finetune example at pinned README: AdamW lr5e-4/wd.05, warmup5,50epochs,layer_decay.65,drop_path.1,smoothing.1; one GPU with64microbatch x8accumulation preserves published8x64globalbatch512. Explicit task adaptation; not identical distributed numerics. Validation accuracy selects native checkpoint-best, test deferred until selection.",
+  "dataset": "CHBMIT",
+  "data_root": "$PACLOCK_PROC/processed/chbmit",
+  "input_scope": "Accepted corrected CHB16bipolar arrays; q95 inverse viafloat64sidecar restores physicaluV; nativeengine divides100. Sixteen named bipolar channels use distinct fresh native spatial slots1..16, not pretrained monopolar identities; CLS/time/remaining shared backbone weights pretrained. Original bipolar lookup121..136 exceeds released129-row pos_embed and cannot be used directly.",
+  "runner": "scripts/rebuild/run_labram_original.py",
+  "runner_interface": "direct_cli",
+  "model": "labram",
+  "pretrained_path": "$CFM_VENDOR/labram/checkpoints/labram-base.pth",
+  "pretrained_sha256": "7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c",
+  "channel_initialization": "fresh_bipolar_slots",
+  "runtime_adaptation": "Torch2.8 default tensor-only loader reads a model-tensors-only bridge extracted from SHA-verified released file; native student filtering and weights remain unchanged."
+}

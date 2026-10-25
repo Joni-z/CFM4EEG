@@ -167,8 +167,19 @@ def prepare_data(args, *, bridge, native_utils, seed: int, smoke_steps: int):
 def native_args(cfg: dict) -> argparse.Namespace:
     dataset = {'chbmit': 'CHB_MIT'}.get(str(cfg['dataset']), str(cfg['dataset']).upper())
     model = {'biot': 'BIOT', 'ffcl': 'FFCL'}.get(cfg['model'])
-    if dataset not in ('TUEV', 'TUAB', 'CHB_MIT') or model is None or cfg.get('checkpoint'):
-        raise ValueError('Native wrapper supports reviewed TUEV/TUAB/CHB scratch BIOT/FFCL only')
+    pretrained = cfg.get('pretrained', False)
+    if type(pretrained) is not bool:
+        raise ValueError('pretrained must be an explicit boolean')
+    if dataset not in ('TUEV', 'TUAB', 'CHB_MIT') or model is None:
+        raise ValueError('Native wrapper supports reviewed TUEV/TUAB/CHB BIOT/FFCL only')
+    checkpoint = cfg.get('checkpoint')
+    if bool(checkpoint) != pretrained or (pretrained and model != 'BIOT'):
+        raise ValueError('Exactly one released BIOT checkpoint is required for pretrained; scratch forbids it')
+    if pretrained:
+        checkpoint = Path(os.path.expanduser(os.path.expandvars(checkpoint))).resolve()
+        if (not checkpoint.is_file() or not cfg.get('checkpoint_sha256')
+                or sha(checkpoint) != cfg['checkpoint_sha256']):
+            raise ValueError('Released pretrained checkpoint missing or hash mismatch')
     expected = dict(optimizer='adam', lr=.001, weight_decay=1e-5, epochs=100,
                     patience=5, train_drop_last=True, label_smoothing=0., amp=False)
     for key, value in expected.items():
@@ -182,16 +193,18 @@ def native_args(cfg: dict) -> argparse.Namespace:
     classes = 6 if dataset == 'TUEV' else 1
     if cfg['num_classes'] != (6 if dataset == 'TUEV' else 2) or cfg['sample_rate'] != 200:
         raise ValueError('Native task shape mismatch')
-    if model == 'BIOT' and cfg.get('model_kwargs', {}).get('encoder_channels') != 16:
-        raise ValueError('Official scratch BIOT uses capacity16')
+    capacity = 18 if pretrained else 16
+    if model == 'BIOT' and cfg.get('model_kwargs', {}).get('encoder_channels') != capacity:
+        raise ValueError('BIOT channel capacity must match the reviewed scratch/released checkpoint constructor')
     batch = 128 if dataset == 'TUEV' and model == 'BIOT' else 512
     if cfg['batch_size'] != batch or int(cfg.get('num_workers', 32)) < 1:
         raise ValueError('Native batch/workers contract failed')
-    return argparse.Namespace(dataset=dataset, model=model, in_channels=16,
+    return argparse.Namespace(dataset=dataset, model=model, in_channels=capacity,
                               n_classes=classes, sampling_rate=200, token_size=200,
                               hop_length=100, sample_length=5 if dataset == 'TUEV' else 10,
                               batch_size=batch, num_workers=int(cfg['num_workers']),
-                              epochs=100, lr=.001, weight_decay=1e-5, pretrain_model_path='')
+                              epochs=100, lr=.001, weight_decay=1e-5,
+                              pretrain_model_path=str(checkpoint) if pretrained else '')
 
 
 class SmokeComplete(Exception):
@@ -208,6 +221,25 @@ def audit_callback(pl, *, cfg, out, smoke_steps, provenance):
             self.batches = 0
             self.checkpoint = None
             self.best_validation = float('-inf')
+
+        def on_fit_start(self, trainer, module):
+            if not cfg.get('pretrained', False):
+                return
+            path = Path(module.args.pretrain_model_path)
+            if sha(path) != cfg['checkpoint_sha256']:
+                raise RuntimeError('Released checkpoint changed before training')
+            expected = torch.load(path, map_location='cpu')
+            actual = module.model.biot.state_dict()
+            if (set(actual) != set(expected)
+                    or any(not torch.equal(actual[k].detach().cpu(), expected[k]) for k in expected)):
+                raise RuntimeError('Native pretrained encoder did not exactly load all released tensors')
+            atomic_json(out / 'pretrained_load_audit.json', dict(
+                status='passed', checkpoint=str(path), sha256=sha(path),
+                encoder_state_tensors=len(actual), encoder_state_values=sum(v.numel() for v in actual.values()),
+                channel_capacity=18, actual_input_channels=16,
+                constructor_reference='Pinned upstream run_example.py BIOT-pretrain-SHHS+PREST',
+                task_classifier='randomly initialized; not present in released encoder checkpoint',
+                strict_encoder_load=True, all_loaded_tensors_equal=True))
 
         def on_train_start(self, trainer, module):
             if smoke_steps:

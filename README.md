@@ -18,7 +18,7 @@ residual fusion of band content, followed by the same two-axis encoder.
 | `configs/datasets/` | Dataset definitions |
 | `configs/baselines/<model>/` | Supported original-code baseline configurations |
 | `configs/model/` | CfFT and the explicit waveform-patch control configurations |
-| `configs/deferred/` | Native pretraining/pretrained recipes, kept separate from scratch work |
+| `configs/deferred/` | Deferred native pretraining and pretrained recipes |
 | `configs/planned/` | Unfinished adaptations; explicitly blocked from launch |
 | `scripts/rebuild/` | Original-code baseline entrypoints and input bridges |
 | `upstream/sources.json` | Author repositories, exact commits and original entry files |
@@ -41,6 +41,8 @@ export CFM_REBUILD_ROOT=/path/to/outputs
 python scripts/rebuild/launch.py configs/baselines/biot/tuev-scratch.yaml 0 smoke
 python scripts/rebuild/launch.py configs/baselines/biot/tuev-scratch.yaml 0 train
 ```
+
+Released-weight finetuning configurations and their loading contracts are documented in [pretrained baselines](docs/PRETRAINED-BASELINES.md).
 
 Use the appropriate baseline environment and allocated GPUs. Conformer, LaBraM, native23 EEGPT and TFM have explicit commands in [UPSTREAM.md](docs/UPSTREAM.md). The dispatcher never substitutes the project’s generic trainer for a missing baseline implementation.
 

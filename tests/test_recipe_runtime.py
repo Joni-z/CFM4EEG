@@ -62,3 +62,25 @@ def test_native_labram_drops_incomplete_effective_batch():
     import pytest
     with pytest.raises(ValueError, match='no complete'):
         update_count(7, 8, drop_incomplete=True)
+
+
+def test_pretrained_receipt_expands_cbramod_weight_environment(tmp_path, monkeypatch):
+    import hashlib
+    from paclock_bench.training.recipe_runtime import pretrained_payloads
+    path = tmp_path / 'released.pth'
+    path.write_bytes(b'checkpoint receipt fixture')
+    monkeypatch.setenv('CFM_TEST_WEIGHTS', str(path))
+    receipt = pretrained_payloads(dict(model='cbramod', pretrained=True,
+                                     pretrained_path='$CFM_TEST_WEIGHTS'))
+    assert receipt[str(path)]['sha256'] == hashlib.sha256(path.read_bytes()).hexdigest()
+    assert receipt[str(path)]['size'] == path.stat().st_size
+
+
+def test_pretrained_receipt_accepts_explicit_biot_weight_path(tmp_path, monkeypatch):
+    import hashlib
+    from paclock_bench.training.recipe_runtime import pretrained_payloads
+    path = tmp_path / 'biot.ckpt'
+    path.write_bytes(b'BIOT checkpoint receipt fixture')
+    monkeypatch.setenv('CFM_TEST_BIOT_WEIGHTS', str(path))
+    receipt = pretrained_payloads(dict(model='biot', checkpoint='$CFM_TEST_BIOT_WEIGHTS'))
+    assert receipt[str(path)]['sha256'] == hashlib.sha256(path.read_bytes()).hexdigest()

@@ -1,0 +1,75 @@
+name: chbmit-biot_pretrained_native20261025
+group: C
+dataset: chbmit
+data_root: $PACLOCK_PROC/processed/chbmit
+checkpoint: $PACLOCK_BIOT_WEIGHTS
+model: biot
+loader: biot
+optimizer: adam
+lr: 0.001
+weight_decay: 1.0e-05
+epochs: 100
+scheduler: null
+grad_clip: null
+patience: 5
+num_workers: 32
+device: cuda
+model_kwargs:
+  token_size: 200
+  hop_length: 100
+  encoder_channels: 18
+  channel_mode: strict
+num_classes: 2
+sample_rate: 200
+batch_size: 512
+loss: bce_with_logits
+label_smoothing: 0.0
+eval_every_steps: 0
+seed: 0
+model_output_classes: 1
+max_hours: 0
+train_drop_last: true
+select_metric: auroc
+run_monitor: true
+save_checkpoint: true
+amp: false
+loader_input_multiplier: 1.0
+reproduction:
+  kind: original_binary_entrypoint_declared_CHB_dispatch
+  vendor: biot
+  commit: d138e32634e52ae9fa6ec98ac9c4087b14ca869a
+  source:
+  - run_binary_supervised.py
+  - utils.py
+  - model/biot.py
+  - README.md
+  - run_example.py
+  deviations:
+  - Accepted corrected shared CHB cohort; not original BIOT segmentation/split or
+    preprocessing.
+  - Float64 stored Q95 denominator restores physical microvolts before unchanged native
+    CHBMITLoader FFT resampling and Q95(+1e-8), matching upstream pyedflib physical
+    units.
+  - Released supervised() dispatch only includes TUAB although CHB loader exists;
+    add one explicit elif to select that existing loader. Native binary model, loss,
+    optimizer, callbacks, Trainer, test unchanged.
+  - Checkpoint selection follows literal released unmonitored terminal checkpoint,
+    with validation-best separately archived.
+  - Released SHHS+PREST encoder checkpoint loaded by original strict model.biot.load_state_dict;
+    downstream classifier freshly initialized.
+  - Channel-token capacity18 follows pinned run_example.py for SHHS+PREST weights;
+    actual accepted16-channel inputs use existing source loop without padding or channel
+    relabeling.
+  - Checkpoint file hash and exact equality of every loaded encoder tensor verified
+    before fit; no random-weight fallback.
+  checkpoint_rule: 'Literal released code under Lightning1.6.4: default unmonitored
+    checkpoint selects terminal; conflicts with paper validation-best wording.'
+  runtime: Python3.9,Torch1.13.1+cu117,Lightning1.6.4 isolated environment
+  pretraining_corpora:
+  - SHHS
+  - PREST
+checkpoint_selection: terminal
+runner: scripts/rebuild/native_biot_entry.py
+require_rebuild_ready: true
+pretrained: true
+checkpoint_sha256: 391b53f77d5060e43746f3ffd5aae8107785f4fd122bf2f87221a1b5b2854a84

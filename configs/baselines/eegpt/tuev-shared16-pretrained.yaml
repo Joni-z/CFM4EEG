@@ -1,0 +1,38 @@
+name: tuev-eegpt_pretrained_shared16_20261025
+dataset: tuev
+data_root: $PACLOCK_PROC/processed/tuev
+model: eegpt
+pretrained: true
+num_classes: 6
+num_workers: 4
+batch_size: 400
+seed: 0
+epochs: 30
+runner: scripts/rebuild/run_eegpt_tuev_official.py
+reproduction:
+  kind: original_TUEV_training_with_shared16_input_adaptation
+  deviations:
+  - Upstream native AMP branch replaces original shell DeepSpeed0.4; full native model/main/engine/AdamW/schedule/batch
+    retained.
+  - Test metrics deferred to final selected checkpoint; original validation accuracy
+    selection unchanged.
+  - Released target_encoder loaded completely and exactly; native full TUEG finetuning
+    retained, plus explicit loading of matching inactive reconstructor tensors (its
+    downstream-only cls_token is absent upstream).
+  - Native permissive full-state load replaced by strict active target-encoder coverage
+    and value equality audit; heads, channel convolution and fc_norm remain task-initialized.
+  - 'Explicit BF16 native-AMP runtime for finite updates on Ada: FP16 pilot had infinite
+    gradients and skipped every smoke update. Recipe, model and optimizer remain unchanged;
+    arithmetic is recorded.'
+  - Current accepted shared16 TUEV cohort replaces native23 pickle inputs; same cohort,
+    preprocessing and splits as the current baseline table.
+  - Only learned input channel-convolution width changes23->16;20latent positions
+    and pretrained encoder/head constructor stay native. No bipolar input is assigned
+    a false monopolar electrode label.
+  - Shared uV/100 values are restored to physical microvolts so the unchanged native
+    engine divides by100 exactly once; train/val only opened during smoke.
+pretrained_path: $PACLOCK_EEGPT_PRETRAINED
+pretrained_sha256: 9d63ebc80bba1ad5e3277df4eecfa05d2745e6243a12ff743c4c0a93930dfac0
+precision: bf16
+input_protocol: shared16
+sample_rate: 200

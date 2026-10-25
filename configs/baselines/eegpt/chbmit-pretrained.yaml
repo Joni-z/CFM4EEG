@@ -1,0 +1,64 @@
+name: chbmit-eegpt_pretrained_native20261025
+group: C
+dataset: chbmit
+data_root: $PACLOCK_PROC/processed/chbmit
+model: eegpt
+loader: null
+pretrained: true
+sample_rate: 200
+optimizer: adamw
+weight_decay: 0.05
+lr: 0.0005
+scheduler: labram_cosine
+batch_size: 100
+grad_clip: null
+patience: 0
+num_workers: 4
+device: cuda
+eval_every_steps: 0
+num_classes: 2
+loss: bce_with_logits
+epochs: 50
+seed: 0
+model_output_classes: 1
+loader_divisor: 1.0
+max_hours: 0
+run_monitor: true
+save_checkpoint: true
+reproduction:
+  kind: declared_new_task_adaptation
+  deviations:
+  - New CHB-MIT task; use released TUAB binary main and engine unchanged.
+  - Recorded bipolar inputs 16 instead of native TUAB 23; first learned channel convolution
+    input dimension only is changed.
+  - Full sequential validation/test; no distributed padding; validation accuracy selection
+    per released TUAB.
+  - Test evaluation deferred to selected checkpoint; no effect on optimizer or checkpoint
+    selection.
+  - Released target_encoder loaded completely and exactly; native full TUEG finetuning
+    retained, plus explicit loading of matching inactive reconstructor tensors (its
+    downstream-only cls_token is absent upstream).
+  - Native permissive full-state load replaced by strict active target-encoder coverage
+    and value equality audit; heads, channel convolution and fc_norm remain task-initialized.
+  - 'Explicit BF16 native-AMP runtime for finite updates on Ada: FP16 pilot had infinite
+    gradients and skipped every smoke update. Recipe, model and optimizer remain unchanged;
+    arithmetic is recorded.'
+  required_world_size: 2
+  effective_global_batch: 200
+loader_signal_mode: uv_div100
+model_kwargs:
+  task_variant: tuab
+  freeze_encoder: false
+runner: scripts/rebuild/run_eegpt_chb_official.py
+native_task: tuab
+scheduler_min_lr: 1.0e-06
+warmup_start_lr: 0.0
+layer_decay: 0.65
+label_smoothing: 0.1
+select_metric: accuracy
+warmup_epochs: 5
+optimizer_eps: 1.0e-08
+require_rebuild_ready: true
+pretrained_path: $PACLOCK_EEGPT_PRETRAINED
+pretrained_sha256: 9d63ebc80bba1ad5e3277df4eecfa05d2745e6243a12ff743c4c0a93930dfac0
+precision: bf16

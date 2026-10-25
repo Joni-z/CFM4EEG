@@ -288,6 +288,19 @@ def main():
     args.out.mkdir(parents=True, exist_ok=True)
     captured = {}
     observed = {}
+    if args.pretrained_path:
+        from cbramod_weight_audit import verify_pretrained_backbone
+        original_pretrained_trainer = native.Trainer
+
+        class PretrainedAuditTrainer(original_pretrained_trainer):
+            def __init__(self, *trainer_args, **kwargs):
+                super().__init__(*trainer_args, **kwargs)
+                audit = verify_pretrained_backbone(
+                    self.model, args.pretrained_path, cfg["pretrained_sha256"]
+                )
+                (args.out / "pretrained_audit.json").write_text(json.dumps(audit, indent=2) + "\n")
+
+        native.Trainer = PretrainedAuditTrainer
     if args.smoke_steps:
         import torch
         original_trainer = native.Trainer

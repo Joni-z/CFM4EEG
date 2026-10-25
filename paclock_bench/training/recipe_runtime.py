@@ -171,10 +171,14 @@ def pretrained_payloads(cfg):
         names = {'shhs_prest18': 'EEG-SHHS+PREST-18-channels.ckpt',
                  'prest16': 'EEG-PREST-16-channels.ckpt',
                  'six_datasets18': 'EEG-six-datasets-18-channels.ckpt'}
-        paths = [Path(vendored('biot'))/'pretrained-models'/names[cfg['checkpoint']]]
+        checkpoint = cfg['checkpoint']
+        paths = ([Path(vendored('biot'))/'pretrained-models'/names[checkpoint]]
+                 if checkpoint in names else
+                 [Path(os.path.expandvars(os.path.expanduser(str(checkpoint))))])
     elif cfg.get('pretrained'):
         if model == 'cbramod':
-            paths = [Path(cfg.get('pretrained_path') or Path(vendored('cbramod'))/'pretrained_weights/pretrained_weights.pth')]
+            value = cfg.get('pretrained_path') or Path(vendored('cbramod'))/'pretrained_weights/pretrained_weights.pth'
+            paths = [Path(os.path.expandvars(os.path.expanduser(str(value))))]
         elif model == 'labram':
             paths = [Path(vendored('labram'))/'checkpoints/labram-base.pth']
         elif model == 'eegpt':

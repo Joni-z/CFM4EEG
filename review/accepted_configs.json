@@ -46,5 +46,15 @@
   "configs/model/tuev-scratch.yaml": "09ac4f69637ab211925dffa528c3b2a98f7dd235b40ad30556e474c44e8f6292",
   "configs/model/tuev-wave-patch.yaml": "985a27e72e6c71fdd1b81bddae680ee40d91fa38d3fdb8defe52210fe49bf086",
   "configs/model/tuev-scratch-noaug.yaml": "3496386ed37a8ee012d96b50215912e56144e4505ab4c3ebb6cfcac5f05a2850",
-  "configs/model/tuev-wave-patch-noaug.yaml": "46ff1ff3b5089bba46c053f0bc146ae38412eeaeb9f9c9cc418bb5bf47a3703e"
+  "configs/model/tuev-wave-patch-noaug.yaml": "46ff1ff3b5089bba46c053f0bc146ae38412eeaeb9f9c9cc418bb5bf47a3703e",
+  "configs/baselines/biot/chbmit-pretrained.yaml": "8256b233993fba85defbf43a755db2dc1dad4f7c050cf828c7330edf01447493",
+  "configs/baselines/biot/tuev-pretrained.yaml": "fec455f70ffefe028a51adcf3f86c625bdf9d472d4093460719d1dad9e21902c",
+  "configs/baselines/cbramod/chbmit-pretrained.yaml": "200603af9dbd055035172a27495e27d2eeff7ad906ed5d0220d5f8518cab643b",
+  "configs/baselines/cbramod/tuev-pretrained.yaml": "24af8a050872155b726486e4807aadf62690312bcd7039be28ccfcdbfdc7e222",
+  "configs/baselines/eegpt/chbmit-pretrained.yaml": "ec74b6b3917b765f6a70bcec4b3d194056e21672c0e5cfce96083c0967196a3a",
+  "configs/baselines/eegpt/tuev-native23-pretrained.yaml": "349864591d8d7aabeaeb506276c18d3919410eabd3d33a70bebbd02329fbd7cd",
+  "configs/baselines/labram/chbmit-pretrained.json": "f469839da095e520b2e245436749b7b4ecdf2277a4a64228a6994949864a1e2f",
+  "configs/baselines/labram/tuev-native23-pretrained.json": "59488cbc7c70befa0664cc4a7ee05408fa0e68d5f86878b83ce0f6fa536b595f",
+  "configs/baselines/eegpt/tuev-shared16-pretrained.yaml": "64508460e2d0ab2a7633ad1dc2828eda5e9449c87a5d87563f6a390a14936196",
+  "configs/baselines/labram/tuev-shared16-pretrained.json": "3ebca9d17046f8c390d3b16833d6d9e4c090b98935c77d55e93ab8af8456e738"
 }

@@ -10,9 +10,9 @@ Exact repositories, commits and author entry files are listed in [sources.json](
 | CBraMod, TUEV | `native_cbramod_entry.py` | Author `finetune_main.main`, Trainer and Evaluator | Shared arrays, input units and scoped boolean parsing |
 | CBraMod, CHB/TUAB | `native_cbramod_clinical_entry.py` | Same original main/Trainer/Evaluator, original task heads | CHB inverse-Q95 sidecar; TUAB stored µV/100; original validation selection |
 | EEGConformer | `native_eegconformer_clinical_entry.py` | Author model forwards and extracted Adam/CE update block | Clinical tasks are new: explicit shape changes, no MI S&R, validation selection and clinical budget |
-| EEGPT, CHB | `run_eegpt_chb_official.py` | Original TUAB main/model/engine, random trainable encoder | New binary task; input convolution16→20 instead of23→20; full sequential validation/test |
+| EEGPT, CHB | `run_eegpt_chb_official.py` | Original TUAB main/model/engine, trainable encoder with explicit scratch or pretrained initialization | New binary task; input convolution16→20 instead of23→20; full sequential validation/test |
 | EEGPT, TUEV | `run_eegpt_tuev_official.py` | Original23-channel model, main, pickle reader and engine | Original native AMP branch instead of the released shell’s DeepSpeed backend |
-| LaBraM | `run_labram_original.py` | Original main/engine, AdamW, cosine schedule and native checkpoint functions | CHB/ADFD use distinct scratch ordinal channel slots; TUEV uses native23 inputs and disclosed accumulation |
+| LaBraM | `run_labram_original.py` | Original main/engine, AdamW, cosine schedule and native checkpoint functions | CHB/ADFD scratch uses ordinal slots; pretrained CHB uses explicit fresh bipolar positions; TUEV uses native23 inputs and disclosed accumulation |
 | REVE | `run_reve_native.py` | Original downstream LP/FT loops, StableAdamW, warmup and criterion | Shared-cohort array/coordinate bridge; scratch runs full FT from random initialization |
 | TFM-Tokenizer | `run_tfm_chain.py`, `run_tfm_stage.py` | Original tokenizer, MTP and downstream Lightning modules | Target-only train data for single-dataset stages; explicit stage dependencies |
 
@@ -71,3 +71,7 @@ TFM single-dataset work consists of tokenizer100epochs, masked-token prediction5
 ## Runtime differences
 
 The package lists under `environments/` document actual executed environments. They are not a claim that the authors supplied identical locks. BIOT/FFCL use isolated Python3.9, Torch1.13.1 and Lightning1.6.4; on Ada, the verified per-process CUDA11.8 cuFFT replacement is retained in the execution receipt. Other baselines use their recorded modern runtime and explicit compatibility branches. Do not merge these into one silently upgraded environment.
+
+## Released-pretrained finetuning
+
+See [pretrained baseline contracts](PRETRAINED-BASELINES.md) for the eight TUEV/CHB seed-0 configurations, strict weight loading, original task recipes, runtime adaptations and cohort distinctions. These entries load released weights; they do not run pretraining.

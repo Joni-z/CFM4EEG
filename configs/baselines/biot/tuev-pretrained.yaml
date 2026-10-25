@@ -1,0 +1,72 @@
+name: tuev-biot_pretrained_native20261025
+group: C
+dataset: tuev
+data_root: $PACLOCK_PROC/processed/tuev
+checkpoint: $PACLOCK_BIOT_WEIGHTS
+model: biot
+loader: biot
+optimizer: adam
+lr: 0.001
+weight_decay: 1.0e-05
+epochs: 100
+scheduler: null
+grad_clip: null
+patience: 5
+num_workers: 32
+device: cuda
+model_kwargs:
+  token_size: 200
+  hop_length: 100
+  encoder_channels: 18
+  channel_mode: strict
+num_classes: 6
+sample_rate: 200
+batch_size: 128
+loss: cross_entropy
+label_smoothing: 0.0
+eval_every_steps: 0
+seed: 0
+model_output_classes: 6
+max_hours: 0
+train_drop_last: true
+select_metric: cohen_kappa
+run_monitor: true
+save_checkpoint: true
+amp: false
+loader_input_multiplier: 0.0001
+reproduction:
+  kind: original_entrypoint_shared_cohort
+  vendor: biot
+  commit: d138e32634e52ae9fa6ec98ac9c4087b14ca869a
+  source:
+  - run_multiclass_supervised.py
+  - utils.py
+  - model/biot.py
+  - README.md
+  - run_example.py
+  deviations:
+  - Accepted shared NPY cohort and preprocessing replace native pickle dataset; no
+    claim of native data protocol identity.
+  - Stored uV/100 converted to volts before native q95; native TUEV FFT resample branch
+    retained (accepted 1000-point rows map to 1000 points).
+  - User-requested seed0 replaces native hardcoded4523; task/optimizer/trainer/fit/test
+    entrypoint remains native.
+  - One explicit callback-registration-only source patch records audit outputs without
+    changing model,optimizer,selection.
+  - Released SHHS+PREST encoder checkpoint loaded by original strict model.biot.load_state_dict;
+    downstream classifier freshly initialized.
+  - Channel-token capacity18 follows pinned run_example.py for SHHS+PREST weights;
+    actual accepted16-channel inputs use existing source loop without padding or channel
+    relabeling.
+  - Checkpoint file hash and exact equality of every loaded encoder tensor verified
+    before fit; no random-weight fallback.
+  checkpoint_rule: 'Literal released code under Lightning1.6.4: default unmonitored
+    checkpoint selects terminal; conflicts with paper validation-best wording.'
+  runtime: Python3.9,Torch1.13.1+cu117,Lightning1.6.4 isolated environment
+  pretraining_corpora:
+  - SHHS
+  - PREST
+checkpoint_selection: terminal
+runner: scripts/rebuild/native_biot_entry.py
+pretrained: true
+checkpoint_sha256: 391b53f77d5060e43746f3ffd5aae8107785f4fd122bf2f87221a1b5b2854a84
