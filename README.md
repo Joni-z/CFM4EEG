@@ -4,32 +4,37 @@ CfFT is an EEG tokenizer that represents band content using measured cross-frequ
 
 This repository contains the model, clinical EEG preprocessing, and baseline reproduction code. Baselines call the original authors’ model and training code; dataset and runtime adaptations stay in small, explicit entrypoints. The Python package name `paclock_bench` is retained so existing checkpoint keys and imports remain usable.
 
-The [copula-guided tokenizer](docs/COPULA-TOKENIZER.md) is an explicit alternative
-frontend: empirical marginal transforms provide dependence summaries that guide
-residual fusion of band content, followed by the same two-axis encoder.
+## Documentation
+
+| Guide | Contents |
+|---|---|
+| [Model](docs/MODEL.md) | CfFT, the waveform-patch control and the optional copula frontend |
+| [Data](docs/DATA.md) | Preprocessing, cohorts, units and accepted dataset versions |
+| [Baselines](docs/UPSTREAM.md) | Original sources, recipes, weight loading and execution commands |
+| [Audit](docs/AUDIT.md) | Smoke checks, checkpoint selection, metrics and result recording |
 
 ## Layout
 
 | Path | Contents |
 |---|---|
 | `paclock_bench/models/paclock/` | CfFT tokenizer and encoder |
-| `paclock_bench/data/`, `training/` | Array contracts, metrics and CfFT training |
+| `paclock_bench/data/`, `paclock_bench/training/` | Array contracts, metrics and CfFT training |
 | `preprocessing/` | Clinical readers and dataset preparation |
 | `configs/datasets/` | Dataset definitions |
 | `configs/baselines/<model>/` | Supported original-code baseline configurations |
 | `configs/model/` | CfFT and the explicit waveform-patch control configurations |
-| `configs/deferred/` | Deferred native pretraining and pretrained recipes |
+| `configs/deferred/` | Additional recipes with explicit stage or exposure checks |
 | `configs/planned/` | Unfinished adaptations; explicitly blocked from launch |
 | `scripts/rebuild/` | Original-code baseline entrypoints and input bridges |
 | `upstream/sources.json` | Author repositories, exact commits and original entry files |
-| `environments/` | Package versions observed in the actual execution environments |
+| [environments/](environments/README.md) | Recorded execution environments and compatibility notes |
 | `tests/` | CPU checks for data contracts, selection and numerical behavior |
 
-Upstream checkouts live in ignored `vendor/`; data, checkpoints and run outputs live outside the source tree. Historical experiment material is stored separately; it is not another importable implementation.
+Pinned author checkouts and released-weight caches live in ignored `vendor/`. Dataset caches, trained checkpoints and run outputs live outside the source tree.
 
 ## Reproduce a baseline
 
-1. Read [original sources and adaptations](docs/UPSTREAM.md). Restore the pinned checkout into `vendor/` and use its recorded environment.
+1. Read [baseline sources and recipes](docs/UPSTREAM.md). Restore the pinned checkout into `vendor/` and use its recorded environment.
 2. Read [dataset contracts](docs/DATA.md). Set `PACLOCK_PROC` to the parent of `processed/`, and `CFM_REBUILD_ROOT` to a separate output directory.
 3. Choose the configuration under `configs/baselines/<model>/`. Run its actual GPU smoke and checkpoint reload before formal training.
 
@@ -42,9 +47,7 @@ python scripts/rebuild/launch.py configs/baselines/biot/tuev-scratch.yaml 0 smok
 python scripts/rebuild/launch.py configs/baselines/biot/tuev-scratch.yaml 0 train
 ```
 
-Released-weight finetuning configurations and their loading contracts are documented in [pretrained baselines](docs/PRETRAINED-BASELINES.md).
-
-Use the appropriate baseline environment and allocated GPUs. Conformer, LaBraM, native23 EEGPT and TFM have explicit commands in [UPSTREAM.md](docs/UPSTREAM.md). The dispatcher never substitutes the project’s generic trainer for a missing baseline implementation.
+Use allocated GPUs for smoke and training. Other entrypoints, released-weight initialization and multi-stage TFM execution are covered in the [baseline guide](docs/UPSTREAM.md#execution).
 
 ## Audit and checks
 
@@ -55,4 +58,4 @@ python -m pytest -q
 python -m tests.check_preprocessing
 ```
 
-CPU checks do not replace model-specific GPU smoke tests. Existing jobs execute frozen releases; changes to this working tree require a fresh matching smoke before a new formal run.
+CPU checks do not replace model-specific GPU smoke tests.

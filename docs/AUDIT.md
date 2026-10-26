@@ -1,54 +1,85 @@
-# Auditing an experiment
+# Experiment audit
 
-Read the experiment in this order:
+## Follow one execution
 
-1. `upstream/sources.json`: author repository, exact commit and original main/engine files.
-2. `configs/baselines/<model>/`: dataset, scratch/pretrained setting, dimensions, optimizer, budget and declared adaptations. `configs/planned/` is not executable evidence.
-3. `scripts/rebuild/`: the small local input/CLI bridge. Follow its import into the original `vendor/` main or engine; no generic baseline fallback exists.
-4. The run’s dataset manifest, acceptance receipt and any build/transfer receipt: subject cohort, units and exact arrays/pickles.
-5. The model-specific smoke receipt: actual optimizer updates, checkpoint reload, source/config/data binding and no test evaluation.
-6. The run’s recorded CLI/environment, validation selection, stopping reason, final metrics and retained checkpoint. Use the author’s selection rule, including any documented difference between released code and paper text.
+Check each model/dataset/seed in this order:
 
-The project trainer and model factory construct CfFT and the explicit WavePatch two-axis control only. Missing baseline code is an error, not permission to substitute another implementation. A first-evaluation peak is diagnostic information; it does not automatically invalidate a checkpoint selected under the original recipe.
+1. [Original source](../upstream/sources.json): author repository, pinned commit
+   and main/engine files.
+2. Configuration and [entrypoint](UPSTREAM.md): task, scratch/pretrained setting,
+   input shape, optimizer, budget and declared adaptations. A planned config is
+   not executed evidence.
+3. [Dataset contract](DATA.md): exact cohort, units, manifest, acceptance receipt
+   and required build/transfer receipts.
+4. GPU smoke: real optimizer updates, finite values, checkpoint reload and an
+   identity bound to the executed source/config/data/weights.
+5. Formal execution: recorded CLI/environment, validation selection, stopping
+   reason and retained checkpoint actually used for final testing.
+6. Numerical verification: complete test coverage, label order, prediction
+   finiteness and independent recomputation of the displayed metrics.
 
-## Repository and execution snapshots
+CfFT and WavePatch use the project trainer. Baselines use their explicit author
+entrypoints; missing code is an error. A first-evaluation validation peak is a
+recorded diagnostic, not automatic grounds to reject a native-selected checkpoint.
 
-This source tree contains current implementations and a compact config/source binding under `review/`. A completed run still belongs to its original immutable release, not to whatever code happens to be on the current branch.
+Shared-array smokes use training/validation data without evaluating the test set.
+Reading file metadata to check an acceptance receipt is distinct from opening
+held-out arrays. The legacy native23 EEGPT reader opens its native test payload
+during smoke; record that exception explicitly, rather than claiming isolation.
+See the [EEGPT interface](UPSTREAM.md#eegpt).
 
-The cleanup retained all old files and experiment records at `../history/repository-cleanup-20261022/`. The independently SHA-verified full snapshot and path mapping are under `../maintenance/repository-cleanup-20261022/`. Existing145/Torch releases, data, checkpoints and manuscripts were not rewritten. These are external records, not import paths or a second active implementation.
+## Selection and common metrics
 
-When creating a new release, copy only this source tree, restore the pinned upstream repositories, set external data/output roots, and obtain a new smoke for the exact source/config/data before formal training. An earlier release’s smoke must not be relabelled to bless changed files.
+Retain the author's selection rule and disclose differences between paper text
+and released code. BIOT/FFCL's released default selects a terminal checkpoint.
+Its original result and a separately archived validation-best reevaluation are
+different records; neither silently replaces the other. The archive monitors
+validation kappa for six-class tasks and validation AUROC for binary tasks.
+Never choose checkpoints or omit a completed result according to test scores.
 
-For local checks, use `python -m pytest -q` and `python -m tests.check_preprocessing`. Data-volume and GPU checks run under the corresponding compute allocation. Historical configs, run collection, plotting, spreadsheet updates and scheduler incidents are kept with the external records rather than mixed into training code.
+The tracking convention uses trapezoidal AUC-PR and a fixed 0.5 binary threshold.
+Some BIOT/FFCL/LaBraM utilities call average precision `pr_auc`; BIOT/FFCL also use
+validation-derived thresholds. Keep native values and recompute common metrics
+from the same predictions. Do not treat AP and trapezoidal AUC-PR as identical.
 
+A native full-test confusion matrix permits exact recomputation of multiclass
+kappa, balanced accuracy and weighted F1, with its marginals checked against test
+class counts. It does not establish prediction order or permit AUC calculation.
+Record this audit scope separately from a raw-checkpoint GPU replay or an audit
+of saved per-example predictions.
 
-## Completed cell to tracking workbook
+Numerical correctness and comparison eligibility are separate: shared16 and
+native23 TUEV have different cohorts. Recording both protocols does not authorize
+a same-test ranking. Training, runtime, preprocessing and initialization
+adaptations remain part of the comparison record.
 
-A completed process alone does not approve a result. For each model/dataset/seed,
-check the frozen executed source and input cohort, the actual optimizer/training
-path, validation selection and stopping reason, then verify that the retained
-checkpoint is the one evaluated. Independently recompute the three displayed
-metrics from the saved test labels and predictions. Retain native metrics and
-all checkpoints; do not select runs by test score or remove a negative result.
+## Record a completed result
 
-Only after those checks pass, write the three numeric values into the matching
-dataset sheet of the existing tracking workbook and mark that cell completed in
-its first overview. Leave pending/failed/unverified results blank. Back up the
-workbook and verify a native readback of the exact row/column mapping. Execution
-status, original source, checkpoint hash and comparison limitations belong in
-the corresponding audit record.
+After the checks pass, enter the three metrics into the matching dataset sheet
+of the existing tracking workbook and update its overview state. Leave
+pending/failed/unverified cells blank. Back up the workbook, check dataset/model/
+setting headers and read back the saved cells. Retain the audit scope, source,
+checkpoint hash and comparison limitations with the result record.
 
-The shared tracking convention uses trapezoidal AUC-PR and a fixed0.5 binary
-threshold. Some original BIOT/FFCL/LaBraM utilities call average precision
-`pr_auc`; BIOT/FFCL also use validation-derived thresholds. Preserve their native
-numbers and recompute common table metrics from the same predictions, rather
-than silently treating different definitions as identical. Native23 TUEV and
-shared16 TUEV have different test cohorts and must remain visibly distinguished;
-placing both in a tracker does not authorize a same-test performance ranking.
+A completed process is not approval by itself. Preserve checkpoints, native
+outputs and validation histories, including negative results. Do not relabel
+partial or time-budget-truncated training as a completed native budget.
 
-Numeric verification and comparison eligibility are separate checks. For TUEV,
-shared16 and native23 rows must be separated or explicitly labeled as different
-protocols. BIOT/FFCL's released terminal-checkpoint result remains a native-code
-result; a validation-best comparison must use the retained checkpoint selected
-only by validation kappa, and save a separate evaluation record. Never replace
-the native result silently or select among checkpoints using test scores.
+## Source and runtime records
+
+Current code belongs here; execution receipts, result collection, plotting,
+workbook operations and scheduler incidents belong with external run records.
+Authoritative runtime inventories are in [environments/](../environments/README.md).
+Use `python -m pytest -q` and `python -m tests.check_preprocessing` for CPU checks;
+GPU and full-dataset checks require the corresponding compute allocation.
+
+Existing executions retain their immutable source releases. A changed
+source/config/data/weight binding requires a new matching smoke before formal
+execution. Copy current source, restore pinned vendors and use external data and
+output roots when creating a release; an old smoke cannot approve changed files.
+
+Historical cleanup records are external, relative to the repository root:
+`../history/repository-cleanup-20261022/` retains prior files and experiment
+records; `../maintenance/repository-cleanup-20261022/` holds the independently
+SHA-verified snapshot and path mapping. These are provenance records, not another
+active implementation.

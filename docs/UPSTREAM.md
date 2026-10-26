@@ -1,30 +1,67 @@
-# Original code and baseline entrypoints
+# Baseline reproduction
 
-Exact repositories, commits and author entry files are listed in [sources.json](../upstream/sources.json). `python scripts/fetch_upstream.py biot` restores that author checkout under `vendor/biot`; substitute the desired model name. The fetcher refuses to overwrite an existing checkout at another revision. Model weights are separate inputs, not silently downloaded by the trainer.
+## Sources and entrypoints
 
-## Entry map
+[upstream/sources.json](../upstream/sources.json) records author repositories,
+exact commits and original entry files. Restore a pinned checkout with
+`python scripts/fetch_upstream.py biot`, substituting the source key as needed.
+The fetcher refuses to overwrite a different revision. Released weights are
+separate inputs; training does not silently download them.
 
-| Baseline | Local entry under `scripts/rebuild/` | Actual original code used | Declared adaptation |
-|---|---|---|---|
-| BIOT / FFCL | `native_biot_entry.py` | Author `supervised`, LightningModule, optimizer, Trainer and checkpoint selection | Shared arrays exposed to native loaders; seed0; CHB selects the existing native CHB preparation branch |
-| CBraMod, TUEV | `native_cbramod_entry.py` | Author `finetune_main.main`, Trainer and Evaluator | Shared arrays, input units and scoped boolean parsing |
-| CBraMod, CHB/TUAB | `native_cbramod_clinical_entry.py` | Same original main/Trainer/Evaluator, original task heads | CHB inverse-Q95 sidecar; TUAB stored µV/100; original validation selection |
-| EEGConformer | `native_eegconformer_clinical_entry.py` | Author model forwards and extracted Adam/CE update block | Clinical tasks are new: explicit shape changes, no MI S&R, validation selection and clinical budget |
-| EEGPT, CHB | `run_eegpt_chb_official.py` | Original TUAB main/model/engine, trainable encoder with explicit scratch or pretrained initialization | New binary task; input convolution16→20 instead of23→20; full sequential validation/test |
-| EEGPT, TUEV | `run_eegpt_tuev_official.py` | Original TUEV model, main and engine | Shared16 changes only the learned input convolution width; retained native23 uses the original pickle cohort. Native AMP replaces the released shell's DeepSpeed backend |
-| LaBraM | `run_labram_original.py` | Original main/engine, AdamW, cosine schedule and native checkpoint functions | Shared16 TUEV uses fresh ordinal/bipolar spatial slots and disclosed accumulation; native23 is a separate cohort. CHB/ADFD scratch uses ordinal slots; pretrained CHB uses fresh bipolar positions |
-| REVE | `run_reve_native.py` | Original downstream LP/FT loops, StableAdamW, warmup and criterion | Shared-cohort array/coordinate bridge; scratch runs full FT from random initialization |
-| TFM-Tokenizer | `run_tfm_chain.py`, `run_tfm_stage.py` | Original tokenizer, MTP and downstream Lightning modules | Target-only train data for single-dataset stages; explicit stage dependencies |
+| Baseline | Entry under `scripts/rebuild/` | Author code and explicit adaptation |
+|---|---|---|
+| BIOT / FFCL | `native_biot_entry.py` | Original supervised model, optimizer and Lightning trainer; shared arrays exposed through native loaders, seed 0 and native CHB preparation branch |
+| CBraMod, TUEV / IIIC | `native_cbramod_entry.py` | Original main, trainer and evaluator; shared arrays, scoped boolean parsing and the IIIC head-width adaptation below |
+| CBraMod, CHB / TUAB | `native_cbramod_clinical_entry.py` | Original binary heads and trainer; CHB inverse-Q95 unit restoration, TUAB stored µV/100 |
+| EEGConformer | `native_eegconformer_clinical_entry.py` | Author model and Adam/CE update block; new clinical tasks require explicit shape/budget changes and omit MI-specific S&R augmentation |
+| EEGPT, CHB / IIIC | `run_eegpt_chb_official.py` | Original TUAB main/model/engine; 16→20 channel convolution, task output head and sequential validation/test |
+| EEGPT, TUEV | `run_eegpt_tuev_official.py` | Original TUEV main/model/engine; shared16 changes the input convolution width, native23 retains its own cohort; native AMP replaces the released shell's DeepSpeed backend |
+| LaBraM | `run_labram_original.py` | Original main/engine, AdamW and schedule; explicit spatial-slot initialization, units and single-GPU accumulation |
+| REVE | `run_reve_native.py` | Original downstream LP/FT loops, StableAdamW, warmup and criterion; shared arrays/coordinates; scratch uses full FT from random initialization |
+| TFM-Tokenizer | `run_tfm_chain.py`, `run_tfm_stage.py` | Original tokenizer, MTP and downstream modules; single-dataset stages use only target training data and explicit dependencies |
 
-The FFCL implementation here is the released BIOT benchmark implementation. It is not presented as a separately certified replication of FFCL’s own original experiment.
+FFCL is the implementation released in the BIOT benchmark, not a separately
+certified replication of FFCL's own experiment. The two CBraMod adapters retain
+different native task heads. No baseline falls back to the project trainer.
 
-The translated legacy baseline architectures and generic training dispatch have been removed. The two CBraMod adapters correspond to different original task heads and input contracts; neither reimplements its optimizer or training loop.
+[DATA.md](DATA.md) defines cohorts and unit conversions. Shared16 TUEV uses
+68,445 / 15,487 / 29,421 training/validation/test windows. Native23 TUEV is a
+separate protocol and cannot populate the same-test comparison. Shared-cohort
+training with author code is an adaptation, not an identical paper protocol.
 
-## Explicit commands
+## Execution
 
-All commands run from the repository root, in the model’s execution environment. Output directories must be fresh. Config paths and environment variables must refer to accepted data; the smoke must not read held-out test payloads.
+Run from the repository root in the model's [recorded environment](../environments/README.md),
+with allocated GPUs and external data/output paths:
 
-Conformer, one GPU:
+```bash
+export PACLOCK_PROC=/path/to/data
+export CFM_REBUILD_ROOT=/path/to/outputs
+```
+
+The configurations and commands below use seed 0. Use fresh output directories
+except for a documented resume. The common launcher
+checks the exact configuration hash in [accepted_configs.json](../review/accepted_configs.json)
+and requires a matching smoke receipt. A file under `configs/baselines/` is not
+itself approval. Direct LaBraM and TUEV EEGPT CLIs enforce their own source,
+input and smoke checks; the common registry is not a universal gate.
+
+### Common launcher
+
+BIOT, FFCL and CBraMod use this interface; for example:
+
+```bash
+python scripts/rebuild/launch.py configs/baselines/biot/tuev-scratch.yaml 0 smoke
+python scripts/rebuild/launch.py configs/baselines/biot/tuev-scratch.yaml 0 train
+```
+
+The generic [Torch job](../slurm/rebuild/torch_native.slurm) defaults to one GPU.
+When submitting smoke and training separately, add `--dependency=afterok:SMOKE_JOB_ID`
+to the formal submission; the job file does not add dependencies automatically.
+
+### EEGConformer
+
+One GPU, explicit clinical interface:
 
 ```bash
 python scripts/rebuild/native_eegconformer_clinical_entry.py \
@@ -36,9 +73,12 @@ python scripts/rebuild/native_eegconformer_clinical_entry.py \
   --smoke-proof "$CFM_REBUILD_ROOT/smoke/conformer-tuev/SMOKE_PASSED.json"
 ```
 
-Use `chbmit` or `tuab` with the corresponding data directory. The config records the fixed seed0, author Adam/CE and clinical budget; the CLI implements those values explicitly.
+Use `chbmit` or `tuab` with its matching data directory. The CLI implements the
+fixed seed-0 clinical adaptation; it is not the author's published MI recipe.
 
-LaBraM, one GPU with the configuration’s documented accumulation:
+### LaBraM
+
+One GPU with configuration-specific accumulation:
 
 ```bash
 python scripts/rebuild/run_labram_original.py configs/baselines/labram/chbmit-scratch.json \
@@ -48,34 +88,157 @@ python scripts/rebuild/run_labram_original.py configs/baselines/labram/chbmit-sc
   --smoke-proof "$CFM_REBUILD_ROOT/smoke/labram-chbmit/smoke_pass.json"
 ```
 
-For native23 LaBraM, set `PACLOCK_NATIVE` to the parent of the fully verified `tuev-labram23/` cache. CHB and ADFD ordinal slots carry no anatomical-electrode claim.
+Released-weight runs use the corresponding pretrained JSON and the same CLI.
+For native23, `PACLOCK_NATIVE` points to the parent of the verified
+`tuev-labram23/` cache. Scratch CHB/ADFD spatial slots carry no anatomical claim.
 
-Native23 EEGPT uses the same `PACLOCK_NATIVE` cache root, two GPUs, per-rank batch400 and30epochs:
+### EEGPT
+
+Both TUEV protocols require the explicit CLI. Shared16 released-weight example,
+two GPUs, batch 400 per rank and 30 epochs:
 
 ```bash
 python -m torch.distributed.run --standalone --nproc_per_node=2 \
-  scripts/rebuild/run_eegpt_tuev_official.py configs/baselines/eegpt/tuev-native23-scratch.yaml \
-  --out "$CFM_REBUILD_ROOT/smoke/eegpt-tuev23" --seed 0 --smoke-steps 4
+  scripts/rebuild/run_eegpt_tuev_official.py configs/baselines/eegpt/tuev-shared16-pretrained.yaml \
+  --out "$CFM_REBUILD_ROOT/smoke/eegpt-tuev" --seed 0 --precision bf16 --smoke-steps 4
+python -m torch.distributed.run --standalone --nproc_per_node=2 \
+  scripts/rebuild/run_eegpt_tuev_official.py configs/baselines/eegpt/tuev-shared16-pretrained.yaml \
+  --out "$CFM_REBUILD_ROOT/runs/eegpt-tuev" --seed 0 --precision bf16 \
+  --smoke-proof "$CFM_REBUILD_ROOT/smoke/eegpt-tuev/smoke.json"
 ```
 
-The native23 reader verifies the original preprocessor/consumer hashes and accepted transfer. Formal execution uses the same command with a fresh `runs/` output and without `--smoke-steps`; the job must depend on that smoke succeeding. CHB’s two-rank entry uses the common launcher. Never replace a trainable scratch encoder with a frozen random encoder.
+CHB released-weight runs use `run_eegpt_chb_official.py` and
+`configs/baselines/eegpt/chbmit-pretrained.yaml` with the same two-rank invocation,
+explicit BF16 and smoke proof; their native budget is batch 100 per rank and
+50 epochs. The common launcher does not forward the proof required by these
+pretrained formal runs. CHB scratch can use that launcher with two allocated GPUs;
+request `sbatch --gres=gpu:2` when using the generic Torch job.
 
-The generic `slurm/rebuild/torch_native.slurm` defaults to one GPU. For CHB EEGPT, submit it with `sbatch --gres=gpu:2 ...`; the launcher refuses to start its two ranks with fewer than two visible devices.
+Native23 scratch uses `tuev-native23-scratch.yaml`, the verified `PACLOCK_NATIVE`
+cache and the runner's default FP16, or an explicitly recorded precision
+adaptation. Its legacy reader constructs all native
+splits during smoke, including test payloads; that smoke is not evidence of
+held-out input isolation. Shared16 smoke constructs training/validation only.
+Native23 remains a separately labeled protocol.
 
-CHB EEGPT also accepts an explicit `--resume` with a trusted local full training checkpoint. Continuation restores the optimizer and scaler, starts at the saved epoch plus one, and preserves the best validation-selected weights across segments. Keep the existing output directory and its validation history. The adapter corrects the upstream hardcoded resume epoch; model and training-engine sources remain unchanged. Upstream checkpoints do not store RNG state, so continuation does not reproduce the interrupted dropout trajectory exactly.
+CHB continuation accepts `--resume` with a trusted full training checkpoint in
+the same output directory. It restores optimizer/scaler, starts after the saved
+epoch and preserves validation-best weights/history. Upstream checkpoints lack
+RNG state, so dropout trajectories are not exactly reproducible. Use one explicit
+precision (`fp16`, `bf16` or `fp32`) consistently in training, validation and test,
+and obtain a matching recovery smoke before continuation. Scratch encoders must
+remain trainable.
 
-The default arithmetic is FP16. An explicit `--precision bf16` or `--precision fp32` applies consistently to training, validation and final testing and is recorded as a runtime adaptation. Verify a fresh recovery smoke with the same checkpoint and precision before continuation; a successful forward diagnostic alone does not establish that a training instability has been resolved.
+### REVE
 
-TFM single-dataset work consists of tokenizer100epochs, masked-token prediction50epochs, then downstream50epochs. Run `run_tfm_chain.py CONFIG --plan` for the stage paths; each stage uses `--stage tokenizer|mtp|finetune --seed 0 --mode auto --resume auto`. The first two require2GPUs; downstream requires1. A stage’s `completed.json`, not a partial checkpoint, permits the next stage. Released multiple-dataset weights have separate exposure/protocol checks.
+Use the original single-GPU stages. A released-weight smoke may need more than
+four steps to demonstrate updates during AMP warmup; the explicit interface
+allows this without changing the formal recipe:
 
-## Runtime differences
+```bash
+python scripts/rebuild/preflight.py --config configs/baselines/reve/tuev-pretrained.yaml --mode smoke
+python scripts/rebuild/run_reve_native.py configs/baselines/reve/tuev-pretrained.yaml \
+  --seed 0 --out "$CFM_REBUILD_ROOT/smoke/tuev-reve_pretrained_rebuild20261021/seed0" --smoke-steps 16
+python scripts/rebuild/preflight.py --config configs/baselines/reve/tuev-pretrained.yaml --mode train
+python scripts/rebuild/run_reve_native.py configs/baselines/reve/tuev-pretrained.yaml \
+  --seed 0 --out "$CFM_REBUILD_ROOT/runs/tuev-reve_pretrained_rebuild20261021/seed0"
+```
 
-The package lists under `environments/` document actual executed environments. They are not a claim that the authors supplied identical locks. BIOT/FFCL use isolated Python3.9, Torch1.13.1 and Lightning1.6.4; on Ada, the verified per-process CUDA11.8 cuFFT replacement is retained in the execution receipt. Other baselines use their recorded modern runtime and explicit compatibility branches. Do not merge these into one silently upgraded environment.
+The smoke checks actual optimizer steps, classifier/FT-backbone updates and
+checkpoint reload; query movement is recorded separately during short warmup.
+Recovery snapshots retain model/optimizer state, but this adapter does not resume
+native loop counters. An interrupted run is not a completed result.
 
-## Released-pretrained finetuning
+### TFM-Tokenizer
 
-See [pretrained baseline contracts](PRETRAINED-BASELINES.md) for the TUEV/CHB seed-0 configurations, strict weight loading, original task recipes, runtime adaptations and cohort distinctions. These entries load released weights; they do not run pretraining.
+Single-dataset training has tokenizer 100 epochs → MTP 50 → downstream 50.
+Each command handles one stage, with its own smoke and completion gate:
 
-## IIIC scratch tasks
+```bash
+python scripts/rebuild/run_tfm_chain.py configs/deferred/tfm/tuev-single.yaml --plan
+python scripts/rebuild/run_tfm_chain.py configs/deferred/tfm/tuev-single.yaml \
+  --stage tokenizer --seed 0 --mode auto --resume auto
+```
 
-[IIIC task contracts](IIIC-BASELINES.md) document the four native new-task adaptations, their full ten-second input windows, exact accepted cohort, fixed recipes and smoke gates. They reuse original author code and explicitly adapt new input/task interfaces.
+After completion, run the same stage command with `--stage mtp`, then
+`--stage finetune`. Allocate two GPUs for tokenizer/MTP and one for finetuning.
+Only a matching `completed.json` with complete steps and verified artifacts
+permits the next stage. Exit 75 means resume the same incomplete stage; a partial
+checkpoint does not authorize its dependent. Released multiple-dataset weights
+have separate exposure/protocol checks and run finetuning only.
+
+## Released-pretrained initialization
+
+These configurations load released weights and train downstream; they do not
+run multi-dataset pretraining. Keep scratch and pretrained results separate.
+
+| Model | Configs under `configs/baselines/<model>/` | Weight input and native recipe |
+|---|---|---|
+| BIOT | `tuev-pretrained.yaml`, `chbmit-pretrained.yaml` | `$PACLOCK_BIOT_WEIGHTS`; SHHS+PREST encoder, capacity 18 for 16 actual channels; native Adam, early stopping and classifier |
+| CBraMod | `tuev-pretrained.yaml`, `chbmit-pretrained.yaml` | `$PACLOCK_CBRAMOD_WEIGHTS`; strict backbone load, pretraining projection removed; original head and 50-epoch full finetuning |
+| EEGPT | `tuev-shared16-pretrained.yaml`, `chbmit-pretrained.yaml` | `$PACLOCK_EEGPT_PRETRAINED`; complete target encoder checked tensor by tensor; original two-rank recipes with explicit BF16 |
+| LaBraM | `tuev-shared16-pretrained.json`, `chbmit-pretrained.json` | `$CFM_VENDOR/labram/checkpoints/labram-base.pth`; student backbone, native engine and validation-accuracy selection; batch 64 × 8 accumulation |
+| REVE | `tuev-pretrained.yaml`, `chbmit-pretrained.yaml` | Local `vendor/reve_weights/`; SHA-bound safetensors encoder/query; original LP then FT, StableAdamW, warmup and validation-balanced-accuracy selection |
+
+Supply weight paths before smoke. `CFM_VENDOR` expands LaBraM's weight path;
+ordinary `vendored()` lookup still uses this repository's `vendor/` directory.
+The config fixes each checkpoint SHA256. Missing active tensors or unequal loaded
+values fail before training; task classifiers retain random initialization.
+
+CHB is a new task for EEGPT and LaBraM. EEGPT changes the TUAB input convolution
+from 23 to 16 inputs while keeping its twenty latent positions and native
+finetuning architecture. Its pretrained configs use BF16 because an FP16 pilot
+skipped optimizer updates with nonfinite gradients. Model, optimizer, schedule
+and batch remain native; the arithmetic adaptation is explicit.
+
+REVE's TUH convention is physical µV/100 at 200 Hz, equivalent to raw volts
+multiplied by 10,000. CHB restores physical units from its inverse-Q95 sidecar
+before that scaling. Encoder tensors and the released query are checked exactly.
+The original LP stage passes its last weights to FT; final testing restores the
+FT validation-best checkpoint. Config `stage.dropout` is unused upstream and the
+effective classifier dropout is 0; effective clipping is 2.
+
+### LaBraM loading details
+
+The released base checkpoint SHA256 is
+`7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c`.
+A tensor-only serialization bridge preserves the released model values while
+avoiding legacy metadata incompatibility. All shared tensors are checked after
+the original loader. The classifier/pooling LayerNorm stay task-initialized;
+the native loader discards pretraining-only masked-token head/norm.
+Final selected-checkpoint evaluation saves labels, logits and probabilities in
+`test_scores.npz`; smokes save validation predictions separately.
+
+Shared16 TUEV and CHB use fresh bipolar spatial slots 1–16, retaining pretrained
+CLS/time embeddings and the shared backbone. Bipolar inputs are not relabeled as
+monopolar electrodes. The author's CHB lookup maps names to positions 121–136,
+which exceed the released table's valid range 0–128; it cannot be applied
+unchanged. Physical µV is restored before the native engine divides by 100.
+
+The adapted command retains 50 epochs, AdamW LR `5e-4`, weight decay 0.05,
+warmup 5, layer decay 0.65 and drop path 0.1. Accumulating eight microbatches of
+64 preserves global batch 512, without claiming distributed numerical identity.
+See the pinned [README](https://github.com/935963004/LaBraM/blob/c431221e6cfd23dbfa9950e0180682fb322b0548/README.md)
+and [channel lookup](https://github.com/935963004/LaBraM/blob/c431221e6cfd23dbfa9950e0180682fb322b0548/utils.py).
+
+## IIIC task adaptations
+
+The accepted cohort has 73,637 / 15,778 / 15,780 training/validation/test windows,
+16 bipolar channels, labels 0–5 and complete 10-second / 2,000-sample inputs
+stored as µV/100. These are new downstream task adaptations, not reproductions
+of published IIIC commands. No cropping, temporal compression or replacement
+test cohort is part of the interface.
+
+| Baseline | Input and model interface | Configured recipe |
+|---|---|---|
+| BIOT | Restore physical µV; original `iiic_load`, native Q95 and one-hot labels; remove only its returned dataset-id flag | Scratch capacity 16; batch 128, Adam `1e-3`, weight decay `1e-5`, 100 epochs, patience 5, 32 workers |
+| CBraMod | Stored µV/100 reshaped into ten patches; first classifier input 16,000→32,000; native hidden widths 1,000/200 and six outputs | Batch 64, AdamW `1e-4`, weight decay 0.05, 50 epochs, multi-LR, clip 1, smoothing 0.1, native cosine |
+| LaBraM | Restore physical µV before native /100; fresh scratch spatial slots without anatomical claims | TUAB budget: 50 epochs, batch 64 × 8 accumulation, AdamW `5e-4`, weight decay 0.05, warmup 5, scratch layer decay 1 |
+| EEGPT | Original ten-second TUAB decoder with 16→20 convolution, six outputs and a trainable random encoder; restore µV before native /100 | Two ranks, batch 100/rank, 50 epochs, AdamW `5e-4`, weight decay 0.05, warmup 5, layer decay 0.65, explicit BF16 |
+| REVE | Original full-FT stage, random initialization, stored shared arrays and explicit position convention | Batch 256, 50 epochs, patience 10, StableAdamW `1e-4`, weight decay 0.01, warmup 5, mixup; effective clip 2 and classifier dropout 0 |
+
+Configs are `configs/baselines/<model>/iiic-scratch.*`. Use each model's interface
+above, preserving the IIIC config and precision. LaBraM binds its native
+`smoke_pass.json`; common entries bind source/config/data in `smoke.json`.
+[Audit rules](AUDIT.md) define test isolation, checkpoint selection, BIOT terminal
+versus validation-best outputs and comparable metric definitions.
