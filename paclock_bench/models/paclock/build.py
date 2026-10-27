@@ -97,7 +97,16 @@ class TriAxialPACLock(nn.Module):
         frontend_cls = TriAxialFrontend
         frontend_extra = {"filter_range": cfg.get("filter_range"),
                           "waveform_content": cfg.get("waveform_content", True)}
-        if cfg.get("tokenizer_mode") == "factorized":
+        if cfg.get("tokenizer_mode") == "measured_pac":
+            from .frontend.measured import MeasuredPACFrontend
+            if self.freq_mixer != "none" or cfg.get("aux_recon_weight", 0):
+                raise ValueError("measured PAC pilot uses the two-axis encoder without auxiliary loss")
+            frontend_cls = MeasuredPACFrontend
+            frontend_extra.update(
+                measurement_mode=cfg.get("measurement_mode", "measured"),
+                measurement_phase_cycles=cfg.get("measurement_phase_cycles", 5.),
+            )
+        elif cfg.get("tokenizer_mode") == "factorized":
             from .frontend.factorized import FactorizedFrontend
             frontend_cls = FactorizedFrontend
             frontend_extra = dict(

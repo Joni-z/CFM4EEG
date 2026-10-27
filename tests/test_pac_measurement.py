@@ -48,3 +48,35 @@ def test_raw_pipeline_and_batch_independence():
     both=m(torch.cat([x,torch.randn_like(x)],0))
     torch.testing.assert_close(one.depth,both.depth[:1],atol=1e-6,rtol=0)
     assert not m(torch.zeros_like(x)).valid.any()
+
+
+def test_actual_frontend_gradients_identity_fallback_and_roundtrip():
+    import io
+    from paclock_bench.models.paclock.frontend.measured import MeasuredPACFrontend
+    torch.manual_seed(0)
+    frontend=MeasuredPACFrontend(n_bands=4,hidden_dim=32,sample_rate=200,
+                                patch_len=50,filter_range=(.5,75))
+    t=torch.arange(1000)/200
+    x=(torch.cos(2*math.pi*6*t)+(1+.5*torch.cos(2*math.pi*6*t-.8))*torch.cos(2*math.pi*40*t))[None,None]
+    tokens,_,_=frontend(x)
+    assert tokens.shape==(1,1,4,20,32) and torch.isfinite(tokens).all()
+    tokens.square().mean().backward()
+    assert frontend.amplitude_tokenizer.weight.grad.abs().sum()>0
+    # Energy is preserved by a rotation, so use a direction-sensitive loss to
+    # test the phase-projection gradient rather than squared token norm.
+    frontend.zero_grad()
+    tokens=frontend(x)[0]
+    (tokens[...,::2].mean()).backward()
+    assert frontend.phase_tokenizer.weight.grad is not None
+    assert torch.isfinite(frontend.phase_tokenizer.weight.grad).all()
+    # Invalid/no-coupling data retain the exact unrotated carrier.
+    frontend.measurement_mode='measured'
+    measured=frontend(torch.zeros_like(x))[0]
+    frontend.measurement_mode='identity'
+    identity=frontend(torch.zeros_like(x))[0]
+    torch.testing.assert_close(measured,identity)
+    state=io.BytesIO();torch.save(frontend.state_dict(),state);state.seek(0)
+    other=MeasuredPACFrontend(n_bands=4,hidden_dim=32,sample_rate=200,
+                             patch_len=50,filter_range=(.5,75),measurement_mode='identity')
+    other.load_state_dict(torch.load(state,weights_only=True))
+    torch.testing.assert_close(frontend(x)[0],other(x)[0])
