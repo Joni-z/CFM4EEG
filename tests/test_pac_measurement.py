@@ -37,6 +37,43 @@ def test_flat_phase_is_not_a_valid_measurement():
     assert not fit['valid'] and torch.isfinite(fit['coef'])
 
 
+def test_adapter_is_invariant_to_a_consistent_phase_reference_change():
+    """Re-express the same measurement, rather than perturbing raw EEG."""
+    from dataclasses import replace
+    from paclock_bench.models.paclock.frontend.measured import MeasuredPACFrontend
+
+    torch.manual_seed(0)
+    torch.set_num_threads(2)
+    frontend = MeasuredPACFrontend(
+        n_bands=8, hidden_dim=32, sample_rate=200, patch_len=50,
+        filter_range=(.5, 75)).eval()
+    t = torch.arange(1000) / 200
+    phi = 2 * math.pi * 4.7 * t
+    x = (torch.cos(phi) + (1 + .6 * torch.cos(phi - .8)) *
+         torch.cos(2 * math.pi * 31 * t))[None, None]
+    with torch.no_grad():
+        original = frontend(x)[0]
+
+    def change_reference(module, inputs, measured):
+        assert measured.valid.any()
+        # Each source band chooses an independent origin. Its coefficient and
+        # phase features transform together; its envelope/content do not.
+        angle = torch.linspace(-2.3, 2.5, frontend.n_bands)
+        factor = torch.exp(1j * angle)
+        return replace(
+            measured,
+            phase_unit=measured.phase_unit * factor[None, None, :, None],
+            coef=measured.coef * factor[None, None, None, :, None])
+
+    handle = frontend.measurement.register_forward_hook(change_reference)
+    try:
+        with torch.no_grad():
+            reexpressed = frontend(x)[0]
+    finally:
+        handle.remove()
+    torch.testing.assert_close(reexpressed, original, rtol=1e-5, atol=1e-6)
+
+
 def test_raw_pipeline_and_batch_independence():
     torch.set_num_threads(2)
     m=PhaseAmplitudeMeasurement([6,40])
