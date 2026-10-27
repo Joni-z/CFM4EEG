@@ -115,3 +115,21 @@ def test_notch_excludes_source_and_modulation_support():
     assert clear.eligible[0,1] and notched.eligible[0,1]
     assert not notched.eligible[:,2].any()
     assert not PhaseAmplitudeMeasurement([6.,40.],excluded_intervals=((5.,7.),)).eligible.any()
+
+
+def test_checkpoint_restores_physical_eligibility_and_context_settings():
+    # Both banks allocate the same kernel shape, but have different eligibility
+    # and context settings; merely copying the buffers would leave stale caches.
+    original=PhaseAmplitudeMeasurement([4.,20.,40.,60.],min_cycles=4,excluded_intervals=((56.,64.),))
+    restored=PhaseAmplitudeMeasurement([4.,20.,40.,60.],excluded_intervals=((90.,91.),))
+    restored.load_state_dict(original.state_dict())
+    t=torch.arange(1000)/200
+    x=(torch.cos(2*math.pi*4*t)+(1+.5*torch.cos(2*math.pi*4*t))*torch.cos(2*math.pi*40*t))[None,None]
+    a,b=original(x),restored(x)
+    assert restored.min_cycles==4 and torch.equal(a.valid,b.valid)
+    torch.testing.assert_close(a.depth,b.depth)
+    # Frozen first-release weights remain loadable with matching config.
+    legacy={k:v for k,v in original.state_dict().items() if k!='_settings'}
+    same=PhaseAmplitudeMeasurement([4.,20.,40.,60.],min_cycles=4,excluded_intervals=((56.,64.),))
+    same.load_state_dict(legacy)
+    torch.testing.assert_close(a.depth,same(x).depth)

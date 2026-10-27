@@ -149,12 +149,12 @@ class PhaseAmplitudeMeasurement(nn.Module):
         lo, hi = map(float, passband)
         if not (0 <= lo < hi < sample_rate/2) or (centers <= lo).any() or (centers >= hi).any():
             raise ValueError('analysis centers and passband must be inside Nyquist')
-        if phase_cycles <= 2 or min_cycles <= 0 or min_seconds <= 0 or patch_len <= 0:
+        if (not all(math.isfinite(v) for v in (phase_cycles,min_cycles,min_seconds,ridge))
+                or phase_cycles <= 2 or min_cycles <= .02 or min_seconds <= 0 or patch_len <= 0 or ridge<0):
             raise ValueError('invalid cycle/context/patch setting')
         self.sample_rate, self.patch_len = sample_rate, patch_len
         self.min_cycles, self.min_seconds, self.ridge = min_cycles, min_seconds, ridge
         self.detrend = detrend
-        self._window_samples = [math.ceil(max(min_seconds, min_cycles/float(f*(1-2/phase_cycles)))*sample_rate)+1 for f in centers]
         lower = centers*(1-2/phase_cycles)
         upper = centers*(1+2/phase_cycles)
         width = torch.minimum(0.4*centers, torch.minimum(0.8*(centers-lo), 0.8*(hi-centers)))
@@ -188,14 +188,32 @@ class PhaseAmplitudeMeasurement(nn.Module):
         self.register_buffer('amplitude_kernels', _stack_kernels(amplitudes))
         self.register_buffer('phase_guard', torch.tensor([p.numel()//2 for p in phases]))
         self.register_buffer('amplitude_guard', torch.tensor([a.numel()//2 for a in amplitudes]))
-        self._phase_guard_values = tuple(p.numel()//2 for p in phases)
-        self._amplitude_guard_values = tuple(a.numel()//2 for a in amplitudes)
         self.register_buffer('eligible', eligible)
         self.register_buffer('sideband_gain', gain_ratio.float())
         self.register_buffer('excluded_intervals',torch.tensor(excluded_intervals,dtype=torch.float32).reshape(-1,2))
-        self._pair_support = [(i,j,max(int(self.phase_guard[i]),int(self.amplitude_guard[j])),
-                               math.ceil((min_cycles-.02)*sample_rate/float(lower[i]))+1)
-                              for i,j in torch.nonzero(eligible).tolist()]
+        self.register_buffer('_settings',torch.tensor([sample_rate,patch_len,min_cycles,min_seconds,ridge,float(detrend)],dtype=torch.float64))
+        self._rebuild_runtime_settings()
+
+    def _rebuild_runtime_settings(self):
+        fs,patch,cycles,seconds,ridge,detrend=self._settings.detach().cpu().tolist()
+        self.sample_rate,self.patch_len=int(fs),int(patch)
+        self.min_cycles,self.min_seconds,self.ridge,self.detrend=cycles,seconds,ridge,bool(detrend)
+        lower=self.phase_lower.detach().cpu().tolist()
+        self._phase_guard_values=tuple(self.phase_guard.detach().cpu().tolist())
+        self._amplitude_guard_values=tuple(self.amplitude_guard.detach().cpu().tolist())
+        self._window_samples=[math.ceil(max(seconds,cycles/f)*fs)+1 for f in lower]
+        self._pair_support=[(i,j,max(self._phase_guard_values[i],self._amplitude_guard_values[j]),
+                             math.ceil((cycles-.02)*fs/lower[i])+1)
+                            for i,j in torch.nonzero(self.eligible.detach().cpu()).tolist()]
+
+    def _load_from_state_dict(self,state_dict,prefix,local_metadata,strict,missing_keys,unexpected_keys,error_msgs):
+        # Early component checkpoints rely on the supplied constructor config.
+        # Cache rebuilding is still required because eligibility is a buffer.
+        if prefix+'_settings' not in state_dict:
+            state_dict=dict(state_dict)
+            state_dict[prefix+'_settings']=self._settings
+        super()._load_from_state_dict(state_dict,prefix,local_metadata,strict,missing_keys,unexpected_keys,error_msgs)
+        self._rebuild_runtime_settings()
 
     @staticmethod
     def _active_filter(x: Tensor, kernels: Tensor, guards: tuple[int, ...], indices: list[int]) -> Tensor:

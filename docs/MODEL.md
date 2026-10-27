@@ -43,6 +43,71 @@ provide CfFT and WavePatch pairs both with and without augmentation:
 The model factory constructs these project models. Baseline models use the
 separate [original-author entrypoints](UPSTREAM.md).
 
+## Explicit phase-amplitude measurement frontend
+
+`tokenizer_mode: measured_pac` selects a separate optional measurement path in
+[measurement.py](../paclock_bench/models/paclock/frontend/measurement.py) and its
+token adapter in [measured.py](../paclock_bench/models/paclock/frontend/measured.py).
+It retains the content projections and two-axis encoder. Reference configs and
+their 0.25-second local-moment implementation remain available separately.
+
+The component uses fixed physical analysis anchors initialized from the content
+bank: narrow complex phase filters and wider analytic amplitude filters. For
+each eligible source/target pair, it fits envelope against sine/cosine of source
+phase, removing an intercept and linear time trend. Contexts request at least
+three nominal source cycles and one second. A regularized 2-by-2 solve returns
+the first-harmonic coefficient, relative modulation depth, baseline, drift,
+residual error and phase-condition diagnostics. Validity also checks real
+filter support, observed phase rate, cycle coverage and excluded frequencies.
+Padding never counts as extra measured data. Invalid estimates have a separate
+reason code; they are not interpreted as biological zero coupling.
+
+Analysis anchors are checkpointed and remain fixed; the content Sinc filters
+can learn. Their respective envelopes are different quantities. The estimator
+does not use labels, batch statistics or additional learned measurement
+parameters. It measures first-harmonic phase-amplitude dependence, not all CFC
+types or causal interactions. Symmetric two-peak modulation, common transients,
+weak-signal uncertainty and missing acquisition context remain limitations.
+
+The adapter transports source phase features with the conjugate measured
+coefficient, retaining absolute modulation depth. It bounds their complex sum
+by one plus the sum of absolute contributions and adds an identity reference
+before unit normalization. This yields identity for missing/zero guidance and
+preserves the envelope/waveform pair's squared norm. It does not transport the
+complete source waveform. Physical measurability does not imply class relevance.
+
+The TUEV templates explicitly guard its 60 Hz preprocessing notch with a
+conservative 56–64 Hz exclusion. New datasets must supply their own sample rate,
+passband and excluded intervals. A longer statistical context cannot restore
+modulation frequencies already removed by preprocessing.
+
+```bash
+PYTHONPATH=. python scripts/experiments/pac_measurement_benchmark.py \
+  --split dev --output /path/to/measurement-development
+PYTHONPATH=. python scripts/experiments/pac_measurement_benchmark.py \
+  --split confirmation --output /path/to/measurement-confirmation
+PYTHONPATH=. python scripts/experiments/pac_measurement_stress.py \
+  --output /path/to/measurement-stress
+PYTHONPATH=. python scripts/experiments/pac_tokenizer_learning.py \
+  --output /path/to/spectrum-matched-learning
+python -m pytest -q tests/test_pac_measurement.py
+```
+
+The recovery benchmark saves every estimate and reports accuracy with validity
+coverage. Its short-window and same-context moment baselines share the analysis
+filters. The learning check uses the actual tokenizer/encoder, paired initial
+weights and positive/negative signals with equal Fourier magnitudes. These
+synthetic checks do not establish a clinical advantage. The seed-0 clinical
+templates are [measured](../configs/model/tuev-explicit-pac-measured.yaml) and
+[identity](../configs/model/tuev-explicit-pac-identity.yaml); selection uses
+validation, and the final test is evaluated after training.
+
+Estimator references: Penny et al., *Testing for nested oscillation* (2008),
+doi:10.1016/j.jneumeth.2008.06.035; van Wijk et al., *Parametric estimation of
+cross-frequency coupling* (2015), doi:10.1016/j.jneumeth.2015.01.032;
+Dvorak and Fenton, *Toward a proper estimation of phase–amplitude coupling in
+neural oscillations* (2014), doi:10.1016/j.jneumeth.2014.01.002.
+
 ## Optional copula frontend
 
 The copula pilot separates per-band content from explicitly estimated

@@ -8,7 +8,7 @@ This repository contains the model, clinical EEG preprocessing, and baseline rep
 
 | Guide | Contents |
 |---|---|
-| [Model](docs/MODEL.md) | CfFT, the waveform-patch control and the optional copula frontend |
+| [Model](docs/MODEL.md) | CfFT, explicit PAC measurement, the waveform-patch control and optional frontends |
 | [Data](docs/DATA.md) | Preprocessing, cohorts, units and accepted dataset versions |
 | [Baselines](docs/UPSTREAM.md) | Original sources, recipes, weight loading and execution commands |
 | [Audit](docs/AUDIT.md) | Smoke checks, checkpoint selection, metrics and result recording |
