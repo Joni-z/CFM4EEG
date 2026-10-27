@@ -63,7 +63,8 @@ def evaluate(split: str, output: Path, phase_cycles: float = 5., detrend: bool =
     torch.set_num_threads(4)
     fs, patch = 200, 50
     settings = {'dev': ([(4.,32.), (6.,40.), (8.,55.)], [5.,7.], 1100),
-                'holdout': ([(3.7,28.), (5.3,37.), (9.1,59.)], [5.5,7.5], 9100)}
+                'holdout': ([(3.7,28.), (5.3,37.), (9.1,59.)], [5.5,7.5], 9100),
+                'confirmation': ([(3.4,29.), (5.7,39.), (8.3,57.)], [5.25,8.25], 19100)}
     pairs, durations, seed_base = settings[split]
     records = []
     start = time.monotonic()
@@ -147,7 +148,7 @@ def evaluate(split: str, output: Path, phase_cycles: float = 5., detrend: bool =
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
-    parser.add_argument('--split',choices=['dev','holdout'],required=True)
+    parser.add_argument('--split',choices=['dev','holdout','confirmation'],required=True)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--phase-cycles',type=float,default=5.)
     parser.add_argument('--no-detrend',action='store_true')

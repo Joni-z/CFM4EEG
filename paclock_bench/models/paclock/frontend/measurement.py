@@ -119,6 +119,7 @@ class PACMeasurement:
     context_count: Tensor
     observed_cycles: Tensor
     pair_eligible: Tensor
+    phase_defined: Tensor
 
 
 class PhaseAmplitudeMeasurement(nn.Module):
@@ -145,6 +146,7 @@ class PhaseAmplitudeMeasurement(nn.Module):
         self.sample_rate, self.patch_len = sample_rate, patch_len
         self.min_cycles, self.min_seconds, self.ridge = min_cycles, min_seconds, ridge
         self.detrend = detrend
+        self._window_samples = [math.ceil(max(min_seconds, min_cycles/float(f*(1-2/phase_cycles)))*sample_rate)+1 for f in centers]
         lower = centers*(1-2/phase_cycles)
         upper = centers*(1+2/phase_cycles)
         width = torch.minimum(0.4*centers, torch.minimum(0.8*(centers-lo), 0.8*(hi-centers)))
@@ -165,12 +167,14 @@ class PhaseAmplitudeMeasurement(nn.Module):
                     eligible[i, j] &= bool(gain_ratio[i, j] >= .9 and leakage.max() <= .01)
         self.register_buffer('centers', centers.float())
         self.register_buffer('phase_lower', lower.float())
+        self.register_buffer('phase_upper', upper.float())
         self.register_buffer('phase_kernels', _stack_kernels(phases))
         self.register_buffer('amplitude_kernels', _stack_kernels(amplitudes))
         self.register_buffer('phase_guard', torch.tensor([p.numel()//2 for p in phases]))
         self.register_buffer('amplitude_guard', torch.tensor([a.numel()//2 for a in amplitudes]))
         self.register_buffer('eligible', eligible)
         self.register_buffer('sideband_gain', gain_ratio.float())
+        self._source_indices = set(torch.where(eligible.any(-1))[0].tolist())
 
     def forward(self, x: Tensor) -> PACMeasurement:
         if x.ndim != 3:
@@ -193,18 +197,17 @@ class PhaseAmplitudeMeasurement(nn.Module):
         phase_valid = ((times[None, :] >= self.phase_guard[:, None])
                        & (times[None, :] < length-self.phase_guard[:, None]))
         phase_valid = (phase_valid[None, None] & finite[:, :, None, None]
-                       & (amp > (amp.square().mean(-1, keepdim=True).sqrt()*1e-4).clamp_min(1e-12)))
+                       & (amp > (clean.square().mean(-1, keepdim=True).sqrt()[:, :, None]*1e-4).clamp_min(1e-12)))
         anchors = (torch.arange(patches, device=x.device)+.5)*self.patch_len
         columns: dict[str, list[Tensor]] = {k: [] for k in ('coef','depth','valid','baseline','mse','count','cycles')}
         for i in range(bands):
             empty_shape = (b, c, patches, bands)
-            if not self.eligible[i].any():
+            if i not in self._source_indices:
                 zero = clean.new_zeros(empty_shape)
                 for key in columns:
                     columns[key].append(zero.bool() if key == 'valid' else zero.to(torch.complex64) if key == 'coef' else zero)
                 continue
-            seconds = max(self.min_seconds, self.min_cycles/float(self.phase_lower[i]))
-            win = math.ceil(seconds*self.sample_rate)+1
+            win = self._window_samples[i]
             # Oversized contexts can be marked unavailable without allocating
             # a huge low-frequency gather tensor.
             if win > 2*length+1:
@@ -225,7 +228,9 @@ class PhaseAmplitudeMeasurement(nn.Module):
             contiguous = good[..., 1:] & good[..., :-1]
             cycles = (torch.atan2(steps.imag, steps.real)*contiguous).sum(-1)/(2*math.pi)
             enough = ((fit['count']-1)*self.phase_lower[i]/self.sample_rate >= self.min_cycles-.02)
-            valid = fit['valid'] & enough & (cycles >= self.min_cycles-.02) & self.eligible[i][None, None, None, :]
+            observed_hz = cycles*self.sample_rate/(fit['count']-1).clamp_min(1)
+            frequency_ok = (observed_hz >= self.phase_lower[i]) & (observed_hz <= self.phase_upper[i])
+            valid = fit['valid'] & enough & frequency_ok & (cycles >= self.min_cycles-.02) & self.eligible[i][None, None, None, :]
             for key in ('coef','depth','baseline','mse'):
                 columns[key].append(torch.where(valid, fit[key], torch.zeros_like(fit[key])))
             columns['valid'].append(valid)
@@ -233,4 +238,5 @@ class PhaseAmplitudeMeasurement(nn.Module):
             columns['cycles'].append(cycles)
         out = {k: torch.stack(v, dim=-2) for k, v in columns.items()}
         return PACMeasurement(out['coef'], out['depth'], out['valid'], phase, phase_valid,
-                              out['baseline'], out['mse'], out['count'], out['cycles'], self.eligible)
+                              out['baseline'], out['mse'], out['count'], out['cycles'], self.eligible,
+                              out['valid'] & (out['depth'] > 1e-6))
