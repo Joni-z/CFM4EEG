@@ -102,6 +102,25 @@ templates are [measured](../configs/model/tuev-explicit-pac-measured.yaml) and
 [identity](../configs/model/tuev-explicit-pac-identity.yaml); selection uses
 validation, and the final test is evaluated after training.
 
+For a more selective learning check, `--task cross_pair` constructs quadruplets
+`(L,H), (shift L,shift H), (L,shift H), (shift L,H)`. Each individual low/high
+waveform appears once in either class, and all four signals have equal Fourier
+magnitudes. Only the timing between nonstationary components changes. The
+mispaired signals are not asserted to have zero or no delayed CFC. This removes
+the within-band phase differences introduced by global phase randomization.
+Both arms use the same seed-0 initialization, data, update budget and
+validation-best checkpoint selection. It compares the complete guidance branch;
+it does not isolate rotation from the source-phase projection, or prove that a
+learned model cannot discover the relationship. Grouped uncertainty must resample
+whole quadruplets, not their four dependent signals independently.
+
+```bash
+PYTHONPATH=. python scripts/experiments/pac_tokenizer_learning.py \
+  --task cross_pair --epochs 100 --seed-offset 100000 \
+  --output /path/to/selective-pairing-confirmation
+python -m pytest -q tests/test_pac_learning_design.py
+```
+
 Estimator references: Penny et al., *Testing for nested oscillation* (2008),
 doi:10.1016/j.jneumeth.2008.06.035; van Wijk et al., *Parametric estimation of
 cross-frequency coupling* (2015), doi:10.1016/j.jneumeth.2015.01.032;
