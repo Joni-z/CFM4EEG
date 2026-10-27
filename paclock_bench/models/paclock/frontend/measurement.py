@@ -172,9 +172,27 @@ class PhaseAmplitudeMeasurement(nn.Module):
         self.register_buffer('amplitude_kernels', _stack_kernels(amplitudes))
         self.register_buffer('phase_guard', torch.tensor([p.numel()//2 for p in phases]))
         self.register_buffer('amplitude_guard', torch.tensor([a.numel()//2 for a in amplitudes]))
+        self._phase_guard_values = tuple(p.numel()//2 for p in phases)
+        self._amplitude_guard_values = tuple(a.numel()//2 for a in amplitudes)
         self.register_buffer('eligible', eligible)
         self.register_buffer('sideband_gain', gain_ratio.float())
         self._source_indices = set(torch.where(eligible.any(-1))[0].tolist())
+        self._pair_support = [(i,j,max(int(self.phase_guard[i]),int(self.amplitude_guard[j])),
+                               math.ceil((min_cycles-.02)*sample_rate/float(lower[i]))+1)
+                              for i,j in torch.nonzero(eligible).tolist()]
+
+    @staticmethod
+    def _active_filter(x: Tensor, kernels: Tensor, guards: tuple[int, ...], indices: list[int]) -> Tensor:
+        output = torch.zeros(*x.shape[:-1],kernels.shape[0],x.shape[-1],device=x.device,dtype=torch.complex64)
+        if not indices:
+            return output
+        chosen = torch.tensor(indices,device=x.device)
+        # Only zero padding is cropped; each active kernel retains its entire
+        # physical support. Inactive pairs could never satisfy the cycle gate.
+        radius = max(guards[i] for i in indices)
+        center = kernels.shape[-1]//2
+        compact = kernels[chosen,center-radius:center+radius+1]
+        return output.index_copy(-2,chosen,linear_analytic_filter(x,compact))
 
     def forward(self, x: Tensor) -> PACMeasurement:
         if x.ndim != 3:
@@ -189,8 +207,11 @@ class PhaseAmplitudeMeasurement(nn.Module):
             raise ValueError('input shorter than one content patch')
         finite = torch.isfinite(x).all(-1)
         clean = torch.nan_to_num(x, nan=0., posinf=0., neginf=0.)
-        source = linear_analytic_filter(clean, self.phase_kernels)
-        envelope = linear_analytic_filter(clean, self.amplitude_kernels).abs()
+        active_pairs = [(i,j) for i,j,guard,needed in self._pair_support if length-2*guard >= needed]
+        source_indices = sorted({i for i,j in active_pairs})
+        target_indices = sorted({j for i,j in active_pairs})
+        source = self._active_filter(clean,self.phase_kernels,self._phase_guard_values,source_indices)
+        envelope = self._active_filter(clean,self.amplitude_kernels,self._amplitude_guard_values,target_indices).abs()
         amp = source.abs()
         phase = source/amp.clamp_min(1e-12)
         times = torch.arange(length, device=x.device)
@@ -202,7 +223,8 @@ class PhaseAmplitudeMeasurement(nn.Module):
         columns: dict[str, list[Tensor]] = {k: [] for k in ('coef','depth','valid','baseline','mse','count','cycles')}
         for i in range(bands):
             empty_shape = (b, c, patches, bands)
-            if i not in self._source_indices:
+            targets = [j for source,j in active_pairs if source==i]
+            if not targets:
                 zero = clean.new_zeros(empty_shape)
                 for key in columns:
                     columns[key].append(zero.bool() if key == 'valid' else zero.to(torch.complex64) if key == 'coef' else zero)
@@ -217,11 +239,13 @@ class PhaseAmplitudeMeasurement(nn.Module):
                 continue
             index = anchors.long()[:, None] + torch.arange(win, device=x.device)[None, :] - win//2
             bounded = index.clamp(0, length-1)
+            target_index = torch.tensor(targets,device=x.device)
             p = phase[:, :, i, bounded][:, :, :, None, :]
-            a = envelope[:, :, :, bounded].permute(0, 1, 3, 2, 4)
+            a = envelope[:, :, target_index, :][...,bounded].permute(0, 1, 3, 2, 4)
             good = phase_valid[:, :, i, bounded][:, :, :, None, :]
-            good = (good & (index[None, None, :, None, :] >= self.amplitude_guard[None, None, None, :, None])
-                    & (index[None, None, :, None, :] < length-self.amplitude_guard[None, None, None, :, None])
+            guards = self.amplitude_guard[target_index]
+            good = (good & (index[None, None, :, None, :] >= guards[None, None, None, :, None])
+                    & (index[None, None, :, None, :] < length-guards[None, None, None, :, None])
                     & (index[None, None, :, None, :] >= 0) & (index[None, None, :, None, :] < length))
             fit = harmonic_regression(p, a, good, self.ridge, self.detrend)
             steps = p[..., 1:]*p[..., :-1].conj()
@@ -230,12 +254,13 @@ class PhaseAmplitudeMeasurement(nn.Module):
             enough = ((fit['count']-1)*self.phase_lower[i]/self.sample_rate >= self.min_cycles-.02)
             observed_hz = cycles*self.sample_rate/(fit['count']-1).clamp_min(1)
             frequency_ok = (observed_hz >= self.phase_lower[i]) & (observed_hz <= self.phase_upper[i])
-            valid = fit['valid'] & enough & frequency_ok & (cycles >= self.min_cycles-.02) & self.eligible[i][None, None, None, :]
+            valid = fit['valid'] & enough & frequency_ok & (cycles >= self.min_cycles-.02)
             for key in ('coef','depth','baseline','mse'):
-                columns[key].append(torch.where(valid, fit[key], torch.zeros_like(fit[key])))
-            columns['valid'].append(valid)
-            columns['count'].append(fit['count'])
-            columns['cycles'].append(cycles)
+                value=torch.where(valid,fit[key],torch.zeros_like(fit[key]))
+                columns[key].append(value.new_zeros(empty_shape).index_copy(-1,target_index,value))
+            columns['valid'].append(valid.new_zeros(empty_shape).index_copy(-1,target_index,valid))
+            columns['count'].append(fit['count'].new_zeros(empty_shape).index_copy(-1,target_index,fit['count']))
+            columns['cycles'].append(cycles.new_zeros(empty_shape).index_copy(-1,target_index,cycles))
         out = {k: torch.stack(v, dim=-2) for k, v in columns.items()}
         return PACMeasurement(out['coef'], out['depth'], out['valid'], phase, phase_valid,
                               out['baseline'], out['mse'], out['count'], out['cycles'], self.eligible,
