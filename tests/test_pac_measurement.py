@@ -70,6 +70,13 @@ def test_actual_frontend_gradients_identity_fallback_and_roundtrip():
     assert frontend.phase_tokenizer.weight.grad is not None
     assert torch.isfinite(frontend.phase_tokenizer.weight.grad).all()
     assert frontend.phase_tokenizer.weight.grad.abs().sum()>0
+    frontend.measurement_mode='measured'
+    modulated=frontend(x)[0]
+    frontend.measurement_mode='identity'
+    unmodulated=frontend(x)[0]
+    torch.testing.assert_close(modulated.reshape(*modulated.shape[:-1],-1,2).square().sum(-1),
+                               unmodulated.reshape(*unmodulated.shape[:-1],-1,2).square().sum(-1),atol=1e-5,rtol=1e-5)
+    assert (modulated-unmodulated).abs().max()>1e-7
     # Invalid/no-coupling data retain the exact unrotated carrier.
     frontend.measurement_mode='measured'
     measured=frontend(torch.zeros_like(x))[0]
@@ -88,3 +95,23 @@ def test_out_of_band_leakage_has_no_valid_low_frequency_phase():
     x=torch.cos(2*math.pi*32*t)[None,None]
     result=PhaseAmplitudeMeasurement([2.1,32.])(x)
     assert not result.valid.any()
+
+
+def test_reason_codes_and_nonfinite_safety():
+    m=PhaseAmplitudeMeasurement([6.,40.])
+    t=torch.arange(1000)/200
+    x=(torch.cos(2*math.pi*6*t)+(1+.5*torch.cos(2*math.pi*6*t))*torch.cos(2*math.pi*40*t))[None,None]
+    result=m(x)
+    assert torch.equal(result.reason_code==0,result.valid)
+    assert (result.reason_code[...,1,0]==1).all()
+    bad=x.clone();bad[...,300]=float('nan')
+    assert (m(bad).reason_code==6).all()
+
+
+def test_notch_excludes_source_and_modulation_support():
+    clear=PhaseAmplitudeMeasurement([6.,40.,60.])
+    notched=PhaseAmplitudeMeasurement([6.,40.,60.],excluded_intervals=((56.,64.),))
+    assert clear.eligible[0,2] and not notched.eligible[0,2]
+    assert clear.eligible[0,1] and notched.eligible[0,1]
+    assert not notched.eligible[:,2].any()
+    assert not PhaseAmplitudeMeasurement([6.,40.],excluded_intervals=((5.,7.),)).eligible.any()

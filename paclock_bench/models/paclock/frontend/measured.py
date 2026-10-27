@@ -16,7 +16,7 @@ from .triaxial import TriAxialFrontend, _patch_project
 
 class MeasuredPACFrontend(TriAxialFrontend):
     def __init__(self, *args, measurement_mode: str = 'measured',
-                 measurement_phase_cycles: float = 5., **kwargs):
+                 measurement_phase_cycles: float = 5., measurement_excluded_intervals=(), **kwargs):
         kwargs['tokenizer_mode'] = 'pac_interaction'
         kwargs['interaction_mode'] = 'rotation'
         kwargs['waveform_modulation'] = 'quadrature'
@@ -31,7 +31,8 @@ class MeasuredPACFrontend(TriAxialFrontend):
         passband = kwargs.get('filter_range') or (.5, min(75., self.sinc.sample_rate/2-1))
         self.measurement = PhaseAmplitudeMeasurement(
             centers, sample_rate=self.sinc.sample_rate, patch_len=self.patch_len,
-            passband=tuple(passband), phase_cycles=measurement_phase_cycles)
+            passband=tuple(passband), phase_cycles=measurement_phase_cycles,
+            excluded_intervals=tuple(tuple(x) for x in measurement_excluded_intervals))
 
     def _forward_fp32(self, x: Tensor, return_amp_target: bool = False):
         batch, channels, length = x.shape

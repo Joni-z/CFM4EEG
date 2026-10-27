@@ -120,6 +120,14 @@ class PACMeasurement:
     observed_cycles: Tensor
     pair_eligible: Tensor
     phase_defined: Tensor
+    reason_code: Tensor
+    drift: Tensor
+    condition: Tensor
+
+
+REASON_NAMES = {0:'valid',1:'frequency_support',2:'insufficient_context',
+                3:'undefined_or_out_of_band_phase',4:'ill_conditioned_phase',
+                5:'nonpositive_envelope',6:'nonfinite_input'}
 
 
 class PhaseAmplitudeMeasurement(nn.Module):
@@ -133,9 +141,9 @@ class PhaseAmplitudeMeasurement(nn.Module):
                  patch_len: int = 50, passband: tuple[float, float] = (0.5, 75),
                  phase_cycles: float = 5, min_cycles: float = 3,
                  min_seconds: float = 1, ridge: float = 1e-3,
-                 detrend: bool = True):
+                 detrend: bool = True, excluded_intervals: tuple[tuple[float,float], ...] = ()):
         super().__init__()
-        centers = torch.as_tensor(centers, dtype=torch.float64)
+        centers = torch.as_tensor(centers, dtype=torch.float64).detach().cpu()
         if centers.ndim != 1 or centers.numel() < 2 or not torch.isfinite(centers).all():
             raise ValueError('centers must be a finite vector of at least two frequencies')
         lo, hi = map(float, passband)
@@ -153,6 +161,14 @@ class PhaseAmplitudeMeasurement(nn.Module):
         eligible = ((upper[:, None] <= width[None, :])
                     & (upper[:, None] < (centers-1.25*width)[None, :])
                     & (lower[:, None] >= lo))
+        for excluded_low,excluded_high in excluded_intervals:
+            if not (0 <= excluded_low < excluded_high <= sample_rate/2):
+                raise ValueError('excluded frequency interval must lie inside Nyquist')
+            phase_overlap = (lower <= excluded_high) & (upper >= excluded_low)
+            # The whole carrier +/- source support must remain observable.
+            sideband_overlap = ((centers[None,:]-upper[:,None] <= excluded_high)
+                                & (centers[None,:]+upper[:,None] >= excluded_low))
+            eligible &= ~phase_overlap[:,None] & ~sideband_overlap
         phases = [_phase_filter(float(f), sample_rate, phase_cycles) for f in centers]
         amplitudes = [_amplitude_filter(float(f), float(w), sample_rate)
                       if eligible[:, j].any() else torch.zeros(1, dtype=torch.complex64)
@@ -176,7 +192,7 @@ class PhaseAmplitudeMeasurement(nn.Module):
         self._amplitude_guard_values = tuple(a.numel()//2 for a in amplitudes)
         self.register_buffer('eligible', eligible)
         self.register_buffer('sideband_gain', gain_ratio.float())
-        self._source_indices = set(torch.where(eligible.any(-1))[0].tolist())
+        self.register_buffer('excluded_intervals',torch.tensor(excluded_intervals,dtype=torch.float32).reshape(-1,2))
         self._pair_support = [(i,j,max(int(self.phase_guard[i]),int(self.amplitude_guard[j])),
                                math.ceil((min_cycles-.02)*sample_rate/float(lower[i]))+1)
                               for i,j in torch.nonzero(eligible).tolist()]
@@ -220,22 +236,28 @@ class PhaseAmplitudeMeasurement(nn.Module):
         phase_valid = (phase_valid[None, None] & finite[:, :, None, None]
                        & (amp > (clean.square().mean(-1, keepdim=True).sqrt()[:, :, None]*1e-4).clamp_min(1e-12)))
         anchors = (torch.arange(patches, device=x.device)+.5)*self.patch_len
-        columns: dict[str, list[Tensor]] = {k: [] for k in ('coef','depth','valid','baseline','mse','count','cycles')}
+        columns: dict[str, list[Tensor]] = {k: [] for k in ('coef','depth','valid','baseline','mse','count','cycles','reason','drift','condition')}
+
+        def empty_value(key: str, i: int) -> Tensor:
+            zero=clean.new_zeros((b,c,patches,bands))
+            if key=='valid': return zero.bool()
+            if key=='coef': return zero.to(torch.complex64)
+            if key=='reason': return (1+self.eligible[i].to(torch.uint8)).view(1,1,1,-1).expand(b,c,patches,bands).clone()
+            return zero
+
         for i in range(bands):
             empty_shape = (b, c, patches, bands)
             targets = [j for source,j in active_pairs if source==i]
             if not targets:
-                zero = clean.new_zeros(empty_shape)
                 for key in columns:
-                    columns[key].append(zero.bool() if key == 'valid' else zero.to(torch.complex64) if key == 'coef' else zero)
+                    columns[key].append(empty_value(key,i))
                 continue
             win = self._window_samples[i]
             # Oversized contexts can be marked unavailable without allocating
             # a huge low-frequency gather tensor.
             if win > 2*length+1:
-                zero = clean.new_zeros(empty_shape)
                 for key in columns:
-                    columns[key].append(zero.bool() if key == 'valid' else zero.to(torch.complex64) if key == 'coef' else zero)
+                    columns[key].append(empty_value(key,i))
                 continue
             index = anchors.long()[:, None] + torch.arange(win, device=x.device)[None, :] - win//2
             bounded = index.clamp(0, length-1)
@@ -255,13 +277,23 @@ class PhaseAmplitudeMeasurement(nn.Module):
             observed_hz = cycles*self.sample_rate/(fit['count']-1).clamp_min(1)
             frequency_ok = (observed_hz >= self.phase_lower[i]) & (observed_hz <= self.phase_upper[i])
             valid = fit['valid'] & enough & frequency_ok & (cycles >= self.min_cycles-.02)
-            for key in ('coef','depth','baseline','mse'):
+            for key in ('coef','depth','baseline','mse','drift'):
                 value=torch.where(valid,fit[key],torch.zeros_like(fit[key]))
                 columns[key].append(value.new_zeros(empty_shape).index_copy(-1,target_index,value))
             columns['valid'].append(valid.new_zeros(empty_shape).index_copy(-1,target_index,valid))
             columns['count'].append(fit['count'].new_zeros(empty_shape).index_copy(-1,target_index,fit['count']))
             columns['cycles'].append(cycles.new_zeros(empty_shape).index_copy(-1,target_index,cycles))
+            condition=fit['eigmax']/fit['eigmin'].clamp_min(1e-12)
+            columns['condition'].append(condition.new_zeros(empty_shape).index_copy(-1,target_index,condition))
+            reason=torch.where(valid,0,4).to(torch.uint8)
+            reason=torch.where(~frequency_ok,3,reason)
+            reason=torch.where(~enough|(cycles<self.min_cycles-.02),2,reason)
+            reason=torch.where(fit['baseline']<=1e-12,5,reason)
+            source_defined=phase_valid[:,:,i].any(-1)[:,:,None,None]
+            reason=torch.where(~source_defined,3,reason)
+            columns['reason'].append(empty_value('reason',i).index_copy(-1,target_index,reason))
         out = {k: torch.stack(v, dim=-2) for k, v in columns.items()}
+        reason=torch.where(finite[:,:,None,None,None],out['reason'],6)
         return PACMeasurement(out['coef'], out['depth'], out['valid'], phase, phase_valid,
                               out['baseline'], out['mse'], out['count'], out['cycles'], self.eligible,
-                              out['valid'] & (out['depth'] > 1e-6))
+                              out['valid'] & (out['depth'] > 1e-6),reason,out['drift'],out['condition'])

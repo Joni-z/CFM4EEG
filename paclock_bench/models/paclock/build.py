@@ -105,6 +105,7 @@ class TriAxialPACLock(nn.Module):
             frontend_extra.update(
                 measurement_mode=cfg.get("measurement_mode", "measured"),
                 measurement_phase_cycles=cfg.get("measurement_phase_cycles", 5.),
+                measurement_excluded_intervals=cfg.get("measurement_excluded_intervals", ()),
             )
         elif cfg.get("tokenizer_mode") == "factorized":
             from .frontend.factorized import FactorizedFrontend
