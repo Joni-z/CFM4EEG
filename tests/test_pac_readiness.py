@@ -53,7 +53,7 @@ def test_uncertainty_scale_batch_gradient_and_checkpoint_contract():
     xx=x.requires_grad_();z=op(xx)
     (z.relation_features()['features'].square().sum()+z.coefficient_variance.sum()).backward()
     assert bool(torch.isfinite(xx.grad).all())
-    UncertainPACOperator().load_state_dict(op.state_dict())
+    UncertainPACOperator(**op.constructor_config()).load_state_dict(op.state_dict())
     with pytest.raises(ValueError,match='configuration'):
         PACCurveOperator().load_state_dict(op.state_dict())
 
@@ -107,3 +107,42 @@ def test_covariance_preserves_phase_reference_geometry_and_amplitude_units():
     var2,good2=coefficient_uncertainty(shifted,y*7,w,fit2,2)
     assert bool(good&good2)
     torch.testing.assert_close(var2,var*49,atol=1e-7,rtol=3e-4)
+
+
+def test_100hz_api_preserves_time_grid_and_masks_unobservable_harmonics():
+    torch.set_num_threads(2)
+    op=UncertainPACOperator(sample_rate=100,patch_len=25,passband=(.5,49.),excluded_intervals=())
+    t=torch.arange(1003)/100;ph=2*torch.pi*4*t
+    x=(torch.cos(ph)+(1+.4*torch.cos(ph-.2))*torch.cos(2*torch.pi*32*t))[None,None]
+    out=op(x);packet=out.relation_features(stabilized=False)
+    assert packet['features'].shape==(1,1,40,6,5,2,2)
+    assert out.source_phase.shape[-1]==1003
+    assert not bool(out.local_valid.any())
+    torch.testing.assert_close(out.valid,out.global_valid[:,:,None].expand_as(out.valid))
+    assert bool(out.valid[0,0,20,2,2])
+    depth=torch.linalg.vector_norm(packet['features'][0,0,20,2,2,0])
+    assert .35<float(depth)<.45
+    assert sum(p.numel() for p in op.parameters())==0
+
+
+def test_different_record_and_nonfinite_neighbor_do_not_change_measurement():
+    torch.set_num_threads(2);t=torch.arange(2000)/200
+    a=(torch.cos(2*torch.pi*4*t)+(1+.3*torch.cos(2*torch.pi*4*t-.2))*torch.cos(2*torch.pi*32*t))[None,None]
+    b=(torch.cos(2*torch.pi*2.1*t)+(1+.4*torch.cos(2*torch.pi*2.1*t))*torch.cos(2*torch.pi*48*t))[None,None]
+    op=UncertainPACOperator();one=op(a);many=op(torch.cat([a,b,torch.full_like(a,float('nan'))]))
+    torch.testing.assert_close(one.coef,many.coef[:1],atol=3e-5,rtol=3e-5)
+    torch.testing.assert_close(one.coefficient_variance,many.coefficient_variance[:1],atol=3e-6,rtol=3e-4)
+    torch.testing.assert_close(one.reliability,many.reliability[:1],atol=3e-4,rtol=3e-4)
+    assert not bool(many.valid[2].any())
+    assert bool(torch.isfinite(many.relation_features()['features']).all())
+
+
+def test_parent_precision_cast_preserves_complex_physical_filters():
+    op=UncertainPACOperator()
+    original={name:value.clone() for name,value in op.named_buffers()}
+    parent=torch.nn.Sequential(op)
+    parent.to(dtype=torch.bfloat16);parent.half()
+    for name,value in op.named_buffers():
+        assert value.dtype==original[name].dtype
+        torch.testing.assert_close(value,original[name],atol=0,rtol=0)
+    assert op.analysis.amplitude_kernels.is_complex()

@@ -110,6 +110,21 @@ class UncertainPACOperator(PACCurveOperator):
                     target_centers=self.analysis.centers[self.n_source:].clone(),
                     harmonic_support=self.harmonic_support.clone())
 
+    def constructor_config(self):
+        config=dict(self.configuration)
+        uncertainty=config.pop('uncertainty')
+        return config|uncertainty
+
+    def _apply(self,fn,recurse=True):
+        # Keep complex filters and physical settings intact under a parent's
+        # half/bfloat16 cast. The estimator controls its numerical precision.
+        def preserve_precision(value):
+            if value.is_floating_point() or value.is_complex():
+                probe=fn(torch.empty(0,device=value.device,dtype=torch.float32))
+                return value.to(device=probe.device)
+            return fn(value)
+        return super()._apply(preserve_precision,recurse=recurse)
+
     def forward(self,x):
         if x.device.type not in ('cpu','cuda'):
             raise ValueError('PAC regression requires CPU or CUDA float64 linear algebra')

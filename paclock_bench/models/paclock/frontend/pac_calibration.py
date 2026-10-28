@@ -53,6 +53,7 @@ def measurement_signature(operator, channels: int, samples: int) -> str:
             state.update(value.detach().cpu().contiguous().numpy().tobytes())
     data=dict(operator=type(operator).__name__,configuration=operator.configuration,
               score_source_sha256=source.hexdigest(),physical_state_sha256=state.hexdigest(),
+              torch_version=torch.__version__,device_type=operator.analysis.centers.device.type,
               channels=channels,samples=samples,score='max_predictive_gain_over_channels_and_pairs')
     return hashlib.sha256(json.dumps(data,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 
