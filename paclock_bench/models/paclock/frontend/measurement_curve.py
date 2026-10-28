@@ -294,10 +294,11 @@ class PACCurveOperator(nn.Module):
                 condition[:,:,:,i,j]=fit['condition'][:,:,None]
                 if not self.local:
                     continue
-                win=math.ceil(max(1.,3/float(self.analysis.phase_lower[i]))*self.analysis.sample_rate)+1
+                win=torch.ceil(torch.maximum(torch.ones_like(lower),3/lower)*self.analysis.sample_rate).long()+1
                 for p in range(patches):
                     center=int((p+.5)*self.analysis.patch_len)
-                    local_mask=mask&(times>=center-win//2)&(times<center-win//2+win)
+                    start=center-win//2
+                    local_mask=mask&(times>=start[...,None])&(times<(start+win)[...,None])
                     local_fit=curve_regression(ph,amp,local_mask.float(),source_amp,order,
                         self.local_ridge,global_coef, self.amplitude_floor)
                     local_cycles=(torch.angle(steps)*(local_mask[...,1:]&local_mask[...,:-1])).sum(-1)/(2*math.pi)

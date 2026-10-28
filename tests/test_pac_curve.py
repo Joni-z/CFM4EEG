@@ -93,3 +93,20 @@ def test_checkpoint_records_configuration_and_rejects_wrong_constructor():
     PACCurveOperator().load_state_dict(state)
     with pytest.raises(ValueError,match='configuration'):
         PACCurveOperator(phase_cycles=5).load_state_dict(state)
+
+
+def test_refined_local_context_uses_actual_frequency_cycles():
+    torch.set_num_threads(4);t=torch.arange(2000)/200
+    phi=2*math.pi*3.72*t
+    x=(.8*torch.cos(phi)+(1+.5*torch.cos(phi))*torch.cos(2*math.pi*32*t))[None,None]
+    out=PACCurveOperator(local=True)(x)
+    assert int(out.local_valid[0,0,:,2,2].sum())>=20
+
+
+def test_long_100hz_record_and_short_context_masks():
+    torch.set_num_threads(4)
+    op=PACCurveOperator(sample_rate=100,passband=(.5,49.),excluded_intervals=())
+    t=torch.arange(3000)/100;phi=2*math.pi*4*t
+    x=(torch.cos(phi)+(1+.5*torch.cos(phi))*torch.cos(2*math.pi*32*t))[None,None]
+    assert bool(op(x).global_valid[0,0,2,2])
+    assert not bool(op(x[...,:50]).valid.any())
