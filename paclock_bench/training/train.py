@@ -8,6 +8,7 @@ checkpoints under the requested output root.
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import os
 import random
@@ -25,6 +26,12 @@ from .losses import build_loss
 from .metrics import compute_metrics, epoch0_peak_check, primary_metric
 from .recipe_runtime import make_schedule, normalize_gradients, provenance
 from .run_control import atomic_json
+
+
+def cpu_state_dict(model: torch.nn.Module) -> dict:
+    """Copy parameters and non-tensor extra state without retaining live aliases."""
+    return {name: value.detach().cpu().clone() if isinstance(value, torch.Tensor)
+            else copy.deepcopy(value) for name, value in model.state_dict().items()}
 
 
 def set_seed(seed: int) -> None:
@@ -150,7 +157,8 @@ def main():
         from ..data.labram_dataset import build_labram_dataloaders
         train_loader, val_loader, test_loader, info = build_labram_dataloaders(cfg)
     else:
-        train_loader, val_loader, test_loader, info = build_dataloaders(cfg)
+        train_loader, val_loader, test_loader, info = build_dataloaders(
+            cfg, include_test=not bool(args.smoke_steps))
     # Checkpoint selection needs a *dense* validation curve -- hard rule 3 asks
     # whether the peak sits at the first evaluation, which is unanswerable when
     # one epoch is thousands of steps and only one point is recorded. But TUSZ's
@@ -300,7 +308,7 @@ def main():
             raise FloatingPointError("Nonfinite validation smoke loss")
         # Exercise the actual checkpoint serialization and strict restoration.
         smoke_checkpoint = os.path.join(out_dir, "smoke.pt")
-        torch.save({"model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
+        torch.save({"model": cpu_state_dict(model),
                     "config": cfg, "purpose": "smoke only; not a trained result"}, smoke_checkpoint)
         # Release optimizer state and training model GPU memory before reload.
         del optimizer, scheduler, grads, trainable, pred, loss
@@ -379,7 +387,7 @@ def main():
             best_val_metrics = {metric: float(value) for metric, value in m.items()}
             best_val_tag, best_val_index = tag, len(val_curve) - 1
             best_threshold = threshold
-            best_state = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}
+            best_state = cpu_state_dict(model)
         else:
             since_best += 1
         if control is not None:
@@ -560,7 +568,7 @@ def main():
         selected_val_metrics, selected_val_tag = last_val_metrics, last_val_tag
         selected_val_index = len(val_curve) - 1
         path = os.path.join(out_dir, selected_checkpoint)
-        torch.save({"model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
+        torch.save({"model": cpu_state_dict(model),
                     "config": cfg, "validation": last_val_metrics,
                     "threshold": last_threshold, "selection": "terminal",
                     "stopped_by": stopped_by}, path + ".tmp")

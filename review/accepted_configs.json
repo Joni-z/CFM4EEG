@@ -60,5 +60,7 @@
   "configs/baselines/biot/iiic-scratch.yaml": "d5d0460453b3a2cf5840ecfe24c49445c7a4b798edc253816905a47c8b6e2ba0",
   "configs/baselines/cbramod/iiic-scratch.yaml": "e7a0a6bdae6362c9899a1bd823166e4a58929467ad82c026a258305bf67a429a",
   "configs/baselines/eegpt/iiic-scratch.yaml": "44e5375b7f21a9dc5be2c4cc9329df594440677e7d57a6f1ee17f3639c423232",
-  "configs/baselines/labram/iiic-scratch.json": "a4646e281efcd513e7094fc7dfd7a1c98125139b59ac6a4382c99ef19d10832a"
+  "configs/baselines/labram/iiic-scratch.json": "a4646e281efcd513e7094fc7dfd7a1c98125139b59ac6a4382c99ef19d10832a",
+  "configs/model/tuev-cfc-h2.yaml": "85f40f713255657cada76dbf6631978cfdfee24e3689b3e2ae3870abd939cc2a",
+  "configs/model/chbmit-cfc-h2.yaml": "772357dfd2506ad9c98f7d8d66dcd36268fc4f83021dd4fb1aa16ddf57176ea6"
 }

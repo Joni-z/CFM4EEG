@@ -1,0 +1,70 @@
+name: chbmit-cfft_cfc_h2_twoaxis_20261029
+group: cfc_operator_tokenizer_pilot_20261029
+dataset: chbmit
+data_root: $PACLOCK_PROC/processed/chbmit
+model: paclock
+optimizer: adamw
+lr: 0.0001
+weight_decay: 0.05
+scheduler: cosine
+grad_clip: 1.0
+num_workers: 4
+device: cuda
+num_classes: 2
+epochs: 20
+batch_size: 32
+eval_every_steps: 200
+patience: 20
+loss: focal
+sample_rate: 200
+model_kwargs:
+  filter_range:
+  - 0.5
+  - 75.0
+  arch: triaxial
+  d_model: 128
+  depth: 6
+  n_bands: 16
+  n_heads: 4
+  dropout: 0.35
+  kernel_size: 201
+  patch_len: 50
+  augmentations:
+  - flip0.5
+  - jitter0.05
+  - mask0.2
+  - channel0.2
+  - frequency0.2
+  freq_mixer: none
+  band_pe: index
+  tokenizer_mode: cfc
+  pac_token_mode: measured
+  interaction_mode: rotation
+  spatial_pe: xyz
+  pac_patch_len: 50
+  waveform_modulation: quadrature
+  space_over_bands: true
+  cfc_guidance: measured
+  cfc_stabilized: true
+seed: 0
+max_hours: 0
+focal_alpha: 0.25
+focal_gamma: 2.0
+save_checkpoint: true
+run_monitor: true
+require_rebuild_ready: true
+amp: false
+reproduction:
+  kind: new_cfc_tokenizer_pilot
+  reference: configs/model/chbmit-scratch.yaml
+  changes:
+  - validated global physical6x5 dual-harmonic PAC operator with optional stabilized
+    coefficients
+  - physical target-to-content mapping by actual Sinc frequency response
+  - both harmonics condition the existing quadrature content rotation
+  - preload arrays into available RAM; training/data/encoder recipe otherwise preserved
+  seed: 0
+  selection: validation only; no test-based tuning
+  operator_source_tag: cfc-ready-source-20261029
+checkpoint_selection: validation_best
+preload: true
