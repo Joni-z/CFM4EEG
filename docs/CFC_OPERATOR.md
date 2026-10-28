@@ -243,3 +243,14 @@ uses only the original global/local estimators. The report derives thresholds
 from calibration records, calculates record-level paired intervals and writes
 diagnostic PDFs/PNGs. Error bars in the recovery figure are 1.96 standard errors
 over independent signals, not training-seed standard deviations.
+
+## Pre-tokenizer handoff
+
+The global PAC component now exposes cycle-block uncertainty, raw/stabilized
+relation views, temporal phase-validity masks, physical-grid metadata and a
+constructor/checkpoint contract. The separate calibration utility binds scores
+to code, physical state, runtime, channels and window length.
+See [the handoff guide](CFC_OPERATOR_HANDOFF.md) and
+[readiness results](../review/CFC_OPERATOR_READY_20261029.json).
+The existing tokenizer route remains unchanged; the new grid is not an N-by-N
+content-band tensor and requires an explicit consuming design at the next step.
