@@ -177,3 +177,69 @@ meaning. Connecting the curve operator to a tokenizer is a separate experiment.
 
 The implementation uses a linear ridge objective; it does not reproduce a gamma
 GLM likelihood, an information-theoretic PAC estimator, or a causal test.
+
+## Wider capability checks (2026-10-29)
+
+The [new capability record](../review/CFC_OPERATOR_CAPABILITIES_20261029.json)
+contains 7,168 distinct raw synthetic signals: 512 calibration, 2,688 recovery,
+2,880 frequency/length, 1,024 null confirmation and 64 time-varying records.
+The noise level is defined and checked in the target frequency band; whole-signal
+and source-band SNR are also retained. This is harder than the earlier
+whole-signal-SNR benchmark and its error values must not be pooled with it.
+
+At 10 s and target-band SNR 10 dB, the current curve estimator recovers double
+and mixed modulation with RMSE 0.11584 / 0.07013 versus the H1 internal control's
+0.35449 / 0.18172. At depth 0.25, preferred-phase mean absolute error is 6.23
+degrees. These are capability checks against known truth, not claims of
+superiority over mature multiphasic PAC estimators.
+
+Important limits remain. At depth 0.05 the true-pair detection rate is 4.69%; at
+depth 0.25 it is 99.22%. A nominal 5% independently calibrated record-level
+threshold gives 73/1,024 false positives (7.13%; Wilson interval 5.71–8.87%).
+The calibration sample has finite-size uncertainty; this does not establish
+a guaranteed 5% FPR. Do not retune the threshold on these confirmation records.
+
+Across all 30 pairs, first-harmonic validity is 66.7% at 5 s and 83.3% at 10/20 s.
+For double modulation, supported-and-valid second-harmonic coverage is only
+20.0% at 5 s and 36.7% at 10/20 s. A pair-level valid flag does not imply that
+both harmonics are estimable; inspect harmonic_support. Overlapping amplitude
+filters also prevent interpreting nearest-anchor top-1 as unique carrier
+localization.
+
+On 64 drifting-phase records, local estimation including global fallback
+reduces all-anchor coefficient error from 0.29209 to 0.18614. Local-valid
+coverage is 70%; error only on those anchors is 0.13373, which should not be
+substituted for the all-anchor result.
+
+An experimental held-cycle convex blend of H1 and H1+H2 lowers recovery macro
+RMSE by 6.58%, but slightly worsens double/mixed recovery and has observed null
+FPR 7.71%. It is not selected as the default. Its source, tests, manifests and
+records are preserved in the
+[source tag](https://github.com/Joni-z/CFM4EEG/tree/cfc-capabilities-source-20261029)
+and [evidence tag](https://github.com/Joni-z/CFM4EEG/tree/cfc-capabilities-evidence-20261029).
+Cross-validation/stacking and harmonic regression are established techniques;
+this experiment does not establish a novel PAC estimation principle.
+
+Use the source tag in a separate checkout to reproduce the exact three-arm
+experiment, e.g. add --adaptive to the commands below. The active source tree
+keeps the current two-arm capability evaluator and unchanged default operator.
+
+```bash
+python -m scripts.experiments.cfc_operator_capabilities \
+  --suite recovery --split confirm --cases 128 --output /path/to/recovery-confirm
+python -m scripts.experiments.cfc_operator_capabilities \
+  --suite grid --split confirm --cases 16 --output /path/to/grid-confirm
+python -m scripts.experiments.cfc_operator_capabilities \
+  --suite null --split calibration --cases 256 --output /path/to/null-calibration
+python -m scripts.experiments.cfc_operator_capabilities \
+  --suite null --split confirm --cases 512 --output /path/to/null-confirm
+python -m scripts.experiments.cfc_operator_capabilities \
+  --suite local --split confirm --cases 64 --output /path/to/local-confirm
+python -m scripts.experiments.cfc_operator_capabilities_report --root /path/to
+```
+
+The source tag also supports the experimental --adaptive switch; local mode
+uses only the original global/local estimators. The report derives thresholds
+from calibration records, calculates record-level paired intervals and writes
+diagnostic PDFs/PNGs. Error bars in the recovery figure are 1.96 standard errors
+over independent signals, not training-seed standard deviations.
