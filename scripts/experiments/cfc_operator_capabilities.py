@@ -80,6 +80,11 @@ def generate(seed: int, spec: dict) -> dict:
     source_amp = 1+.25*np.sin(2*np.pi*.43*t+rng.uniform(-np.pi, np.pi))
     if shape == 'nonlinear':
         modulation = np.exp(depth*np.cos(phi-theta))/np.i0(depth)-1
+        angles = np.arange(8192)*2*np.pi/8192
+        curve = np.exp(depth*np.cos(angles))/np.i0(depth)-1
+        d1 = float(2*np.mean(curve*np.cos(angles)))
+        d2 = float(2*np.mean(curve*np.cos(2*angles)))
+        theta2 = 2*theta
     if shape in ('independent', 'aac'):
         modulation[:] = 0
         if shape == 'aac':
@@ -111,11 +116,14 @@ def summarize(records: list[dict]) -> dict:
         rows = [r for r in records if (r['variant'], r['group']) == key]
         good = [r for r in rows if r['valid']]
         phase = [r['phase1_error_deg'] for r in good if r['phase1_error_deg'] is not None]
+        phase2 = [r['phase2_error_deg'] for r in good if r.get('phase2_error_deg') is not None]
         result['/'.join(key)] = dict(n=len(rows), valid_fraction=len(good)/len(rows),
             curve_rmse_all=float(np.mean([r['curve_rmse'] for r in rows])),
             curve_rmse_valid=float(np.mean([r['curve_rmse'] for r in good])) if good else None,
             depth1_mae_valid=float(np.mean([r['depth1_error'] for r in good])) if good else None,
+            depth2_mae_valid=float(np.mean([r['depth2_error'] for r in good if 'depth2_error' in r])) if any('depth2_error' in r for r in good) else None,
             phase1_mae_deg_valid=float(np.mean(phase)) if phase else None,
+            phase2_mae_deg_valid=float(np.mean(phase2)) if phase2 else None,
             pair_top1_fraction=float(np.mean([r['top1_correct'] for r in rows])),
             mean_source_hz_error=float(np.mean([r['source_hz_error'] for r in rows])),
             predictive_score_mean=float(np.mean([r['record_score'] for r in rows])))
@@ -130,9 +138,11 @@ def evaluate(args) -> None:
     args.output.mkdir(parents=True, exist_ok=False)
     specs = specifications(args.suite)
     variants = {'h1': PACCurveOperator(harmonics=1), 'curve': PACCurveOperator()}
+    if args.adaptive:
+        variants['adaptive'] = PACCurveOperator(adaptive_harmonics=True)
     if args.suite == 'local':
         variants = {'global': PACCurveOperator(), 'local': PACCurveOperator(local=True)}
-    config = dict(protocol='capabilities-v1', arguments=vars(args) | {'output': str(args.output)},
+    config = dict(protocol='capabilities-v2', arguments=vars(args) | {'output': str(args.output)},
                   specifications=specs,
                   operator_configs={k: v.configuration for k, v in variants.items()},
                   notes='Raw input only. Zero modulation fallback for invalid fits; coverage reported separately.',
@@ -167,11 +177,17 @@ def evaluate(args) -> None:
                         seconds=spec['seconds'], source_index=i, target_index=j,
                         depth=spec['depth'], valid=good, curve_rmse=error,
                         depth1_error=abs(float(abs(coef[0]))-e['d1']),
+                        depth2_error=abs(float(abs(coef[1]) if len(coef)>1 else 0)-e['d2']),
                         phase1_error_deg=(abs(float(np.angle(coef[0]*np.exp(-1j*e['theta']))))*180/np.pi
                                           if e['d1'] > 0 and spec['shape'] != 'drifting' else None),
+                        phase2_error_deg=(abs(float(np.angle(coef[1]*np.exp(-1j*e['theta2']))))*90/np.pi
+                                          if e['d2'] > 0 and len(coef)>1 else None),
                         source_hz_error=abs(float(fit.source_frequency[n, 0, i])-e['source_hz']),
                         record_score=float(scores.max()), pair_score=float(scores[i, j]),
                         top1_correct=bool(tuple(winner) == (i, j) and scores.max() > 0),
+                        harmonic_support=fit.harmonic_support[i,j].numpy().tolist(),
+                        truth_supported=bool(fit.harmonic_support[i,j,0] and
+                            (e['d2'] == 0 or (fit.harmonic_support.shape[-1]>1 and fit.harmonic_support[i,j,1]))),
                         coef_real=coef.real.tolist(), coef_imag=coef.imag.tolist(),
                         all_valid=fit.global_valid[n, 0].numpy().tolist(),
                         pair_scores=scores.tolist(), raw_sha256=hashlib.sha256(e['raw'].tobytes()).hexdigest())
@@ -206,5 +222,6 @@ if __name__ == '__main__':
     parser.add_argument('--split', choices=SEEDS, default='dev')
     parser.add_argument('--cases', type=int, default=16)
     parser.add_argument('--threads', type=int, default=4)
+    parser.add_argument('--adaptive', action='store_true', help='include experimental held-cycle H1/H2 blending')
     parser.add_argument('--output', type=Path, required=True)
     evaluate(parser.parse_args())

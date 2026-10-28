@@ -119,12 +119,14 @@ class PACCurveOperator(nn.Module):
                  local: bool = False, ridge: float = 1e-3,
                  local_ridge: float = .05, amplitude_floor: float = .02,
                  phase_cycles: float = 9., refine_phase: bool = True,
-                 confidence_folds: str = 'cycles'):
+                 confidence_folds: str = 'cycles', adaptive_harmonics: bool = False):
         super().__init__()
         if harmonics not in (1,2):
             raise ValueError('harmonics must be 1 or 2')
         if confidence_folds not in ('halves','cycles'):
             raise ValueError('confidence_folds must be halves or cycles')
+        if adaptive_harmonics and (local or harmonics != 2):
+            raise ValueError('adaptive harmonics currently requires global two-harmonic estimation')
         if len(set(source_hz)) != len(source_hz) or len(set(target_hz)) != len(target_hz):
             raise ValueError('duplicate analysis centers')
         if not source_hz or not target_hz or any(a>=b for a,b in zip(source_hz,source_hz[1:])):
@@ -135,12 +137,16 @@ class PACCurveOperator(nn.Module):
             control_amplitude=control_amplitude,local=local,ridge=ridge,
             local_ridge=local_ridge,amplitude_floor=amplitude_floor,
             phase_cycles=phase_cycles,refine_phase=refine_phase,confidence_folds=confidence_folds)
+        # Preserve the configuration identity of all existing checkpoints.
+        if adaptive_harmonics:
+            self.configuration['adaptive_harmonics'] = True
         self.n_source, self.n_target = len(source_hz), len(target_hz)
         self.harmonics, self.control_amplitude = harmonics, control_amplitude
         self.local, self.ridge, self.local_ridge = local, ridge, local_ridge
         self.amplitude_floor = amplitude_floor
         self.phase_cycles,self.refine_phase=phase_cycles,refine_phase
         self.confidence_folds=confidence_folds
+        self.adaptive_harmonics=adaptive_harmonics
         centers = tuple(source_hz)+tuple(target_hz)
         self.analysis = PhaseAmplitudeMeasurement(centers, sample_rate, patch_len,
             passband=passband, excluded_intervals=excluded_intervals,phase_cycles=phase_cycles)
@@ -265,12 +271,18 @@ class PACCurveOperator(nn.Module):
                 upper=source_frequency[:,:,i]*(1+2/self.phase_cycles)
                 enough=(fit['count']-1)*lower/self.analysis.sample_rate>=2.98
                 good=fit['valid']&enough&(cycles>=2.98)&(freq>=lower)&(freq<=upper)
+                blend = amp.new_ones(b,c)
+                simple = None
+                if self.adaptive_harmonics and order == 2:
+                    simple = curve_regression(ph,amp,mask.float(),source_amp,1,self.ridge,
+                                              amplitude_floor=self.amplitude_floor)
                 global_valid[:,:,i,j]=good;cycles_out[:,:,i,j]=cycles
                 if bool(good.any()):
                     # Out-of-half prediction is diagnostic confidence, not a
                     # p-value. Record-level calibration happens independently.
                     with torch.no_grad():
                         error=amp.new_zeros(b,c);null_error=error.clone();cv_good=good.clone()
+                        cross=error.clone();difference_energy=error.clone();simple_error=error.clone()
                         if self.confidence_folds=='cycles':
                             phase_path=torch.nn.functional.pad(torch.angle(steps).cumsum(-1),(1,0))
                             fold_id=torch.floor(phase_path/(2*math.pi)).long().remainder(2)
@@ -285,8 +297,28 @@ class PACCurveOperator(nn.Module):
                             error+=((amp-fold['prediction']).square()*testing).sum(-1)
                             null_error+=((amp-fold['null_prediction']).square()*testing).sum(-1)
                             cv_good&=fold['valid']
+                            if simple is not None:
+                                small=curve_regression(ph.detach(),amp.detach(),training.float(),
+                                    None if source_amp is None else source_amp.detach(),1,self.ridge,
+                                    amplitude_floor=self.amplitude_floor)
+                                difference=fold['prediction']-small['prediction']
+                                residual=amp-small['prediction']
+                                cross+=(residual*difference*testing).sum(-1)
+                                difference_energy+=(difference.square()*testing).sum(-1)
+                                simple_error+=(residual.square()*testing).sum(-1)
+                                cv_good&=small['valid']
+                        if simple is not None:
+                            # Convex stacking weight minimizes held-cycle prediction
+                            # error between H1 and H1+H2. No generated truth is used.
+                            blend=torch.where(cv_good,
+                                (cross/difference_energy.clamp_min(1e-12)).clamp(0,1),0.)
+                            error=simple_error-2*blend*cross+blend.square()*difference_energy
                         gain=(1-error/null_error.clamp_min(1e-12)).clamp(0,1)
                         predictive_gain[:,:,i,j]=torch.where(cv_good,gain,0.)
+                if simple is not None:
+                    small_coef=torch.nn.functional.pad(simple['coef'],(0,1))
+                    fit['coef']=small_coef+blend[...,None]*(fit['coef']-small_coef)
+                    fit['baseline']=simple['baseline']+blend*(fit['baseline']-simple['baseline'])
                 global_coef=torch.where(good[...,None],fit['coef'],torch.zeros_like(fit['coef']))
                 out[:,:,:,i,j,:order]=global_coef[:,:,None,:]
                 baseline[:,:,:,i,j]=torch.where(good,fit['baseline'],0)[:,:,None]

@@ -36,3 +36,11 @@ def test_invalid_positive_is_retained_in_unconditional_metric():
     assert result['valid_fraction'] == .5
     assert result['curve_rmse_all'] == .25
     assert result['curve_rmse_valid'] == .1
+
+
+def test_nonlinear_generator_reports_nonzero_fourier_truth():
+    e = generate(4, dict(seconds=10, source=2, target=2, depth=.5,
+                         snr_db=10., shape='nonlinear'))
+    assert .48 < e['d1'] < .49
+    assert .05 < e['d2'] < .07
+    assert e['theta2'] == 2*e['theta']

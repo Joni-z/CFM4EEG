@@ -110,3 +110,24 @@ def test_long_100hz_record_and_short_context_masks():
     x=(torch.cos(phi)+(1+.5*torch.cos(phi))*torch.cos(2*math.pi*32*t))[None,None]
     assert bool(op(x).global_valid[0,0,2,2])
     assert not bool(op(x[...,:50]).valid.any())
+
+
+def test_adaptive_harmonics_retains_clean_double_peak_and_finite_gradients():
+    torch.set_num_threads(4)
+    t=torch.arange(2000)/200
+    phi=2*math.pi*4*t
+    x=(torch.cos(phi)+(1+.5*torch.cos(2*phi-.4))*torch.cos(2*math.pi*32*t))[None,None]
+    op=PACCurveOperator(adaptive_harmonics=True)
+    out=op(x)
+    assert bool(out.valid[0,0,20,2,2])
+    depth=out.coef[0,0,20,2,2,1].abs()/out.baseline[0,0,20,2,2]
+    assert .45 < float(depth) < .55
+    shifted=op(x*3)
+    torch.testing.assert_close(shifted.coef,out.coef*3,atol=1e-4,rtol=1e-4)
+    x=x.clone().requires_grad_();result=op(x)
+    (result.coef.abs().sum()+result.baseline.sum()).backward()
+    assert bool(torch.isfinite(x.grad).all())
+    with pytest.raises(ValueError,match='configuration'):
+        PACCurveOperator().load_state_dict(op.state_dict())
+    with pytest.raises(ValueError,match='global'):
+        PACCurveOperator(local=True,adaptive_harmonics=True)
