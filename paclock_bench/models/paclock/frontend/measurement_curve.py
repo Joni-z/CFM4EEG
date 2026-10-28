@@ -97,7 +97,7 @@ class PACCurveMeasurement:
     harmonic_support: Tensor   # [source,target,harmonic]
     observed_cycles: Tensor    # [B,C,source,target]
     condition: Tensor          # [B,C,P,source,target]
-    predictive_gain: Tensor    # [B,C,source,target], held-out half vs nuisance model
+    predictive_gain: Tensor    # [B,C,source,target], held-out folds vs nuisance model
     source_frequency: Tensor   # [B,C,source], raw-signal refinement or fixed center
 
     def modulation(self, source: int, target: int, patch: int) -> Tensor:
@@ -118,10 +118,13 @@ class PACCurveOperator(nn.Module):
                  harmonics: int = 2, control_amplitude: bool = False,
                  local: bool = False, ridge: float = 1e-3,
                  local_ridge: float = .05, amplitude_floor: float = .02,
-                 phase_cycles: float = 9., refine_phase: bool = True):
+                 phase_cycles: float = 9., refine_phase: bool = True,
+                 confidence_folds: str = 'halves'):
         super().__init__()
         if harmonics not in (1,2):
             raise ValueError('harmonics must be 1 or 2')
+        if confidence_folds not in ('halves','cycles'):
+            raise ValueError('confidence_folds must be halves or cycles')
         if len(set(source_hz)) != len(source_hz) or len(set(target_hz)) != len(target_hz):
             raise ValueError('duplicate analysis centers')
         if not source_hz or not target_hz or any(a>=b for a,b in zip(source_hz,source_hz[1:])):
@@ -131,12 +134,13 @@ class PACCurveOperator(nn.Module):
             excluded_intervals=[list(v) for v in excluded_intervals],harmonics=harmonics,
             control_amplitude=control_amplitude,local=local,ridge=ridge,
             local_ridge=local_ridge,amplitude_floor=amplitude_floor,
-            phase_cycles=phase_cycles,refine_phase=refine_phase)
+            phase_cycles=phase_cycles,refine_phase=refine_phase,confidence_folds=confidence_folds)
         self.n_source, self.n_target = len(source_hz), len(target_hz)
         self.harmonics, self.control_amplitude = harmonics, control_amplitude
         self.local, self.ridge, self.local_ridge = local, ridge, local_ridge
         self.amplitude_floor = amplitude_floor
         self.phase_cycles,self.refine_phase=phase_cycles,refine_phase
+        self.confidence_folds=confidence_folds
         centers = tuple(source_hz)+tuple(target_hz)
         self.analysis = PhaseAmplitudeMeasurement(centers, sample_rate, patch_len,
             passband=passband, excluded_intervals=excluded_intervals,phase_cycles=phase_cycles)
@@ -267,8 +271,13 @@ class PACCurveOperator(nn.Module):
                     # p-value. Record-level calibration happens independently.
                     with torch.no_grad():
                         error=amp.new_zeros(b,c);null_error=error.clone();cv_good=good.clone()
+                        if self.confidence_folds=='cycles':
+                            phase_path=torch.nn.functional.pad(torch.angle(steps).cumsum(-1),(1,0))
+                            fold_id=torch.floor(phase_path/(2*math.pi)).long().remainder(2)
+                        else:
+                            fold_id=(times>=length//2).long().expand_as(ph.real)
                         for half in (0,1):
-                            training=mask&((times<length//2) if half==0 else (times>=length//2))
+                            training=mask&(fold_id==half)
                             testing=mask&~training
                             fold=curve_regression(ph.detach(),amp.detach(),training.float(),
                                 None if source_amp is None else source_amp.detach(),order,self.ridge,

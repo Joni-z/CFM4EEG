@@ -72,7 +72,7 @@ def evaluate(args):
     op=PACCurveOperator(harmonics=args.harmonics,control_amplitude=args.control_amplitude,
                         local=args.local,ridge=args.ridge,local_ridge=args.local_ridge,
                         amplitude_floor=args.amplitude_floor,phase_cycles=args.phase_cycles,
-                        refine_phase=args.refine_phase)
+                        refine_phase=args.refine_phase,confidence_folds=args.confidence_folds)
     records=[];start=time.monotonic()
     base=SPLIT_SEEDS[args.split]
     for ci,condition in enumerate(CONDITIONS):
@@ -150,4 +150,5 @@ if __name__=='__main__':
     parser.add_argument('--amplitude-floor',type=float,default=.02)
     parser.add_argument('--phase-cycles',type=float,default=5.)
     parser.add_argument('--refine-phase',action='store_true')
+    parser.add_argument('--confidence-folds',choices=['halves','cycles'],default='halves')
     evaluate(parser.parse_args())
