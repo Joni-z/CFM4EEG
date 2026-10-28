@@ -7,7 +7,7 @@ This estimates statistical phase/amplitude dependence, not neural causality.
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import torch
 from torch import Tensor, nn
@@ -99,6 +99,8 @@ class PACCurveMeasurement:
     condition: Tensor          # [B,C,P,source,target]
     predictive_gain: Tensor    # [B,C,source,target], held-out folds vs nuisance model
     source_frequency: Tensor   # [B,C,source], raw-signal refinement or fixed center
+    phase_valid: Tensor | None = field(default=None,kw_only=True)
+    source_amplitude: Tensor | None = field(default=None,kw_only=True)
 
     def modulation(self, source: int, target: int, patch: int) -> Tensor:
         """Evaluate one pair's selected coefficient curve over the input."""
@@ -244,6 +246,9 @@ class PACCurveOperator(nn.Module):
         condition=baseline.clone(); times=torch.arange(length,device=x.device)
         predictive_gain=cycles_out.clone()
         rms=clean.square().mean(-1).sqrt().clamp_min(1e-8)
+        phase_valid=((times>=phase_guards[...,None])&
+                     (times<length-phase_guards[...,None])&
+                     (amplitude>rms[...,None,None]*1e-4)&finite[...,None,None])
         for i in range(ns):
             for j in range(nt):
                 order=int(self.harmonic_support[i,j].sum())
@@ -312,4 +317,5 @@ class PACCurveOperator(nn.Module):
                     baseline[:,:,p,i,j]=torch.where(local_good,local_fit['baseline'],baseline[:,:,p,i,j])
                     condition[:,:,p,i,j]=torch.where(local_good,local_fit['condition'],condition[:,:,p,i,j])
         return PACCurveMeasurement(out,baseline,valid,local_valid,global_valid,phase,
-                                   self.harmonic_support,cycles_out,condition,predictive_gain,source_frequency)
+                                   self.harmonic_support,cycles_out,condition,predictive_gain,source_frequency,
+                                   phase_valid=phase_valid,source_amplitude=amplitude)

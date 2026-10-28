@@ -44,8 +44,6 @@ def coefficient_uncertainty(phase: Tensor, envelope: Tensor, mask: Tensor,
         n=int(groups.max())+1
     buckets=torch.zeros(*score.shape[:-2],n,2*order,device=phase.device,dtype=torch.float64)
     buckets.scatter_add_(-2,groups[...,None].expand_as(score),score)
-    sizes=torch.zeros(*mask.shape[:-1],n,device=phase.device,dtype=torch.float64)
-    sizes.scatter_add_(-1,groups,mask.double())
     # An observed cycle is measured from phase increments, not a nominal rate.
     observed=torch.zeros_like(sizes)
     observed.scatter_add_(-1,groups[...,1:],step.clamp_min(0).double()*
@@ -68,10 +66,31 @@ class UncertainPACMeasurement(PACCurveMeasurement):
     uncertainty_valid: Tensor
     reliability: Tensor
 
+    @property
+    def harmonic_valid(self):
+        return self.valid[...,None]&self.harmonic_support
+
+    def relation_features(self,stabilized: bool=True):
+        """Dimensionless coefficients and separate quality masks, no hard PAC gate.
+
+        real/imag is the final axis of features [B,C,P,S,T,K,2]. Unsupported
+        harmonics are zero; quality masks remain explicit. Global mode repeats
+        one record estimate across P, not P independent local measurements.
+        """
+        coef=self.raw_coef*self.reliability if stabilized else self.raw_coef
+        normalized=torch.where(self.harmonic_valid,
+            coef/self.baseline[...,None].clamp_min(1e-12),0.)
+        variance=self.coefficient_variance/self.baseline[...,None].square().clamp_min(1e-24)
+        return dict(features=torch.view_as_real(normalized),
+                    harmonic_valid=self.harmonic_valid,
+                    uncertainty_valid=self.uncertainty_valid[...,None]&self.harmonic_support,
+                    variance=torch.where(self.harmonic_valid,variance,0.),
+                    reliability=torch.where(self.harmonic_valid,self.reliability,0.))
+
 
 class UncertainPACOperator(PACCurveOperator):
     """Experimental global PAC measurement with explicit uncertainty outputs."""
-    def __init__(self,*args,block_cycles: float=2.,shrink: bool=True,**kwargs):
+    def __init__(self,*args,block_cycles: float=1.,shrink: bool=False,**kwargs):
         super().__init__(*args,**kwargs)
         if self.local or self.control_amplitude:
             raise ValueError('uncertainty prototype currently requires global mode without amplitude covariates')
@@ -79,6 +98,18 @@ class UncertainPACOperator(PACCurveOperator):
             raise ValueError('a block must span at least one cycle')
         self.block_cycles,self.shrink=block_cycles,shrink
         self.configuration['uncertainty']=dict(block_cycles=block_cycles,shrink=shrink)
+
+    def physical_grid(self):
+        """Fixed measurement coordinates; these are not content-token indices."""
+        return dict(source_centers=self.analysis.centers[:self.n_source].clone(),
+                    source_cells=torch.stack([self.search_low,self.search_high],-1),
+                    target_centers=self.analysis.centers[self.n_source:].clone(),
+                    harmonic_support=self.harmonic_support.clone())
+
+    def forward(self,x):
+        if x.device.type not in ('cpu','cuda'):
+            raise ValueError('PAC regression requires CPU or CUDA float64 linear algebra')
+        return super().forward(x)
 
     def _forward(self,x):
         out=super()._forward(x)
@@ -96,6 +127,7 @@ class UncertainPACOperator(PACCurveOperator):
                     continue
                 edge=guard.clamp_min(int(self.analysis.amplitude_guard[self.n_source+j]))
                 mask=((times>=edge[...,None])&(times<x.shape[-1]-edge[...,None])).float()
+                mask=mask*out.phase_valid[:,:,i]
                 ph=out.source_phase[:,:,i];amp=envelope[:,:,j]
                 fit=curve_regression(ph,amp,mask,harmonics=order,ridge=self.ridge)
                 v,good=coefficient_uncertainty(ph,amp,mask,fit,order,self.block_cycles,ridge=self.ridge)
