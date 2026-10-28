@@ -1,0 +1,12 @@
+{
+  "source": "769b44b97367c237a4690602857cb8bd6f35bc88",
+  "selected": "UncertainPACOperator(block_cycles=1, shrink=False), preserve raw estimate; relation_features(stabilized=True) uses tested shrinkage.",
+  "rationale": "weak/no-coupling development RMSE improves26.5%, overall4.1%; double -0.25%, mixed +3.29%, extreme0dB +5.2% are disclosed tradeoffs.",
+  "streams": {
+    "recovery_grid": 28000000,
+    "calibration": 30000000,
+    "null_confirmation": 34000000,
+    "stochastic_confirmation": 35000000
+  },
+  "rule": "No changes or selection from confirmation. Current main remains unmodified until completion audit."
+}

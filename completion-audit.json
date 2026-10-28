@@ -1,0 +1,21 @@
+{
+  "checks": {
+    "R1": true,
+    "R2": true,
+    "R3": true,
+    "R4": true,
+    "R5": true,
+    "R6": true,
+    "R7_local": true
+  },
+  "tests": "44 passed",
+  "calibration_confirmation_counts": {
+    "marginal": 199,
+    "tolerance95": 161
+  },
+  "source_commit": "c2f5f820ccff530dedfd4dda5aca5263bdd4aef4",
+  "development_commit": "85f124979553322da36fba8172a3aa9fd4dcd5d8",
+  "scientific_execution_source": "769b44b97367c237a4690602857cb8bd6f35bc88",
+  "scope": "Ready before tokenizer integration. No downstream training performed.",
+  "publication": "Source and evidence tag remote verification is recorded separately."
+}

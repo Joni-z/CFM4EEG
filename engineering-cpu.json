@@ -1,0 +1,62 @@
+{
+  "tuev": {
+    "shape": [
+      2,
+      16,
+      1000
+    ],
+    "feature_shape": [
+      2,
+      16,
+      20,
+      6,
+      5,
+      2,
+      2
+    ],
+    "forward_backward_seconds": [
+      0.7037397078238428,
+      0.6786078340373933,
+      0.6782809579744935
+    ],
+    "finite_features": true,
+    "finite_gradient": true,
+    "valid_fraction": 0.6666666865348816,
+    "uncertainty_valid_fraction": 0.5885416865348816,
+    "phase_valid_fraction": 0.5295104384422302,
+    "peak_process_rss_mb": 492.109375
+  },
+  "chbmit": {
+    "shape": [
+      2,
+      16,
+      2000
+    ],
+    "feature_shape": [
+      2,
+      16,
+      40,
+      6,
+      5,
+      2,
+      2
+    ],
+    "forward_backward_seconds": [
+      1.5612030839547515,
+      1.5690941668581218,
+      1.5759275420568883
+    ],
+    "finite_features": true,
+    "finite_gradient": true,
+    "valid_fraction": 0.8333333134651184,
+    "uncertainty_valid_fraction": 0.8333333134651184,
+    "phase_valid_fraction": 0.7677916884422302,
+    "peak_process_rss_mb": 966.5
+  },
+  "provenance": {
+    "source": "First two training signal windows of each dataset on145; labels not accessed. Engineering check only, not PAC ground-truth validation.",
+    "samples_sha256": "d758ea50bdf3906b9b0fd2c34f7a42bb31a8050a4e14b1248ca244b8625f53f2",
+    "device": "cpu",
+    "threads": 3
+  }
+}

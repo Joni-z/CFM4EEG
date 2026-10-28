@@ -1,0 +1,7 @@
+{
+  "paclock_bench/models/paclock/frontend/measurement_curve.py/curve_regression": true,
+  "paclock_bench/models/paclock/frontend/measurement_curve.py/_source_analysis": true,
+  "paclock_bench/models/paclock/frontend/measurement_curve.py/_forward": true,
+  "paclock_bench/models/paclock/frontend/measurement_uncertain.py/_forward": true,
+  "paclock_bench/models/paclock/frontend/measurement_uncertain.py/coefficient_uncertainty": true
+}

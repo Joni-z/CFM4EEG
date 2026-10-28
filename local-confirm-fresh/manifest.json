@@ -1,0 +1,105 @@
+{
+  "protocol": "capabilities-v2",
+  "arguments": {
+    "output": "/Users/mr.z/CFM4EEG-rebuild-20261021/review/cfc-ready-20261029/local-confirm-fresh",
+    "suite": "local",
+    "split": "confirm",
+    "cases": 64,
+    "threads": 3
+  },
+  "specifications": [
+    {
+      "group": "drifting_phase",
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "depth": 0.5,
+      "snr_db": 10.0,
+      "shape": "drifting"
+    }
+  ],
+  "operator_configs": {
+    "global": {
+      "source_hz": [
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        8.0
+      ],
+      "target_hz": [
+        18.0,
+        24.0,
+        32.0,
+        40.0,
+        48.0
+      ],
+      "sample_rate": 200,
+      "patch_len": 50,
+      "passband": [
+        0.5,
+        75.0
+      ],
+      "excluded_intervals": [
+        [
+          56.0,
+          64.0
+        ]
+      ],
+      "harmonics": 2,
+      "control_amplitude": false,
+      "local": false,
+      "ridge": 0.001,
+      "local_ridge": 0.05,
+      "amplitude_floor": 0.02,
+      "phase_cycles": 9.0,
+      "refine_phase": true,
+      "confidence_folds": "cycles"
+    },
+    "local": {
+      "source_hz": [
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        8.0
+      ],
+      "target_hz": [
+        18.0,
+        24.0,
+        32.0,
+        40.0,
+        48.0
+      ],
+      "sample_rate": 200,
+      "patch_len": 50,
+      "passband": [
+        0.5,
+        75.0
+      ],
+      "excluded_intervals": [
+        [
+          56.0,
+          64.0
+        ]
+      ],
+      "harmonics": 2,
+      "control_amplitude": false,
+      "local": true,
+      "ridge": 0.001,
+      "local_ridge": 0.05,
+      "amplitude_floor": 0.02,
+      "phase_cycles": 9.0,
+      "refine_phase": true,
+      "confidence_folds": "cycles"
+    }
+  },
+  "notes": "Raw input only. Zero modulation fallback for invalid fits; coverage reported separately.",
+  "python": "3.12.4 (v3.12.4:8e8a4baf65, Jun  6 2024, 17:33:18) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "numpy": "2.5.1",
+  "torch": "2.14.1",
+  "operator_sha256": "b5a294084052fe2e3c81da748ea1a15f3fc4bf1a124ca7565bbb0ca35db228dc",
+  "evaluator_sha256": "aa5f9777c659b479bce48ce127c017d62594636340ae8aeacc2f5e3a97542390"
+}

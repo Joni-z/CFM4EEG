@@ -1,0 +1,48 @@
+{
+  "n": 512,
+  "diagnostics": {
+    "old_quantile": {
+      "rank": 487,
+      "threshold": 0.044248878955841064,
+      "old_test_fraction": 0.0712890625,
+      "population_fpr_distribution_interval": [
+        0.03343659005102091,
+        0.07123865584136299
+      ],
+      "bootstrap_calibration_expected_fpr": 0.05047213541666666,
+      "bootstrap_calibration_fpr_interval95": [
+        0.033203125,
+        0.07096354166666667
+      ]
+    },
+    "rank_marginal": {
+      "rank": 488,
+      "threshold": 0.044254958629608154,
+      "old_test_fraction": 0.0712890625,
+      "population_fpr_distribution_interval": [
+        0.03184475219643663,
+        0.06894584242162152
+      ],
+      "bootstrap_calibration_expected_fpr": 0.048535546875,
+      "bootstrap_calibration_fpr_interval95": [
+        0.031901041666666664,
+        0.068359375
+      ]
+    },
+    "tolerance95": {
+      "rank": 495,
+      "threshold": 0.04715174436569214,
+      "old_test_fraction": 0.060546875,
+      "population_fpr_distribution_interval": [
+        0.02096640870181981,
+        0.052630293172314914
+      ],
+      "bootstrap_calibration_expected_fpr": 0.034779947916666665,
+      "bootstrap_calibration_fpr_interval95": [
+        0.020833333333333332,
+        0.051432291666666664
+      ]
+    }
+  },
+  "note": "Exposed old signals and an empirical resampling diagnosis; not new independent confirmation. Beta order-statistic interpretation requires iid continuous null scores; ties are conservative with strict >."
+}

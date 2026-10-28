@@ -1,0 +1,22 @@
+{"group": "depth/0.0", "rows": 128, "seconds": 1.58}
+{"group": "depth/0.02", "rows": 256, "seconds": 3.16}
+{"group": "depth/0.05", "rows": 384, "seconds": 4.76}
+{"group": "depth/0.1", "rows": 512, "seconds": 6.37}
+{"group": "depth/0.25", "rows": 640, "seconds": 7.95}
+{"group": "depth/0.5", "rows": 768, "seconds": 9.56}
+{"group": "snr/0.0", "rows": 896, "seconds": 11.18}
+{"group": "snr/5.0", "rows": 1024, "seconds": 12.79}
+{"group": "snr/10.0", "rows": 1152, "seconds": 14.41}
+{"group": "snr/20.0", "rows": 1280, "seconds": 16.01}
+{"group": "phase/0", "rows": 1408, "seconds": 17.63}
+{"group": "phase/1", "rows": 1536, "seconds": 19.23}
+{"group": "phase/2", "rows": 1664, "seconds": 20.82}
+{"group": "phase/3", "rows": 1792, "seconds": 22.38}
+{"group": "phase/4", "rows": 1920, "seconds": 23.99}
+{"group": "phase/5", "rows": 2048, "seconds": 25.59}
+{"group": "phase/6", "rows": 2176, "seconds": 27.17}
+{"group": "phase/7", "rows": 2304, "seconds": 28.76}
+{"group": "double", "rows": 2432, "seconds": 30.35}
+{"group": "mixed", "rows": 2560, "seconds": 31.94}
+{"group": "nonlinear", "rows": 2688, "seconds": 33.53}
+{"suite": "recovery", "split": "dev", "cases_per_group": 64, "records": 2688, "seconds": 33.53475566697307}

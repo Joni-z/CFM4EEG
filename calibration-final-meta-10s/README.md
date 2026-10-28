@@ -1,0 +1,1 @@
+Final objects reuse the same2000 calibration scores and unchanged alpha/ranks/thresholds. Only source/state/runtime identity binding was added after interface checks; no confirmation score was used to fit them.

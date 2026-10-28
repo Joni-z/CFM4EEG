@@ -1,0 +1,6 @@
+{
+  "seed_override": 36000000,
+  "execution_source": "769b44b",
+  "controller": "run_local_companion.py",
+  "note": "Original manifest preserved; sidecar persists the actual inline seed override, matching every recorded seed."
+}

@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/Users/mr.z/CFM4EEG-rebuild-20261021/review/cfc-ready-20261029/calibrate_records.py", line 26, in <module>
+    out=op(x);scores=record_scores(out).numpy()
+        ^^^^^
+  File "/Users/mr.z/CFM4EEG-rebuild-20261021/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mr.z/CFM4EEG-rebuild-20261021/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mr.z/CFM4EEG-rebuild-20261021/review/cfc-ready-20261029/source/paclock_bench/models/paclock/frontend/measurement_uncertain.py", line 112, in forward
+    return super().forward(x)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/mr.z/CFM4EEG-rebuild-20261021/review/cfc-ready-20261029/source/paclock_bench/models/paclock/frontend/measurement_curve.py", line 232, in forward
+    return self._forward(x.float())
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mr.z/CFM4EEG-rebuild-20261021/review/cfc-ready-20261029/source/paclock_bench/models/paclock/frontend/measurement_uncertain.py", line 133, in _forward
+    v,good=coefficient_uncertainty(ph,amp,mask,fit,order,self.block_cycles,ridge=self.ridge)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mr.z/CFM4EEG-rebuild-20261021/review/cfc-ready-20261029/source/paclock_bench/models/paclock/frontend/measurement_uncertain.py", line 48, in coefficient_uncertainty
+    observed=torch.zeros_like(sizes)
+                              ^^^^^
+NameError: name 'sizes' is not defined

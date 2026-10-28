@@ -1,0 +1,98 @@
+{
+  "seconds": 1.4051594170741737,
+  "signals": 960,
+  "summary": {
+    "double/0.5/0.0": {
+      "measured/measured": 0.31791961005224156,
+      "measured/oracle": 0.26928184497416496,
+      "oracle/measured": 0.23441674632585696,
+      "oracle/oracle": 0.00035303455836104865
+    },
+    "double/0.5/10.0": {
+      "measured/measured": 0.11931843889068915,
+      "measured/oracle": 0.10630567462120837,
+      "oracle/measured": 0.053222816239153994,
+      "oracle/oracle": 0.00035332682083417163
+    },
+    "double/0.5/20.0": {
+      "measured/measured": 0.03458743380315352,
+      "measured/oracle": 0.031461253066559086,
+      "oracle/measured": 0.01346180844580019,
+      "oracle/oracle": 0.00035320955362499594
+    },
+    "mixed/0.5/0.0": {
+      "measured/measured": 0.21055460211271723,
+      "measured/oracle": 0.1503921701999498,
+      "oracle/measured": 0.16935075194013502,
+      "oracle/oracle": 0.0002500832484642574
+    },
+    "mixed/0.5/10.0": {
+      "measured/measured": 0.07047037892983757,
+      "measured/oracle": 0.053586952130812285,
+      "oracle/measured": 0.04064543561013613,
+      "oracle/oracle": 0.0002499917728162167
+    },
+    "mixed/0.5/20.0": {
+      "measured/measured": 0.02179403059246274,
+      "measured/oracle": 0.0174580737002299,
+      "oracle/measured": 0.012896820592501737,
+      "oracle/oracle": 0.00024984835643223106
+    },
+    "single/0.05/0.0": {
+      "measured/measured": 0.05792913058103566,
+      "measured/oracle": 0.015331317826212375,
+      "oracle/measured": 0.05876100715873822,
+      "oracle/oracle": 3.53003148832479e-05
+    },
+    "single/0.05/10.0": {
+      "measured/measured": 0.03606167977345959,
+      "measured/oracle": 0.005197168988089139,
+      "oracle/measured": 0.03555923484729562,
+      "oracle/oracle": 3.5304130099105845e-05
+    },
+    "single/0.05/20.0": {
+      "measured/measured": 0.012193360667799871,
+      "measured/oracle": 0.0013989428865461325,
+      "oracle/measured": 0.012171531794824051,
+      "oracle/oracle": 3.529485412425256e-05
+    },
+    "single/0.25/0.0": {
+      "measured/measured": 0.14565063037161058,
+      "measured/oracle": 0.08842838641090767,
+      "oracle/measured": 0.12936657233355559,
+      "oracle/oracle": 0.0001768263741196703
+    },
+    "single/0.25/10.0": {
+      "measured/measured": 0.0474575555222624,
+      "measured/oracle": 0.024456276103061666,
+      "oracle/measured": 0.04040184485775834,
+      "oracle/oracle": 0.00017648722266852784
+    },
+    "single/0.25/20.0": {
+      "measured/measured": 0.014180354871021261,
+      "measured/oracle": 0.007953903830626914,
+      "oracle/measured": 0.011233705724543611,
+      "oracle/oracle": 0.00017664860548232759
+    },
+    "single/0.5/0.0": {
+      "measured/measured": 0.28041347695306906,
+      "measured/oracle": 0.1702193407118205,
+      "oracle/measured": 0.24051830662340762,
+      "oracle/oracle": 0.00035339012355076107
+    },
+    "single/0.5/10.0": {
+      "measured/measured": 0.08111336013927632,
+      "measured/oracle": 0.051331369094122295,
+      "oracle/measured": 0.05974355238101137,
+      "oracle/oracle": 0.00035321147089798166
+    },
+    "single/0.5/20.0": {
+      "measured/measured": 0.021306437858704855,
+      "measured/oracle": 0.01640735115045537,
+      "oracle/measured": 0.012963138128365246,
+      "oracle/oracle": 0.00035340104553763355
+    }
+  },
+  "note": "Oracle arms are diagnostics only, not candidate performance.",
+  "evaluator_sha256": "329846cbca733e89c2dd1b90cbfe35549311deb32df4b60d6e4f83f6cf1fcde2"
+}

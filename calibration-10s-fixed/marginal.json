@@ -1,0 +1,9 @@
+{
+  "threshold": 0.04708218574523926,
+  "rank": 1901,
+  "n": 2000,
+  "alpha": 0.05,
+  "confidence": null,
+  "signature": "fd3a25f6e88c0c50d58bc38b1e4fec481fe515bb6b318ddf6112937ee8afbfd8",
+  "reference_sha256": "b0f8c362fc8133271a5e5887556a678ef79338f8eba910aa93b066e99202500d"
+}

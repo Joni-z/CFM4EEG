@@ -1,0 +1,9 @@
+{
+  "commit": "769b44b97367c237a4690602857cb8bd6f35bc88",
+  "drivers": {
+    "run_candidate.py": "2be326f080e7b0ba08285f21329f32730bac34a97fcc6cf79a51f9a9657d1339",
+    "calibrate_records.py": "bb3918f10c182742b395281816e15aec28c475c99cc1b1cbc8457d7d708782da",
+    "carrier_check.py": "b2f1d455bcfdb3159a9f9677b3dc7b2fcfbc9c215f1f1b8fa8059c460fbc3d11",
+    "diagnose.py": "329846cbca733e89c2dd1b90cbfe35549311deb32df4b60d6e4f83f6cf1fcde2"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "n": 4000,
+  "seconds": 10,
+  "runtime": 106.08237995905802,
+  "seed": 34000000,
+  "note": "iid random 50/50 mixture of independent-envelope and AAC-only nulls, at target-band SNR10. Scope is this synthetic distribution, not physiological EEG significance.",
+  "detections": {
+    "marginal": {
+      "threshold": 0.04708218574523926,
+      "rank": 1901,
+      "false_positives": 199,
+      "observed_fpr": 0.04975,
+      "calibration_n": 2000
+    },
+    "tolerance95": {
+      "threshold": 0.04994720220565796,
+      "rank": 1917,
+      "false_positives": 161,
+      "observed_fpr": 0.04025,
+      "calibration_n": 2000
+    }
+  },
+  "configuration": {
+    "source_hz": [
+      2.0,
+      3.0,
+      4.0,
+      5.0,
+      6.0,
+      8.0
+    ],
+    "target_hz": [
+      18.0,
+      24.0,
+      32.0,
+      40.0,
+      48.0
+    ],
+    "sample_rate": 200,
+    "patch_len": 50,
+    "passband": [
+      0.5,
+      75.0
+    ],
+    "excluded_intervals": [
+      [
+        56.0,
+        64.0
+      ]
+    ],
+    "harmonics": 2,
+    "control_amplitude": false,
+    "local": false,
+    "ridge": 0.001,
+    "local_ridge": 0.05,
+    "amplitude_floor": 0.02,
+    "phase_cycles": 9.0,
+    "refine_phase": true,
+    "confidence_folds": "cycles",
+    "uncertainty": {
+      "block_cycles": 1,
+      "shrink": false
+    }
+  },
+  "driver_sha256": "bb3918f10c182742b395281816e15aec28c475c99cc1b1cbc8457d7d708782da"
+}

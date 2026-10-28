@@ -1,0 +1,15 @@
+{
+  "main_commit": "c2f5f820ccff530dedfd4dda5aca5263bdd4aef4",
+  "development_commit": "85f124979553322da36fba8172a3aa9fd4dcd5d8",
+  "source_tag": "cfc-ready-source-20261029",
+  "development_tag": "cfc-ready-development-20261029",
+  "changed_files": [
+    "docs/CFC_OPERATOR.md",
+    "docs/CFC_OPERATOR_HANDOFF.md",
+    "paclock_bench/models/paclock/frontend/measurement_curve.py",
+    "paclock_bench/models/paclock/frontend/measurement_uncertain.py",
+    "paclock_bench/models/paclock/frontend/pac_calibration.py",
+    "review/CFC_OPERATOR_READY_20261029.json",
+    "tests/test_pac_readiness.py"
+  ]
+}

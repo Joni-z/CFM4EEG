@@ -1,0 +1,12 @@
+{
+  "counts": {
+    "baseline-confirm": 2688,
+    "uncertain-grid-confirm": 1440,
+    "local-confirm-fresh": 64,
+    "carrier-confirm": 768,
+    "calibration-10s-fixed": 2000,
+    "calibration-confirm-10s": 4000
+  },
+  "total_distinct": 10960,
+  "duplicate_raw_signals": 0
+}

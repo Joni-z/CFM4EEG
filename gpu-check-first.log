@@ -1,0 +1,35 @@
+{
+  "device": "NVIDIA RTX 6000 Ada Generation",
+  "torch": "2.8.0+cu128",
+  "cuda": "12.8",
+  "memory_fraction_cap": 0.06,
+  "input_sha256": "d758ea50bdf3906b9b0fd2c34f7a42bb31a8050a4e14b1248ca244b8625f53f2",
+  "records": {
+    "tuev": {
+      "shape": [
+        1,
+        16,
+        1000
+      ],
+      "finite_features": true,
+      "finite_gradient": true,
+      "cpu_cuda_max_abs_error": 4.0978193283081055e-07,
+      "wall_seconds_including_cpu_reference": 2.808693738654256,
+      "peak_allocated_mb": 111.89501953125,
+      "physical_valid_fraction": 0.6666666865348816
+    },
+    "chbmit": {
+      "shape": [
+        1,
+        16,
+        2000
+      ],
+      "finite_features": true,
+      "finite_gradient": true,
+      "cpu_cuda_max_abs_error": 5.289912223815918e-07,
+      "wall_seconds_including_cpu_reference": 1.4500787016004324,
+      "peak_allocated_mb": 239.57421875,
+      "physical_valid_fraction": 0.8333333730697632
+    }
+  }
+}

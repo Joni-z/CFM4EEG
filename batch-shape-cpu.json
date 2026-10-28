@@ -1,0 +1,31 @@
+{
+  "tuev": {
+    "shape": [
+      16,
+      23,
+      1000
+    ],
+    "inference_seconds": [
+      3.270688916789368,
+      3.2255928749218583,
+      2.8964460839051753
+    ],
+    "finite": true,
+    "peak_process_rss_mb": 836.671875
+  },
+  "chbmit": {
+    "shape": [
+      8,
+      23,
+      2000
+    ],
+    "inference_seconds": [
+      3.2602295000106096,
+      3.314606708008796,
+      3.2705306250136346
+    ],
+    "finite": true,
+    "peak_process_rss_mb": 940.359375
+  },
+  "note": "CPU inference-only shape stress using repeated real-derived channels/windows, not independent scientific observations."
+}

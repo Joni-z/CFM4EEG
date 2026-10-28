@@ -1,0 +1,302 @@
+{
+  "protocol": "capabilities-v2",
+  "arguments": {
+    "candidate": "baseline",
+    "block_cycles": 2.0,
+    "suite": "recovery",
+    "split": "confirm",
+    "cases": 128,
+    "threads": 3,
+    "output": "/Users/mr.z/CFM4EEG-rebuild-20261021/review/cfc-ready-20261029/baseline-confirm"
+  },
+  "specifications": [
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "depth/0.0",
+      "depth": 0.0,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "depth/0.02",
+      "depth": 0.02,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "depth/0.05",
+      "depth": 0.05,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "depth/0.1",
+      "depth": 0.1,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "depth/0.25",
+      "depth": 0.25,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "depth/0.5",
+      "depth": 0.5,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "snr/0.0",
+      "depth": 0.25,
+      "snr_db": 0.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "snr/5.0",
+      "depth": 0.25,
+      "snr_db": 5.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "snr/10.0",
+      "depth": 0.25,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "snr/20.0",
+      "depth": 0.25,
+      "snr_db": 20.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/0",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 0.0
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/1",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 0.7853981633974483
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/2",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 1.5707963267948966
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/3",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 2.356194490192345
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/4",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 3.141592653589793
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/5",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 3.9269908169872414
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/6",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 4.71238898038469
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/7",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 5.497787143782138
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "double",
+      "depth": 0.5,
+      "snr_db": 10.0,
+      "shape": "double"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "mixed",
+      "depth": 0.5,
+      "snr_db": 10.0,
+      "shape": "mixed"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "nonlinear",
+      "depth": 0.5,
+      "snr_db": 10.0,
+      "shape": "nonlinear"
+    }
+  ],
+  "operator_configs": {
+    "h1": {
+      "source_hz": [
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        8.0
+      ],
+      "target_hz": [
+        18.0,
+        24.0,
+        32.0,
+        40.0,
+        48.0
+      ],
+      "sample_rate": 200,
+      "patch_len": 50,
+      "passband": [
+        0.5,
+        75.0
+      ],
+      "excluded_intervals": [
+        [
+          56.0,
+          64.0
+        ]
+      ],
+      "harmonics": 1,
+      "control_amplitude": false,
+      "local": false,
+      "ridge": 0.001,
+      "local_ridge": 0.05,
+      "amplitude_floor": 0.02,
+      "phase_cycles": 9.0,
+      "refine_phase": true,
+      "confidence_folds": "cycles"
+    },
+    "curve": {
+      "source_hz": [
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        8.0
+      ],
+      "target_hz": [
+        18.0,
+        24.0,
+        32.0,
+        40.0,
+        48.0
+      ],
+      "sample_rate": 200,
+      "patch_len": 50,
+      "passband": [
+        0.5,
+        75.0
+      ],
+      "excluded_intervals": [
+        [
+          56.0,
+          64.0
+        ]
+      ],
+      "harmonics": 2,
+      "control_amplitude": false,
+      "local": false,
+      "ridge": 0.001,
+      "local_ridge": 0.05,
+      "amplitude_floor": 0.02,
+      "phase_cycles": 9.0,
+      "refine_phase": true,
+      "confidence_folds": "cycles"
+    }
+  },
+  "notes": "Raw input only. Zero modulation fallback for invalid fits; coverage reported separately.",
+  "python": "3.12.4 (v3.12.4:8e8a4baf65, Jun  6 2024, 17:33:18) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "numpy": "2.5.1",
+  "torch": "2.14.1",
+  "operator_sha256": "b5a294084052fe2e3c81da748ea1a15f3fc4bf1a124ca7565bbb0ca35db228dc",
+  "evaluator_sha256": "aa5f9777c659b479bce48ce127c017d62594636340ae8aeacc2f5e3a97542390",
+  "driver_sha256": "2be326f080e7b0ba08285f21329f32730bac34a97fcc6cf79a51f9a9657d1339",
+  "split_seeds": {
+    "dev": 24000000,
+    "calibration": 26000000,
+    "confirm": 28000000
+  },
+  "scored_output": "normalized raw coefficients"
+}

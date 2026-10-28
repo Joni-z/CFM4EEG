@@ -1,0 +1,25 @@
+{
+  "macro": {
+    "raw": 0.06360763102008314,
+    "stable": 0.06110928359741458,
+    "relative_reduction": 0.03927747948795235,
+    "paired_ci95": [
+      0.002359272270010037,
+      0.002624950391583238
+    ]
+  },
+  "weak": {
+    "raw": 0.03612846651498697,
+    "stable": 0.026492508053660296,
+    "relative_reduction": 0.26671374101442813
+  },
+  "counts": {
+    "recovery_confirmation": 2688,
+    "frequency_context_confirmation": 1440,
+    "stochastic_carrier_confirmation": 768,
+    "null_calibration": 2000,
+    "null_confirmation": 4000,
+    "local_companion_confirmation": 64,
+    "oracle_diagnostic": 960
+  }
+}

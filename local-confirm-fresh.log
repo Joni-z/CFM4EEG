@@ -1,0 +1,2 @@
+{"group": "drifting_phase", "rows": 128, "seconds": 10.65}
+{"suite": "local", "split": "confirm", "cases_per_group": 64, "records": 128, "seconds": 10.646488833008334, "local": {"global": {"local_fraction": 0.0, "all_anchor_error": 0.2932203373180348, "fallback_error": 0.2932203373180348}, "local": {"local_fraction": 0.7000000000000001, "all_anchor_error": 0.18881135522151882, "local_valid_error": 0.13716049265220362, "fallback_error": 0.309330034549921}}}

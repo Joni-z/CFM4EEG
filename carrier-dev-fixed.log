@@ -1,0 +1,32 @@
+{
+  "summary": {
+    "single/0.1": {
+      "raw": 0.038738167279157125,
+      "stable": 0.04124599700830971
+    },
+    "single/0.4": {
+      "raw": 0.06588266393419047,
+      "stable": 0.06785264169523705
+    },
+    "double/0.1": {
+      "raw": 0.04418948220961024,
+      "stable": 0.040604478756731205
+    },
+    "double/0.4": {
+      "raw": 0.09142903347992988,
+      "stable": 0.09155417596333591
+    },
+    "mixed/0.1": {
+      "raw": 0.03569922173763938,
+      "stable": 0.035297703371040975
+    },
+    "mixed/0.4": {
+      "raw": 0.0648995602345501,
+      "stable": 0.07176368255367518
+    }
+  },
+  "signals": 384,
+  "seconds": 11.393061291892081,
+  "truth": "Population phase-conditional modulation, stochastic independent complex-Gaussian baseband carrier; not deterministic instantaneous envelope truth.",
+  "driver_sha256": "b2f1d455bcfdb3159a9f9677b3dc7b2fcfbc9c215f1f1b8fa8059c460fbc3d11"
+}
