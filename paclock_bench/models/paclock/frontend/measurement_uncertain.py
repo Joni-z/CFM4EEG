@@ -80,6 +80,10 @@ class UncertainPACMeasurement(PACCurveMeasurement):
         coef=self.raw_coef*self.reliability if stabilized else self.raw_coef
         normalized=torch.where(self.harmonic_valid,
             coef/self.baseline[...,None].clamp_min(1e-12),0.)
+        if self.source_amplitude is not None:
+            # Preserve a zero derivative when every pair is unobservable.
+            zero=self.source_amplitude.sum(dim=(-2,-1))*0
+            normalized=normalized+zero[...,None,None,None,None]
         variance=self.coefficient_variance/self.baseline[...,None].square().clamp_min(1e-24)
         return dict(features=torch.view_as_real(normalized),
                     harmonic_valid=self.harmonic_valid,
@@ -89,11 +93,11 @@ class UncertainPACMeasurement(PACCurveMeasurement):
 
 
 class UncertainPACOperator(PACCurveOperator):
-    """Experimental global PAC measurement with explicit uncertainty outputs."""
+    """Global PAC measurement with explicit uncertainty and optional shrinkage."""
     def __init__(self,*args,block_cycles: float=1.,shrink: bool=False,**kwargs):
         super().__init__(*args,**kwargs)
         if self.local or self.control_amplitude:
-            raise ValueError('uncertainty prototype currently requires global mode without amplitude covariates')
+            raise ValueError('cycle uncertainty requires global mode without amplitude covariates')
         if block_cycles<1:
             raise ValueError('a block must span at least one cycle')
         self.block_cycles,self.shrink=block_cycles,shrink
@@ -142,3 +146,7 @@ class UncertainPACOperator(PACCurveOperator):
             coef=raw*reliability if self.shrink else raw,raw_coef=raw,
             coefficient_variance=variance,uncertainty_valid=uncertainty_valid,
             reliability=reliability)))
+
+
+# Canonical handoff name; the explicit class name remains checkpoint-stable.
+CFCOperator = UncertainPACOperator

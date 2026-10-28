@@ -76,3 +76,31 @@ def test_calibration_ties_abstention_serialization_and_input_binding(tmp_path):
     assert PACCalibration.fit([0.],op,1,1000).threshold is None
     with pytest.raises(ValueError,match='finite'):
         PACCalibration.fit([float('nan')],op,1,1000)
+
+
+def test_unobservable_input_has_explicit_masks_and_zero_finite_derivative():
+    torch.set_num_threads(2);op=UncertainPACOperator()
+    x=torch.zeros(1,2,50,requires_grad=True)
+    out=op(x);packet=out.relation_features()
+    assert not bool(packet['harmonic_valid'].any())
+    assert not bool(out.phase_valid.any())
+    assert not bool(packet['features'].any())
+    packet['features'].sum().backward()
+    torch.testing.assert_close(x.grad,torch.zeros_like(x))
+    grid=op.physical_grid()
+    assert grid['source_centers'].tolist()==[2.,3.,4.,5.,6.,8.]
+    assert grid['target_centers'].tolist()==[18.,24.,32.,40.,48.]
+    with pytest.raises(ValueError,match='global'):
+        UncertainPACOperator(local=True)
+
+
+def test_covariance_preserves_phase_reference_geometry_and_amplitude_units():
+    torch.set_num_threads(2)
+    a=torch.arange(2000)*2*torch.pi/100;phase=torch.exp(1j*a)
+    y=2+.4*torch.cos(a-.3)+.2*torch.sin(2*a)+.07*torch.randn(2000,generator=torch.Generator().manual_seed(6))
+    w=torch.ones_like(y);fit=curve_regression(phase,y,w)
+    var,good=coefficient_uncertainty(phase,y,w,fit,2)
+    shifted=phase*complex(math.cos(.7),math.sin(.7));fit2=curve_regression(shifted,y*7,w)
+    var2,good2=coefficient_uncertainty(shifted,y*7,w,fit2,2)
+    assert bool(good&good2)
+    torch.testing.assert_close(var2,var*49,atol=1e-7,rtol=3e-4)
