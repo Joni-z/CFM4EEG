@@ -118,12 +118,20 @@ class PACCurveOperator(nn.Module):
                  harmonics: int = 2, control_amplitude: bool = False,
                  local: bool = False, ridge: float = 1e-3,
                  local_ridge: float = .05, amplitude_floor: float = .02,
-                 phase_cycles: float = 5., refine_phase: bool = False):
+                 phase_cycles: float = 9., refine_phase: bool = True):
         super().__init__()
         if harmonics not in (1,2):
             raise ValueError('harmonics must be 1 or 2')
         if len(set(source_hz)) != len(source_hz) or len(set(target_hz)) != len(target_hz):
             raise ValueError('duplicate analysis centers')
+        if not source_hz or not target_hz or any(a>=b for a,b in zip(source_hz,source_hz[1:])):
+            raise ValueError('nonempty banks and increasing source centers required')
+        self.configuration=dict(source_hz=list(source_hz),target_hz=list(target_hz),
+            sample_rate=sample_rate,patch_len=patch_len,passband=list(passband),
+            excluded_intervals=[list(v) for v in excluded_intervals],harmonics=harmonics,
+            control_amplitude=control_amplitude,local=local,ridge=ridge,
+            local_ridge=local_ridge,amplitude_floor=amplitude_floor,
+            phase_cycles=phase_cycles,refine_phase=refine_phase)
         self.n_source, self.n_target = len(source_hz), len(target_hz)
         self.harmonics, self.control_amplitude = harmonics, control_amplitude
         self.local, self.ridge, self.local_ridge = local, ridge, local_ridge
@@ -146,12 +154,25 @@ class PACCurveOperator(nn.Module):
                     if not support[i,j,k-1]:
                         continue
                     edge = k*float(search_high[i]*(1+2/phase_cycles) if refine_phase else self.analysis.phase_upper[i])
+                    width=min(.4*f,.8*(f-passband[0]),.8*(passband[1]-f))
                     response = _gain(kernel, torch.tensor([f-edge,f,f+edge]), sample_rate)
                     ok = bool(response[1]>0 and torch.minimum(response[0],response[2])/response[1]>=.9)
+                    ok = ok and edge<=width
+                    source_upper=float(search_high[i]*(1+2/phase_cycles) if refine_phase else self.analysis.phase_upper[i])
+                    source_lower=float(search_low[i]*(1-2/phase_cycles) if refine_phase else self.analysis.phase_lower[i])
+                    ok = ok and source_upper<f-1.25*width and source_lower>=passband[0]
                     for low,high in excluded_intervals:
                         ok = ok and not (f-edge <= high and f+edge >= low)
+                        ok = ok and not (source_lower<=high and source_upper>=low)
                     support[i,j,k-1] = ok
         self.register_buffer('harmonic_support',support)
+
+    def get_extra_state(self) -> dict:
+        return dict(version=1,configuration=self.configuration)
+
+    def set_extra_state(self, state: dict) -> None:
+        if state != self.get_extra_state():
+            raise ValueError('operator checkpoint configuration differs from constructor')
 
     def _source_analysis(self, x: Tensor) -> tuple[Tensor,Tensor,Tensor]:
         """Estimate a peak inside each fixed cell, then apply steered Morlet.

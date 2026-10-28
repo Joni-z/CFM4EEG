@@ -2,6 +2,7 @@ import math
 
 import numpy as np
 import torch
+import pytest
 
 from paclock_bench.models.paclock.frontend.measurement import harmonic_regression
 from paclock_bench.models.paclock.frontend.measurement_curve import curve_regression, PACCurveOperator
@@ -85,3 +86,10 @@ def test_frequency_refinement_is_signal_derived_and_batched():
     assert abs(float(a.source_frequency[0,0,1])-3.27)<.03
     torch.testing.assert_close(a.coef,b.coef[:1],rtol=2e-5,atol=2e-5)
     assert bool(a.valid[0,0,10,1,2])
+
+
+def test_checkpoint_records_configuration_and_rejects_wrong_constructor():
+    op=PACCurveOperator();state=op.state_dict()
+    PACCurveOperator().load_state_dict(state)
+    with pytest.raises(ValueError,match='configuration'):
+        PACCurveOperator(phase_cycles=5).load_state_dict(state)
