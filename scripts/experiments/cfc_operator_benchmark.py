@@ -69,9 +69,10 @@ def generate(seed: int, condition: str, seconds: float=5.) -> dict:
 def evaluate(args):
     torch.set_num_threads(4)
     args.output.mkdir(parents=True,exist_ok=False)
-    op=PACCurveOperator(harmonics=args.harmonics,control_amplitude=not args.no_amplitude,
+    op=PACCurveOperator(harmonics=args.harmonics,control_amplitude=args.control_amplitude,
                         local=args.local,ridge=args.ridge,local_ridge=args.local_ridge,
-                        amplitude_floor=args.amplitude_floor,phase_cycles=args.phase_cycles)
+                        amplitude_floor=args.amplitude_floor,phase_cycles=args.phase_cycles,
+                        refine_phase=args.refine_phase)
     records=[];start=time.monotonic()
     base=SPLIT_SEEDS[args.split]
     for ci,condition in enumerate(CONDITIONS):
@@ -105,6 +106,8 @@ def evaluate(args):
                     curve_rmse=rmse,curve_nrmse=rmse/true_sd if true_sd>1e-8 else None,
                     record_score=record_score,valid_pairs=int(all_valid.sum()),
                     predictive_score=float(out.predictive_gain[n,0].max()),
+                    pair_predictive_score=float(out.predictive_gain[n,0,i,j]),
+                    refined_source_hz=float(out.source_frequency[n,0,i]),
                     global_coverage=float(out.global_valid[n].float().mean()),
                     measured_coef_real=[float(v.real) for v in coef],measured_coef_imag=[float(v.imag) for v in coef]))
         print(json.dumps({'condition':condition,'records':len(records),'seconds':time.monotonic()-start}),flush=True)
@@ -139,10 +142,12 @@ if __name__=='__main__':
     parser.add_argument('--cases',type=int,default=24)
     parser.add_argument('--seconds',type=float,default=5.)
     parser.add_argument('--harmonics',type=int,default=2)
-    parser.add_argument('--no-amplitude',action='store_true')
+    parser.add_argument('--no-amplitude',action='store_true',help='compatibility alias; default already off')
+    parser.add_argument('--control-amplitude',action='store_true')
     parser.add_argument('--local',action='store_true')
     parser.add_argument('--ridge',type=float,default=1e-3)
     parser.add_argument('--local-ridge',type=float,default=.05)
     parser.add_argument('--amplitude-floor',type=float,default=.02)
     parser.add_argument('--phase-cycles',type=float,default=5.)
+    parser.add_argument('--refine-phase',action='store_true')
     evaluate(parser.parse_args())

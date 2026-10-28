@@ -98,6 +98,7 @@ class PACCurveMeasurement:
     observed_cycles: Tensor    # [B,C,source,target]
     condition: Tensor          # [B,C,P,source,target]
     predictive_gain: Tensor    # [B,C,source,target], held-out half vs nuisance model
+    source_frequency: Tensor   # [B,C,source], raw-signal refinement or fixed center
 
     def modulation(self, source: int, target: int, patch: int) -> Tensor:
         """Evaluate one pair's selected coefficient curve over the input."""
@@ -114,10 +115,10 @@ class PACCurveOperator(nn.Module):
     def __init__(self, source_hz=(2.,3.,4.,5.,6.,8.), target_hz=(18.,24.,32.,40.,48.),
                  sample_rate: int = 200, patch_len: int = 50,
                  passband=(.5,75.), excluded_intervals=((56.,64.),),
-                 harmonics: int = 2, control_amplitude: bool = True,
+                 harmonics: int = 2, control_amplitude: bool = False,
                  local: bool = False, ridge: float = 1e-3,
                  local_ridge: float = .05, amplitude_floor: float = .02,
-                 phase_cycles: float = 5.):
+                 phase_cycles: float = 5., refine_phase: bool = False):
         super().__init__()
         if harmonics not in (1,2):
             raise ValueError('harmonics must be 1 or 2')
@@ -127,6 +128,7 @@ class PACCurveOperator(nn.Module):
         self.harmonics, self.control_amplitude = harmonics, control_amplitude
         self.local, self.ridge, self.local_ridge = local, ridge, local_ridge
         self.amplitude_floor = amplitude_floor
+        self.phase_cycles,self.refine_phase=phase_cycles,refine_phase
         centers = tuple(source_hz)+tuple(target_hz)
         self.analysis = PhaseAmplitudeMeasurement(centers, sample_rate, patch_len,
             passband=passband, excluded_intervals=excluded_intervals,phase_cycles=phase_cycles)
@@ -146,6 +148,54 @@ class PACCurveOperator(nn.Module):
                     support[i,j,k-1] = ok
         self.register_buffer('harmonic_support',support)
 
+    def _source_analysis(self, x: Tensor) -> tuple[Tensor,Tensor,Tensor]:
+        """Estimate a peak inside each fixed cell, then apply steered Morlet.
+
+        The peak is estimated from raw input, with no generator parameters.
+        Disjoint search cells prevent multiple anchors from chasing one peak.
+        """
+        b,c,length=x.shape;fs=self.analysis.sample_rate
+        centers=self.analysis.centers[:self.n_source]
+        if not self.refine_phase:
+            source=linear_analytic_filter(x,self.analysis.phase_kernels[:self.n_source])
+            return (source,centers.view(1,1,-1).expand(b,c,-1),
+                    self.analysis.phase_guard[:self.n_source].view(1,1,-1).expand(b,c,-1))
+        with torch.no_grad():
+            frequency=torch.fft.rfftfreq(length,1/fs,device=x.device)
+            spectrum=torch.fft.rfft(x*torch.hann_window(length,device=x.device),dim=-1).abs().square()
+            estimates=[]
+            for i,center in enumerate(centers):
+                low=(centers[i-1]+center)/2 if i>0 else self.analysis.phase_lower[i]
+                high=(centers[i+1]+center)/2 if i+1<self.n_source else self.analysis.phase_upper[i]
+                allowed=(frequency>=low)&(frequency<=high)
+                if not bool(allowed.any()):
+                    estimates.append(center.expand(b,c));continue
+                peak=torch.where(allowed,spectrum,-1.).argmax(-1).clamp(1,len(frequency)-2)
+                logpower=spectrum.clamp_min(1e-20).log()
+                left=logpower.gather(-1,(peak-1)[...,None]).squeeze(-1)
+                mid=logpower.gather(-1,peak[...,None]).squeeze(-1)
+                right=logpower.gather(-1,(peak+1)[...,None]).squeeze(-1)
+                curvature=left-2*mid+right
+                offset=torch.where(curvature.abs()>1e-8,.5*(left-right)/curvature,0.).clamp(-.5,.5)
+                estimates.append(((peak+offset)*fs/length).clamp(low,high))
+            refined=torch.stack(estimates,-1)
+            # Keep effective support inside the original fixed source band,
+            # so refinement cannot invalidate the sideband eligibility proof.
+            margin=torch.minimum(refined-self.analysis.phase_lower[:self.n_source],
+                                 self.analysis.phase_upper[:self.n_source]-refined).clamp_min(.01)
+            cycles=torch.maximum(torch.full_like(refined,self.phase_cycles),2*refined/margin)
+            guards=torch.ceil(3*cycles/(2*math.pi*refined)*fs).long()
+        radius=int(guards.max());t=torch.arange(-radius,radius+1,device=x.device)/fs
+        sigma=cycles/(2*math.pi*refined)
+        gaussian=torch.exp(-t.square()/(2*sigma[...,None].square()))
+        gaussian=gaussian*(torch.arange(-radius,radius+1,device=x.device).abs()<=guards[...,None])
+        wave=torch.exp(2j*math.pi*refined[...,None]*t)
+        kernel=gaussian*(wave-torch.exp(-cycles.square()/2)[...,None])
+        gain=(kernel*wave.conj()).sum(-1).abs().clamp_min(1e-12)
+        kernel=2*kernel/gain[...,None]
+        source=linear_analytic_filter(x,kernel)
+        return source,refined,guards
+
     def forward(self, x: Tensor) -> PACCurveMeasurement:
         if x.ndim != 3 or x.shape[-1] < self.analysis.patch_len:
             raise ValueError('expected [batch,channel,time] with at least one patch')
@@ -157,7 +207,7 @@ class PACCurveOperator(nn.Module):
         patches=length//self.analysis.patch_len
         finite=torch.isfinite(x).all(-1)
         clean=torch.nan_to_num(x,nan=0.,posinf=0.,neginf=0.)
-        source=linear_analytic_filter(clean,self.analysis.phase_kernels[:ns])
+        source,source_frequency,phase_guards=self._source_analysis(clean)
         envelope=linear_analytic_filter(clean,self.analysis.amplitude_kernels[ns:]).abs()
         amplitude=source.abs(); phase=source/amplitude.clamp_min(1e-12)
         out=clean.new_zeros(b,c,patches,ns,nt,self.harmonics,dtype=torch.complex64)
@@ -172,8 +222,8 @@ class PACCurveOperator(nn.Module):
                 order=int(self.harmonic_support[i,j].sum())
                 if order==0:
                     continue
-                guard=max(int(self.analysis.phase_guard[i]),int(self.analysis.amplitude_guard[ns+j]))
-                mask=((times>=guard)&(times<length-guard))[None,None,:]&finite[...,None]
+                guard=phase_guards[:,:,i].clamp_min(int(self.analysis.amplitude_guard[ns+j]))
+                mask=(times>=guard[...,None])&(times<length-guard[...,None])&finite[...,None]
                 mask=mask&(amplitude[:,:,i]>rms[...,None]*1e-4)
                 if not bool(mask.any()):
                     continue
@@ -224,4 +274,4 @@ class PACCurveOperator(nn.Module):
                     baseline[:,:,p,i,j]=torch.where(local_good,local_fit['baseline'],baseline[:,:,p,i,j])
                     condition[:,:,p,i,j]=torch.where(local_good,local_fit['condition'],condition[:,:,p,i,j])
         return PACCurveMeasurement(out,baseline,valid,local_valid,global_valid,phase,
-                                   self.harmonic_support,cycles_out,condition,predictive_gain)
+                                   self.harmonic_support,cycles_out,condition,predictive_gain,source_frequency)

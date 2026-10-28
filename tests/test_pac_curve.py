@@ -74,3 +74,14 @@ def test_local_mixed_validity_has_finite_gradient():
     result=PACCurveOperator(local=True)(x)
     (result.coef.abs().sum()+result.baseline.sum()).backward()
     assert bool(torch.isfinite(x.grad).all())
+
+
+def test_frequency_refinement_is_signal_derived_and_batched():
+    torch.set_num_threads(4);t=torch.arange(1000)/200
+    phi=2*math.pi*3.27*t
+    x=(.8*torch.cos(phi)+(1+.5*torch.cos(2*phi-.4))*torch.cos(2*math.pi*32*t))[None,None]
+    op=PACCurveOperator(refine_phase=True)
+    a=op(x);b=op(torch.cat([x,x*3]))
+    assert abs(float(a.source_frequency[0,0,1])-3.27)<.03
+    torch.testing.assert_close(a.coef,b.coef[:1],rtol=2e-5,atol=2e-5)
+    assert bool(a.valid[0,0,10,1,2])
