@@ -23,7 +23,7 @@ SOURCE=np.array([2.,3.,4.,5.,6.,8.])
 TARGET=np.array([18.,24.,32.,40.,48.])
 CONDITIONS=('single20','single10','offgrid','double10','mixed10','aac_only',
             'independent','pac_aac','chirp','transient','nonsinusoidal')
-SPLIT_SEEDS={'dev':210000,'calibration':310000,'final':410000,'confirm':510000}
+SPLIT_SEEDS={'dev':210000,'calibration':310000,'final':410000,'confirm':510000,'release':810000}
 
 
 def generate(seed: int, condition: str, seconds: float=5.) -> dict:
