@@ -1,0 +1,293 @@
+{
+  "protocol": "capabilities-v1",
+  "arguments": {
+    "suite": "recovery",
+    "split": "dev",
+    "cases": 32,
+    "threads": 3,
+    "output": "/Users/mr.z/CFM4EEG-rebuild-20261021/review/cfc-capabilities-20261029/recovery-dev"
+  },
+  "specifications": [
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "depth/0.0",
+      "depth": 0.0,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "depth/0.02",
+      "depth": 0.02,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "depth/0.05",
+      "depth": 0.05,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "depth/0.1",
+      "depth": 0.1,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "depth/0.25",
+      "depth": 0.25,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "depth/0.5",
+      "depth": 0.5,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "snr/0.0",
+      "depth": 0.25,
+      "snr_db": 0.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "snr/5.0",
+      "depth": 0.25,
+      "snr_db": 5.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "snr/10.0",
+      "depth": 0.25,
+      "snr_db": 10.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "snr/20.0",
+      "depth": 0.25,
+      "snr_db": 20.0,
+      "shape": "single"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/0",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 0.0
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/1",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 0.7853981633974483
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/2",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 1.5707963267948966
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/3",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 2.356194490192345
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/4",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 3.141592653589793
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/5",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 3.9269908169872414
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/6",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 4.71238898038469
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "phase/7",
+      "depth": 0.4,
+      "snr_db": 10.0,
+      "shape": "single",
+      "theta": 5.497787143782138
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "double",
+      "depth": 0.5,
+      "snr_db": 10.0,
+      "shape": "double"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "mixed",
+      "depth": 0.5,
+      "snr_db": 10.0,
+      "shape": "mixed"
+    },
+    {
+      "seconds": 10,
+      "source": 2,
+      "target": 2,
+      "group": "nonlinear",
+      "depth": 0.5,
+      "snr_db": 10.0,
+      "shape": "nonlinear"
+    }
+  ],
+  "operator_configs": {
+    "h1": {
+      "source_hz": [
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        8.0
+      ],
+      "target_hz": [
+        18.0,
+        24.0,
+        32.0,
+        40.0,
+        48.0
+      ],
+      "sample_rate": 200,
+      "patch_len": 50,
+      "passband": [
+        0.5,
+        75.0
+      ],
+      "excluded_intervals": [
+        [
+          56.0,
+          64.0
+        ]
+      ],
+      "harmonics": 1,
+      "control_amplitude": false,
+      "local": false,
+      "ridge": 0.001,
+      "local_ridge": 0.05,
+      "amplitude_floor": 0.02,
+      "phase_cycles": 9.0,
+      "refine_phase": true,
+      "confidence_folds": "cycles"
+    },
+    "curve": {
+      "source_hz": [
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        8.0
+      ],
+      "target_hz": [
+        18.0,
+        24.0,
+        32.0,
+        40.0,
+        48.0
+      ],
+      "sample_rate": 200,
+      "patch_len": 50,
+      "passband": [
+        0.5,
+        75.0
+      ],
+      "excluded_intervals": [
+        [
+          56.0,
+          64.0
+        ]
+      ],
+      "harmonics": 2,
+      "control_amplitude": false,
+      "local": false,
+      "ridge": 0.001,
+      "local_ridge": 0.05,
+      "amplitude_floor": 0.02,
+      "phase_cycles": 9.0,
+      "refine_phase": true,
+      "confidence_folds": "cycles"
+    }
+  },
+  "notes": "Raw input only. Zero modulation fallback for invalid fits; coverage reported separately.",
+  "python": "3.12.4 (v3.12.4:8e8a4baf65, Jun  6 2024, 17:33:18) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "numpy": "2.5.1",
+  "torch": "2.14.1",
+  "operator_sha256": "fecf29e28a2f16b366c82a197a79820f82d0a52c43c5c30568d7fdbc2a427597",
+  "evaluator_sha256": "12ba7a0e7baf2e4e49a633b965107b4bdd47630e997a784fc04bc76ee2bfe6eb"
+}

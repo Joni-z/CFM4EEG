@@ -1,0 +1,7 @@
+{
+  "records": 16,
+  "fields": 11,
+  "default_results": "bit-identical",
+  "checkpoint_load": "passed",
+  "reference_sha256": "fecf29e28a2f16b366c82a197a79820f82d0a52c43c5c30568d7fdbc2a427597"
+}

@@ -1,0 +1,16 @@
+{
+  "distinct_raw_records": {
+    "null-calibration": 512,
+    "recovery-confirm": 2688,
+    "grid-confirm": 2880,
+    "null-confirm": 1024,
+    "local-confirm": 64
+  },
+  "total_distinct": 7168,
+  "duplicate_raw_across_suites": 0,
+  "local_paired_mean_improvement": 0.10594711448153991,
+  "local_paired_bootstrap_ci95": [
+    0.10350503891498862,
+    0.1085069641283368
+  ]
+}

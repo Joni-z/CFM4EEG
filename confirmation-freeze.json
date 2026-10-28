@@ -1,0 +1,13 @@
+{
+  "source_commit": "de0d59a",
+  "decision": "Confirm current baseline and opt-in candidate; do not replace default based on development results.",
+  "changes_after_freeze": "No generator/operator changes before confirmation.",
+  "cases": {
+    "recovery": 128,
+    "grid": 16,
+    "null": 512,
+    "local": 64
+  },
+  "target": "Truth recovery, coverage, calibrated detection, local error including fallback.",
+  "caveat": "Candidate lowers weak/single harmonic noise on development but slightly worsens double/mixed recovery; grid-average gain is negligible."
+}

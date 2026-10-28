@@ -1,0 +1,87 @@
+{
+  "suite": "null",
+  "split": "calibration",
+  "cases_per_group": 256,
+  "records": 1536,
+  "seconds": 20.101189374923706,
+  "groups": {
+    "adaptive/aac": {
+      "n": 256,
+      "valid_fraction": 1.0,
+      "curve_rmse_all": 0.027992488827106365,
+      "curve_rmse_valid": 0.027992488827106365,
+      "depth1_mae_valid": 0.034294018175387464,
+      "depth2_mae_valid": 0.01185231466487835,
+      "phase1_mae_deg_valid": null,
+      "phase2_mae_deg_valid": null,
+      "pair_top1_fraction": 0.0234375,
+      "mean_source_hz_error": 0.004587185103519463,
+      "predictive_score_mean": 0.01908646197989583
+    },
+    "adaptive/independent": {
+      "n": 256,
+      "valid_fraction": 1.0,
+      "curve_rmse_all": 0.027477207813827793,
+      "curve_rmse_valid": 0.027477207813827793,
+      "depth1_mae_valid": 0.03314629320266249,
+      "depth2_mae_valid": 0.012064315544989768,
+      "phase1_mae_deg_valid": null,
+      "phase2_mae_deg_valid": null,
+      "pair_top1_fraction": 0.0234375,
+      "mean_source_hz_error": 0.004977731886717247,
+      "predictive_score_mean": 0.01934251352213323
+    },
+    "curve/aac": {
+      "n": 256,
+      "valid_fraction": 1.0,
+      "curve_rmse_all": 0.03570184796837875,
+      "curve_rmse_valid": 0.03570184796837875,
+      "depth1_mae_valid": 0.03429211682123423,
+      "depth2_mae_valid": 0.033198468436239637,
+      "phase1_mae_deg_valid": null,
+      "phase2_mae_deg_valid": null,
+      "pair_top1_fraction": 0.02734375,
+      "mean_source_hz_error": 0.004587185103519463,
+      "predictive_score_mean": 0.01696798554621637
+    },
+    "curve/independent": {
+      "n": 256,
+      "valid_fraction": 1.0,
+      "curve_rmse_all": 0.03582467082673516,
+      "curve_rmse_valid": 0.03582467082673516,
+      "depth1_mae_valid": 0.033147689014185744,
+      "depth2_mae_valid": 0.03418594950380793,
+      "phase1_mae_deg_valid": null,
+      "phase2_mae_deg_valid": null,
+      "pair_top1_fraction": 0.01953125,
+      "mean_source_hz_error": 0.004977731886717247,
+      "predictive_score_mean": 0.016531656496226788
+    },
+    "h1/aac": {
+      "n": 256,
+      "valid_fraction": 1.0,
+      "curve_rmse_all": 0.024243743254530152,
+      "curve_rmse_valid": 0.024243743254530152,
+      "depth1_mae_valid": 0.03429624205273285,
+      "depth2_mae_valid": 0.0,
+      "phase1_mae_deg_valid": null,
+      "phase2_mae_deg_valid": null,
+      "pair_top1_fraction": 0.01171875,
+      "mean_source_hz_error": 0.004587185103519463,
+      "predictive_score_mean": 0.015849801246076822
+    },
+    "h1/independent": {
+      "n": 256,
+      "valid_fraction": 1.0,
+      "curve_rmse_all": 0.023452995081948612,
+      "curve_rmse_valid": 0.023452995081948612,
+      "depth1_mae_valid": 0.03314543384476565,
+      "depth2_mae_valid": 0.0,
+      "phase1_mae_deg_valid": null,
+      "phase2_mae_deg_valid": null,
+      "pair_top1_fraction": 0.02734375,
+      "mean_source_hz_error": 0.004977731886717247,
+      "predictive_score_mean": 0.01658220076933503
+    }
+  }
+}

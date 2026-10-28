@@ -1,0 +1,666 @@
+{
+  "protocol": "capabilities-v2",
+  "detection": {
+    "h1": {
+      "threshold": 0.043717920780181885,
+      "calibration_records": 512,
+      "null_records": 1024,
+      "false_positives": 65,
+      "observed_fpr": 0.0634765625,
+      "fpr_wilson_ci95": [
+        0.05011335415358033,
+        0.08010269976416949
+      ]
+    },
+    "curve": {
+      "threshold": 0.044248878955841064,
+      "calibration_records": 512,
+      "null_records": 1024,
+      "false_positives": 73,
+      "observed_fpr": 0.0712890625,
+      "fpr_wilson_ci95": [
+        0.05707964573022763,
+        0.08870301124939693
+      ]
+    },
+    "adaptive": {
+      "threshold": 0.04795461893081665,
+      "calibration_records": 512,
+      "null_records": 1024,
+      "false_positives": 79,
+      "observed_fpr": 0.0771484375,
+      "fpr_wilson_ci95": [
+        0.062340154398843044,
+        0.09511745487718754
+      ]
+    }
+  },
+  "recovery": {
+    "h1": {
+      "depth/0.0": {
+        "n": 128,
+        "curve_rmse": 0.023451611657568164,
+        "true_pair_detection": 0.0,
+        "record_detection": 0.0703125,
+        "valid_fraction": 1.0
+      },
+      "depth/0.02": {
+        "n": 128,
+        "curve_rmse": 0.025334407342348417,
+        "true_pair_detection": 0.0,
+        "record_detection": 0.0859375,
+        "valid_fraction": 1.0
+      },
+      "depth/0.05": {
+        "n": 128,
+        "curve_rmse": 0.026875276103091053,
+        "true_pair_detection": 0.046875,
+        "record_detection": 0.1328125,
+        "valid_fraction": 1.0
+      },
+      "depth/0.1": {
+        "n": 128,
+        "curve_rmse": 0.026668273119355497,
+        "true_pair_detection": 0.3125,
+        "record_detection": 0.4453125,
+        "valid_fraction": 1.0
+      },
+      "depth/0.25": {
+        "n": 128,
+        "curve_rmse": 0.03782446767871796,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "depth/0.5": {
+        "n": 128,
+        "curve_rmse": 0.0768494118493707,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "double": {
+        "n": 128,
+        "curve_rmse": 0.3544898853329169,
+        "true_pair_detection": 0.0,
+        "record_detection": 0.171875,
+        "valid_fraction": 1.0
+      },
+      "mixed": {
+        "n": 128,
+        "curve_rmse": 0.1817244347692515,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "nonlinear": {
+        "n": 128,
+        "curve_rmse": 0.08634046624856268,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/0": {
+        "n": 128,
+        "curve_rmse": 0.05725679965344254,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/1": {
+        "n": 128,
+        "curve_rmse": 0.05675761584900997,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/2": {
+        "n": 128,
+        "curve_rmse": 0.06041362607392146,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/3": {
+        "n": 128,
+        "curve_rmse": 0.05953315850362409,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/4": {
+        "n": 128,
+        "curve_rmse": 0.0575365577563096,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/5": {
+        "n": 128,
+        "curve_rmse": 0.056565059674185375,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/6": {
+        "n": 128,
+        "curve_rmse": 0.057266235869618945,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/7": {
+        "n": 128,
+        "curve_rmse": 0.061223565092703644,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "snr/0.0": {
+        "n": 128,
+        "curve_rmse": 0.136075483098089,
+        "true_pair_detection": 0.0390625,
+        "record_detection": 0.1328125,
+        "valid_fraction": 1.0
+      },
+      "snr/10.0": {
+        "n": 128,
+        "curve_rmse": 0.03779001362554084,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "snr/20.0": {
+        "n": 128,
+        "curve_rmse": 0.012055561567585114,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "snr/5.0": {
+        "n": 128,
+        "curve_rmse": 0.0769328821232662,
+        "true_pair_detection": 0.625,
+        "record_detection": 0.78125,
+        "valid_fraction": 1.0
+      }
+    },
+    "curve": {
+      "depth/0.0": {
+        "n": 128,
+        "curve_rmse": 0.0359035802589078,
+        "true_pair_detection": 0.0,
+        "record_detection": 0.0625,
+        "valid_fraction": 1.0
+      },
+      "depth/0.02": {
+        "n": 128,
+        "curve_rmse": 0.037520255134738646,
+        "true_pair_detection": 0.0,
+        "record_detection": 0.1171875,
+        "valid_fraction": 1.0
+      },
+      "depth/0.05": {
+        "n": 128,
+        "curve_rmse": 0.037579301753492375,
+        "true_pair_detection": 0.046875,
+        "record_detection": 0.1484375,
+        "valid_fraction": 1.0
+      },
+      "depth/0.1": {
+        "n": 128,
+        "curve_rmse": 0.03756961902679781,
+        "true_pair_detection": 0.1953125,
+        "record_detection": 0.4375,
+        "valid_fraction": 1.0
+      },
+      "depth/0.25": {
+        "n": 128,
+        "curve_rmse": 0.046952533377387855,
+        "true_pair_detection": 0.9921875,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "depth/0.5": {
+        "n": 128,
+        "curve_rmse": 0.08108954031647361,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "double": {
+        "n": 128,
+        "curve_rmse": 0.11583876557022432,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "mixed": {
+        "n": 128,
+        "curve_rmse": 0.07013346123143718,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "nonlinear": {
+        "n": 128,
+        "curve_rmse": 0.07985889412633627,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/0": {
+        "n": 128,
+        "curve_rmse": 0.0640849232020379,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/1": {
+        "n": 128,
+        "curve_rmse": 0.06373277702038974,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/2": {
+        "n": 128,
+        "curve_rmse": 0.06631388439228399,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/3": {
+        "n": 128,
+        "curve_rmse": 0.06600284498816715,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/4": {
+        "n": 128,
+        "curve_rmse": 0.06387047285764348,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/5": {
+        "n": 128,
+        "curve_rmse": 0.0629891553408957,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/6": {
+        "n": 128,
+        "curve_rmse": 0.06262249072509532,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/7": {
+        "n": 128,
+        "curve_rmse": 0.067170827963604,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "snr/0.0": {
+        "n": 128,
+        "curve_rmse": 0.14278052593375115,
+        "true_pair_detection": 0.03125,
+        "record_detection": 0.125,
+        "valid_fraction": 1.0
+      },
+      "snr/10.0": {
+        "n": 128,
+        "curve_rmse": 0.045314429166485634,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "snr/20.0": {
+        "n": 128,
+        "curve_rmse": 0.014912643371409469,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "snr/5.0": {
+        "n": 128,
+        "curve_rmse": 0.08484243709597777,
+        "true_pair_detection": 0.421875,
+        "record_detection": 0.765625,
+        "valid_fraction": 1.0
+      }
+    },
+    "adaptive": {
+      "depth/0.0": {
+        "n": 128,
+        "curve_rmse": 0.027502360333616506,
+        "true_pair_detection": 0.0,
+        "record_detection": 0.0625,
+        "valid_fraction": 1.0
+      },
+      "depth/0.02": {
+        "n": 128,
+        "curve_rmse": 0.029305196844474544,
+        "true_pair_detection": 0.0,
+        "record_detection": 0.1171875,
+        "valid_fraction": 1.0
+      },
+      "depth/0.05": {
+        "n": 128,
+        "curve_rmse": 0.030446720692605587,
+        "true_pair_detection": 0.0625,
+        "record_detection": 0.1328125,
+        "valid_fraction": 1.0
+      },
+      "depth/0.1": {
+        "n": 128,
+        "curve_rmse": 0.030173390517335967,
+        "true_pair_detection": 0.2578125,
+        "record_detection": 0.4140625,
+        "valid_fraction": 1.0
+      },
+      "depth/0.25": {
+        "n": 128,
+        "curve_rmse": 0.04082554403459064,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "depth/0.5": {
+        "n": 128,
+        "curve_rmse": 0.07787627088001592,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "double": {
+        "n": 128,
+        "curve_rmse": 0.11737337198627815,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "mixed": {
+        "n": 128,
+        "curve_rmse": 0.07254112915214214,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "nonlinear": {
+        "n": 128,
+        "curve_rmse": 0.08071836833205791,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/0": {
+        "n": 128,
+        "curve_rmse": 0.059067052493031375,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/1": {
+        "n": 128,
+        "curve_rmse": 0.05886504868912282,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/2": {
+        "n": 128,
+        "curve_rmse": 0.06204383504513422,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/3": {
+        "n": 128,
+        "curve_rmse": 0.0616101284711038,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/4": {
+        "n": 128,
+        "curve_rmse": 0.059495678510502914,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/5": {
+        "n": 128,
+        "curve_rmse": 0.05835743922882533,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/6": {
+        "n": 128,
+        "curve_rmse": 0.058826140822570996,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "phase/7": {
+        "n": 128,
+        "curve_rmse": 0.0632733518283427,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "snr/0.0": {
+        "n": 128,
+        "curve_rmse": 0.13873993406834978,
+        "true_pair_detection": 0.03125,
+        "record_detection": 0.1484375,
+        "valid_fraction": 1.0
+      },
+      "snr/10.0": {
+        "n": 128,
+        "curve_rmse": 0.03965165591329059,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "snr/20.0": {
+        "n": 128,
+        "curve_rmse": 0.01301935076383184,
+        "true_pair_detection": 1.0,
+        "record_detection": 1.0,
+        "valid_fraction": 1.0
+      },
+      "snr/5.0": {
+        "n": 128,
+        "curve_rmse": 0.07866731438128206,
+        "true_pair_detection": 0.59375,
+        "record_detection": 0.765625,
+        "valid_fraction": 1.0
+      }
+    }
+  },
+  "grid": {
+    "h1": {
+      "5s/single": {
+        "n": 480,
+        "valid_fraction": 0.6666666666666666,
+        "truth_supported_and_valid_fraction": 0.6666666666666666,
+        "curve_rmse_all": 0.13376666774197374,
+        "curve_rmse_supported_valid": 0.05918667382526675,
+        "nearest_anchor_top1": 0.29583333333333334
+      },
+      "5s/double": {
+        "n": 480,
+        "valid_fraction": 0.6666666666666666,
+        "truth_supported_and_valid_fraction": 0.0,
+        "curve_rmse_all": 0.2846798150345279,
+        "curve_rmse_supported_valid": null,
+        "nearest_anchor_top1": 0.01875
+      },
+      "10s/single": {
+        "n": 480,
+        "valid_fraction": 0.8333333333333334,
+        "truth_supported_and_valid_fraction": 0.8333333333333334,
+        "curve_rmse_all": 0.09752684490126488,
+        "curve_rmse_supported_valid": 0.06047650703238624,
+        "nearest_anchor_top1": 0.425
+      },
+      "10s/double": {
+        "n": 480,
+        "valid_fraction": 0.8333333333333334,
+        "truth_supported_and_valid_fraction": 0.0,
+        "curve_rmse_all": 0.2839269891331472,
+        "curve_rmse_supported_valid": null,
+        "nearest_anchor_top1": 0.014583333333333334
+      },
+      "20s/single": {
+        "n": 480,
+        "valid_fraction": 0.8333333333333334,
+        "truth_supported_and_valid_fraction": 0.8333333333333334,
+        "curve_rmse_all": 0.09900369718249408,
+        "curve_rmse_supported_valid": 0.06224633140911123,
+        "nearest_anchor_top1": 0.4375
+      },
+      "20s/double": {
+        "n": 480,
+        "valid_fraction": 0.8333333333333334,
+        "truth_supported_and_valid_fraction": 0.0,
+        "curve_rmse_all": 0.28331033875082917,
+        "curve_rmse_supported_valid": null,
+        "nearest_anchor_top1": 0.016666666666666666
+      }
+    },
+    "curve": {
+      "5s/single": {
+        "n": 480,
+        "valid_fraction": 0.6666666666666666,
+        "truth_supported_and_valid_fraction": 0.6666666666666666,
+        "curve_rmse_all": 0.13714815300845778,
+        "curve_rmse_supported_valid": 0.06425890172499285,
+        "nearest_anchor_top1": 0.3125
+      },
+      "5s/double": {
+        "n": 480,
+        "valid_fraction": 0.6666666666666666,
+        "truth_supported_and_valid_fraction": 0.2,
+        "curve_rmse_all": 0.24569886569885177,
+        "curve_rmse_supported_valid": 0.09087493065587467,
+        "nearest_anchor_top1": 0.14583333333333334
+      },
+      "10s/single": {
+        "n": 480,
+        "valid_fraction": 0.8333333333333334,
+        "truth_supported_and_valid_fraction": 0.8333333333333334,
+        "curve_rmse_all": 0.10054932565484753,
+        "curve_rmse_supported_valid": 0.06410348393668538,
+        "nearest_anchor_top1": 0.4166666666666667
+      },
+      "10s/double": {
+        "n": 480,
+        "valid_fraction": 0.8333333333333334,
+        "truth_supported_and_valid_fraction": 0.36666666666666664,
+        "curve_rmse_all": 0.21724655325772343,
+        "curve_rmse_supported_valid": 0.10273319038445715,
+        "nearest_anchor_top1": 0.22916666666666666
+      },
+      "20s/single": {
+        "n": 480,
+        "valid_fraction": 0.8333333333333334,
+        "truth_supported_and_valid_fraction": 0.8333333333333334,
+        "curve_rmse_all": 0.10018403907511468,
+        "curve_rmse_supported_valid": 0.06366274168025596,
+        "nearest_anchor_top1": 0.42916666666666664
+      },
+      "20s/double": {
+        "n": 480,
+        "valid_fraction": 0.8333333333333334,
+        "truth_supported_and_valid_fraction": 0.36666666666666664,
+        "curve_rmse_all": 0.22010687251494174,
+        "curve_rmse_supported_valid": 0.11113446945860811,
+        "nearest_anchor_top1": 0.24791666666666667
+      }
+    },
+    "adaptive": {
+      "5s/single": {
+        "n": 480,
+        "valid_fraction": 0.6666666666666666,
+        "truth_supported_and_valid_fraction": 0.6666666666666666,
+        "curve_rmse_all": 0.13460505567385764,
+        "curve_rmse_supported_valid": 0.06044425572309261,
+        "nearest_anchor_top1": 0.29375
+      },
+      "5s/double": {
+        "n": 480,
+        "valid_fraction": 0.6666666666666666,
+        "truth_supported_and_valid_fraction": 0.2,
+        "curve_rmse_all": 0.24752493536776649,
+        "curve_rmse_supported_valid": 0.10000527900044827,
+        "nearest_anchor_top1": 0.15
+      },
+      "10s/single": {
+        "n": 480,
+        "valid_fraction": 0.8333333333333334,
+        "truth_supported_and_valid_fraction": 0.8333333333333334,
+        "curve_rmse_all": 0.09842328541621015,
+        "curve_rmse_supported_valid": 0.061552235650320544,
+        "nearest_anchor_top1": 0.42916666666666664
+      },
+      "10s/double": {
+        "n": 480,
+        "valid_fraction": 0.8333333333333334,
+        "truth_supported_and_valid_fraction": 0.36666666666666664,
+        "curve_rmse_all": 0.21914810726452855,
+        "curve_rmse_supported_valid": 0.10791924676665282,
+        "nearest_anchor_top1": 0.23125
+      },
+      "20s/single": {
+        "n": 480,
+        "valid_fraction": 0.8333333333333334,
+        "truth_supported_and_valid_fraction": 0.8333333333333334,
+        "curve_rmse_all": 0.09934683328146537,
+        "curve_rmse_supported_valid": 0.0626580947278768,
+        "nearest_anchor_top1": 0.43333333333333335
+      },
+      "20s/double": {
+        "n": 480,
+        "valid_fraction": 0.8333333333333334,
+        "truth_supported_and_valid_fraction": 0.36666666666666664,
+        "curve_rmse_all": 0.22075258293214695,
+        "curve_rmse_supported_valid": 0.11289549786916762,
+        "nearest_anchor_top1": 0.24791666666666667
+      }
+    }
+  },
+  "local": {
+    "global": {
+      "all_anchor_error": 0.29208662497808296,
+      "fallback_error": 0.29208662497808296,
+      "local_fraction": 0.0
+    },
+    "local": {
+      "all_anchor_error": 0.18613951049654304,
+      "local_valid_error": 0.13372899031869148,
+      "fallback_error": 0.3084307242448633,
+      "local_fraction": 0.7000000000000001
+    }
+  },
+  "paired_recovery_curve_to_adaptive": {
+    "mean_reduction": 0.004224003803096734,
+    "paired_record_bootstrap_ci95": [
+      0.004052406778135253,
+      0.004397919470740008
+    ],
+    "unit": "Independent signal record; resampled within fixed scenario, then macro-averaged"
+  },
+  "notes": [
+    "Detection uses independent-record calibration and confirmation; scores are not p-values.",
+    "Nearest-anchor top-1 is diagnostic: overlapping amplitude filters need not identify a unique carrier.",
+    "Unsupported second harmonics remain in all-record errors and are separately marked.",
+    "H1 is an internal expressivity control, not a strong competing PAC estimator."
+  ]
+}
