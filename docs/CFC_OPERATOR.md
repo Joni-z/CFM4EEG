@@ -92,6 +92,24 @@ record-level false positives, observed rates are 3.7% / 4.6% and sensitivities
 87.6% / 100%. These apply to the declared synthetic conditions, including
 modulation depths at least 0.2 and 10/20 dB noise, not arbitrary EEG recordings.
 
+The 71.1% total reduction combines a larger phase-function class with improved
+frequency extraction. Double/mixed-harmonic conditions account for 95.2% of the
+absolute gain. The remaining five conditions improve from 0.02913 to 0.02439
+(16.3%); chirp error slightly increases. This is not a 71% same-order precision
+improvement.
+
+The added factorial controls hold q=9, context and regression settings fixed:
+
+| Phase function | Fixed phase-filter centers | Signal-refined centers |
+|---|---:|---:|
+| First harmonic | 0.105757 | 0.094645 |
+| First + second harmonics | 0.051304 | 0.028812 |
+
+Refinement reduces aggregate error by 10.5% within the first-harmonic model and
+43.8% within the two-harmonic model. These are diagnostic comparisons on the
+already exposed release signals, with the frozen operator and no new selection.
+See [full comparisons](../review/CFC_OPERATOR_CONTROLS_20261028.json).
+
 Nonlinear-envelope and simultaneous-two-carrier challenges reduce RMSE from
 0.07777 to 0.03906 and 0.05586 to 0.04408. A separate 200-record, 10-second
 time-varying-phase challenge reduces coefficient error from 0.29441 to 0.05029
@@ -101,6 +119,44 @@ Non-sinusoidal oscillations and common transients remain interpretation stress
 cases. Their statistical dependencies must not be relabeled independent nulls.
 This validation does not identify physiological interaction or establish
 clinical prediction gains.
+
+Static support is 25/30 pairs for the first harmonic and 11/30 for the second;
+actual validity also depends on record length and signal quality. A 2 Hz source
+is unavailable in a 5-second record at the default q=9 after filter guards, but
+can be measured in a sufficiently long record. The principal benchmark mainly
+tests a 32 Hz target. A wider frequency/length map and difficult coupled
+amplitude/phase confounds remain untested.
+
+## Public evidence and full reproduction
+
+The [actual execution snapshot](https://github.com/Joni-z/CFM4EEG/tree/cfc-operator-v2-source-20261028)
+is commit `b2e9e80`. Its operator, original benchmark and tests are byte-identical
+to the files published in `5d5839c`.
+The [evidence tag](https://github.com/Joni-z/CFM4EEG/tree/cfc-operator-v2-evidence-20261028)
+contains compressed per-record estimates, settings, original scripts, audits,
+and a SHA-256 manifest, outside the main source branch.
+
+To recompute calibration, intervals and factorial effects from downloaded
+evidence, or rerun the signals from scratch:
+
+```bash
+python -m scripts.experiments.cfc_operator_reproduce summarize \
+  --root /path/to/extracted-evidence
+python -m scripts.experiments.cfc_operator_reproduce run \
+  --root /path/to/new-outputs --cases 500 --calibration-cases 200
+python -m scripts.experiments.cfc_operator_numpy_audit \
+  --output /path/to/new-outputs/numpy-audit.json
+python -m scripts.experiments.cfc_operator_challenges generalization \
+  --output /path/to/new-outputs/generalization.json --cases 200
+python -m scripts.experiments.cfc_operator_challenges time-varying \
+  --output /path/to/new-outputs/time-varying.json --cases 200
+```
+
+The portable numerical audit reproduces all 44 original case results; both
+secondary challenge summaries reproduce their recorded numbers exactly.
+Calibration uses independent records. Filtering and peak estimation inside a
+record precede cycle splitting, so `predictive_gain` is an internal consistency
+score, not independent-trial generalization or a p-value.
 
 ## Tokenizer boundary
 

@@ -270,5 +270,13 @@
     "refine_phase": true,
     "confidence_folds": "cycles"
   },
-  "artifact_workspace": "/Users/mr.z/CFM4EEG-rebuild-20261021/maintenance/autoresearch-cfc-v2-20261028"
+  "artifact_workspace": "/Users/mr.z/CFM4EEG-rebuild-20261021/maintenance/autoresearch-cfc-v2-20261028",
+  "public_source_tag": "cfc-operator-v2-source-20261028",
+  "public_evidence_tag": "cfc-operator-v2-evidence-20261028",
+  "public_source_file_sha256": {
+    "paclock_bench/models/paclock/frontend/measurement_curve.py": "fecf29e28a2f16b366c82a197a79820f82d0a52c43c5c30568d7fdbc2a427597",
+    "scripts/experiments/cfc_operator_benchmark.py": "b46ddd87d416f10f3dfda2a084fa4adfe57d20e23cd32976356e38730f704678",
+    "tests/test_pac_curve.py": "c116feec4f3c4d3874e959b27bd0002a3c8fad132f38d1465c291d822f03c9fd"
+  },
+  "public_evidence_commit": "5968f732b1948f2ed30c2c7ccfd2da4286f89442"
 }
