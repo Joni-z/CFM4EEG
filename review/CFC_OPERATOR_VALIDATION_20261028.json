@@ -1,0 +1,274 @@
+{
+  "source_commit": "b2e9e80c48eee5d93e0d15d22fc665772276f2e1",
+  "evaluation_unit": "independently generated complete record; paired and condition-stratified",
+  "seed_selection": "development only; calibration and final were evaluated after freeze",
+  "final_records_per_arm": 5500,
+  "positive_records_per_arm": 3500,
+  "baseline_mean_curve_rmse": 0.09962993051698596,
+  "new_mean_curve_rmse": 0.028811862823044734,
+  "paired_rmse_reduction_95_interval": [
+    0.0697163934479389,
+    0.07189721964451913
+  ],
+  "per_condition": {
+    "chirp": {
+      "n": 500,
+      "baseline_rmse": 0.037887788921889314,
+      "new_rmse": 0.04024894805248743,
+      "relative_reduction": -0.062319792149020836,
+      "new_valid_fraction": 1.0,
+      "new_depth1_mae": 0.019508055085955035,
+      "new_depth2_mae": 0.01156953459768556,
+      "new_phase1_mae_deg": 3.274821469618196
+    },
+    "double10": {
+      "n": 500,
+      "baseline_rmse": 0.3400426968561061,
+      "new_rmse": 0.042453365832422166,
+      "relative_reduction": 0.8751528374967955,
+      "new_valid_fraction": 1.0,
+      "new_depth1_mae": 0.0270514610625105,
+      "new_depth2_mae": 0.02057649199936337,
+      "new_phase1_mae_deg": null
+    },
+    "mixed10": {
+      "n": 500,
+      "baseline_rmse": 0.21173516082984584,
+      "new_rmse": 0.037282759211473934,
+      "relative_reduction": 0.8239179592782182,
+      "new_valid_fraction": 1.0,
+      "new_depth1_mae": 0.01744130208590938,
+      "new_depth2_mae": 0.019088626431557492,
+      "new_phase1_mae_deg": 3.9170690695648736
+    },
+    "offgrid": {
+      "n": 500,
+      "baseline_rmse": 0.015657176274895216,
+      "new_rmse": 0.008964704042030723,
+      "relative_reduction": 0.42743800768183415,
+      "new_valid_fraction": 1.0,
+      "new_depth1_mae": 0.0052858292145794876,
+      "new_depth2_mae": 0.003013068871689029,
+      "new_phase1_mae_deg": 0.8781253535410615
+    },
+    "pac_aac": {
+      "n": 500,
+      "baseline_rmse": 0.03998799560985141,
+      "new_rmse": 0.0346976760453664,
+      "relative_reduction": 0.13229769294017057,
+      "new_valid_fraction": 1.0,
+      "new_depth1_mae": 0.028002494643006626,
+      "new_depth2_mae": 0.01310814533312805,
+      "new_phase1_mae_deg": 3.160389838769881
+    },
+    "single10": {
+      "n": 500,
+      "baseline_rmse": 0.03653347694644117,
+      "new_rmse": 0.02907972283986964,
+      "relative_reduction": 0.2040253140290722,
+      "new_valid_fraction": 1.0,
+      "new_depth1_mae": 0.019173135010117855,
+      "new_depth2_mae": 0.010154582389630377,
+      "new_phase1_mae_deg": 2.895304509474499
+    },
+    "single20": {
+      "n": 500,
+      "baseline_rmse": 0.015565218179872577,
+      "new_rmse": 0.008955863737662816,
+      "relative_reduction": 0.42462330857374897,
+      "new_valid_fraction": 1.0,
+      "new_depth1_mae": 0.005228562404824024,
+      "new_depth2_mae": 0.0034773015870014205,
+      "new_phase1_mae_deg": 0.9436157124636634
+    }
+  },
+  "baseline_detection": {
+    "calibration_records": 400,
+    "threshold": 0.10427653789520264,
+    "null_records": 1000,
+    "false_positives": 37,
+    "false_positive_rate": 0.037,
+    "false_positive_95_interval": [
+      0.026961180875554734,
+      0.05058239748206931
+    ],
+    "positive_records": 3500,
+    "true_positive_rate": 0.8762857142857143,
+    "true_pair_detection_rate": 0.8571428571428571,
+    "detection_auroc": 0.9588552857142857,
+    "by_condition": {
+      "chirp": {
+        "n": 500,
+        "record_detection": 1.0,
+        "true_pair_detection": 1.0
+      },
+      "double10": {
+        "n": 500,
+        "record_detection": 0.134,
+        "true_pair_detection": 0.0
+      },
+      "mixed10": {
+        "n": 500,
+        "record_detection": 1.0,
+        "true_pair_detection": 1.0
+      },
+      "offgrid": {
+        "n": 500,
+        "record_detection": 1.0,
+        "true_pair_detection": 1.0
+      },
+      "pac_aac": {
+        "n": 500,
+        "record_detection": 1.0,
+        "true_pair_detection": 1.0
+      },
+      "single10": {
+        "n": 500,
+        "record_detection": 1.0,
+        "true_pair_detection": 1.0
+      },
+      "single20": {
+        "n": 500,
+        "record_detection": 1.0,
+        "true_pair_detection": 1.0
+      }
+    },
+    "stress_above_threshold": {
+      "transient": 0.06,
+      "nonsinusoidal": 0.544
+    }
+  },
+  "new_detection": {
+    "calibration_records": 400,
+    "threshold": 0.09490203857421875,
+    "null_records": 1000,
+    "false_positives": 46,
+    "false_positive_rate": 0.046,
+    "false_positive_95_interval": [
+      0.03466249276326498,
+      0.06081220394161907
+    ],
+    "positive_records": 3500,
+    "true_positive_rate": 1.0,
+    "true_pair_detection_rate": 1.0,
+    "detection_auroc": 1.0,
+    "by_condition": {
+      "chirp": {
+        "n": 500,
+        "record_detection": 1.0,
+        "true_pair_detection": 1.0
+      },
+      "double10": {
+        "n": 500,
+        "record_detection": 1.0,
+        "true_pair_detection": 1.0
+      },
+      "mixed10": {
+        "n": 500,
+        "record_detection": 1.0,
+        "true_pair_detection": 1.0
+      },
+      "offgrid": {
+        "n": 500,
+        "record_detection": 1.0,
+        "true_pair_detection": 1.0
+      },
+      "pac_aac": {
+        "n": 500,
+        "record_detection": 1.0,
+        "true_pair_detection": 1.0
+      },
+      "single10": {
+        "n": 500,
+        "record_detection": 1.0,
+        "true_pair_detection": 1.0
+      },
+      "single20": {
+        "n": 500,
+        "record_detection": 1.0,
+        "true_pair_detection": 1.0
+      }
+    },
+    "stress_above_threshold": {
+      "transient": 0.084,
+      "nonsinusoidal": 0.512
+    }
+  },
+  "scoring_scope": "All generated frequencies off grid; true pair selected by predeclared nearest physical source anchor. offgrid is an independent 20 dB repeat, not a new distribution.",
+  "untested": "No real EEG, clinical classification, or tokenizer utility validation in this operator-only run.",
+  "relative_rmse_reduction": 0.7108111721694659,
+  "independent_numpy_audit": {
+    "cases": 44,
+    "max_coefficient_error": 6.875134694883656e-08,
+    "max_baseline_error": 2.639163065865091e-07,
+    "max_phase_error": 3.2364345953399276e-07,
+    "max_frequency_error_hz": 3.817621259116777e-07,
+    "audit_source_sha256": "4ddf7e2c9797d18accda3adc3f8614f160fbc090a650baf3bf6f213192d504db"
+  },
+  "time_varying": {
+    "split": "confirm",
+    "records": 200,
+    "source_seconds": 10,
+    "mean_local_fraction": 0.689375,
+    "global_error": 0.29441080464788216,
+    "local_error": 0.05029033207869272,
+    "metric": "Complex coefficient error, local-valid anchors; full-record fallback is not relabeled local."
+  },
+  "secondary_generators": {
+    "nonlinear_envelope": {
+      "records": 200,
+      "measured_relations": 200,
+      "baseline_rmse": 0.07776903170063422,
+      "new_rmse": 0.03906351944400076,
+      "new_coverage": 1.0
+    },
+    "two_carriers": {
+      "records": 200,
+      "measured_relations": 400,
+      "baseline_rmse": 0.05585980755456888,
+      "new_rmse": 0.04408038205014961,
+      "new_coverage": 1.0
+    },
+    "scope": "Independent generators, all invalid measurements penalized; no parameter selection."
+  },
+  "operator_state_sha256": "cb375f641a561851ab2a175e864fe4499c6226e14d4d2de0d9dff6704e1805a4",
+  "configuration": {
+    "source_hz": [
+      2.0,
+      3.0,
+      4.0,
+      5.0,
+      6.0,
+      8.0
+    ],
+    "target_hz": [
+      18.0,
+      24.0,
+      32.0,
+      40.0,
+      48.0
+    ],
+    "sample_rate": 200,
+    "patch_len": 50,
+    "passband": [
+      0.5,
+      75.0
+    ],
+    "excluded_intervals": [
+      [
+        56.0,
+        64.0
+      ]
+    ],
+    "harmonics": 2,
+    "control_amplitude": false,
+    "local": false,
+    "ridge": 0.001,
+    "local_ridge": 0.05,
+    "amplitude_floor": 0.02,
+    "phase_cycles": 9.0,
+    "refine_phase": true,
+    "confidence_folds": "cycles"
+  },
+  "artifact_workspace": "/Users/mr.z/CFM4EEG-rebuild-20261021/maintenance/autoresearch-cfc-v2-20261028"
+}

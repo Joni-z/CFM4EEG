@@ -10,6 +10,10 @@ the two-axis encoder, waveform controls and optional measurement/copula frontend
 Filename `triaxial.py` also contains older axis options; the selected
 configuration determines the actual encoder.
 
+The standalone [CFC curve operator](../../../docs/CFC_OPERATOR.md) adds
+signal-derived phase-frequency refinement and first/second-harmonic regression.
+It does not replace any tokenizer frontend or historical checkpoint behavior.
+
 `tokenizer_mode: measured_pac` is a separate optional frontend. It uses fixed
 physical analysis anchors and first-harmonic phase-amplitude regression, then
 conditions the existing content tokens. Its source-dependent statistical
