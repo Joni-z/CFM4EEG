@@ -301,9 +301,12 @@ class PACCurveOperator(nn.Module):
                     local_fit=curve_regression(ph,amp,local_mask.float(),source_amp,order,
                         self.local_ridge,global_coef, self.amplitude_floor)
                     local_cycles=(torch.angle(steps)*(local_mask[...,1:]&local_mask[...,:-1])).sum(-1)/(2*math.pi)
-                    local_enough=(local_fit['count']-1)*self.analysis.phase_lower[i]/self.analysis.sample_rate>=2.98
-                    local_good=local_fit['valid']&local_enough&(local_cycles>=2.98)&good
+                    local_enough=(local_fit['count']-1)*lower/self.analysis.sample_rate>=2.98
+                    local_frequency=local_cycles*self.analysis.sample_rate/(local_fit['count']-1).clamp_min(1)
+                    local_good=(local_fit['valid']&local_enough&(local_cycles>=2.98)
+                                &(local_frequency>=lower)&(local_frequency<=upper))
                     local_valid[:,:,p,i,j]=local_good
+                    valid[:,:,p,i,j]=local_good|good
                     out[:,:,p,i,j,:order]=torch.where(local_good[...,None],local_fit['coef'],global_coef)
                     baseline[:,:,p,i,j]=torch.where(local_good,local_fit['baseline'],baseline[:,:,p,i,j])
                     condition[:,:,p,i,j]=torch.where(local_good,local_fit['condition'],condition[:,:,p,i,j])
