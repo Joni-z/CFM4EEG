@@ -110,7 +110,8 @@ class PACCurveOperator(nn.Module):
                  passband=(.5,75.), excluded_intervals=((56.,64.),),
                  harmonics: int = 2, control_amplitude: bool = True,
                  local: bool = True, ridge: float = 1e-3,
-                 local_ridge: float = .05, amplitude_floor: float = .02):
+                 local_ridge: float = .05, amplitude_floor: float = .02,
+                 phase_cycles: float = 5.):
         super().__init__()
         if harmonics not in (1,2):
             raise ValueError('harmonics must be 1 or 2')
@@ -122,7 +123,7 @@ class PACCurveOperator(nn.Module):
         self.amplitude_floor = amplitude_floor
         centers = tuple(source_hz)+tuple(target_hz)
         self.analysis = PhaseAmplitudeMeasurement(centers, sample_rate, patch_len,
-            passband=passband, excluded_intervals=excluded_intervals)
+            passband=passband, excluded_intervals=excluded_intervals,phase_cycles=phase_cycles)
         support = self.analysis.eligible[:self.n_source, self.n_source:, None].expand(-1,-1,harmonics).clone()
         for i in range(self.n_source):
             for j in range(self.n_target):

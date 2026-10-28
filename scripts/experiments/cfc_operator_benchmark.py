@@ -71,7 +71,7 @@ def evaluate(args):
     args.output.mkdir(parents=True,exist_ok=False)
     op=PACCurveOperator(harmonics=args.harmonics,control_amplitude=not args.no_amplitude,
                         local=args.local,ridge=args.ridge,local_ridge=args.local_ridge,
-                        amplitude_floor=args.amplitude_floor)
+                        amplitude_floor=args.amplitude_floor,phase_cycles=args.phase_cycles)
     records=[];start=time.monotonic()
     base=SPLIT_SEEDS[args.split]
     for ci,condition in enumerate(CONDITIONS):
@@ -142,4 +142,5 @@ if __name__=='__main__':
     parser.add_argument('--ridge',type=float,default=1e-3)
     parser.add_argument('--local-ridge',type=float,default=.05)
     parser.add_argument('--amplitude-floor',type=float,default=.02)
+    parser.add_argument('--phase-cycles',type=float,default=5.)
     evaluate(parser.parse_args())
