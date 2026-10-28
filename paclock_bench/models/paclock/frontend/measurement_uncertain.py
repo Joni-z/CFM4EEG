@@ -45,7 +45,7 @@ def coefficient_uncertainty(phase: Tensor, envelope: Tensor, mask: Tensor,
     buckets=torch.zeros(*score.shape[:-2],n,2*order,device=phase.device,dtype=torch.float64)
     buckets.scatter_add_(-2,groups[...,None].expand_as(score),score)
     # An observed cycle is measured from phase increments, not a nominal rate.
-    observed=torch.zeros_like(sizes)
+    observed=torch.zeros(*mask.shape[:-1],n,device=phase.device,dtype=torch.float64)
     observed.scatter_add_(-1,groups[...,1:],step.clamp_min(0).double()*
                          mask[...,1:]*mask[...,:-1]/(2*torch.pi))
     complete=observed>=.98
