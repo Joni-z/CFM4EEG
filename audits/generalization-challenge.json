@@ -1,0 +1,6021 @@
+{
+  "summary": {
+    "nonlinear_envelope": {
+      "records": 200,
+      "measured_relations": 200,
+      "baseline_rmse": 0.07776903170063422,
+      "new_rmse": 0.03906351944400076,
+      "new_coverage": 1.0
+    },
+    "two_carriers": {
+      "records": 200,
+      "measured_relations": 400,
+      "baseline_rmse": 0.05585980755456888,
+      "new_rmse": 0.04408038205014961,
+      "new_coverage": 1.0
+    },
+    "scope": "Independent generators, all invalid measurements penalized; no parameter selection."
+  },
+  "cases": [
+    {
+      "mode": "nonlinear_envelope",
+      "record": 0,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08822323060479038,
+      "new_valid": true,
+      "new_rmse": 0.03453392653845169
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 1,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06722815367088544,
+      "new_valid": true,
+      "new_rmse": 0.05572749683989566
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 2,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09686089016081555,
+      "new_valid": true,
+      "new_rmse": 0.05727952658517502
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 3,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10680139206192439,
+      "new_valid": true,
+      "new_rmse": 0.03535964389854109
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 4,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10578246648143692,
+      "new_valid": true,
+      "new_rmse": 0.04493046219089276
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 5,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06504979363425968,
+      "new_valid": true,
+      "new_rmse": 0.0431548509495413
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 6,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09023852654581356,
+      "new_valid": true,
+      "new_rmse": 0.03009156577920342
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 7,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07177990103801948,
+      "new_valid": true,
+      "new_rmse": 0.03312850015538111
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 8,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10384684564097284,
+      "new_valid": true,
+      "new_rmse": 0.018791616952593668
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 9,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.059368793538542755,
+      "new_valid": true,
+      "new_rmse": 0.04063017943819354
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 10,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04841962937953235,
+      "new_valid": true,
+      "new_rmse": 0.029464717243206224
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 11,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10424296338234777,
+      "new_valid": true,
+      "new_rmse": 0.035884551584638776
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 12,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.050400106886369325,
+      "new_valid": true,
+      "new_rmse": 0.02864530391929658
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 13,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04820613645388824,
+      "new_valid": true,
+      "new_rmse": 0.025806700884042834
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 14,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0813837676270869,
+      "new_valid": true,
+      "new_rmse": 0.033124430150918927
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 15,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04938311738241898,
+      "new_valid": true,
+      "new_rmse": 0.023695822918432002
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 16,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.1017139551877854,
+      "new_valid": true,
+      "new_rmse": 0.04117270594768746
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 17,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09494203804497896,
+      "new_valid": true,
+      "new_rmse": 0.026996462405731017
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 18,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.11554144099334053,
+      "new_valid": true,
+      "new_rmse": 0.05035080192614423
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 19,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09471375087167061,
+      "new_valid": true,
+      "new_rmse": 0.03007448485998106
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 20,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.061287347712547846,
+      "new_valid": true,
+      "new_rmse": 0.02891246492148829
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 21,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.047676357310240856,
+      "new_valid": true,
+      "new_rmse": 0.04485633817748003
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 22,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0550233861684006,
+      "new_valid": true,
+      "new_rmse": 0.02015873502025264
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 23,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07956459012007532,
+      "new_valid": true,
+      "new_rmse": 0.04101727365614321
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 24,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06637416852301989,
+      "new_valid": true,
+      "new_rmse": 0.027852568349843638
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 25,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05726182954346695,
+      "new_valid": true,
+      "new_rmse": 0.03956942761312828
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 26,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09986032789419685,
+      "new_valid": true,
+      "new_rmse": 0.044320911662459384
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 27,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.051918716466627,
+      "new_valid": true,
+      "new_rmse": 0.027854035947563895
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 28,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06948482251884718,
+      "new_valid": true,
+      "new_rmse": 0.05457036838778974
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 29,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08253209480335054,
+      "new_valid": true,
+      "new_rmse": 0.023419556287890917
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 30,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09817297842778122,
+      "new_valid": true,
+      "new_rmse": 0.030856932399841164
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 31,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.048597092515623316,
+      "new_valid": true,
+      "new_rmse": 0.027821402000143092
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 32,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07262627825208853,
+      "new_valid": true,
+      "new_rmse": 0.04589513867168265
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 33,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05114837537523051,
+      "new_valid": true,
+      "new_rmse": 0.03837388495919862
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 34,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.11325308382555332,
+      "new_valid": true,
+      "new_rmse": 0.05980484854295426
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 35,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08447798847306484,
+      "new_valid": true,
+      "new_rmse": 0.048737723900475274
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 36,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0857435123239312,
+      "new_valid": true,
+      "new_rmse": 0.029242257875833857
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 37,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0771634837770858,
+      "new_valid": true,
+      "new_rmse": 0.04263753009675344
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 38,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05579952104543955,
+      "new_valid": true,
+      "new_rmse": 0.0273170373670513
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 39,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09917757306310959,
+      "new_valid": true,
+      "new_rmse": 0.03600132377327094
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 40,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10922906305553715,
+      "new_valid": true,
+      "new_rmse": 0.05577800059926423
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 41,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07164032976684521,
+      "new_valid": true,
+      "new_rmse": 0.0433657279513405
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 42,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10934319974383215,
+      "new_valid": true,
+      "new_rmse": 0.04841288920602242
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 43,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10966610374735523,
+      "new_valid": true,
+      "new_rmse": 0.06357433128221991
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 44,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.11108985434306161,
+      "new_valid": true,
+      "new_rmse": 0.038121920753419636
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 45,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08912584919257453,
+      "new_valid": true,
+      "new_rmse": 0.06286516544913717
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 46,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07748378158507585,
+      "new_valid": true,
+      "new_rmse": 0.0686437462336819
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 47,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07303566767794135,
+      "new_valid": true,
+      "new_rmse": 0.02554415417781591
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 48,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06686804161604099,
+      "new_valid": true,
+      "new_rmse": 0.04076720678464054
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 49,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07890548265656383,
+      "new_valid": true,
+      "new_rmse": 0.04144638397201472
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 50,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07076931366246576,
+      "new_valid": true,
+      "new_rmse": 0.0390608631683744
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 51,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10704767185427923,
+      "new_valid": true,
+      "new_rmse": 0.04776639202179293
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 52,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07276452766365042,
+      "new_valid": true,
+      "new_rmse": 0.02364646665734397
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 53,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07801411462541555,
+      "new_valid": true,
+      "new_rmse": 0.038046247409701174
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 54,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.052087081507939025,
+      "new_valid": true,
+      "new_rmse": 0.041265911530132586
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 55,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09646222186397269,
+      "new_valid": true,
+      "new_rmse": 0.06243987660185472
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 56,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07604872112178102,
+      "new_valid": true,
+      "new_rmse": 0.057960309080543844
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 57,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04592048761490911,
+      "new_valid": true,
+      "new_rmse": 0.04076437606530388
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 58,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05673738601800579,
+      "new_valid": true,
+      "new_rmse": 0.023258306947002597
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 59,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08286369952161105,
+      "new_valid": true,
+      "new_rmse": 0.04391292002196403
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 60,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07222758721345462,
+      "new_valid": true,
+      "new_rmse": 0.03682149825969658
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 61,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08518563036066311,
+      "new_valid": true,
+      "new_rmse": 0.06509064273359602
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 62,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07480385757492279,
+      "new_valid": true,
+      "new_rmse": 0.03717053774178099
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 63,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08885343287418014,
+      "new_valid": true,
+      "new_rmse": 0.05023681510857669
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 64,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05505462436455626,
+      "new_valid": true,
+      "new_rmse": 0.02744157153632046
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 65,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08336125660720468,
+      "new_valid": true,
+      "new_rmse": 0.031197842557843938
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 66,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.11093327635815528,
+      "new_valid": true,
+      "new_rmse": 0.05160744470835177
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 67,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08664769202729113,
+      "new_valid": true,
+      "new_rmse": 0.02509832415725842
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 68,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05931703927447512,
+      "new_valid": true,
+      "new_rmse": 0.020074788887212626
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 69,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08219163896672191,
+      "new_valid": true,
+      "new_rmse": 0.030841298085273024
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 70,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05843068881391151,
+      "new_valid": true,
+      "new_rmse": 0.03726512207665987
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 71,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08933212984116398,
+      "new_valid": true,
+      "new_rmse": 0.04693289640227565
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 72,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.11081969619609287,
+      "new_valid": true,
+      "new_rmse": 0.05282822536203513
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 73,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0758579704299291,
+      "new_valid": true,
+      "new_rmse": 0.03825086991287231
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 74,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08223069943863916,
+      "new_valid": true,
+      "new_rmse": 0.056035364464435904
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 75,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06624570571889515,
+      "new_valid": true,
+      "new_rmse": 0.04076624742657016
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 76,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07822586608295898,
+      "new_valid": true,
+      "new_rmse": 0.047639291623123366
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 77,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07622140806076179,
+      "new_valid": true,
+      "new_rmse": 0.04110228758208871
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 78,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08233567208175908,
+      "new_valid": true,
+      "new_rmse": 0.058464766324644944
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 79,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0831737370710448,
+      "new_valid": true,
+      "new_rmse": 0.033369007105876376
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 80,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10439212954547372,
+      "new_valid": true,
+      "new_rmse": 0.03195777665042704
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 81,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10408259494167493,
+      "new_valid": true,
+      "new_rmse": 0.045177942020887533
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 82,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07580704783038836,
+      "new_valid": true,
+      "new_rmse": 0.031962986775187704
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 83,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06628571996302828,
+      "new_valid": true,
+      "new_rmse": 0.026104799173320915
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 84,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09054302396704157,
+      "new_valid": true,
+      "new_rmse": 0.04383921637543372
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 85,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08040644940430579,
+      "new_valid": true,
+      "new_rmse": 0.04165519703275652
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 86,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06726597975109228,
+      "new_valid": true,
+      "new_rmse": 0.03859358799717166
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 87,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0742721986627638,
+      "new_valid": true,
+      "new_rmse": 0.04627798541279869
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 88,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.12149558510313158,
+      "new_valid": true,
+      "new_rmse": 0.03831579413100598
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 89,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09870582052893592,
+      "new_valid": true,
+      "new_rmse": 0.03189224508899271
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 90,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07759912010152784,
+      "new_valid": true,
+      "new_rmse": 0.02556989559498695
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 91,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09780130673933833,
+      "new_valid": true,
+      "new_rmse": 0.04235112436520335
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 92,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09435028453231785,
+      "new_valid": true,
+      "new_rmse": 0.048140416546248434
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 93,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07105739909771303,
+      "new_valid": true,
+      "new_rmse": 0.03450108304323037
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 94,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09796538468229098,
+      "new_valid": true,
+      "new_rmse": 0.03334951328645378
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 95,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05280925055306694,
+      "new_valid": true,
+      "new_rmse": 0.043480780712201704
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 96,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03851583072666501,
+      "new_valid": true,
+      "new_rmse": 0.04324164067556382
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 97,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05811458715620158,
+      "new_valid": true,
+      "new_rmse": 0.027145314304525017
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 98,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04499293434893309,
+      "new_valid": true,
+      "new_rmse": 0.022789299419495816
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 99,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08399523264999151,
+      "new_valid": true,
+      "new_rmse": 0.01678552658994359
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 100,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06414164941962391,
+      "new_valid": true,
+      "new_rmse": 0.03431436994869044
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 101,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07610667625925022,
+      "new_valid": true,
+      "new_rmse": 0.022419637655755244
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 102,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.054912044005763216,
+      "new_valid": true,
+      "new_rmse": 0.026465155868281413
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 103,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09398143456076609,
+      "new_valid": true,
+      "new_rmse": 0.04467955238950217
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 104,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05500922836538422,
+      "new_valid": true,
+      "new_rmse": 0.0276704207197903
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 105,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09490290520687489,
+      "new_valid": true,
+      "new_rmse": 0.033033528547420116
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 106,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05405641475990493,
+      "new_valid": true,
+      "new_rmse": 0.04106364428267963
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 107,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06526388563826119,
+      "new_valid": true,
+      "new_rmse": 0.040885280614840626
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 108,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.054042202166518255,
+      "new_valid": true,
+      "new_rmse": 0.02859159452594342
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 109,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.1272929462201846,
+      "new_valid": true,
+      "new_rmse": 0.05595498848039915
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 110,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10684641780977114,
+      "new_valid": true,
+      "new_rmse": 0.05910186455121311
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 111,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09170864491742955,
+      "new_valid": true,
+      "new_rmse": 0.045849641637453864
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 112,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04608562741361461,
+      "new_valid": true,
+      "new_rmse": 0.021129539562754044
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 113,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10094395892803325,
+      "new_valid": true,
+      "new_rmse": 0.06622736547571034
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 114,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.1163094742835157,
+      "new_valid": true,
+      "new_rmse": 0.05371766331738966
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 115,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06488339522364792,
+      "new_valid": true,
+      "new_rmse": 0.04034760701843356
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 116,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06621468373181116,
+      "new_valid": true,
+      "new_rmse": 0.029323590210472136
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 117,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10832732864049129,
+      "new_valid": true,
+      "new_rmse": 0.046296183178983014
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 118,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07272238846954422,
+      "new_valid": true,
+      "new_rmse": 0.056113522684054916
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 119,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0675168995704369,
+      "new_valid": true,
+      "new_rmse": 0.04456649398102729
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 120,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10608549216877125,
+      "new_valid": true,
+      "new_rmse": 0.05377189591025369
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 121,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07244869161887456,
+      "new_valid": true,
+      "new_rmse": 0.03219295957277997
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 122,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.11728331906697664,
+      "new_valid": true,
+      "new_rmse": 0.0627436324147331
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 123,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10205224473750812,
+      "new_valid": true,
+      "new_rmse": 0.04205548151146799
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 124,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05508667524679071,
+      "new_valid": true,
+      "new_rmse": 0.04667331245127119
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 125,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05698087809494565,
+      "new_valid": true,
+      "new_rmse": 0.04886325521794078
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 126,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06806644787385459,
+      "new_valid": true,
+      "new_rmse": 0.03750047474440688
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 127,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06064199953678388,
+      "new_valid": true,
+      "new_rmse": 0.03716918006151239
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 128,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04619255238347322,
+      "new_valid": true,
+      "new_rmse": 0.03554288575612951
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 129,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04336118548718334,
+      "new_valid": true,
+      "new_rmse": 0.021075516690252566
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 130,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.060955585765248246,
+      "new_valid": true,
+      "new_rmse": 0.02386494883213586
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 131,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.059407629201855855,
+      "new_valid": true,
+      "new_rmse": 0.050423030072425885
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 132,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10148530365450513,
+      "new_valid": true,
+      "new_rmse": 0.04025279352546557
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 133,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08151096784678445,
+      "new_valid": true,
+      "new_rmse": 0.04520979482109998
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 134,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08114933159966668,
+      "new_valid": true,
+      "new_rmse": 0.03959621214901269
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 135,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10320684176693798,
+      "new_valid": true,
+      "new_rmse": 0.048049204190992706
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 136,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06525124906272159,
+      "new_valid": true,
+      "new_rmse": 0.038520395932142806
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 137,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10742174689814783,
+      "new_valid": true,
+      "new_rmse": 0.041329537172585376
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 138,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10622771412962592,
+      "new_valid": true,
+      "new_rmse": 0.03801532371026338
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 139,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.060946855526422275,
+      "new_valid": true,
+      "new_rmse": 0.03975617506402494
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 140,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.045961359203410886,
+      "new_valid": true,
+      "new_rmse": 0.041166020020046754
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 141,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.11267925963974113,
+      "new_valid": true,
+      "new_rmse": 0.062196848634357135
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 142,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09574861110395794,
+      "new_valid": true,
+      "new_rmse": 0.04175817506152367
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 143,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.051644241371847435,
+      "new_valid": true,
+      "new_rmse": 0.021278586267316803
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 144,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05598149367124474,
+      "new_valid": true,
+      "new_rmse": 0.03545246070626625
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 145,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10192967504202831,
+      "new_valid": true,
+      "new_rmse": 0.040618666386385456
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 146,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05786988785506426,
+      "new_valid": true,
+      "new_rmse": 0.02814324647242751
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 147,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10611875690215444,
+      "new_valid": true,
+      "new_rmse": 0.04596658404225711
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 148,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.059664126798702706,
+      "new_valid": true,
+      "new_rmse": 0.016708124479110943
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 149,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.1110081255851246,
+      "new_valid": true,
+      "new_rmse": 0.03356371433223706
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 150,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.060674250752599655,
+      "new_valid": true,
+      "new_rmse": 0.026969005145267275
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 151,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08235681869438162,
+      "new_valid": true,
+      "new_rmse": 0.021098475297809647
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 152,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06835070994164257,
+      "new_valid": true,
+      "new_rmse": 0.04660337672769917
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 153,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06037048532283084,
+      "new_valid": true,
+      "new_rmse": 0.046197585885848096
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 154,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.11708798656014899,
+      "new_valid": true,
+      "new_rmse": 0.056334952683190054
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 155,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08141029235902583,
+      "new_valid": true,
+      "new_rmse": 0.012465094097878627
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 156,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10015748282347026,
+      "new_valid": true,
+      "new_rmse": 0.05090088899117326
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 157,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08080624979199877,
+      "new_valid": true,
+      "new_rmse": 0.027539859061358002
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 158,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07386695854448933,
+      "new_valid": true,
+      "new_rmse": 0.06246417501141716
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 159,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10813232355280517,
+      "new_valid": true,
+      "new_rmse": 0.04777418652265682
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 160,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.12703833431680403,
+      "new_valid": true,
+      "new_rmse": 0.0519258808868872
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 161,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05115554005626969,
+      "new_valid": true,
+      "new_rmse": 0.045780601084288566
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 162,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05987817356601278,
+      "new_valid": true,
+      "new_rmse": 0.012899430541131697
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 163,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04289161775770725,
+      "new_valid": true,
+      "new_rmse": 0.03339226731462527
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 164,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08478748426349983,
+      "new_valid": true,
+      "new_rmse": 0.05222604542409731
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 165,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07323979011092466,
+      "new_valid": true,
+      "new_rmse": 0.028649353973705632
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 166,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08891278235670609,
+      "new_valid": true,
+      "new_rmse": 0.0482985944045307
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 167,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05834548371218419,
+      "new_valid": true,
+      "new_rmse": 0.05105541472338873
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 168,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.1262654028531227,
+      "new_valid": true,
+      "new_rmse": 0.07371305809009407
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 169,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07063088605584981,
+      "new_valid": true,
+      "new_rmse": 0.039276184475156566
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 170,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07034905248853893,
+      "new_valid": true,
+      "new_rmse": 0.02003144333372555
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 171,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04601267274969503,
+      "new_valid": true,
+      "new_rmse": 0.044668712418927524
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 172,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07565453676218137,
+      "new_valid": true,
+      "new_rmse": 0.029919920791770346
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 173,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05414660818887871,
+      "new_valid": true,
+      "new_rmse": 0.02026521075459777
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 174,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09162257008225573,
+      "new_valid": true,
+      "new_rmse": 0.023330314260756418
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 175,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07251034766608641,
+      "new_valid": true,
+      "new_rmse": 0.040502317022608626
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 176,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07188049264323589,
+      "new_valid": true,
+      "new_rmse": 0.03226974370211405
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 177,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10117309995176671,
+      "new_valid": true,
+      "new_rmse": 0.0425226601495943
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 178,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.062465977549327895,
+      "new_valid": true,
+      "new_rmse": 0.02935438817561056
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 179,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09002049505433278,
+      "new_valid": true,
+      "new_rmse": 0.037165355156697354
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 180,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04262755937849486,
+      "new_valid": true,
+      "new_rmse": 0.01293835428861233
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 181,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04759774291269441,
+      "new_valid": true,
+      "new_rmse": 0.012223471617943852
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 182,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06102162496361401,
+      "new_valid": true,
+      "new_rmse": 0.057115187761337186
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 183,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05088355912748365,
+      "new_valid": true,
+      "new_rmse": 0.029624098787091147
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 184,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0859836412714286,
+      "new_valid": true,
+      "new_rmse": 0.029212367526655757
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 185,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06910622621840638,
+      "new_valid": true,
+      "new_rmse": 0.04425865099767333
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 186,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.14144783897895863,
+      "new_valid": true,
+      "new_rmse": 0.058575917250642325
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 187,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08423895689723797,
+      "new_valid": true,
+      "new_rmse": 0.03568834652673888
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 188,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.061155616562063655,
+      "new_valid": true,
+      "new_rmse": 0.05811438376781243
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 189,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04261860352287681,
+      "new_valid": true,
+      "new_rmse": 0.02569839283867328
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 190,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.041291686084035294,
+      "new_valid": true,
+      "new_rmse": 0.041931041793563995
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 191,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.12658382017721664,
+      "new_valid": true,
+      "new_rmse": 0.07150283921902927
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 192,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06922353332053109,
+      "new_valid": true,
+      "new_rmse": 0.030864516401769265
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 193,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06509043812346024,
+      "new_valid": true,
+      "new_rmse": 0.026657390419377782
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 194,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.058777576670273265,
+      "new_valid": true,
+      "new_rmse": 0.03505951310298174
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 195,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05108103226820281,
+      "new_valid": true,
+      "new_rmse": 0.024750372045039267
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 196,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07613185252229962,
+      "new_valid": true,
+      "new_rmse": 0.0320608927803023
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 197,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05835058306958816,
+      "new_valid": true,
+      "new_rmse": 0.034123548651849495
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 198,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04280784413797388,
+      "new_valid": true,
+      "new_rmse": 0.03731290330493987
+    },
+    {
+      "mode": "nonlinear_envelope",
+      "record": 199,
+      "source_index": 2,
+      "target_index": 2,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05167472675196572,
+      "new_valid": true,
+      "new_rmse": 0.0461154488107992
+    },
+    {
+      "mode": "two_carriers",
+      "record": 0,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04899899608340521,
+      "new_valid": true,
+      "new_rmse": 0.04698856266035783
+    },
+    {
+      "mode": "two_carriers",
+      "record": 0,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04790510796518899,
+      "new_valid": true,
+      "new_rmse": 0.03395004022336426
+    },
+    {
+      "mode": "two_carriers",
+      "record": 1,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.052454473252685,
+      "new_valid": true,
+      "new_rmse": 0.04216382220560803
+    },
+    {
+      "mode": "two_carriers",
+      "record": 1,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03723045070540605,
+      "new_valid": true,
+      "new_rmse": 0.020909589767427968
+    },
+    {
+      "mode": "two_carriers",
+      "record": 2,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04289787148040933,
+      "new_valid": true,
+      "new_rmse": 0.04549604920775438
+    },
+    {
+      "mode": "two_carriers",
+      "record": 2,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06952150343965226,
+      "new_valid": true,
+      "new_rmse": 0.046661112542280433
+    },
+    {
+      "mode": "two_carriers",
+      "record": 3,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03433024657715215,
+      "new_valid": true,
+      "new_rmse": 0.025627865295596002
+    },
+    {
+      "mode": "two_carriers",
+      "record": 3,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06259288630460465,
+      "new_valid": true,
+      "new_rmse": 0.042341108227893436
+    },
+    {
+      "mode": "two_carriers",
+      "record": 4,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04399265291480906,
+      "new_valid": true,
+      "new_rmse": 0.023468298062538275
+    },
+    {
+      "mode": "two_carriers",
+      "record": 4,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07367138091893871,
+      "new_valid": true,
+      "new_rmse": 0.03379006119060029
+    },
+    {
+      "mode": "two_carriers",
+      "record": 5,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04291519493809423,
+      "new_valid": true,
+      "new_rmse": 0.04623656747051741
+    },
+    {
+      "mode": "two_carriers",
+      "record": 5,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.050931828013651995,
+      "new_valid": true,
+      "new_rmse": 0.04245456183157935
+    },
+    {
+      "mode": "two_carriers",
+      "record": 6,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.01958239050728818,
+      "new_valid": true,
+      "new_rmse": 0.03291541141654313
+    },
+    {
+      "mode": "two_carriers",
+      "record": 6,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07115919633863714,
+      "new_valid": true,
+      "new_rmse": 0.029971704505736104
+    },
+    {
+      "mode": "two_carriers",
+      "record": 7,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.024945665938060066,
+      "new_valid": true,
+      "new_rmse": 0.025521198622018588
+    },
+    {
+      "mode": "two_carriers",
+      "record": 7,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05384924457783567,
+      "new_valid": true,
+      "new_rmse": 0.0495595381633082
+    },
+    {
+      "mode": "two_carriers",
+      "record": 8,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.02902196527823597,
+      "new_valid": true,
+      "new_rmse": 0.020775906440124736
+    },
+    {
+      "mode": "two_carriers",
+      "record": 8,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05643438817399514,
+      "new_valid": true,
+      "new_rmse": 0.04507931243356287
+    },
+    {
+      "mode": "two_carriers",
+      "record": 9,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04203676337294204,
+      "new_valid": true,
+      "new_rmse": 0.03883008201622865
+    },
+    {
+      "mode": "two_carriers",
+      "record": 9,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0662896571787336,
+      "new_valid": true,
+      "new_rmse": 0.03973113830976588
+    },
+    {
+      "mode": "two_carriers",
+      "record": 10,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08488893282772993,
+      "new_valid": true,
+      "new_rmse": 0.06799487554518027
+    },
+    {
+      "mode": "two_carriers",
+      "record": 10,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06703486357621288,
+      "new_valid": true,
+      "new_rmse": 0.031181970905669213
+    },
+    {
+      "mode": "two_carriers",
+      "record": 11,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.02991254041840817,
+      "new_valid": true,
+      "new_rmse": 0.023255706443246583
+    },
+    {
+      "mode": "two_carriers",
+      "record": 11,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04145618005276877,
+      "new_valid": true,
+      "new_rmse": 0.0592526842509252
+    },
+    {
+      "mode": "two_carriers",
+      "record": 12,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06655318145959056,
+      "new_valid": true,
+      "new_rmse": 0.04719948153277272
+    },
+    {
+      "mode": "two_carriers",
+      "record": 12,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07649432366901875,
+      "new_valid": true,
+      "new_rmse": 0.06909897376001868
+    },
+    {
+      "mode": "two_carriers",
+      "record": 13,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04056673898855296,
+      "new_valid": true,
+      "new_rmse": 0.038005190672193066
+    },
+    {
+      "mode": "two_carriers",
+      "record": 13,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.057059628629063344,
+      "new_valid": true,
+      "new_rmse": 0.04758698200639488
+    },
+    {
+      "mode": "two_carriers",
+      "record": 14,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05672681372455551,
+      "new_valid": true,
+      "new_rmse": 0.07244808511928358
+    },
+    {
+      "mode": "two_carriers",
+      "record": 14,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07169573734258432,
+      "new_valid": true,
+      "new_rmse": 0.06319708756099086
+    },
+    {
+      "mode": "two_carriers",
+      "record": 15,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03375368260118717,
+      "new_valid": true,
+      "new_rmse": 0.01701714925424325
+    },
+    {
+      "mode": "two_carriers",
+      "record": 15,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05306100207511159,
+      "new_valid": true,
+      "new_rmse": 0.03203919148372368
+    },
+    {
+      "mode": "two_carriers",
+      "record": 16,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.055175231921063446,
+      "new_valid": true,
+      "new_rmse": 0.049681987279657135
+    },
+    {
+      "mode": "two_carriers",
+      "record": 16,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.062157938828913975,
+      "new_valid": true,
+      "new_rmse": 0.027753105796538186
+    },
+    {
+      "mode": "two_carriers",
+      "record": 17,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06940808628414855,
+      "new_valid": true,
+      "new_rmse": 0.0825081554110937
+    },
+    {
+      "mode": "two_carriers",
+      "record": 17,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09918474429320094,
+      "new_valid": true,
+      "new_rmse": 0.05994367863376359
+    },
+    {
+      "mode": "two_carriers",
+      "record": 18,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06106268796518986,
+      "new_valid": true,
+      "new_rmse": 0.07853753083269911
+    },
+    {
+      "mode": "two_carriers",
+      "record": 18,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07123169454665028,
+      "new_valid": true,
+      "new_rmse": 0.061977172715745245
+    },
+    {
+      "mode": "two_carriers",
+      "record": 19,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.032663163049419554,
+      "new_valid": true,
+      "new_rmse": 0.019209243178225525
+    },
+    {
+      "mode": "two_carriers",
+      "record": 19,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04646965025172792,
+      "new_valid": true,
+      "new_rmse": 0.06165381852927073
+    },
+    {
+      "mode": "two_carriers",
+      "record": 20,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.034237186902128375,
+      "new_valid": true,
+      "new_rmse": 0.04436464350815863
+    },
+    {
+      "mode": "two_carriers",
+      "record": 20,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08239827512366367,
+      "new_valid": true,
+      "new_rmse": 0.051390212700330666
+    },
+    {
+      "mode": "two_carriers",
+      "record": 21,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.050367454269196164,
+      "new_valid": true,
+      "new_rmse": 0.03557279229249519
+    },
+    {
+      "mode": "two_carriers",
+      "record": 21,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06275510477504631,
+      "new_valid": true,
+      "new_rmse": 0.03828260338549792
+    },
+    {
+      "mode": "two_carriers",
+      "record": 22,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.055005455226606034,
+      "new_valid": true,
+      "new_rmse": 0.027337406935594083
+    },
+    {
+      "mode": "two_carriers",
+      "record": 22,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07551303328753692,
+      "new_valid": true,
+      "new_rmse": 0.06654373992703137
+    },
+    {
+      "mode": "two_carriers",
+      "record": 23,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03470476258195734,
+      "new_valid": true,
+      "new_rmse": 0.017873695460130578
+    },
+    {
+      "mode": "two_carriers",
+      "record": 23,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04665604040607096,
+      "new_valid": true,
+      "new_rmse": 0.014844700576039361
+    },
+    {
+      "mode": "two_carriers",
+      "record": 24,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.046314571096345146,
+      "new_valid": true,
+      "new_rmse": 0.07247471459419096
+    },
+    {
+      "mode": "two_carriers",
+      "record": 24,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06381268224640124,
+      "new_valid": true,
+      "new_rmse": 0.05672668775769919
+    },
+    {
+      "mode": "two_carriers",
+      "record": 25,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06852709912633215,
+      "new_valid": true,
+      "new_rmse": 0.02529873817472881
+    },
+    {
+      "mode": "two_carriers",
+      "record": 25,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06207609708980722,
+      "new_valid": true,
+      "new_rmse": 0.026253566628478133
+    },
+    {
+      "mode": "two_carriers",
+      "record": 26,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03171488850158657,
+      "new_valid": true,
+      "new_rmse": 0.029027156194486467
+    },
+    {
+      "mode": "two_carriers",
+      "record": 26,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04674118654904699,
+      "new_valid": true,
+      "new_rmse": 0.037487612244628155
+    },
+    {
+      "mode": "two_carriers",
+      "record": 27,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03950605778133381,
+      "new_valid": true,
+      "new_rmse": 0.04225581896801741
+    },
+    {
+      "mode": "two_carriers",
+      "record": 27,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07041244252721865,
+      "new_valid": true,
+      "new_rmse": 0.06241365872241234
+    },
+    {
+      "mode": "two_carriers",
+      "record": 28,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0637322030546122,
+      "new_valid": true,
+      "new_rmse": 0.03629098530080518
+    },
+    {
+      "mode": "two_carriers",
+      "record": 28,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05862860471303287,
+      "new_valid": true,
+      "new_rmse": 0.044537839705947935
+    },
+    {
+      "mode": "two_carriers",
+      "record": 29,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.02615254911033876,
+      "new_valid": true,
+      "new_rmse": 0.0301162970430859
+    },
+    {
+      "mode": "two_carriers",
+      "record": 29,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08524268876316714,
+      "new_valid": true,
+      "new_rmse": 0.06764970077231279
+    },
+    {
+      "mode": "two_carriers",
+      "record": 30,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0365239568439342,
+      "new_valid": true,
+      "new_rmse": 0.027463230571295655
+    },
+    {
+      "mode": "two_carriers",
+      "record": 30,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.048848702108506205,
+      "new_valid": true,
+      "new_rmse": 0.04142968967059717
+    },
+    {
+      "mode": "two_carriers",
+      "record": 31,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06850424497972799,
+      "new_valid": true,
+      "new_rmse": 0.04822880961153704
+    },
+    {
+      "mode": "two_carriers",
+      "record": 31,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06073960910629894,
+      "new_valid": true,
+      "new_rmse": 0.03424595406083601
+    },
+    {
+      "mode": "two_carriers",
+      "record": 32,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05334614416363022,
+      "new_valid": true,
+      "new_rmse": 0.04113072221012353
+    },
+    {
+      "mode": "two_carriers",
+      "record": 32,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05202324424144795,
+      "new_valid": true,
+      "new_rmse": 0.03357212215004869
+    },
+    {
+      "mode": "two_carriers",
+      "record": 33,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0428195853885796,
+      "new_valid": true,
+      "new_rmse": 0.0522605077393504
+    },
+    {
+      "mode": "two_carriers",
+      "record": 33,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05331863906360582,
+      "new_valid": true,
+      "new_rmse": 0.037703861485084866
+    },
+    {
+      "mode": "two_carriers",
+      "record": 34,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07969419798072887,
+      "new_valid": true,
+      "new_rmse": 0.03871454733430829
+    },
+    {
+      "mode": "two_carriers",
+      "record": 34,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06630636858412374,
+      "new_valid": true,
+      "new_rmse": 0.04239502768257001
+    },
+    {
+      "mode": "two_carriers",
+      "record": 35,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0391122425033546,
+      "new_valid": true,
+      "new_rmse": 0.02348452678314713
+    },
+    {
+      "mode": "two_carriers",
+      "record": 35,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05290687648772667,
+      "new_valid": true,
+      "new_rmse": 0.05719525698281278
+    },
+    {
+      "mode": "two_carriers",
+      "record": 36,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.046034403611094905,
+      "new_valid": true,
+      "new_rmse": 0.030483164281195557
+    },
+    {
+      "mode": "two_carriers",
+      "record": 36,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08320642665597462,
+      "new_valid": true,
+      "new_rmse": 0.05056304214559649
+    },
+    {
+      "mode": "two_carriers",
+      "record": 37,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03646357499769887,
+      "new_valid": true,
+      "new_rmse": 0.05580277208971657
+    },
+    {
+      "mode": "two_carriers",
+      "record": 37,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06943906638925308,
+      "new_valid": true,
+      "new_rmse": 0.0665841066342677
+    },
+    {
+      "mode": "two_carriers",
+      "record": 38,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05079408981853472,
+      "new_valid": true,
+      "new_rmse": 0.03708519590276364
+    },
+    {
+      "mode": "two_carriers",
+      "record": 38,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07549895175419097,
+      "new_valid": true,
+      "new_rmse": 0.05106457807558996
+    },
+    {
+      "mode": "two_carriers",
+      "record": 39,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04919310474814435,
+      "new_valid": true,
+      "new_rmse": 0.05110987156514754
+    },
+    {
+      "mode": "two_carriers",
+      "record": 39,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04557977615764055,
+      "new_valid": true,
+      "new_rmse": 0.02700446669819764
+    },
+    {
+      "mode": "two_carriers",
+      "record": 40,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05048832166004311,
+      "new_valid": true,
+      "new_rmse": 0.0366544629627546
+    },
+    {
+      "mode": "two_carriers",
+      "record": 40,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07903448142507487,
+      "new_valid": true,
+      "new_rmse": 0.04108162412138072
+    },
+    {
+      "mode": "two_carriers",
+      "record": 41,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.048007709197127664,
+      "new_valid": true,
+      "new_rmse": 0.017932449601149807
+    },
+    {
+      "mode": "two_carriers",
+      "record": 41,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03477078090919513,
+      "new_valid": true,
+      "new_rmse": 0.027296321581062294
+    },
+    {
+      "mode": "two_carriers",
+      "record": 42,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06869091420616029,
+      "new_valid": true,
+      "new_rmse": 0.03645738113277571
+    },
+    {
+      "mode": "two_carriers",
+      "record": 42,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07228937089762119,
+      "new_valid": true,
+      "new_rmse": 0.0410867832191975
+    },
+    {
+      "mode": "two_carriers",
+      "record": 43,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.028977292557606952,
+      "new_valid": true,
+      "new_rmse": 0.04810916368612631
+    },
+    {
+      "mode": "two_carriers",
+      "record": 43,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05017356193330734,
+      "new_valid": true,
+      "new_rmse": 0.027914617090040852
+    },
+    {
+      "mode": "two_carriers",
+      "record": 44,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08135111679155933,
+      "new_valid": true,
+      "new_rmse": 0.04594526230424792
+    },
+    {
+      "mode": "two_carriers",
+      "record": 44,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03471070358390668,
+      "new_valid": true,
+      "new_rmse": 0.0362300229967078
+    },
+    {
+      "mode": "two_carriers",
+      "record": 45,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0751385130808381,
+      "new_valid": true,
+      "new_rmse": 0.10303154719812946
+    },
+    {
+      "mode": "two_carriers",
+      "record": 45,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07382390960604793,
+      "new_valid": true,
+      "new_rmse": 0.05837242612857939
+    },
+    {
+      "mode": "two_carriers",
+      "record": 46,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.022215473812861417,
+      "new_valid": true,
+      "new_rmse": 0.020770458215171084
+    },
+    {
+      "mode": "two_carriers",
+      "record": 46,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.062406373290469164,
+      "new_valid": true,
+      "new_rmse": 0.03857661689190203
+    },
+    {
+      "mode": "two_carriers",
+      "record": 47,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06842785775518245,
+      "new_valid": true,
+      "new_rmse": 0.06721357459257958
+    },
+    {
+      "mode": "two_carriers",
+      "record": 47,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.048265398305729984,
+      "new_valid": true,
+      "new_rmse": 0.03190647457108929
+    },
+    {
+      "mode": "two_carriers",
+      "record": 48,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06577473746871937,
+      "new_valid": true,
+      "new_rmse": 0.04092362934616145
+    },
+    {
+      "mode": "two_carriers",
+      "record": 48,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05375252930228742,
+      "new_valid": true,
+      "new_rmse": 0.03273437886859532
+    },
+    {
+      "mode": "two_carriers",
+      "record": 49,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.028674674904812767,
+      "new_valid": true,
+      "new_rmse": 0.015956206737129927
+    },
+    {
+      "mode": "two_carriers",
+      "record": 49,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07600072287809954,
+      "new_valid": true,
+      "new_rmse": 0.0509811794580337
+    },
+    {
+      "mode": "two_carriers",
+      "record": 50,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03375101158374358,
+      "new_valid": true,
+      "new_rmse": 0.02374750913835078
+    },
+    {
+      "mode": "two_carriers",
+      "record": 50,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09708656303903476,
+      "new_valid": true,
+      "new_rmse": 0.06973167256336332
+    },
+    {
+      "mode": "two_carriers",
+      "record": 51,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06138965631562479,
+      "new_valid": true,
+      "new_rmse": 0.028604177268745354
+    },
+    {
+      "mode": "two_carriers",
+      "record": 51,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0590973515316124,
+      "new_valid": true,
+      "new_rmse": 0.05144259729282263
+    },
+    {
+      "mode": "two_carriers",
+      "record": 52,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.02708968772785909,
+      "new_valid": true,
+      "new_rmse": 0.04383420655803797
+    },
+    {
+      "mode": "two_carriers",
+      "record": 52,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07712129141782045,
+      "new_valid": true,
+      "new_rmse": 0.06308845057836421
+    },
+    {
+      "mode": "two_carriers",
+      "record": 53,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06840952134148813,
+      "new_valid": true,
+      "new_rmse": 0.03324725357567523
+    },
+    {
+      "mode": "two_carriers",
+      "record": 53,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06740292281709113,
+      "new_valid": true,
+      "new_rmse": 0.032731739707265534
+    },
+    {
+      "mode": "two_carriers",
+      "record": 54,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04657423113578074,
+      "new_valid": true,
+      "new_rmse": 0.05763136568189094
+    },
+    {
+      "mode": "two_carriers",
+      "record": 54,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.062201249611917524,
+      "new_valid": true,
+      "new_rmse": 0.059767044242409535
+    },
+    {
+      "mode": "two_carriers",
+      "record": 55,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03194324310098846,
+      "new_valid": true,
+      "new_rmse": 0.019005651109378692
+    },
+    {
+      "mode": "two_carriers",
+      "record": 55,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0767665914536445,
+      "new_valid": true,
+      "new_rmse": 0.053174564877502356
+    },
+    {
+      "mode": "two_carriers",
+      "record": 56,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03428222543344522,
+      "new_valid": true,
+      "new_rmse": 0.01403663275478853
+    },
+    {
+      "mode": "two_carriers",
+      "record": 56,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06193538959416516,
+      "new_valid": true,
+      "new_rmse": 0.03661322944118007
+    },
+    {
+      "mode": "two_carriers",
+      "record": 57,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03681914318813592,
+      "new_valid": true,
+      "new_rmse": 0.010075535741156586
+    },
+    {
+      "mode": "two_carriers",
+      "record": 57,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07081313665170373,
+      "new_valid": true,
+      "new_rmse": 0.028316435146563613
+    },
+    {
+      "mode": "two_carriers",
+      "record": 58,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04591425400341969,
+      "new_valid": true,
+      "new_rmse": 0.04646303318847129
+    },
+    {
+      "mode": "two_carriers",
+      "record": 58,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0691627112900983,
+      "new_valid": true,
+      "new_rmse": 0.03498628150501724
+    },
+    {
+      "mode": "two_carriers",
+      "record": 59,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06661857688603753,
+      "new_valid": true,
+      "new_rmse": 0.0737574371998638
+    },
+    {
+      "mode": "two_carriers",
+      "record": 59,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06000370606220485,
+      "new_valid": true,
+      "new_rmse": 0.06274144401775743
+    },
+    {
+      "mode": "two_carriers",
+      "record": 60,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04395955763862626,
+      "new_valid": true,
+      "new_rmse": 0.021814446317883665
+    },
+    {
+      "mode": "two_carriers",
+      "record": 60,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.056535064071364174,
+      "new_valid": true,
+      "new_rmse": 0.06083440608423321
+    },
+    {
+      "mode": "two_carriers",
+      "record": 61,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04279762321938896,
+      "new_valid": true,
+      "new_rmse": 0.02911855904220246
+    },
+    {
+      "mode": "two_carriers",
+      "record": 61,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.056242073551350115,
+      "new_valid": true,
+      "new_rmse": 0.044431164399784874
+    },
+    {
+      "mode": "two_carriers",
+      "record": 62,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06720846696274903,
+      "new_valid": true,
+      "new_rmse": 0.05721519404090328
+    },
+    {
+      "mode": "two_carriers",
+      "record": 62,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03480558472374257,
+      "new_valid": true,
+      "new_rmse": 0.03227780593579376
+    },
+    {
+      "mode": "two_carriers",
+      "record": 63,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04678990942190773,
+      "new_valid": true,
+      "new_rmse": 0.027259893067538735
+    },
+    {
+      "mode": "two_carriers",
+      "record": 63,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07265749287235342,
+      "new_valid": true,
+      "new_rmse": 0.08358650253858907
+    },
+    {
+      "mode": "two_carriers",
+      "record": 64,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03616997305660464,
+      "new_valid": true,
+      "new_rmse": 0.02364737208857544
+    },
+    {
+      "mode": "two_carriers",
+      "record": 64,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03764121776107967,
+      "new_valid": true,
+      "new_rmse": 0.021963901296429486
+    },
+    {
+      "mode": "two_carriers",
+      "record": 65,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08722514640195515,
+      "new_valid": true,
+      "new_rmse": 0.036326563815915355
+    },
+    {
+      "mode": "two_carriers",
+      "record": 65,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.051900098266484423,
+      "new_valid": true,
+      "new_rmse": 0.04890823058752821
+    },
+    {
+      "mode": "two_carriers",
+      "record": 66,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07498903523619727,
+      "new_valid": true,
+      "new_rmse": 0.04936355549714824
+    },
+    {
+      "mode": "two_carriers",
+      "record": 66,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07721866391839931,
+      "new_valid": true,
+      "new_rmse": 0.05711353584541824
+    },
+    {
+      "mode": "two_carriers",
+      "record": 67,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05492678450861602,
+      "new_valid": true,
+      "new_rmse": 0.03015715947755907
+    },
+    {
+      "mode": "two_carriers",
+      "record": 67,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08256398831236658,
+      "new_valid": true,
+      "new_rmse": 0.06582551357462516
+    },
+    {
+      "mode": "two_carriers",
+      "record": 68,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.02171825399770117,
+      "new_valid": true,
+      "new_rmse": 0.0327197693144029
+    },
+    {
+      "mode": "two_carriers",
+      "record": 68,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08257391860116362,
+      "new_valid": true,
+      "new_rmse": 0.07938901455354931
+    },
+    {
+      "mode": "two_carriers",
+      "record": 69,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.11211239705260241,
+      "new_valid": true,
+      "new_rmse": 0.10825453381393486
+    },
+    {
+      "mode": "two_carriers",
+      "record": 69,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.036168353016269535,
+      "new_valid": true,
+      "new_rmse": 0.04011668352864353
+    },
+    {
+      "mode": "two_carriers",
+      "record": 70,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05012863322832507,
+      "new_valid": true,
+      "new_rmse": 0.036870886313383276
+    },
+    {
+      "mode": "two_carriers",
+      "record": 70,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03261511550272311,
+      "new_valid": true,
+      "new_rmse": 0.03027058632292744
+    },
+    {
+      "mode": "two_carriers",
+      "record": 71,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.027738054748550657,
+      "new_valid": true,
+      "new_rmse": 0.0261040859732483
+    },
+    {
+      "mode": "two_carriers",
+      "record": 71,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06161341224724019,
+      "new_valid": true,
+      "new_rmse": 0.046492583600784905
+    },
+    {
+      "mode": "two_carriers",
+      "record": 72,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.023841874143777957,
+      "new_valid": true,
+      "new_rmse": 0.03067586362436293
+    },
+    {
+      "mode": "two_carriers",
+      "record": 72,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07510163170939992,
+      "new_valid": true,
+      "new_rmse": 0.046756327524144645
+    },
+    {
+      "mode": "two_carriers",
+      "record": 73,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05439849794857451,
+      "new_valid": true,
+      "new_rmse": 0.0309958990003079
+    },
+    {
+      "mode": "two_carriers",
+      "record": 73,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05934677768646433,
+      "new_valid": true,
+      "new_rmse": 0.06295914408663537
+    },
+    {
+      "mode": "two_carriers",
+      "record": 74,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.02191192003563743,
+      "new_valid": true,
+      "new_rmse": 0.01569397021236862
+    },
+    {
+      "mode": "two_carriers",
+      "record": 74,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04256534687775073,
+      "new_valid": true,
+      "new_rmse": 0.031080560488395994
+    },
+    {
+      "mode": "two_carriers",
+      "record": 75,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.031614524897543336,
+      "new_valid": true,
+      "new_rmse": 0.03786891007283572
+    },
+    {
+      "mode": "two_carriers",
+      "record": 75,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04302045667532919,
+      "new_valid": true,
+      "new_rmse": 0.019547525487672555
+    },
+    {
+      "mode": "two_carriers",
+      "record": 76,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0664450554270712,
+      "new_valid": true,
+      "new_rmse": 0.05292084288982926
+    },
+    {
+      "mode": "two_carriers",
+      "record": 76,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04543071843478035,
+      "new_valid": true,
+      "new_rmse": 0.05276126831269938
+    },
+    {
+      "mode": "two_carriers",
+      "record": 77,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.061876633908449115,
+      "new_valid": true,
+      "new_rmse": 0.047170032100010965
+    },
+    {
+      "mode": "two_carriers",
+      "record": 77,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0931435440339719,
+      "new_valid": true,
+      "new_rmse": 0.08114594859639139
+    },
+    {
+      "mode": "two_carriers",
+      "record": 78,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04310101867622074,
+      "new_valid": true,
+      "new_rmse": 0.061137751499150704
+    },
+    {
+      "mode": "two_carriers",
+      "record": 78,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05819433267259055,
+      "new_valid": true,
+      "new_rmse": 0.052655396235968294
+    },
+    {
+      "mode": "two_carriers",
+      "record": 79,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.053396513251651075,
+      "new_valid": true,
+      "new_rmse": 0.04561035422515389
+    },
+    {
+      "mode": "two_carriers",
+      "record": 79,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09618130409425203,
+      "new_valid": true,
+      "new_rmse": 0.05952837945030609
+    },
+    {
+      "mode": "two_carriers",
+      "record": 80,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06928360235972347,
+      "new_valid": true,
+      "new_rmse": 0.06339394498882953
+    },
+    {
+      "mode": "two_carriers",
+      "record": 80,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04358791497534237,
+      "new_valid": true,
+      "new_rmse": 0.04157818501395502
+    },
+    {
+      "mode": "two_carriers",
+      "record": 81,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.039578632983857776,
+      "new_valid": true,
+      "new_rmse": 0.01642635936813858
+    },
+    {
+      "mode": "two_carriers",
+      "record": 81,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08169283551097237,
+      "new_valid": true,
+      "new_rmse": 0.037308343169428715
+    },
+    {
+      "mode": "two_carriers",
+      "record": 82,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07372556357187629,
+      "new_valid": true,
+      "new_rmse": 0.05505673566360771
+    },
+    {
+      "mode": "two_carriers",
+      "record": 82,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06557478242120796,
+      "new_valid": true,
+      "new_rmse": 0.06090920870402199
+    },
+    {
+      "mode": "two_carriers",
+      "record": 83,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0988161324174787,
+      "new_valid": true,
+      "new_rmse": 0.04381098846065238
+    },
+    {
+      "mode": "two_carriers",
+      "record": 83,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05482918044073518,
+      "new_valid": true,
+      "new_rmse": 0.05132834509827466
+    },
+    {
+      "mode": "two_carriers",
+      "record": 84,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.042150868615037286,
+      "new_valid": true,
+      "new_rmse": 0.016926913741885454
+    },
+    {
+      "mode": "two_carriers",
+      "record": 84,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05661090531424166,
+      "new_valid": true,
+      "new_rmse": 0.03427600870488389
+    },
+    {
+      "mode": "two_carriers",
+      "record": 85,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0529838369701458,
+      "new_valid": true,
+      "new_rmse": 0.021165409123121894
+    },
+    {
+      "mode": "two_carriers",
+      "record": 85,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05610960616408253,
+      "new_valid": true,
+      "new_rmse": 0.04170650959923601
+    },
+    {
+      "mode": "two_carriers",
+      "record": 86,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07328407551557882,
+      "new_valid": true,
+      "new_rmse": 0.013958210992175172
+    },
+    {
+      "mode": "two_carriers",
+      "record": 86,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.055718835426975366,
+      "new_valid": true,
+      "new_rmse": 0.044628104221643934
+    },
+    {
+      "mode": "two_carriers",
+      "record": 87,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03744883353610239,
+      "new_valid": true,
+      "new_rmse": 0.028698877572627554
+    },
+    {
+      "mode": "two_carriers",
+      "record": 87,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.055319017359250836,
+      "new_valid": true,
+      "new_rmse": 0.026376504873845113
+    },
+    {
+      "mode": "two_carriers",
+      "record": 88,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05264192021377572,
+      "new_valid": true,
+      "new_rmse": 0.0777849528243619
+    },
+    {
+      "mode": "two_carriers",
+      "record": 88,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08043010630484311,
+      "new_valid": true,
+      "new_rmse": 0.05078319478506028
+    },
+    {
+      "mode": "two_carriers",
+      "record": 89,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09621110489019034,
+      "new_valid": true,
+      "new_rmse": 0.08780199140570004
+    },
+    {
+      "mode": "two_carriers",
+      "record": 89,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07315596384539737,
+      "new_valid": true,
+      "new_rmse": 0.05211470284193016
+    },
+    {
+      "mode": "two_carriers",
+      "record": 90,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0804784706087257,
+      "new_valid": true,
+      "new_rmse": 0.08243572038780646
+    },
+    {
+      "mode": "two_carriers",
+      "record": 90,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05613933827678941,
+      "new_valid": true,
+      "new_rmse": 0.031227290231131414
+    },
+    {
+      "mode": "two_carriers",
+      "record": 91,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06813981335118496,
+      "new_valid": true,
+      "new_rmse": 0.08450582807741679
+    },
+    {
+      "mode": "two_carriers",
+      "record": 91,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06979747081134006,
+      "new_valid": true,
+      "new_rmse": 0.05173467205802274
+    },
+    {
+      "mode": "two_carriers",
+      "record": 92,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.039222772338148595,
+      "new_valid": true,
+      "new_rmse": 0.04633234906374875
+    },
+    {
+      "mode": "two_carriers",
+      "record": 92,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.062072042043861075,
+      "new_valid": true,
+      "new_rmse": 0.04094397047993361
+    },
+    {
+      "mode": "two_carriers",
+      "record": 93,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.020185534302564784,
+      "new_valid": true,
+      "new_rmse": 0.03401333386364074
+    },
+    {
+      "mode": "two_carriers",
+      "record": 93,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06644200360956788,
+      "new_valid": true,
+      "new_rmse": 0.055409464631772806
+    },
+    {
+      "mode": "two_carriers",
+      "record": 94,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09639593350776685,
+      "new_valid": true,
+      "new_rmse": 0.09551575492346678
+    },
+    {
+      "mode": "two_carriers",
+      "record": 94,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0508181163045577,
+      "new_valid": true,
+      "new_rmse": 0.04032599232462197
+    },
+    {
+      "mode": "two_carriers",
+      "record": 95,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03235367555860614,
+      "new_valid": true,
+      "new_rmse": 0.03030413345385888
+    },
+    {
+      "mode": "two_carriers",
+      "record": 95,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.044038129554940936,
+      "new_valid": true,
+      "new_rmse": 0.03658272427850536
+    },
+    {
+      "mode": "two_carriers",
+      "record": 96,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04501540516089106,
+      "new_valid": true,
+      "new_rmse": 0.06327834371951116
+    },
+    {
+      "mode": "two_carriers",
+      "record": 96,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.047738019522182075,
+      "new_valid": true,
+      "new_rmse": 0.02624670957619123
+    },
+    {
+      "mode": "two_carriers",
+      "record": 97,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.062058362300342285,
+      "new_valid": true,
+      "new_rmse": 0.04398067558374314
+    },
+    {
+      "mode": "two_carriers",
+      "record": 97,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0572184396760702,
+      "new_valid": true,
+      "new_rmse": 0.04199745638284939
+    },
+    {
+      "mode": "two_carriers",
+      "record": 98,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.032158318785536974,
+      "new_valid": true,
+      "new_rmse": 0.020189934962122572
+    },
+    {
+      "mode": "two_carriers",
+      "record": 98,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05965360288425504,
+      "new_valid": true,
+      "new_rmse": 0.03873390478377538
+    },
+    {
+      "mode": "two_carriers",
+      "record": 99,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.026740090410629122,
+      "new_valid": true,
+      "new_rmse": 0.003844497842609136
+    },
+    {
+      "mode": "two_carriers",
+      "record": 99,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.058281802001791644,
+      "new_valid": true,
+      "new_rmse": 0.03357183671725623
+    },
+    {
+      "mode": "two_carriers",
+      "record": 100,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03759654405669154,
+      "new_valid": true,
+      "new_rmse": 0.03673773631615928
+    },
+    {
+      "mode": "two_carriers",
+      "record": 100,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04171849106574258,
+      "new_valid": true,
+      "new_rmse": 0.022773225475285545
+    },
+    {
+      "mode": "two_carriers",
+      "record": 101,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08189675409146611,
+      "new_valid": true,
+      "new_rmse": 0.07543427648466422
+    },
+    {
+      "mode": "two_carriers",
+      "record": 101,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.029309920424830403,
+      "new_valid": true,
+      "new_rmse": 0.04028394607444637
+    },
+    {
+      "mode": "two_carriers",
+      "record": 102,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04583354296283997,
+      "new_valid": true,
+      "new_rmse": 0.026803115112746516
+    },
+    {
+      "mode": "two_carriers",
+      "record": 102,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.058293936391180884,
+      "new_valid": true,
+      "new_rmse": 0.02778168987581365
+    },
+    {
+      "mode": "two_carriers",
+      "record": 103,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06064923351027305,
+      "new_valid": true,
+      "new_rmse": 0.052324613788720345
+    },
+    {
+      "mode": "two_carriers",
+      "record": 103,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05632839880878625,
+      "new_valid": true,
+      "new_rmse": 0.05047284658986427
+    },
+    {
+      "mode": "two_carriers",
+      "record": 104,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06626193250276251,
+      "new_valid": true,
+      "new_rmse": 0.07392820536060071
+    },
+    {
+      "mode": "two_carriers",
+      "record": 104,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.043866080761710724,
+      "new_valid": true,
+      "new_rmse": 0.03440069095644631
+    },
+    {
+      "mode": "two_carriers",
+      "record": 105,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07113188664718578,
+      "new_valid": true,
+      "new_rmse": 0.03628800251126101
+    },
+    {
+      "mode": "two_carriers",
+      "record": 105,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0553597303832978,
+      "new_valid": true,
+      "new_rmse": 0.035728955589598245
+    },
+    {
+      "mode": "two_carriers",
+      "record": 106,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04139999317100828,
+      "new_valid": true,
+      "new_rmse": 0.03958740089372051
+    },
+    {
+      "mode": "two_carriers",
+      "record": 106,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04848175801873155,
+      "new_valid": true,
+      "new_rmse": 0.04449495415796193
+    },
+    {
+      "mode": "two_carriers",
+      "record": 107,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04352980339551178,
+      "new_valid": true,
+      "new_rmse": 0.03195034721331913
+    },
+    {
+      "mode": "two_carriers",
+      "record": 107,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.038127844132196054,
+      "new_valid": true,
+      "new_rmse": 0.03620938040830164
+    },
+    {
+      "mode": "two_carriers",
+      "record": 108,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0830655367521681,
+      "new_valid": true,
+      "new_rmse": 0.06877369292289463
+    },
+    {
+      "mode": "two_carriers",
+      "record": 108,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07547576242449104,
+      "new_valid": true,
+      "new_rmse": 0.07280887812734868
+    },
+    {
+      "mode": "two_carriers",
+      "record": 109,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04721087368227009,
+      "new_valid": true,
+      "new_rmse": 0.08054917648288888
+    },
+    {
+      "mode": "two_carriers",
+      "record": 109,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07133255318714131,
+      "new_valid": true,
+      "new_rmse": 0.05005540315170435
+    },
+    {
+      "mode": "two_carriers",
+      "record": 110,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09294756084544412,
+      "new_valid": true,
+      "new_rmse": 0.05071377262679044
+    },
+    {
+      "mode": "two_carriers",
+      "record": 110,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07183740326562764,
+      "new_valid": true,
+      "new_rmse": 0.049537217299658744
+    },
+    {
+      "mode": "two_carriers",
+      "record": 111,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04819939590298536,
+      "new_valid": true,
+      "new_rmse": 0.076764242836262
+    },
+    {
+      "mode": "two_carriers",
+      "record": 111,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04109425066141408,
+      "new_valid": true,
+      "new_rmse": 0.027924942512617196
+    },
+    {
+      "mode": "two_carriers",
+      "record": 112,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.022502568863225044,
+      "new_valid": true,
+      "new_rmse": 0.024113524069606818
+    },
+    {
+      "mode": "two_carriers",
+      "record": 112,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05411944617951062,
+      "new_valid": true,
+      "new_rmse": 0.04898783440113523
+    },
+    {
+      "mode": "two_carriers",
+      "record": 113,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03341272310546782,
+      "new_valid": true,
+      "new_rmse": 0.04393189566722752
+    },
+    {
+      "mode": "two_carriers",
+      "record": 113,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06476263535523624,
+      "new_valid": true,
+      "new_rmse": 0.02798702544694671
+    },
+    {
+      "mode": "two_carriers",
+      "record": 114,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03036529713843338,
+      "new_valid": true,
+      "new_rmse": 0.035852924897931134
+    },
+    {
+      "mode": "two_carriers",
+      "record": 114,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07696084257315947,
+      "new_valid": true,
+      "new_rmse": 0.05574273028619021
+    },
+    {
+      "mode": "two_carriers",
+      "record": 115,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07819521745809309,
+      "new_valid": true,
+      "new_rmse": 0.06438370445691698
+    },
+    {
+      "mode": "two_carriers",
+      "record": 115,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05434148314019617,
+      "new_valid": true,
+      "new_rmse": 0.04001202913231784
+    },
+    {
+      "mode": "two_carriers",
+      "record": 116,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0533776240891765,
+      "new_valid": true,
+      "new_rmse": 0.04158708544624307
+    },
+    {
+      "mode": "two_carriers",
+      "record": 116,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04786038013511527,
+      "new_valid": true,
+      "new_rmse": 0.03609448281076438
+    },
+    {
+      "mode": "two_carriers",
+      "record": 117,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05334348637827629,
+      "new_valid": true,
+      "new_rmse": 0.024967856755449606
+    },
+    {
+      "mode": "two_carriers",
+      "record": 117,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.052328184296587,
+      "new_valid": true,
+      "new_rmse": 0.042462472959322
+    },
+    {
+      "mode": "two_carriers",
+      "record": 118,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05166106856599707,
+      "new_valid": true,
+      "new_rmse": 0.06284452745575488
+    },
+    {
+      "mode": "two_carriers",
+      "record": 118,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08338819124767839,
+      "new_valid": true,
+      "new_rmse": 0.051672570657316806
+    },
+    {
+      "mode": "two_carriers",
+      "record": 119,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04413526784935939,
+      "new_valid": true,
+      "new_rmse": 0.03451970953460331
+    },
+    {
+      "mode": "two_carriers",
+      "record": 119,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04451949489421806,
+      "new_valid": true,
+      "new_rmse": 0.06851098575457759
+    },
+    {
+      "mode": "two_carriers",
+      "record": 120,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.063530421835939,
+      "new_valid": true,
+      "new_rmse": 0.03135818854090792
+    },
+    {
+      "mode": "two_carriers",
+      "record": 120,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.061327487284220085,
+      "new_valid": true,
+      "new_rmse": 0.04255886530787782
+    },
+    {
+      "mode": "two_carriers",
+      "record": 121,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.051140436454115756,
+      "new_valid": true,
+      "new_rmse": 0.05776994322751818
+    },
+    {
+      "mode": "two_carriers",
+      "record": 121,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0786943963598789,
+      "new_valid": true,
+      "new_rmse": 0.04242747026289974
+    },
+    {
+      "mode": "two_carriers",
+      "record": 122,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04881555869402118,
+      "new_valid": true,
+      "new_rmse": 0.05875596610122611
+    },
+    {
+      "mode": "two_carriers",
+      "record": 122,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07718487084834381,
+      "new_valid": true,
+      "new_rmse": 0.04803848484155167
+    },
+    {
+      "mode": "two_carriers",
+      "record": 123,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.051800316892354877,
+      "new_valid": true,
+      "new_rmse": 0.07630135300093918
+    },
+    {
+      "mode": "two_carriers",
+      "record": 123,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08092154975783994,
+      "new_valid": true,
+      "new_rmse": 0.06932919796021282
+    },
+    {
+      "mode": "two_carriers",
+      "record": 124,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08724537060535115,
+      "new_valid": true,
+      "new_rmse": 0.054370965080208944
+    },
+    {
+      "mode": "two_carriers",
+      "record": 124,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0538029560832112,
+      "new_valid": true,
+      "new_rmse": 0.04730466407112828
+    },
+    {
+      "mode": "two_carriers",
+      "record": 125,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04843066251699488,
+      "new_valid": true,
+      "new_rmse": 0.043030380711281666
+    },
+    {
+      "mode": "two_carriers",
+      "record": 125,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05619532893767971,
+      "new_valid": true,
+      "new_rmse": 0.03136031425135662
+    },
+    {
+      "mode": "two_carriers",
+      "record": 126,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.045551841061654455,
+      "new_valid": true,
+      "new_rmse": 0.03068830662896567
+    },
+    {
+      "mode": "two_carriers",
+      "record": 126,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07295083941756346,
+      "new_valid": true,
+      "new_rmse": 0.046649302421963086
+    },
+    {
+      "mode": "two_carriers",
+      "record": 127,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08227191570374634,
+      "new_valid": true,
+      "new_rmse": 0.052104228859462164
+    },
+    {
+      "mode": "two_carriers",
+      "record": 127,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.044186005041892316,
+      "new_valid": true,
+      "new_rmse": 0.04281253584146048
+    },
+    {
+      "mode": "two_carriers",
+      "record": 128,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0511012411419422,
+      "new_valid": true,
+      "new_rmse": 0.03932627809474966
+    },
+    {
+      "mode": "two_carriers",
+      "record": 128,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.048339779688194334,
+      "new_valid": true,
+      "new_rmse": 0.06323785797945687
+    },
+    {
+      "mode": "two_carriers",
+      "record": 129,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05485726579467661,
+      "new_valid": true,
+      "new_rmse": 0.0564321387690013
+    },
+    {
+      "mode": "two_carriers",
+      "record": 129,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0388904998833529,
+      "new_valid": true,
+      "new_rmse": 0.02635522856976897
+    },
+    {
+      "mode": "two_carriers",
+      "record": 130,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06404420279278683,
+      "new_valid": true,
+      "new_rmse": 0.10339176541150209
+    },
+    {
+      "mode": "two_carriers",
+      "record": 130,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05217196978729296,
+      "new_valid": true,
+      "new_rmse": 0.04453577900008777
+    },
+    {
+      "mode": "two_carriers",
+      "record": 131,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08344767354913316,
+      "new_valid": true,
+      "new_rmse": 0.06793467341385952
+    },
+    {
+      "mode": "two_carriers",
+      "record": 131,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.047779232205424266,
+      "new_valid": true,
+      "new_rmse": 0.03852073586447997
+    },
+    {
+      "mode": "two_carriers",
+      "record": 132,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.019928535192247795,
+      "new_valid": true,
+      "new_rmse": 0.013992918105934771
+    },
+    {
+      "mode": "two_carriers",
+      "record": 132,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07419755592268147,
+      "new_valid": true,
+      "new_rmse": 0.04587544213988647
+    },
+    {
+      "mode": "two_carriers",
+      "record": 133,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03147001249032645,
+      "new_valid": true,
+      "new_rmse": 0.01713141351174846
+    },
+    {
+      "mode": "two_carriers",
+      "record": 133,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08426634062028576,
+      "new_valid": true,
+      "new_rmse": 0.04952009785654333
+    },
+    {
+      "mode": "two_carriers",
+      "record": 134,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07522857198579236,
+      "new_valid": true,
+      "new_rmse": 0.057031823801406735
+    },
+    {
+      "mode": "two_carriers",
+      "record": 134,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06039833897262569,
+      "new_valid": true,
+      "new_rmse": 0.04312042690393853
+    },
+    {
+      "mode": "two_carriers",
+      "record": 135,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06920304976333796,
+      "new_valid": true,
+      "new_rmse": 0.05077843240978269
+    },
+    {
+      "mode": "two_carriers",
+      "record": 135,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03862208787374399,
+      "new_valid": true,
+      "new_rmse": 0.013194187735529902
+    },
+    {
+      "mode": "two_carriers",
+      "record": 136,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.018184294573455818,
+      "new_valid": true,
+      "new_rmse": 0.01699339557817077
+    },
+    {
+      "mode": "two_carriers",
+      "record": 136,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06528113778334133,
+      "new_valid": true,
+      "new_rmse": 0.05234765806204637
+    },
+    {
+      "mode": "two_carriers",
+      "record": 137,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06378945870498837,
+      "new_valid": true,
+      "new_rmse": 0.07638070762704888
+    },
+    {
+      "mode": "two_carriers",
+      "record": 137,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07040805951722524,
+      "new_valid": true,
+      "new_rmse": 0.05431543670154017
+    },
+    {
+      "mode": "two_carriers",
+      "record": 138,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.025755322353781095,
+      "new_valid": true,
+      "new_rmse": 0.01335020789042483
+    },
+    {
+      "mode": "two_carriers",
+      "record": 138,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06741796724583529,
+      "new_valid": true,
+      "new_rmse": 0.04577230353096762
+    },
+    {
+      "mode": "two_carriers",
+      "record": 139,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0690637807953769,
+      "new_valid": true,
+      "new_rmse": 0.04422472003929824
+    },
+    {
+      "mode": "two_carriers",
+      "record": 139,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0723116598950035,
+      "new_valid": true,
+      "new_rmse": 0.054453303965266805
+    },
+    {
+      "mode": "two_carriers",
+      "record": 140,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05459617507912256,
+      "new_valid": true,
+      "new_rmse": 0.03745967762335497
+    },
+    {
+      "mode": "two_carriers",
+      "record": 140,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.058029435521122774,
+      "new_valid": true,
+      "new_rmse": 0.04542073944227423
+    },
+    {
+      "mode": "two_carriers",
+      "record": 141,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08682904057222192,
+      "new_valid": true,
+      "new_rmse": 0.07742077152359328
+    },
+    {
+      "mode": "two_carriers",
+      "record": 141,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06062122858488038,
+      "new_valid": true,
+      "new_rmse": 0.058757874052744984
+    },
+    {
+      "mode": "two_carriers",
+      "record": 142,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.02769967974348234,
+      "new_valid": true,
+      "new_rmse": 0.03974901254268366
+    },
+    {
+      "mode": "two_carriers",
+      "record": 142,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06390546774536408,
+      "new_valid": true,
+      "new_rmse": 0.04780317875513446
+    },
+    {
+      "mode": "two_carriers",
+      "record": 143,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04247240318694378,
+      "new_valid": true,
+      "new_rmse": 0.040388279325186835
+    },
+    {
+      "mode": "two_carriers",
+      "record": 143,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08192162684662987,
+      "new_valid": true,
+      "new_rmse": 0.05706056647668655
+    },
+    {
+      "mode": "two_carriers",
+      "record": 144,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0483572861388832,
+      "new_valid": true,
+      "new_rmse": 0.04782195214316704
+    },
+    {
+      "mode": "two_carriers",
+      "record": 144,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05121798548223844,
+      "new_valid": true,
+      "new_rmse": 0.02659577444676553
+    },
+    {
+      "mode": "two_carriers",
+      "record": 145,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07804080773808524,
+      "new_valid": true,
+      "new_rmse": 0.05097076363143172
+    },
+    {
+      "mode": "two_carriers",
+      "record": 145,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.057986080160725956,
+      "new_valid": true,
+      "new_rmse": 0.024135431164359955
+    },
+    {
+      "mode": "two_carriers",
+      "record": 146,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.050016085986977335,
+      "new_valid": true,
+      "new_rmse": 0.026666748602844993
+    },
+    {
+      "mode": "two_carriers",
+      "record": 146,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08106376468438715,
+      "new_valid": true,
+      "new_rmse": 0.031011970862824204
+    },
+    {
+      "mode": "two_carriers",
+      "record": 147,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03661775244731187,
+      "new_valid": true,
+      "new_rmse": 0.044201068059814434
+    },
+    {
+      "mode": "two_carriers",
+      "record": 147,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.047283267409375995,
+      "new_valid": true,
+      "new_rmse": 0.02552935309242573
+    },
+    {
+      "mode": "two_carriers",
+      "record": 148,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.022470367265218182,
+      "new_valid": true,
+      "new_rmse": 0.02612942975104741
+    },
+    {
+      "mode": "two_carriers",
+      "record": 148,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.054983885749321205,
+      "new_valid": true,
+      "new_rmse": 0.04529188363947008
+    },
+    {
+      "mode": "two_carriers",
+      "record": 149,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03193721375149699,
+      "new_valid": true,
+      "new_rmse": 0.06012280489832166
+    },
+    {
+      "mode": "two_carriers",
+      "record": 149,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06239439813694047,
+      "new_valid": true,
+      "new_rmse": 0.032347406317413584
+    },
+    {
+      "mode": "two_carriers",
+      "record": 150,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0570584806770319,
+      "new_valid": true,
+      "new_rmse": 0.05154979126759225
+    },
+    {
+      "mode": "two_carriers",
+      "record": 150,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06477138336485534,
+      "new_valid": true,
+      "new_rmse": 0.03646110018941915
+    },
+    {
+      "mode": "two_carriers",
+      "record": 151,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.056369665114874665,
+      "new_valid": true,
+      "new_rmse": 0.0305053902873276
+    },
+    {
+      "mode": "two_carriers",
+      "record": 151,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07304571202643537,
+      "new_valid": true,
+      "new_rmse": 0.060046015940100145
+    },
+    {
+      "mode": "two_carriers",
+      "record": 152,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05281085760715398,
+      "new_valid": true,
+      "new_rmse": 0.021475128739177802
+    },
+    {
+      "mode": "two_carriers",
+      "record": 152,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08656702763545247,
+      "new_valid": true,
+      "new_rmse": 0.07315446850032055
+    },
+    {
+      "mode": "two_carriers",
+      "record": 153,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06645098503474729,
+      "new_valid": true,
+      "new_rmse": 0.04764435457724466
+    },
+    {
+      "mode": "two_carriers",
+      "record": 153,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07975976650476557,
+      "new_valid": true,
+      "new_rmse": 0.06780524532160286
+    },
+    {
+      "mode": "two_carriers",
+      "record": 154,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.023622781789627154,
+      "new_valid": true,
+      "new_rmse": 0.044411512453060485
+    },
+    {
+      "mode": "two_carriers",
+      "record": 154,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.042403906129300444,
+      "new_valid": true,
+      "new_rmse": 0.02758264649403295
+    },
+    {
+      "mode": "two_carriers",
+      "record": 155,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.033453241360215144,
+      "new_valid": true,
+      "new_rmse": 0.0679602709593661
+    },
+    {
+      "mode": "two_carriers",
+      "record": 155,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.10577329317301021,
+      "new_valid": true,
+      "new_rmse": 0.08147529883679927
+    },
+    {
+      "mode": "two_carriers",
+      "record": 156,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03175808831864912,
+      "new_valid": true,
+      "new_rmse": 0.05953633967192802
+    },
+    {
+      "mode": "two_carriers",
+      "record": 156,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.056384836090569775,
+      "new_valid": true,
+      "new_rmse": 0.04405711914112933
+    },
+    {
+      "mode": "two_carriers",
+      "record": 157,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.09569722309631434,
+      "new_valid": true,
+      "new_rmse": 0.07634019077361424
+    },
+    {
+      "mode": "two_carriers",
+      "record": 157,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.047455639615628833,
+      "new_valid": true,
+      "new_rmse": 0.037677774627041645
+    },
+    {
+      "mode": "two_carriers",
+      "record": 158,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07474777367800557,
+      "new_valid": true,
+      "new_rmse": 0.05901094444400356
+    },
+    {
+      "mode": "two_carriers",
+      "record": 158,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05583857743266985,
+      "new_valid": true,
+      "new_rmse": 0.060859386119718056
+    },
+    {
+      "mode": "two_carriers",
+      "record": 159,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05833004150757839,
+      "new_valid": true,
+      "new_rmse": 0.05649231048338692
+    },
+    {
+      "mode": "two_carriers",
+      "record": 159,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07713827872322611,
+      "new_valid": true,
+      "new_rmse": 0.04255052448072872
+    },
+    {
+      "mode": "two_carriers",
+      "record": 160,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.049517638538383424,
+      "new_valid": true,
+      "new_rmse": 0.03397306197430836
+    },
+    {
+      "mode": "two_carriers",
+      "record": 160,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04736928535537099,
+      "new_valid": true,
+      "new_rmse": 0.02780807108218776
+    },
+    {
+      "mode": "two_carriers",
+      "record": 161,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04935806943335387,
+      "new_valid": true,
+      "new_rmse": 0.06726479561300543
+    },
+    {
+      "mode": "two_carriers",
+      "record": 161,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05555709072406793,
+      "new_valid": true,
+      "new_rmse": 0.03164286498635544
+    },
+    {
+      "mode": "two_carriers",
+      "record": 162,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04125417008593461,
+      "new_valid": true,
+      "new_rmse": 0.06227675962798386
+    },
+    {
+      "mode": "two_carriers",
+      "record": 162,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05239946627246684,
+      "new_valid": true,
+      "new_rmse": 0.04567698607575312
+    },
+    {
+      "mode": "two_carriers",
+      "record": 163,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.062168065407732113,
+      "new_valid": true,
+      "new_rmse": 0.07019134439898428
+    },
+    {
+      "mode": "two_carriers",
+      "record": 163,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06877682650728956,
+      "new_valid": true,
+      "new_rmse": 0.021326236140689604
+    },
+    {
+      "mode": "two_carriers",
+      "record": 164,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06174904414097147,
+      "new_valid": true,
+      "new_rmse": 0.03515537200189263
+    },
+    {
+      "mode": "two_carriers",
+      "record": 164,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07143446562251804,
+      "new_valid": true,
+      "new_rmse": 0.05457633698590342
+    },
+    {
+      "mode": "two_carriers",
+      "record": 165,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07778562266027901,
+      "new_valid": true,
+      "new_rmse": 0.069788356077692
+    },
+    {
+      "mode": "two_carriers",
+      "record": 165,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.0540374434328732,
+      "new_valid": true,
+      "new_rmse": 0.04047979591668079
+    },
+    {
+      "mode": "two_carriers",
+      "record": 166,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06610487394374534,
+      "new_valid": true,
+      "new_rmse": 0.0401913522683955
+    },
+    {
+      "mode": "two_carriers",
+      "record": 166,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04817153116806885,
+      "new_valid": true,
+      "new_rmse": 0.021875370920795736
+    },
+    {
+      "mode": "two_carriers",
+      "record": 167,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.031155465760731152,
+      "new_valid": true,
+      "new_rmse": 0.036264748712435485
+    },
+    {
+      "mode": "two_carriers",
+      "record": 167,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07585149721807974,
+      "new_valid": true,
+      "new_rmse": 0.056733305542281974
+    },
+    {
+      "mode": "two_carriers",
+      "record": 168,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06284506883514132,
+      "new_valid": true,
+      "new_rmse": 0.03124832553502324
+    },
+    {
+      "mode": "two_carriers",
+      "record": 168,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.059102465055290335,
+      "new_valid": true,
+      "new_rmse": 0.038833636632762264
+    },
+    {
+      "mode": "two_carriers",
+      "record": 169,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.052419986560075134,
+      "new_valid": true,
+      "new_rmse": 0.029710292219309948
+    },
+    {
+      "mode": "two_carriers",
+      "record": 169,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05899175116518149,
+      "new_valid": true,
+      "new_rmse": 0.05876667480020147
+    },
+    {
+      "mode": "two_carriers",
+      "record": 170,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05043955953649533,
+      "new_valid": true,
+      "new_rmse": 0.03860952873472152
+    },
+    {
+      "mode": "two_carriers",
+      "record": 170,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05764735616627304,
+      "new_valid": true,
+      "new_rmse": 0.06009284119267742
+    },
+    {
+      "mode": "two_carriers",
+      "record": 171,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04231358015242438,
+      "new_valid": true,
+      "new_rmse": 0.04430040619954984
+    },
+    {
+      "mode": "two_carriers",
+      "record": 171,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06513435931401722,
+      "new_valid": true,
+      "new_rmse": 0.045246191635514396
+    },
+    {
+      "mode": "two_carriers",
+      "record": 172,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.013120158759650665,
+      "new_valid": true,
+      "new_rmse": 0.010880227497264987
+    },
+    {
+      "mode": "two_carriers",
+      "record": 172,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07219659339714542,
+      "new_valid": true,
+      "new_rmse": 0.07056246720589039
+    },
+    {
+      "mode": "two_carriers",
+      "record": 173,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.040533616921681566,
+      "new_valid": true,
+      "new_rmse": 0.037748838932881605
+    },
+    {
+      "mode": "two_carriers",
+      "record": 173,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05247545419205971,
+      "new_valid": true,
+      "new_rmse": 0.05632064525479949
+    },
+    {
+      "mode": "two_carriers",
+      "record": 174,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03850645589028124,
+      "new_valid": true,
+      "new_rmse": 0.027277244782996563
+    },
+    {
+      "mode": "two_carriers",
+      "record": 174,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.062299708484594866,
+      "new_valid": true,
+      "new_rmse": 0.030280873515037752
+    },
+    {
+      "mode": "two_carriers",
+      "record": 175,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.028074844291252322,
+      "new_valid": true,
+      "new_rmse": 0.03297250123215964
+    },
+    {
+      "mode": "two_carriers",
+      "record": 175,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04936461803457706,
+      "new_valid": true,
+      "new_rmse": 0.04045742659937656
+    },
+    {
+      "mode": "two_carriers",
+      "record": 176,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07399105614866344,
+      "new_valid": true,
+      "new_rmse": 0.05284083313459959
+    },
+    {
+      "mode": "two_carriers",
+      "record": 176,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07711037727171122,
+      "new_valid": true,
+      "new_rmse": 0.0708129609866005
+    },
+    {
+      "mode": "two_carriers",
+      "record": 177,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04138331973514519,
+      "new_valid": true,
+      "new_rmse": 0.01677009714972035
+    },
+    {
+      "mode": "two_carriers",
+      "record": 177,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.057687175134821064,
+      "new_valid": true,
+      "new_rmse": 0.034045271383037666
+    },
+    {
+      "mode": "two_carriers",
+      "record": 178,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04761389717732214,
+      "new_valid": true,
+      "new_rmse": 0.03985509294913822
+    },
+    {
+      "mode": "two_carriers",
+      "record": 178,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.050167121998237835,
+      "new_valid": true,
+      "new_rmse": 0.05877825431198558
+    },
+    {
+      "mode": "two_carriers",
+      "record": 179,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.02882411866163798,
+      "new_valid": true,
+      "new_rmse": 0.03721799148038453
+    },
+    {
+      "mode": "two_carriers",
+      "record": 179,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05422070529153608,
+      "new_valid": true,
+      "new_rmse": 0.04080580717066606
+    },
+    {
+      "mode": "two_carriers",
+      "record": 180,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.040088664530663724,
+      "new_valid": true,
+      "new_rmse": 0.05472680754714817
+    },
+    {
+      "mode": "two_carriers",
+      "record": 180,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05711255631263555,
+      "new_valid": true,
+      "new_rmse": 0.0567343621815079
+    },
+    {
+      "mode": "two_carriers",
+      "record": 181,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.024100835659543293,
+      "new_valid": true,
+      "new_rmse": 0.009428307780222871
+    },
+    {
+      "mode": "two_carriers",
+      "record": 181,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.042278286939733276,
+      "new_valid": true,
+      "new_rmse": 0.030520293425408917
+    },
+    {
+      "mode": "two_carriers",
+      "record": 182,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.02904464146382458,
+      "new_valid": true,
+      "new_rmse": 0.02563997858724576
+    },
+    {
+      "mode": "two_carriers",
+      "record": 182,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06801701432248992,
+      "new_valid": true,
+      "new_rmse": 0.038756274174372975
+    },
+    {
+      "mode": "two_carriers",
+      "record": 183,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04270801393764225,
+      "new_valid": true,
+      "new_rmse": 0.055851192858224964
+    },
+    {
+      "mode": "two_carriers",
+      "record": 183,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04413440874869953,
+      "new_valid": true,
+      "new_rmse": 0.025369586746626517
+    },
+    {
+      "mode": "two_carriers",
+      "record": 184,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.021248374684367955,
+      "new_valid": true,
+      "new_rmse": 0.03024410104700556
+    },
+    {
+      "mode": "two_carriers",
+      "record": 184,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.046403756318634415,
+      "new_valid": true,
+      "new_rmse": 0.02474504022475312
+    },
+    {
+      "mode": "two_carriers",
+      "record": 185,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07192703710349943,
+      "new_valid": true,
+      "new_rmse": 0.03137380668916188
+    },
+    {
+      "mode": "two_carriers",
+      "record": 185,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04748049379241157,
+      "new_valid": true,
+      "new_rmse": 0.039931993062551054
+    },
+    {
+      "mode": "two_carriers",
+      "record": 186,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08690865257274145,
+      "new_valid": true,
+      "new_rmse": 0.07124447630916994
+    },
+    {
+      "mode": "two_carriers",
+      "record": 186,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05127156402288704,
+      "new_valid": true,
+      "new_rmse": 0.0325222839917717
+    },
+    {
+      "mode": "two_carriers",
+      "record": 187,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.013615885512731652,
+      "new_valid": true,
+      "new_rmse": 0.01599226271375788
+    },
+    {
+      "mode": "two_carriers",
+      "record": 187,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08034903243981065,
+      "new_valid": true,
+      "new_rmse": 0.033086219266082774
+    },
+    {
+      "mode": "two_carriers",
+      "record": 188,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08987478457621477,
+      "new_valid": true,
+      "new_rmse": 0.1000847377769493
+    },
+    {
+      "mode": "two_carriers",
+      "record": 188,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.045919805180746384,
+      "new_valid": true,
+      "new_rmse": 0.04359776846069892
+    },
+    {
+      "mode": "two_carriers",
+      "record": 189,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.04049524633812783,
+      "new_valid": true,
+      "new_rmse": 0.012663791395528546
+    },
+    {
+      "mode": "two_carriers",
+      "record": 189,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06462028241013713,
+      "new_valid": true,
+      "new_rmse": 0.0477417648051412
+    },
+    {
+      "mode": "two_carriers",
+      "record": 190,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06769348948186188,
+      "new_valid": true,
+      "new_rmse": 0.07723278166529392
+    },
+    {
+      "mode": "two_carriers",
+      "record": 190,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06105122723175065,
+      "new_valid": true,
+      "new_rmse": 0.057206081192556706
+    },
+    {
+      "mode": "two_carriers",
+      "record": 191,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05215035635838865,
+      "new_valid": true,
+      "new_rmse": 0.02962089834423445
+    },
+    {
+      "mode": "two_carriers",
+      "record": 191,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08988800499494347,
+      "new_valid": true,
+      "new_rmse": 0.06095480385267737
+    },
+    {
+      "mode": "two_carriers",
+      "record": 192,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.056874128893063924,
+      "new_valid": true,
+      "new_rmse": 0.040112608001011504
+    },
+    {
+      "mode": "two_carriers",
+      "record": 192,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08007543888367377,
+      "new_valid": true,
+      "new_rmse": 0.04728262568905428
+    },
+    {
+      "mode": "two_carriers",
+      "record": 193,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.032135461907546604,
+      "new_valid": true,
+      "new_rmse": 0.026218705552717814
+    },
+    {
+      "mode": "two_carriers",
+      "record": 193,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.045650237183651875,
+      "new_valid": true,
+      "new_rmse": 0.03764353363524869
+    },
+    {
+      "mode": "two_carriers",
+      "record": 194,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.040801568439113985,
+      "new_valid": true,
+      "new_rmse": 0.031063386805516898
+    },
+    {
+      "mode": "two_carriers",
+      "record": 194,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.08011668531268298,
+      "new_valid": true,
+      "new_rmse": 0.02543314857492086
+    },
+    {
+      "mode": "two_carriers",
+      "record": 195,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.03191366977163633,
+      "new_valid": true,
+      "new_rmse": 0.027232234852650902
+    },
+    {
+      "mode": "two_carriers",
+      "record": 195,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05837074742970218,
+      "new_valid": true,
+      "new_rmse": 0.048295956175994297
+    },
+    {
+      "mode": "two_carriers",
+      "record": 196,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.034751316417487764,
+      "new_valid": true,
+      "new_rmse": 0.05736961976070796
+    },
+    {
+      "mode": "two_carriers",
+      "record": 196,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05860323288512695,
+      "new_valid": true,
+      "new_rmse": 0.021854562387694513
+    },
+    {
+      "mode": "two_carriers",
+      "record": 197,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.07180287039261375,
+      "new_valid": true,
+      "new_rmse": 0.06931140943516093
+    },
+    {
+      "mode": "two_carriers",
+      "record": 197,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06972679769336372,
+      "new_valid": true,
+      "new_rmse": 0.060420587053217956
+    },
+    {
+      "mode": "two_carriers",
+      "record": 198,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.033349602832366196,
+      "new_valid": true,
+      "new_rmse": 0.032486116363505006
+    },
+    {
+      "mode": "two_carriers",
+      "record": 198,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.05033558923415722,
+      "new_valid": true,
+      "new_rmse": 0.03202597888345365
+    },
+    {
+      "mode": "two_carriers",
+      "record": 199,
+      "source_index": 1,
+      "target_index": 0,
+      "baseline_valid": true,
+      "baseline_rmse": 0.029737760914502292,
+      "new_valid": true,
+      "new_rmse": 0.017549222794048035
+    },
+    {
+      "mode": "two_carriers",
+      "record": 199,
+      "source_index": 3,
+      "target_index": 3,
+      "baseline_valid": true,
+      "baseline_rmse": 0.06633177723059858,
+      "new_valid": true,
+      "new_rmse": 0.06814157520856226
+    }
+  ]
+}

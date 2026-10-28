@@ -1,0 +1,1211 @@
+{
+  "split": "confirm",
+  "records": 200,
+  "source_seconds": 10,
+  "mean_local_fraction": 0.689375,
+  "global_error": 0.29441080464788216,
+  "local_error": 0.05029033207869272,
+  "metric": "Complex coefficient error, local-valid anchors; full-record fallback is not relabeled local.",
+  "cases": [
+    {
+      "seed": 710000,
+      "local_fraction": 0.7,
+      "global_error": 0.32172066004459543,
+      "local_error": 0.05518118959207076
+    },
+    {
+      "seed": 710001,
+      "local_fraction": 0.7,
+      "global_error": 0.36963188062932734,
+      "local_error": 0.05627858067990905
+    },
+    {
+      "seed": 710002,
+      "local_fraction": 0.7,
+      "global_error": 0.23308979488391043,
+      "local_error": 0.0470436786853503
+    },
+    {
+      "seed": 710003,
+      "local_fraction": 0.7,
+      "global_error": 0.3160526068179797,
+      "local_error": 0.046572628634429125
+    },
+    {
+      "seed": 710004,
+      "local_fraction": 0.65,
+      "global_error": 0.3285998938336129,
+      "local_error": 0.06214704340215956
+    },
+    {
+      "seed": 710005,
+      "local_fraction": 0.65,
+      "global_error": 0.21156654786946844,
+      "local_error": 0.049889956135373545
+    },
+    {
+      "seed": 710006,
+      "local_fraction": 0.7,
+      "global_error": 0.23826292736200866,
+      "local_error": 0.05487938189834141
+    },
+    {
+      "seed": 710007,
+      "local_fraction": 0.7,
+      "global_error": 0.33107686347358184,
+      "local_error": 0.0543937068917262
+    },
+    {
+      "seed": 710008,
+      "local_fraction": 0.65,
+      "global_error": 0.3418518030220248,
+      "local_error": 0.05678024667225163
+    },
+    {
+      "seed": 710009,
+      "local_fraction": 0.65,
+      "global_error": 0.2994510615728266,
+      "local_error": 0.042422713833655604
+    },
+    {
+      "seed": 710010,
+      "local_fraction": 0.675,
+      "global_error": 0.313529051199595,
+      "local_error": 0.06092605175845838
+    },
+    {
+      "seed": 710011,
+      "local_fraction": 0.7,
+      "global_error": 0.3509474817878213,
+      "local_error": 0.05062637890702015
+    },
+    {
+      "seed": 710012,
+      "local_fraction": 0.7,
+      "global_error": 0.24527959885008452,
+      "local_error": 0.045382677800055136
+    },
+    {
+      "seed": 710013,
+      "local_fraction": 0.7,
+      "global_error": 0.261676322082683,
+      "local_error": 0.04642165625588951
+    },
+    {
+      "seed": 710014,
+      "local_fraction": 0.7,
+      "global_error": 0.36691188339861147,
+      "local_error": 0.05637751528472669
+    },
+    {
+      "seed": 710015,
+      "local_fraction": 0.65,
+      "global_error": 0.3220305430264924,
+      "local_error": 0.06610806581140267
+    },
+    {
+      "seed": 710016,
+      "local_fraction": 0.7,
+      "global_error": 0.2589880998460906,
+      "local_error": 0.04369594063055171
+    },
+    {
+      "seed": 710017,
+      "local_fraction": 0.7,
+      "global_error": 0.2921487310055908,
+      "local_error": 0.05356450826370716
+    },
+    {
+      "seed": 710018,
+      "local_fraction": 0.7,
+      "global_error": 0.3181362087407897,
+      "local_error": 0.057955386144231895
+    },
+    {
+      "seed": 710019,
+      "local_fraction": 0.7,
+      "global_error": 0.24345507700345895,
+      "local_error": 0.0476452370510867
+    },
+    {
+      "seed": 710020,
+      "local_fraction": 0.7,
+      "global_error": 0.3522040914948921,
+      "local_error": 0.07413306238555706
+    },
+    {
+      "seed": 710021,
+      "local_fraction": 0.7,
+      "global_error": 0.27452664712862856,
+      "local_error": 0.048015133667483605
+    },
+    {
+      "seed": 710022,
+      "local_fraction": 0.7,
+      "global_error": 0.34834300196108187,
+      "local_error": 0.0590072780757581
+    },
+    {
+      "seed": 710023,
+      "local_fraction": 0.65,
+      "global_error": 0.21010476091867294,
+      "local_error": 0.04753624360741888
+    },
+    {
+      "seed": 710024,
+      "local_fraction": 0.7,
+      "global_error": 0.22759824212401905,
+      "local_error": 0.04880566401537189
+    },
+    {
+      "seed": 710025,
+      "local_fraction": 0.65,
+      "global_error": 0.24544704025765945,
+      "local_error": 0.04986231180130625
+    },
+    {
+      "seed": 710026,
+      "local_fraction": 0.7,
+      "global_error": 0.2978130456348895,
+      "local_error": 0.042871953096840186
+    },
+    {
+      "seed": 710027,
+      "local_fraction": 0.7,
+      "global_error": 0.3641676033233772,
+      "local_error": 0.05648393234221287
+    },
+    {
+      "seed": 710028,
+      "local_fraction": 0.7,
+      "global_error": 0.2263942650995004,
+      "local_error": 0.04355512832943781
+    },
+    {
+      "seed": 710029,
+      "local_fraction": 0.7,
+      "global_error": 0.3076765540400847,
+      "local_error": 0.05597104655163428
+    },
+    {
+      "seed": 710030,
+      "local_fraction": 0.7,
+      "global_error": 0.32717398712982104,
+      "local_error": 0.04749603463595585
+    },
+    {
+      "seed": 710031,
+      "local_fraction": 0.65,
+      "global_error": 0.28487627075433963,
+      "local_error": 0.04969682681162464
+    },
+    {
+      "seed": 710032,
+      "local_fraction": 0.7,
+      "global_error": 0.34028585142919454,
+      "local_error": 0.056467559545694046
+    },
+    {
+      "seed": 710033,
+      "local_fraction": 0.65,
+      "global_error": 0.3171391603410262,
+      "local_error": 0.0498986158958892
+    },
+    {
+      "seed": 710034,
+      "local_fraction": 0.7,
+      "global_error": 0.3139371575548452,
+      "local_error": 0.040927436325787124
+    },
+    {
+      "seed": 710035,
+      "local_fraction": 0.7,
+      "global_error": 0.3651496894150153,
+      "local_error": 0.05112302215764553
+    },
+    {
+      "seed": 710036,
+      "local_fraction": 0.7,
+      "global_error": 0.32584643730206775,
+      "local_error": 0.04661115635086504
+    },
+    {
+      "seed": 710037,
+      "local_fraction": 0.7,
+      "global_error": 0.297327298908091,
+      "local_error": 0.03990465852507109
+    },
+    {
+      "seed": 710038,
+      "local_fraction": 0.7,
+      "global_error": 0.34330431500457687,
+      "local_error": 0.05471729955893496
+    },
+    {
+      "seed": 710039,
+      "local_fraction": 0.7,
+      "global_error": 0.2817418888274753,
+      "local_error": 0.050123387926092354
+    },
+    {
+      "seed": 710040,
+      "local_fraction": 0.7,
+      "global_error": 0.22243344332468182,
+      "local_error": 0.04117226936019997
+    },
+    {
+      "seed": 710041,
+      "local_fraction": 0.7,
+      "global_error": 0.3726810059892505,
+      "local_error": 0.06644035029211036
+    },
+    {
+      "seed": 710042,
+      "local_fraction": 0.7,
+      "global_error": 0.3266073387548087,
+      "local_error": 0.052690723758218795
+    },
+    {
+      "seed": 710043,
+      "local_fraction": 0.65,
+      "global_error": 0.3509922223959192,
+      "local_error": 0.05273264838151218
+    },
+    {
+      "seed": 710044,
+      "local_fraction": 0.7,
+      "global_error": 0.2967362969321267,
+      "local_error": 0.03804686335147391
+    },
+    {
+      "seed": 710045,
+      "local_fraction": 0.7,
+      "global_error": 0.22616848980317714,
+      "local_error": 0.032954712385994414
+    },
+    {
+      "seed": 710046,
+      "local_fraction": 0.7,
+      "global_error": 0.3461484618982305,
+      "local_error": 0.055546804748333414
+    },
+    {
+      "seed": 710047,
+      "local_fraction": 0.7,
+      "global_error": 0.2523138089312535,
+      "local_error": 0.03861357186720867
+    },
+    {
+      "seed": 710048,
+      "local_fraction": 0.7,
+      "global_error": 0.30563503895800936,
+      "local_error": 0.05863564406123794
+    },
+    {
+      "seed": 710049,
+      "local_fraction": 0.7,
+      "global_error": 0.2302687115235195,
+      "local_error": 0.03141513385605128
+    },
+    {
+      "seed": 710050,
+      "local_fraction": 0.65,
+      "global_error": 0.21153169423471418,
+      "local_error": 0.04250139348887458
+    },
+    {
+      "seed": 710051,
+      "local_fraction": 0.7,
+      "global_error": 0.3012492801607468,
+      "local_error": 0.04949176021629868
+    },
+    {
+      "seed": 710052,
+      "local_fraction": 0.7,
+      "global_error": 0.23434065316234617,
+      "local_error": 0.039672991507305924
+    },
+    {
+      "seed": 710053,
+      "local_fraction": 0.65,
+      "global_error": 0.23454319613604427,
+      "local_error": 0.04787030548452261
+    },
+    {
+      "seed": 710054,
+      "local_fraction": 0.7,
+      "global_error": 0.2723727899284501,
+      "local_error": 0.040891743310288
+    },
+    {
+      "seed": 710055,
+      "local_fraction": 0.65,
+      "global_error": 0.21350378662735311,
+      "local_error": 0.05304554549458465
+    },
+    {
+      "seed": 710056,
+      "local_fraction": 0.65,
+      "global_error": 0.3043702192992137,
+      "local_error": 0.05271283748671974
+    },
+    {
+      "seed": 710057,
+      "local_fraction": 0.7,
+      "global_error": 0.36094314230833563,
+      "local_error": 0.06132753683912056
+    },
+    {
+      "seed": 710058,
+      "local_fraction": 0.7,
+      "global_error": 0.3190351764145914,
+      "local_error": 0.05036782053369392
+    },
+    {
+      "seed": 710059,
+      "local_fraction": 0.65,
+      "global_error": 0.25190440402708963,
+      "local_error": 0.048243511394362934
+    },
+    {
+      "seed": 710060,
+      "local_fraction": 0.7,
+      "global_error": 0.26385628041153913,
+      "local_error": 0.04129526089866092
+    },
+    {
+      "seed": 710061,
+      "local_fraction": 0.7,
+      "global_error": 0.2333336271704727,
+      "local_error": 0.04485798586989662
+    },
+    {
+      "seed": 710062,
+      "local_fraction": 0.7,
+      "global_error": 0.32630825539198804,
+      "local_error": 0.06412966752364799
+    },
+    {
+      "seed": 710063,
+      "local_fraction": 0.7,
+      "global_error": 0.24018136350523678,
+      "local_error": 0.04051029171626896
+    },
+    {
+      "seed": 710064,
+      "local_fraction": 0.65,
+      "global_error": 0.3722123171561836,
+      "local_error": 0.06724455886657685
+    },
+    {
+      "seed": 710065,
+      "local_fraction": 0.7,
+      "global_error": 0.22240729367025544,
+      "local_error": 0.03382385766038406
+    },
+    {
+      "seed": 710066,
+      "local_fraction": 0.7,
+      "global_error": 0.34291937880127005,
+      "local_error": 0.06362099840634436
+    },
+    {
+      "seed": 710067,
+      "local_fraction": 0.7,
+      "global_error": 0.3255460191874126,
+      "local_error": 0.045912344917309104
+    },
+    {
+      "seed": 710068,
+      "local_fraction": 0.7,
+      "global_error": 0.248098492261696,
+      "local_error": 0.03473094193197301
+    },
+    {
+      "seed": 710069,
+      "local_fraction": 0.7,
+      "global_error": 0.36603898960296305,
+      "local_error": 0.052418547126050506
+    },
+    {
+      "seed": 710070,
+      "local_fraction": 0.7,
+      "global_error": 0.26069308939221064,
+      "local_error": 0.050787642202943684
+    },
+    {
+      "seed": 710071,
+      "local_fraction": 0.7,
+      "global_error": 0.2869531786638633,
+      "local_error": 0.04544852079833676
+    },
+    {
+      "seed": 710072,
+      "local_fraction": 0.7,
+      "global_error": 0.21713046299566113,
+      "local_error": 0.05025633791907448
+    },
+    {
+      "seed": 710073,
+      "local_fraction": 0.7,
+      "global_error": 0.3693779693975812,
+      "local_error": 0.06380540402101388
+    },
+    {
+      "seed": 710074,
+      "local_fraction": 0.7,
+      "global_error": 0.22419608746576714,
+      "local_error": 0.03569620223325971
+    },
+    {
+      "seed": 710075,
+      "local_fraction": 0.675,
+      "global_error": 0.2905253148535407,
+      "local_error": 0.04501635269365531
+    },
+    {
+      "seed": 710076,
+      "local_fraction": 0.7,
+      "global_error": 0.3031949318188492,
+      "local_error": 0.05991557839641793
+    },
+    {
+      "seed": 710077,
+      "local_fraction": 0.7,
+      "global_error": 0.3075209923334481,
+      "local_error": 0.051519706872014626
+    },
+    {
+      "seed": 710078,
+      "local_fraction": 0.65,
+      "global_error": 0.3175087362280478,
+      "local_error": 0.05267341720562498
+    },
+    {
+      "seed": 710079,
+      "local_fraction": 0.7,
+      "global_error": 0.2729407607379239,
+      "local_error": 0.033654304508152315
+    },
+    {
+      "seed": 710080,
+      "local_fraction": 0.65,
+      "global_error": 0.27735341181233075,
+      "local_error": 0.04448989319777146
+    },
+    {
+      "seed": 710081,
+      "local_fraction": 0.7,
+      "global_error": 0.3109606763676448,
+      "local_error": 0.05182086191270267
+    },
+    {
+      "seed": 710082,
+      "local_fraction": 0.7,
+      "global_error": 0.35436412702366754,
+      "local_error": 0.05793931228081641
+    },
+    {
+      "seed": 710083,
+      "local_fraction": 0.7,
+      "global_error": 0.2538103015066973,
+      "local_error": 0.04132742038878701
+    },
+    {
+      "seed": 710084,
+      "local_fraction": 0.7,
+      "global_error": 0.34522595540732853,
+      "local_error": 0.048344166488272486
+    },
+    {
+      "seed": 710085,
+      "local_fraction": 0.7,
+      "global_error": 0.348002393285266,
+      "local_error": 0.0630536955894657
+    },
+    {
+      "seed": 710086,
+      "local_fraction": 0.65,
+      "global_error": 0.28534103702861385,
+      "local_error": 0.0387477099834446
+    },
+    {
+      "seed": 710087,
+      "local_fraction": 0.65,
+      "global_error": 0.285918934406852,
+      "local_error": 0.050871366921885396
+    },
+    {
+      "seed": 710088,
+      "local_fraction": 0.7,
+      "global_error": 0.25603737799904575,
+      "local_error": 0.050161489207436426
+    },
+    {
+      "seed": 710089,
+      "local_fraction": 0.7,
+      "global_error": 0.2557918575566967,
+      "local_error": 0.052766300501053034
+    },
+    {
+      "seed": 710090,
+      "local_fraction": 0.7,
+      "global_error": 0.2955422360961159,
+      "local_error": 0.04724182406437434
+    },
+    {
+      "seed": 710091,
+      "local_fraction": 0.7,
+      "global_error": 0.2171840862783226,
+      "local_error": 0.03336814518495127
+    },
+    {
+      "seed": 710092,
+      "local_fraction": 0.7,
+      "global_error": 0.22612275758311423,
+      "local_error": 0.03869631468064839
+    },
+    {
+      "seed": 710093,
+      "local_fraction": 0.7,
+      "global_error": 0.3128397481222858,
+      "local_error": 0.04820211370922841
+    },
+    {
+      "seed": 710094,
+      "local_fraction": 0.7,
+      "global_error": 0.2367619400048229,
+      "local_error": 0.046555591464114456
+    },
+    {
+      "seed": 710095,
+      "local_fraction": 0.7,
+      "global_error": 0.3010824545815657,
+      "local_error": 0.05594807303549272
+    },
+    {
+      "seed": 710096,
+      "local_fraction": 0.7,
+      "global_error": 0.28505577887413547,
+      "local_error": 0.04826834947947845
+    },
+    {
+      "seed": 710097,
+      "local_fraction": 0.675,
+      "global_error": 0.3164191403112752,
+      "local_error": 0.04448729408131166
+    },
+    {
+      "seed": 710098,
+      "local_fraction": 0.7,
+      "global_error": 0.26487483860818195,
+      "local_error": 0.0487628128161597
+    },
+    {
+      "seed": 710099,
+      "local_fraction": 0.7,
+      "global_error": 0.3742613353773025,
+      "local_error": 0.06767350889200606
+    },
+    {
+      "seed": 710100,
+      "local_fraction": 0.7,
+      "global_error": 0.373467096026585,
+      "local_error": 0.057342231493155225
+    },
+    {
+      "seed": 710101,
+      "local_fraction": 0.7,
+      "global_error": 0.33118084687940524,
+      "local_error": 0.05141228025156487
+    },
+    {
+      "seed": 710102,
+      "local_fraction": 0.7,
+      "global_error": 0.3679488245303103,
+      "local_error": 0.06386328170926588
+    },
+    {
+      "seed": 710103,
+      "local_fraction": 0.65,
+      "global_error": 0.335741287325457,
+      "local_error": 0.06077135892227732
+    },
+    {
+      "seed": 710104,
+      "local_fraction": 0.7,
+      "global_error": 0.3662352447714777,
+      "local_error": 0.07782450456374702
+    },
+    {
+      "seed": 710105,
+      "local_fraction": 0.65,
+      "global_error": 0.321776325414336,
+      "local_error": 0.05868789244077691
+    },
+    {
+      "seed": 710106,
+      "local_fraction": 0.65,
+      "global_error": 0.2095154974396801,
+      "local_error": 0.036481034755782134
+    },
+    {
+      "seed": 710107,
+      "local_fraction": 0.7,
+      "global_error": 0.22857438260593307,
+      "local_error": 0.028487592737932492
+    },
+    {
+      "seed": 710108,
+      "local_fraction": 0.7,
+      "global_error": 0.2662862017603956,
+      "local_error": 0.05741971631900304
+    },
+    {
+      "seed": 710109,
+      "local_fraction": 0.7,
+      "global_error": 0.2505338632705631,
+      "local_error": 0.03865435837102455
+    },
+    {
+      "seed": 710110,
+      "local_fraction": 0.65,
+      "global_error": 0.3652007658918054,
+      "local_error": 0.06672718789621418
+    },
+    {
+      "seed": 710111,
+      "local_fraction": 0.7,
+      "global_error": 0.33960020549080916,
+      "local_error": 0.05099395685847848
+    },
+    {
+      "seed": 710112,
+      "local_fraction": 0.7,
+      "global_error": 0.24814423359236573,
+      "local_error": 0.05136021113998334
+    },
+    {
+      "seed": 710113,
+      "local_fraction": 0.7,
+      "global_error": 0.37173720933648713,
+      "local_error": 0.05858886450365721
+    },
+    {
+      "seed": 710114,
+      "local_fraction": 0.7,
+      "global_error": 0.31938271806055835,
+      "local_error": 0.0367602598923286
+    },
+    {
+      "seed": 710115,
+      "local_fraction": 0.65,
+      "global_error": 0.25518688605143464,
+      "local_error": 0.0502315997841385
+    },
+    {
+      "seed": 710116,
+      "local_fraction": 0.7,
+      "global_error": 0.34167941870942553,
+      "local_error": 0.05312426483617521
+    },
+    {
+      "seed": 710117,
+      "local_fraction": 0.7,
+      "global_error": 0.23003940931529468,
+      "local_error": 0.047231228345059204
+    },
+    {
+      "seed": 710118,
+      "local_fraction": 0.7,
+      "global_error": 0.22066385232843505,
+      "local_error": 0.025765818397297253
+    },
+    {
+      "seed": 710119,
+      "local_fraction": 0.7,
+      "global_error": 0.29274048750276865,
+      "local_error": 0.049024993212913356
+    },
+    {
+      "seed": 710120,
+      "local_fraction": 0.7,
+      "global_error": 0.31713017775872016,
+      "local_error": 0.037230259747019954
+    },
+    {
+      "seed": 710121,
+      "local_fraction": 0.7,
+      "global_error": 0.3175414442697741,
+      "local_error": 0.041067802022210866
+    },
+    {
+      "seed": 710122,
+      "local_fraction": 0.7,
+      "global_error": 0.3230483592271369,
+      "local_error": 0.038532134698933074
+    },
+    {
+      "seed": 710123,
+      "local_fraction": 0.7,
+      "global_error": 0.3465800738798287,
+      "local_error": 0.057337467230866586
+    },
+    {
+      "seed": 710124,
+      "local_fraction": 0.7,
+      "global_error": 0.23827484781813993,
+      "local_error": 0.049345647073072964
+    },
+    {
+      "seed": 710125,
+      "local_fraction": 0.7,
+      "global_error": 0.22954705355958424,
+      "local_error": 0.03567741675654741
+    },
+    {
+      "seed": 710126,
+      "local_fraction": 0.65,
+      "global_error": 0.30835704348659393,
+      "local_error": 0.051479927302363435
+    },
+    {
+      "seed": 710127,
+      "local_fraction": 0.7,
+      "global_error": 0.3268578187315859,
+      "local_error": 0.04185958304482872
+    },
+    {
+      "seed": 710128,
+      "local_fraction": 0.7,
+      "global_error": 0.21890557089708956,
+      "local_error": 0.044201936408118994
+    },
+    {
+      "seed": 710129,
+      "local_fraction": 0.7,
+      "global_error": 0.2669319358533285,
+      "local_error": 0.046103207366338404
+    },
+    {
+      "seed": 710130,
+      "local_fraction": 0.7,
+      "global_error": 0.2683298587322272,
+      "local_error": 0.04523478632743777
+    },
+    {
+      "seed": 710131,
+      "local_fraction": 0.65,
+      "global_error": 0.22364943081178887,
+      "local_error": 0.054116403919041114
+    },
+    {
+      "seed": 710132,
+      "local_fraction": 0.7,
+      "global_error": 0.28978498248908313,
+      "local_error": 0.03951634282927506
+    },
+    {
+      "seed": 710133,
+      "local_fraction": 0.7,
+      "global_error": 0.2743780331775526,
+      "local_error": 0.04951761443448725
+    },
+    {
+      "seed": 710134,
+      "local_fraction": 0.7,
+      "global_error": 0.21821676621720115,
+      "local_error": 0.056219220573603804
+    },
+    {
+      "seed": 710135,
+      "local_fraction": 0.7,
+      "global_error": 0.262658390601638,
+      "local_error": 0.045321725793694145
+    },
+    {
+      "seed": 710136,
+      "local_fraction": 0.7,
+      "global_error": 0.33999888757935576,
+      "local_error": 0.05363136524601908
+    },
+    {
+      "seed": 710137,
+      "local_fraction": 0.7,
+      "global_error": 0.3483428676406018,
+      "local_error": 0.048392274315207325
+    },
+    {
+      "seed": 710138,
+      "local_fraction": 0.7,
+      "global_error": 0.24562205788889632,
+      "local_error": 0.05061615777001858
+    },
+    {
+      "seed": 710139,
+      "local_fraction": 0.7,
+      "global_error": 0.2558778851322361,
+      "local_error": 0.03943206644652549
+    },
+    {
+      "seed": 710140,
+      "local_fraction": 0.7,
+      "global_error": 0.24375668379363197,
+      "local_error": 0.041962688163308275
+    },
+    {
+      "seed": 710141,
+      "local_fraction": 0.7,
+      "global_error": 0.297096709294478,
+      "local_error": 0.05328913468455787
+    },
+    {
+      "seed": 710142,
+      "local_fraction": 0.65,
+      "global_error": 0.34633550353416875,
+      "local_error": 0.05171605981830038
+    },
+    {
+      "seed": 710143,
+      "local_fraction": 0.65,
+      "global_error": 0.2884381274400522,
+      "local_error": 0.04202727443360176
+    },
+    {
+      "seed": 710144,
+      "local_fraction": 0.65,
+      "global_error": 0.260893862174422,
+      "local_error": 0.04287903978807702
+    },
+    {
+      "seed": 710145,
+      "local_fraction": 0.65,
+      "global_error": 0.32011147821208585,
+      "local_error": 0.04983716051529728
+    },
+    {
+      "seed": 710146,
+      "local_fraction": 0.7,
+      "global_error": 0.30087048375269393,
+      "local_error": 0.055792164763577956
+    },
+    {
+      "seed": 710147,
+      "local_fraction": 0.7,
+      "global_error": 0.37548810486707523,
+      "local_error": 0.0646741529257918
+    },
+    {
+      "seed": 710148,
+      "local_fraction": 0.65,
+      "global_error": 0.24145682995716572,
+      "local_error": 0.04841782821437525
+    },
+    {
+      "seed": 710149,
+      "local_fraction": 0.7,
+      "global_error": 0.33708339675444676,
+      "local_error": 0.06457750438040545
+    },
+    {
+      "seed": 710150,
+      "local_fraction": 0.7,
+      "global_error": 0.3205840978337746,
+      "local_error": 0.05039417326105699
+    },
+    {
+      "seed": 710151,
+      "local_fraction": 0.65,
+      "global_error": 0.27836663419349744,
+      "local_error": 0.047474434426713036
+    },
+    {
+      "seed": 710152,
+      "local_fraction": 0.7,
+      "global_error": 0.3042595260426171,
+      "local_error": 0.041828483347611405
+    },
+    {
+      "seed": 710153,
+      "local_fraction": 0.7,
+      "global_error": 0.3054909798372506,
+      "local_error": 0.04647364343752542
+    },
+    {
+      "seed": 710154,
+      "local_fraction": 0.65,
+      "global_error": 0.3342594918857294,
+      "local_error": 0.05878756542473
+    },
+    {
+      "seed": 710155,
+      "local_fraction": 0.7,
+      "global_error": 0.2683855691935848,
+      "local_error": 0.05805858849406056
+    },
+    {
+      "seed": 710156,
+      "local_fraction": 0.7,
+      "global_error": 0.3274132588345386,
+      "local_error": 0.05882358126551875
+    },
+    {
+      "seed": 710157,
+      "local_fraction": 0.65,
+      "global_error": 0.3543309901118983,
+      "local_error": 0.061257980158870046
+    },
+    {
+      "seed": 710158,
+      "local_fraction": 0.7,
+      "global_error": 0.34895223107897594,
+      "local_error": 0.051984767006719224
+    },
+    {
+      "seed": 710159,
+      "local_fraction": 0.65,
+      "global_error": 0.28893451024061145,
+      "local_error": 0.050062310022881244
+    },
+    {
+      "seed": 710160,
+      "local_fraction": 0.7,
+      "global_error": 0.2873705784688748,
+      "local_error": 0.060653256840511496
+    },
+    {
+      "seed": 710161,
+      "local_fraction": 0.7,
+      "global_error": 0.30698303277676026,
+      "local_error": 0.05068673364657944
+    },
+    {
+      "seed": 710162,
+      "local_fraction": 0.7,
+      "global_error": 0.3499730944805507,
+      "local_error": 0.050957731423585444
+    },
+    {
+      "seed": 710163,
+      "local_fraction": 0.7,
+      "global_error": 0.27431485690861496,
+      "local_error": 0.04923803927843131
+    },
+    {
+      "seed": 710164,
+      "local_fraction": 0.7,
+      "global_error": 0.3652615328571998,
+      "local_error": 0.047649372992567954
+    },
+    {
+      "seed": 710165,
+      "local_fraction": 0.7,
+      "global_error": 0.30612381394137694,
+      "local_error": 0.06122696210595612
+    },
+    {
+      "seed": 710166,
+      "local_fraction": 0.7,
+      "global_error": 0.3417258187412983,
+      "local_error": 0.07224465495000106
+    },
+    {
+      "seed": 710167,
+      "local_fraction": 0.7,
+      "global_error": 0.2248026955186113,
+      "local_error": 0.03932072433561556
+    },
+    {
+      "seed": 710168,
+      "local_fraction": 0.7,
+      "global_error": 0.3386805939200973,
+      "local_error": 0.05919792138944008
+    },
+    {
+      "seed": 710169,
+      "local_fraction": 0.7,
+      "global_error": 0.25056700404693827,
+      "local_error": 0.05644232364724592
+    },
+    {
+      "seed": 710170,
+      "local_fraction": 0.7,
+      "global_error": 0.35830088181175085,
+      "local_error": 0.046421979007925454
+    },
+    {
+      "seed": 710171,
+      "local_fraction": 0.7,
+      "global_error": 0.302813423722124,
+      "local_error": 0.05839464714246277
+    },
+    {
+      "seed": 710172,
+      "local_fraction": 0.7,
+      "global_error": 0.26733323575209617,
+      "local_error": 0.057900144760347765
+    },
+    {
+      "seed": 710173,
+      "local_fraction": 0.65,
+      "global_error": 0.22475633994156932,
+      "local_error": 0.04213098093172789
+    },
+    {
+      "seed": 710174,
+      "local_fraction": 0.7,
+      "global_error": 0.321894154352437,
+      "local_error": 0.07240575518155178
+    },
+    {
+      "seed": 710175,
+      "local_fraction": 0.7,
+      "global_error": 0.23812030804757023,
+      "local_error": 0.036284170285625535
+    },
+    {
+      "seed": 710176,
+      "local_fraction": 0.7,
+      "global_error": 0.24372215604901962,
+      "local_error": 0.036689676678523395
+    },
+    {
+      "seed": 710177,
+      "local_fraction": 0.7,
+      "global_error": 0.31236636450453165,
+      "local_error": 0.05219364746679798
+    },
+    {
+      "seed": 710178,
+      "local_fraction": 0.7,
+      "global_error": 0.34401738622994193,
+      "local_error": 0.05443088270063639
+    },
+    {
+      "seed": 710179,
+      "local_fraction": 0.7,
+      "global_error": 0.36152801528760514,
+      "local_error": 0.07331861635405905
+    },
+    {
+      "seed": 710180,
+      "local_fraction": 0.7,
+      "global_error": 0.35887702866694743,
+      "local_error": 0.06052235957975951
+    },
+    {
+      "seed": 710181,
+      "local_fraction": 0.7,
+      "global_error": 0.23807226664167924,
+      "local_error": 0.036994431559085834
+    },
+    {
+      "seed": 710182,
+      "local_fraction": 0.7,
+      "global_error": 0.3721744746772779,
+      "local_error": 0.052013628233850286
+    },
+    {
+      "seed": 710183,
+      "local_fraction": 0.7,
+      "global_error": 0.2185646119472024,
+      "local_error": 0.042119036189878174
+    },
+    {
+      "seed": 710184,
+      "local_fraction": 0.7,
+      "global_error": 0.295336497339933,
+      "local_error": 0.061626476554426934
+    },
+    {
+      "seed": 710185,
+      "local_fraction": 0.7,
+      "global_error": 0.2825168455196448,
+      "local_error": 0.05723923542915275
+    },
+    {
+      "seed": 710186,
+      "local_fraction": 0.65,
+      "global_error": 0.36833718386863623,
+      "local_error": 0.06603955504113311
+    },
+    {
+      "seed": 710187,
+      "local_fraction": 0.7,
+      "global_error": 0.24148205140137607,
+      "local_error": 0.04106130505582743
+    },
+    {
+      "seed": 710188,
+      "local_fraction": 0.65,
+      "global_error": 0.358127101673972,
+      "local_error": 0.06639885356768678
+    },
+    {
+      "seed": 710189,
+      "local_fraction": 0.7,
+      "global_error": 0.33316390846943056,
+      "local_error": 0.049073146135991126
+    },
+    {
+      "seed": 710190,
+      "local_fraction": 0.7,
+      "global_error": 0.2390025948498621,
+      "local_error": 0.04403726685886355
+    },
+    {
+      "seed": 710191,
+      "local_fraction": 0.7,
+      "global_error": 0.3276677550555567,
+      "local_error": 0.06589302849664673
+    },
+    {
+      "seed": 710192,
+      "local_fraction": 0.65,
+      "global_error": 0.3208242919207796,
+      "local_error": 0.05484737097963148
+    },
+    {
+      "seed": 710193,
+      "local_fraction": 0.7,
+      "global_error": 0.29341340463712734,
+      "local_error": 0.04626270836446415
+    },
+    {
+      "seed": 710194,
+      "local_fraction": 0.7,
+      "global_error": 0.2218924518453244,
+      "local_error": 0.03799140734068809
+    },
+    {
+      "seed": 710195,
+      "local_fraction": 0.7,
+      "global_error": 0.22972595549951988,
+      "local_error": 0.04374401631756773
+    },
+    {
+      "seed": 710196,
+      "local_fraction": 0.7,
+      "global_error": 0.285945702184125,
+      "local_error": 0.05307158266300105
+    },
+    {
+      "seed": 710197,
+      "local_fraction": 0.7,
+      "global_error": 0.24246236018942852,
+      "local_error": 0.04035524920908464
+    },
+    {
+      "seed": 710198,
+      "local_fraction": 0.7,
+      "global_error": 0.3075588568098242,
+      "local_error": 0.04795308197031375
+    },
+    {
+      "seed": 710199,
+      "local_fraction": 0.65,
+      "global_error": 0.28504615274437783,
+      "local_error": 0.04921131539843837
+    }
+  ]
+}

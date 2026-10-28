@@ -1,0 +1,10 @@
+{
+  "execution_commit": "b2e9e80c48eee5d93e0d15d22fc665772276f2e1",
+  "public_equivalent_commit": "5d5839ce18608d81f4aa4c27387d44ba0af661fc",
+  "source_tag": "cfc-operator-v2-source-20261028",
+  "files": {
+    "paclock_bench/models/paclock/frontend/measurement_curve.py": "fecf29e28a2f16b366c82a197a79820f82d0a52c43c5c30568d7fdbc2a427597",
+    "scripts/experiments/cfc_operator_benchmark.py": "b46ddd87d416f10f3dfda2a084fa4adfe57d20e23cd32976356e38730f704678",
+    "tests/test_pac_curve.py": "c116feec4f3c4d3874e959b27bd0002a3c8fad132f38d1465c291d822f03c9fd"
+  }
+}

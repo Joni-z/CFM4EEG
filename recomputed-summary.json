@@ -1,0 +1,269 @@
+{
+  "original_full_upgrade": {
+    "records": 3500,
+    "a_rmse": 0.09962993051698593,
+    "b_rmse": 0.028811862823044727,
+    "relative_reduction": 0.7108111721694659,
+    "paired_reduction_interval_95": [
+      0.0697163934479389,
+      0.07189721964451913
+    ],
+    "first_harmonic_conditions": {
+      "a_rmse": 0.029126331186589936,
+      "b_rmse": 0.0243893829434834,
+      "relative_reduction": 0.16263456639150886
+    },
+    "by_condition": {
+      "chirp": {
+        "a_rmse": 0.037887788921889314,
+        "b_rmse": 0.04024894805248743
+      },
+      "double10": {
+        "a_rmse": 0.3400426968561061,
+        "b_rmse": 0.042453365832422166
+      },
+      "mixed10": {
+        "a_rmse": 0.21173516082984584,
+        "b_rmse": 0.037282759211473934
+      },
+      "offgrid": {
+        "a_rmse": 0.015657176274895216,
+        "b_rmse": 0.008964704042030723
+      },
+      "pac_aac": {
+        "a_rmse": 0.03998799560985141,
+        "b_rmse": 0.0346976760453664
+      },
+      "single10": {
+        "a_rmse": 0.03653347694644117,
+        "b_rmse": 0.02907972283986964
+      },
+      "single20": {
+        "a_rmse": 0.015565218179872577,
+        "b_rmse": 0.008955863737662816
+      }
+    }
+  },
+  "refinement_same_h1_q9": {
+    "records": 3500,
+    "a_rmse": 0.10575721114034539,
+    "b_rmse": 0.09464525507271761,
+    "relative_reduction": 0.10507043394782445,
+    "paired_reduction_interval_95": [
+      0.010523670439034719,
+      0.011769772191410666
+    ],
+    "first_harmonic_conditions": {
+      "a_rmse": 0.03728375320250454,
+      "b_rmse": 0.02223930904269693,
+      "relative_reduction": 0.40351206269644
+    },
+    "by_condition": {
+      "chirp": {
+        "a_rmse": 0.04626808662486258,
+        "b_rmse": 0.03801459239205082
+      },
+      "double10": {
+        "a_rmse": 0.34043546620337817,
+        "b_rmse": 0.34045038797572547
+      },
+      "mixed10": {
+        "a_rmse": 0.21344624576651694,
+        "b_rmse": 0.21086985231981314
+      },
+      "offgrid": {
+        "a_rmse": 0.02892005435357626,
+        "b_rmse": 0.00810696538432507
+      },
+      "pac_aac": {
+        "a_rmse": 0.0446922232281793,
+        "b_rmse": 0.031149869885749783
+      },
+      "single10": {
+        "a_rmse": 0.03912110326518308,
+        "b_rmse": 0.026021767551840276
+      },
+      "single20": {
+        "a_rmse": 0.027417298540721457,
+        "b_rmse": 0.007903349999518692
+      }
+    }
+  },
+  "refinement_same_h2_q9": {
+    "records": 3500,
+    "a_rmse": 0.05130399785256056,
+    "b_rmse": 0.028811862823044727,
+    "relative_reduction": 0.4384090123766692,
+    "paired_reduction_interval_95": [
+      0.02147592132378723,
+      0.023546338972761174
+    ],
+    "first_harmonic_conditions": {
+      "a_rmse": 0.0399101351781943,
+      "b_rmse": 0.0243893829434834,
+      "relative_reduction": 0.38889249974755713
+    },
+    "by_condition": {
+      "chirp": {
+        "a_rmse": 0.04988894602177845,
+        "b_rmse": 0.04024894805248743
+      },
+      "double10": {
+        "a_rmse": 0.08953014785123023,
+        "b_rmse": 0.042453365832422166
+      },
+      "mixed10": {
+        "a_rmse": 0.07004716122572216,
+        "b_rmse": 0.037282759211473934
+      },
+      "offgrid": {
+        "a_rmse": 0.029561231630542296,
+        "b_rmse": 0.008964704042030723
+      },
+      "pac_aac": {
+        "a_rmse": 0.04897663220050609,
+        "b_rmse": 0.0346976760453664
+      },
+      "single10": {
+        "a_rmse": 0.04289698601437938,
+        "b_rmse": 0.02907972283986964
+      },
+      "single20": {
+        "a_rmse": 0.028226880023765295,
+        "b_rmse": 0.008955863737662816
+      }
+    }
+  },
+  "harmonics_fixed_q9": {
+    "records": 3500,
+    "a_rmse": 0.10575721114034539,
+    "b_rmse": 0.05130399785256056,
+    "relative_reduction": 0.5148888922148538,
+    "paired_reduction_interval_95": [
+      0.05323293928532864,
+      0.05560651925714247
+    ],
+    "first_harmonic_conditions": {
+      "a_rmse": 0.03728375320250454,
+      "b_rmse": 0.0399101351781943,
+      "relative_reduction": -0.07044306836344294
+    },
+    "by_condition": {
+      "chirp": {
+        "a_rmse": 0.04626808662486258,
+        "b_rmse": 0.04988894602177845
+      },
+      "double10": {
+        "a_rmse": 0.34043546620337817,
+        "b_rmse": 0.08953014785123023
+      },
+      "mixed10": {
+        "a_rmse": 0.21344624576651694,
+        "b_rmse": 0.07004716122572216
+      },
+      "offgrid": {
+        "a_rmse": 0.02892005435357626,
+        "b_rmse": 0.029561231630542296
+      },
+      "pac_aac": {
+        "a_rmse": 0.0446922232281793,
+        "b_rmse": 0.04897663220050609
+      },
+      "single10": {
+        "a_rmse": 0.03912110326518308,
+        "b_rmse": 0.04289698601437938
+      },
+      "single20": {
+        "a_rmse": 0.027417298540721457,
+        "b_rmse": 0.028226880023765295
+      }
+    }
+  },
+  "harmonics_refined_q9": {
+    "records": 3500,
+    "a_rmse": 0.09464525507271761,
+    "b_rmse": 0.028811862823044727,
+    "relative_reduction": 0.6955804831324289,
+    "paired_reduction_interval_95": [
+      0.06476250284077884,
+      0.06685638529133994
+    ],
+    "first_harmonic_conditions": {
+      "a_rmse": 0.02223930904269693,
+      "b_rmse": 0.0243893829434834,
+      "relative_reduction": -0.09667898839206623
+    },
+    "by_condition": {
+      "chirp": {
+        "a_rmse": 0.03801459239205082,
+        "b_rmse": 0.04024894805248743
+      },
+      "double10": {
+        "a_rmse": 0.34045038797572547,
+        "b_rmse": 0.042453365832422166
+      },
+      "mixed10": {
+        "a_rmse": 0.21086985231981314,
+        "b_rmse": 0.037282759211473934
+      },
+      "offgrid": {
+        "a_rmse": 0.00810696538432507,
+        "b_rmse": 0.008964704042030723
+      },
+      "pac_aac": {
+        "a_rmse": 0.031149869885749783,
+        "b_rmse": 0.0346976760453664
+      },
+      "single10": {
+        "a_rmse": 0.026021767551840276,
+        "b_rmse": 0.02907972283986964
+      },
+      "single20": {
+        "a_rmse": 0.007903349999518692,
+        "b_rmse": 0.008955863737662816
+      }
+    }
+  },
+  "second_harmonic_share_of_original_absolute_gain": 0.9522221578540573,
+  "detection": {
+    "legacy_h1": {
+      "threshold": 0.10427653789520264,
+      "calibration_records": 400,
+      "null_records": 1000,
+      "false_positives": 37,
+      "false_positive_rate": 0.037,
+      "false_positive_interval_95": [
+        0.026961180875554734,
+        0.05058239748206931
+      ],
+      "positive_records": 3500,
+      "sensitivity": 0.8762857142857143,
+      "true_pair_detection": 0.8571428571428571,
+      "auroc": 0.9588552857142857,
+      "stress_above_threshold": {
+        "transient": 0.06,
+        "nonsinusoidal": 0.544
+      }
+    },
+    "refined_h2": {
+      "threshold": 0.09490203857421875,
+      "calibration_records": 400,
+      "null_records": 1000,
+      "false_positives": 46,
+      "false_positive_rate": 0.046,
+      "false_positive_interval_95": [
+        0.03466249276326498,
+        0.06081220394161907
+      ],
+      "positive_records": 3500,
+      "sensitivity": 1.0,
+      "true_pair_detection": 1.0,
+      "auroc": 1.0,
+      "stress_above_threshold": {
+        "transient": 0.084,
+        "nonsinusoidal": 0.512
+      }
+    }
+  },
+  "scope": "Fixed synthetic suite; same-q comparisons isolate harmonic order and frequency refinement. Cycle score is internally dependent; calibration records are independent."
+}

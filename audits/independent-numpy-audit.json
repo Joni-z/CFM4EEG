@@ -1,0 +1,362 @@
+{
+  "cases": 44,
+  "max_coefficient_error": 6.875134694883656e-08,
+  "max_baseline_error": 2.639163065865091e-07,
+  "max_phase_error": 3.2364345953399276e-07,
+  "max_frequency_error_hz": 3.817621259116777e-07,
+  "audit_source_sha256": "4ddf7e2c9797d18accda3adc3f8614f160fbc090a650baf3bf6f213192d504db",
+  "cases_checked": [
+    {
+      "condition": "single20",
+      "seed": 410000,
+      "coefficient_max_error": 3.016282340562171e-08,
+      "baseline_error": 3.962952610514492e-08,
+      "phase_max_error": 2.433118362137082e-07,
+      "frequency_difference_hz": 1.8479107133373418e-07
+    },
+    {
+      "condition": "single20",
+      "seed": 410001,
+      "coefficient_max_error": 9.710187681699622e-09,
+      "baseline_error": 7.2211530088850395e-09,
+      "phase_max_error": 2.5405046600098745e-07,
+      "frequency_difference_hz": 1.4191179165123913e-07
+    },
+    {
+      "condition": "single20",
+      "seed": 410002,
+      "coefficient_max_error": 2.783248460869192e-08,
+      "baseline_error": 1.5223512450646126e-08,
+      "phase_max_error": 1.7587885057843715e-07,
+      "frequency_difference_hz": 2.6614581116746194e-07
+    },
+    {
+      "condition": "single20",
+      "seed": 410003,
+      "coefficient_max_error": 5.612505504792864e-08,
+      "baseline_error": 1.3481494531841776e-07,
+      "phase_max_error": 2.292259544452824e-07,
+      "frequency_difference_hz": 1.0575461706352485e-07
+    },
+    {
+      "condition": "single10",
+      "seed": 411000,
+      "coefficient_max_error": 3.8379792066667306e-08,
+      "baseline_error": 1.3085565409021171e-07,
+      "phase_max_error": 1.8593437544481944e-07,
+      "frequency_difference_hz": 2.621657664292343e-07
+    },
+    {
+      "condition": "single10",
+      "seed": 411001,
+      "coefficient_max_error": 1.0190071869642381e-08,
+      "baseline_error": 5.530372115813975e-08,
+      "phase_max_error": 1.547633376824085e-07,
+      "frequency_difference_hz": 3.085384809864422e-07
+    },
+    {
+      "condition": "single10",
+      "seed": 411002,
+      "coefficient_max_error": 1.9407472628962807e-08,
+      "baseline_error": 4.821379584463159e-08,
+      "phase_max_error": 1.982869223942768e-07,
+      "frequency_difference_hz": 2.5164878136862967e-07
+    },
+    {
+      "condition": "single10",
+      "seed": 411003,
+      "coefficient_max_error": 2.0240504716717567e-08,
+      "baseline_error": 1.8429062742519875e-07,
+      "phase_max_error": 1.927039151031471e-07,
+      "frequency_difference_hz": 1.3511528162979403e-07
+    },
+    {
+      "condition": "offgrid",
+      "seed": 412000,
+      "coefficient_max_error": 2.4385396979464957e-08,
+      "baseline_error": 1.1832577684334211e-07,
+      "phase_max_error": 2.7790905347758665e-07,
+      "frequency_difference_hz": 8.515687088817003e-08
+    },
+    {
+      "condition": "offgrid",
+      "seed": 412001,
+      "coefficient_max_error": 1.9018561059347405e-08,
+      "baseline_error": 4.957575661101998e-08,
+      "phase_max_error": 2.1629530711197632e-07,
+      "frequency_difference_hz": 1.7668666885128914e-07
+    },
+    {
+      "condition": "offgrid",
+      "seed": 412002,
+      "coefficient_max_error": 3.104279083787631e-08,
+      "baseline_error": 9.68151021574215e-08,
+      "phase_max_error": 2.4148055724675465e-07,
+      "frequency_difference_hz": 2.5294590955127205e-07
+    },
+    {
+      "condition": "offgrid",
+      "seed": 412003,
+      "coefficient_max_error": 2.0562607644381004e-08,
+      "baseline_error": 1.4755334842853074e-07,
+      "phase_max_error": 2.161051292999081e-07,
+      "frequency_difference_hz": 3.09870432424475e-07
+    },
+    {
+      "condition": "double10",
+      "seed": 413000,
+      "coefficient_max_error": 2.5222565647187167e-08,
+      "baseline_error": 5.322667639973133e-09,
+      "phase_max_error": 1.884772261197706e-07,
+      "frequency_difference_hz": 2.0328464866992135e-07
+    },
+    {
+      "condition": "double10",
+      "seed": 413001,
+      "coefficient_max_error": 3.124565134404733e-08,
+      "baseline_error": 2.1337499855889064e-07,
+      "phase_max_error": 2.0977718684913915e-07,
+      "frequency_difference_hz": 1.477248185999258e-07
+    },
+    {
+      "condition": "double10",
+      "seed": 413002,
+      "coefficient_max_error": 6.477623113246289e-09,
+      "baseline_error": 1.186655274043602e-07,
+      "phase_max_error": 2.2220973467635834e-07,
+      "frequency_difference_hz": 1.1318834447493487e-07
+    },
+    {
+      "condition": "double10",
+      "seed": 413003,
+      "coefficient_max_error": 2.9799489015269742e-08,
+      "baseline_error": 1.2562087725598303e-07,
+      "phase_max_error": 2.1235313410315025e-07,
+      "frequency_difference_hz": 7.549908254134152e-08
+    },
+    {
+      "condition": "mixed10",
+      "seed": 414000,
+      "coefficient_max_error": 2.728866692336407e-08,
+      "baseline_error": 1.3396577647206698e-07,
+      "phase_max_error": 3.2364345953399276e-07,
+      "frequency_difference_hz": 6.583751765987245e-09
+    },
+    {
+      "condition": "mixed10",
+      "seed": 414001,
+      "coefficient_max_error": 1.259748733106747e-08,
+      "baseline_error": 1.0741151990067976e-07,
+      "phase_max_error": 1.9928243056499924e-07,
+      "frequency_difference_hz": 1.7502608873343206e-07
+    },
+    {
+      "condition": "mixed10",
+      "seed": 414002,
+      "coefficient_max_error": 3.2427261265066676e-08,
+      "baseline_error": 8.216255253934435e-08,
+      "phase_max_error": 2.1715246681801588e-07,
+      "frequency_difference_hz": 1.0811846040681417e-07
+    },
+    {
+      "condition": "mixed10",
+      "seed": 414003,
+      "coefficient_max_error": 3.326531890224249e-08,
+      "baseline_error": 4.053505986423289e-08,
+      "phase_max_error": 2.5234867759449576e-07,
+      "frequency_difference_hz": 2.4504216877829776e-07
+    },
+    {
+      "condition": "aac_only",
+      "seed": 415000,
+      "coefficient_max_error": 1.2718209901896316e-08,
+      "baseline_error": 1.0272432571234447e-07,
+      "phase_max_error": 2.1133848728113238e-07,
+      "frequency_difference_hz": 4.142991416600239e-08
+    },
+    {
+      "condition": "aac_only",
+      "seed": 415001,
+      "coefficient_max_error": 4.268249309330105e-09,
+      "baseline_error": 2.639163065865091e-07,
+      "phase_max_error": 2.201229916792867e-07,
+      "frequency_difference_hz": 2.6265538632941343e-07
+    },
+    {
+      "condition": "aac_only",
+      "seed": 415002,
+      "coefficient_max_error": 6.348813720840479e-09,
+      "baseline_error": 1.0131210370634136e-07,
+      "phase_max_error": 2.514043363178881e-07,
+      "frequency_difference_hz": 2.2233910534907864e-07
+    },
+    {
+      "condition": "aac_only",
+      "seed": 415003,
+      "coefficient_max_error": 6.977945351746562e-09,
+      "baseline_error": 3.5189906877342025e-08,
+      "phase_max_error": 2.455213852844069e-07,
+      "frequency_difference_hz": 3.1264617827986285e-07
+    },
+    {
+      "condition": "independent",
+      "seed": 416000,
+      "coefficient_max_error": 2.8688183053085514e-08,
+      "baseline_error": 9.828727509653135e-08,
+      "phase_max_error": 2.756743246411809e-07,
+      "frequency_difference_hz": 1.6273890679485703e-08
+    },
+    {
+      "condition": "independent",
+      "seed": 416001,
+      "coefficient_max_error": 9.877611303540923e-09,
+      "baseline_error": 1.2252488212904922e-07,
+      "phase_max_error": 1.7819485176334678e-07,
+      "frequency_difference_hz": 2.5549894644427695e-08
+    },
+    {
+      "condition": "independent",
+      "seed": 416002,
+      "coefficient_max_error": 1.870553843763556e-09,
+      "baseline_error": 1.0576568731934799e-08,
+      "phase_max_error": 2.3048726189474325e-07,
+      "frequency_difference_hz": 1.6874741515238156e-07
+    },
+    {
+      "condition": "independent",
+      "seed": 416003,
+      "coefficient_max_error": 1.7414768747068057e-09,
+      "baseline_error": 1.6724125972977788e-08,
+      "phase_max_error": 3.002221322693174e-07,
+      "frequency_difference_hz": 2.1630423674423582e-08
+    },
+    {
+      "condition": "pac_aac",
+      "seed": 417000,
+      "coefficient_max_error": 6.316729900257556e-08,
+      "baseline_error": 2.49318041323221e-07,
+      "phase_max_error": 2.656706704911869e-07,
+      "frequency_difference_hz": 8.259357953122048e-08
+    },
+    {
+      "condition": "pac_aac",
+      "seed": 417001,
+      "coefficient_max_error": 5.3249480103101376e-08,
+      "baseline_error": 3.8823446013580565e-08,
+      "phase_max_error": 1.9118798436150059e-07,
+      "frequency_difference_hz": 3.77275100049701e-08
+    },
+    {
+      "condition": "pac_aac",
+      "seed": 417002,
+      "coefficient_max_error": 2.1979694841967046e-08,
+      "baseline_error": 1.5742066539203847e-09,
+      "phase_max_error": 2.825237963693741e-07,
+      "frequency_difference_hz": 5.280205073177058e-08
+    },
+    {
+      "condition": "pac_aac",
+      "seed": 417003,
+      "coefficient_max_error": 6.650467543334315e-08,
+      "baseline_error": 6.990377476867593e-08,
+      "phase_max_error": 2.1673696857538584e-07,
+      "frequency_difference_hz": 3.6754651766557345e-07
+    },
+    {
+      "condition": "chirp",
+      "seed": 418000,
+      "coefficient_max_error": 6.875134694883656e-08,
+      "baseline_error": 6.136444796744911e-08,
+      "phase_max_error": 2.795804695651473e-07,
+      "frequency_difference_hz": 2.9902249565338934e-09
+    },
+    {
+      "condition": "chirp",
+      "seed": 418001,
+      "coefficient_max_error": 4.359415115007259e-08,
+      "baseline_error": 2.2444689617984181e-07,
+      "phase_max_error": 2.397580053768351e-07,
+      "frequency_difference_hz": 1.8745896657179628e-07
+    },
+    {
+      "condition": "chirp",
+      "seed": 418002,
+      "coefficient_max_error": 3.923470187627842e-08,
+      "baseline_error": 1.6772228716988025e-08,
+      "phase_max_error": 2.642107625068543e-07,
+      "frequency_difference_hz": 2.8534507201527504e-07
+    },
+    {
+      "condition": "chirp",
+      "seed": 418003,
+      "coefficient_max_error": 2.3349053024368516e-08,
+      "baseline_error": 6.426642329415699e-09,
+      "phase_max_error": 2.0995740739162637e-07,
+      "frequency_difference_hz": 3.817621259116777e-07
+    },
+    {
+      "condition": "transient",
+      "seed": 419000,
+      "coefficient_max_error": 4.498768215160237e-09,
+      "baseline_error": 7.274303481796807e-08,
+      "phase_max_error": 2.5509783794060154e-07,
+      "frequency_difference_hz": 1.8167032056481958e-07
+    },
+    {
+      "condition": "transient",
+      "seed": 419001,
+      "coefficient_max_error": 3.583550440980701e-09,
+      "baseline_error": 6.926955609110053e-08,
+      "phase_max_error": 1.7606154874020376e-07,
+      "frequency_difference_hz": 1.6696179461206384e-07
+    },
+    {
+      "condition": "transient",
+      "seed": 419002,
+      "coefficient_max_error": 9.140782815126453e-09,
+      "baseline_error": 1.1349746009692296e-07,
+      "phase_max_error": 1.686490908052408e-07,
+      "frequency_difference_hz": 2.1677575112732939e-07
+    },
+    {
+      "condition": "transient",
+      "seed": 419003,
+      "coefficient_max_error": 1.2177613705616208e-08,
+      "baseline_error": 9.598259809173726e-08,
+      "phase_max_error": 1.822666640477651e-07,
+      "frequency_difference_hz": 7.867499540736844e-08
+    },
+    {
+      "condition": "nonsinusoidal",
+      "seed": 420000,
+      "coefficient_max_error": 8.140823128024305e-09,
+      "baseline_error": 1.578814932123862e-07,
+      "phase_max_error": 1.734584800612052e-07,
+      "frequency_difference_hz": 3.0939535378138316e-08
+    },
+    {
+      "condition": "nonsinusoidal",
+      "seed": 420001,
+      "coefficient_max_error": 1.0371708466898333e-08,
+      "baseline_error": 3.695937977887809e-08,
+      "phase_max_error": 1.610950408286809e-07,
+      "frequency_difference_hz": 1.19184048852361e-07
+    },
+    {
+      "condition": "nonsinusoidal",
+      "seed": 420002,
+      "coefficient_max_error": 3.236494273105295e-09,
+      "baseline_error": 1.6088719911877547e-08,
+      "phase_max_error": 2.15538797418312e-07,
+      "frequency_difference_hz": 2.939786192257543e-07
+    },
+    {
+      "condition": "nonsinusoidal",
+      "seed": 420003,
+      "coefficient_max_error": 1.085366501405241e-08,
+      "baseline_error": 2.0247457244160216e-07,
+      "phase_max_error": 1.8027146198986268e-07,
+      "frequency_difference_hz": 9.157885783039887e-08
+    }
+  ]
+}
