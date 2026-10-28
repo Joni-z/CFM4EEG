@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "component": "measured_pac",
+  "status": "completed_measurement_and_tokenizer_feasibility_validation",
+  "sources": {
+    "clinical_training_revision": "b8ddd179baf412f43acb8a8acf1e5df4f1275108",
+    "checkpoint_replay_revision": "e2cf78738e5904c70703c21a822d6d069c6d91d6",
+    "measurement_code": "paclock_bench/models/paclock/frontend/measurement.py",
+    "adapter_code": "paclock_bench/models/paclock/frontend/measured.py"
+  },
+  "measurement": {
+    "target": "first-harmonic phase-amplitude dependence",
+    "depth_mae": 0.004044415067053504,
+    "preferred_phase_mae_degrees": 0.6728301747111147,
+    "central_valid_coverage": 1.0,
+    "all_recorded_anchor_valid_coverage": 0.6790123456790124,
+    "all_anchor_denominator": "All saved positions, including boundaries, all noise levels and negative controls.",
+    "same_filter_moment_baselines": {
+      "depth_normalization": "2 * absolute centered phase-amplitude moment / mean envelope; distinct from the legacy fixed /100 scale.",
+      "short_window_seconds": 0.25,
+      "short_window_depth_mae": 0.04199818843216808,
+      "same_context_depth_mae": 0.009212122705799563
+    },
+    "source": "artifacts/independent-audit.json",
+    "error_conditions": "Valid central anchors, nonzero modulation depth >= 0.2, no added noise or 20 dB colored noise.",
+    "central_coverage_conditions": "All primary central positions, including zero-modulation controls, without independent-envelope nulls; no added noise or 20 dB colored noise."
+  },
+  "selective_pairing_learning": {
+    "task": "Each LF and HF constituent occurs once per class in each quadruplet; equal Fourier magnitudes; only pairing changes.",
+    "training_seed": 0,
+    "generator_seeds": [
+      162001,
+      172001,
+      182001
+    ],
+    "epochs_per_arm": 100,
+    "updates_per_arm": 800,
+    "test_signals": 192,
+    "independent_quadruplets": 48,
+    "identity": {
+      "accuracy": 0.6979166666666666,
+      "auroc": 0.7377387152777778
+    },
+    "measured": {
+      "accuracy": 0.953125,
+      "auroc": 0.9903428819444444
+    },
+    "accuracy_delta": 0.2552083333333333,
+    "conditional_accuracy_delta_95_percent_interval": [
+      0.18229166666666666,
+      0.328125
+    ],
+    "bootstrap_unit": "Whole quadruplet; excludes training-seed variance.",
+    "scope": "Complete guidance branch, including its phase projection; not an isolated rotation or matched-active-capacity result.",
+    "source": "artifacts/selective-pairing-independent-audit.json"
+  },
+  "tuev": {
+    "cohort": "accepted shared16 v2.0.1; separate from native23 and published-score cohorts",
+    "sample_rate_hz": 200,
+    "input_shape": [
+      16,
+      1000
+    ],
+    "training_seed": 0,
+    "epochs_per_arm": 20,
+    "checkpoint_selection": "validation_best kappa",
+    "parameters_per_arm": 1224486,
+    "accepted_manifest_sha256": "820a25a6a84526b5f147c43f7637d78788f432bcca356194547d424925bcd45b",
+    "subject_counts": {
+      "train": 232,
+      "val": 58,
+      "test": 80
+    },
+    "manifest_subject_sets_disjoint": true,
+    "shared_settings": {
+      "optimizer": "AdamW",
+      "learning_rate": 0.0001,
+      "weight_decay": 0.05,
+      "dropout": 0.35,
+      "batch_size": 32,
+      "bands": 16,
+      "hidden_dimension": 128,
+      "encoder_layers": 6,
+      "attention_axes": [
+        "time",
+        "joint electrode-band rows"
+      ]
+    },
+    "measured_minus_identity": {
+      "accuracy": 0.007443662689915365,
+      "balanced_acc": -0.0025854030638491343,
+      "cohen_kappa": 0.010771660836711883,
+      "weighted_f1": 0.007223572921986721
+    },
+    "source": "artifacts/clinical-independent-audit.json",
+    "identity": {
+      "configuration_template": "configs/model/tuev-explicit-pac-identity.yaml",
+      "executed_config_sha256": "c2513107f73d410753a47fa49348c1c1b1df77cfacc0b1664adf34b3d757c0b2",
+      "test_windows": 29421,
+      "metrics": {
+        "accuracy": 0.8336902212705211,
+        "balanced_acc": 0.621069724349308,
+        "cohen_kappa": 0.6834342050819782,
+        "weighted_f1": 0.8350482884791741
+      },
+      "selected_validation_index_zero_based": 11,
+      "stopped_by": "epochs",
+      "wall_hours": 3.5612584350506467,
+      "checkpoint_sha256": "e89efdce4465ff1c3427c5ffcffc635d34aa996eef9ece978326422e83830fa7",
+      "checkpoint_in_evidence_archive": "artifacts/019-tuev-clinical-pair/notch-guarded/runs/tuev-cfft_explicit_pac_identity_notch_20261028/seed0/best.pt",
+      "full_test_replay_max_logit_difference": 0.0,
+      "current_source_cpu_strict_load": true,
+      "max_content_analysis_center_shift_hz": 6.0523834228515625
+    },
+    "measured": {
+      "configuration_template": "configs/model/tuev-explicit-pac-measured.yaml",
+      "executed_config_sha256": "43361e0e2f391e0b2d3db8dd258943fa647de032d7e1f691478a124acbc64ab7",
+      "test_windows": 29421,
+      "metrics": {
+        "accuracy": 0.8411338839604364,
+        "balanced_acc": 0.6184843212854588,
+        "cohen_kappa": 0.69420586591869,
+        "weighted_f1": 0.8422718614011608
+      },
+      "selected_validation_index_zero_based": 7,
+      "stopped_by": "epochs",
+      "wall_hours": 3.61935636513763,
+      "checkpoint_sha256": "b9414b4f62409fec83e4a09ca3b25008de3af78e6d9a523d153fcc8ca9af6495",
+      "checkpoint_in_evidence_archive": "artifacts/019-tuev-clinical-pair/notch-guarded/runs/tuev-cfft_explicit_pac_measured_notch_20261028/seed0/best.pt",
+      "full_test_replay_max_logit_difference": 0.0,
+      "current_source_cpu_strict_load": true,
+      "max_content_analysis_center_shift_hz": 4.799190521240234
+    },
+    "runtime": {
+      "python": "3.12.11",
+      "torch": "2.8.0+cu128",
+      "torch_cuda": "12.8"
+    },
+    "sample_counts": {
+      "train": 68445,
+      "val": 15487,
+      "test": 29421
+    }
+  },
+  "evidence": {
+    "archive_name": "component-validation-e2cf787.tar.gz",
+    "archive_sha256": "9f50638414aeb35ceb7bb92a1f4e59fb92b364722ed5c6273706ee08d4e54a81",
+    "verified_archive_files": 444,
+    "mirrored_archive_files_verified": 444,
+    "clinical_archive_name": "clinical-evidence-b8ddd17-e2cf787.tar.gz",
+    "clinical_archive_sha256": "5c0cb1aa07fbeb66b8b34c816200865fa2374988d8181a6f63ee4d48894c155a",
+    "external_workspace_directory": "maintenance/autoresearch-pac-20261028",
+    "full_report": "report.md"
+  },
+  "limitations": [
+    "First-harmonic PAC validation is not validation of all CFC or neural causality.",
+    "Synthetic results do not establish clinical utility by themselves; mispaired controls need not have zero or no delayed CFC.",
+    "One paired clinical seed: kappa and weighted F1 increased, balanced accuracy decreased; no stable-superiority or SOTA claim.",
+    "Fixed measurement anchors differ from learned content filters; this does not measure PAC between their exact current outputs.",
+    "Identity disables the complete guidance branch; test-time interventions do not replace retrained mechanism controls."
+  ],
+  "path_conventions": {
+    "code_and_configuration_template": "repository root",
+    "artifact_sources_and_checkpoint_paths": "root of the complete evidence archive"
+  }
+}

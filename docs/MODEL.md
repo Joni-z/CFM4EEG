@@ -7,7 +7,7 @@ relationships. A learnable Sinc filterbank and analytic-signal transform provide
 band waveform, envelope and phase features. Local phase–amplitude statistics
 condition the rotation of envelope and waveform content before encoding.
 
-The reference configurations in [configs/model/](../configs/model/) use 16 bands,
+The local-moment reference, [tuev-scratch.yaml](../configs/model/tuev-scratch.yaml), uses 16 bands,
 128-dimensional tokens and six Transformer layers. A content patch contains
 50 samples at 200 Hz, or 0.25 seconds. `pac_patch_len` independently controls
 the relation-estimation window; the reference sets it to 50 samples as well.
@@ -61,6 +61,12 @@ residual error and phase-condition diagnostics. Validity also checks real
 filter support, observed phase rate, cycle coverage and excluded frequencies.
 Padding never counts as extra measured data. Invalid estimates have a separate
 reason code; they are not interpreted as biological zero coupling.
+These statistical contexts are independent of the 0.25-second content tokens.
+`pac_patch_len` controls the legacy local-moment path, not the statistical
+context of `measured_pac`.
+Use `measurement_mode: measured` for guidance and `measurement_mode: identity`
+for its unrotated carrier control. The legacy `pac_token_mode` does not select
+controls for this frontend.
 
 Analysis anchors are checkpointed and remain fixed; the content Sinc filters
 can learn. Their respective envelopes are different quantities. The estimator
@@ -120,6 +126,39 @@ PYTHONPATH=. python scripts/experiments/pac_tokenizer_learning.py \
   --output /path/to/selective-pairing-confirmation
 python -m pytest -q tests/test_pac_learning_design.py
 ```
+
+### Validation results
+
+The [validation record](../review/PAC_COMPONENT_VALIDATION_20261028.json) binds
+these results to their source versions, configurations, selected checkpoints
+and evidence archives. Clinical training used `b8ddd17`; complete-test replay
+used `e2cf787`. The component remains an optional frontend.
+
+On synthetic confirmation signals, first-harmonic modulation-depth MAE was
+0.00404 and preferred-phase MAE was 0.673 degrees at valid central anchors with
+nonzero modulation and no added noise or 20 dB colored noise. Coverage was 100%
+across primary central anchors, including zero-modulation controls. Coverage
+across all saved positions, including boundaries, noise levels and negative
+controls, was 67.9%.
+
+The selective-pairing task above gave 95.31% accuracy with measured guidance
+versus 69.79% with identity, using the same seed-0 initialization, 800 updates
+per arm and validation-best selection. Its 192 test signals form 48 independent
+quadruplets. This evaluates the full guidance branch, including phase features.
+
+The TUEV pair used the accepted shared16 cohort, seed 0, identical augmentation
+and 20 complete epochs per arm. Validation kappa selected the checkpoints.
+
+| Frontend setting | Test kappa | Balanced accuracy | Weighted F1 |
+|---|---:|---:|---:|
+| Identity | 0.6834 | 0.6211 | 0.8350 |
+| Measured guidance | 0.6942 | 0.6185 | 0.8423 |
+
+Measured guidance increased kappa by 0.0108 and slightly reduced balanced
+accuracy. Each saved checkpoint reproduced all 29,421 test logits exactly with
+the replay source. This is one paired seed and supports feasibility; it does not
+establish a stable advantage or a ranking against other TUEV protocols.
+See the [evidence locations and audit scope](AUDIT.md#component-validation-record).
 
 Estimator references: Penny et al., *Testing for nested oscillation* (2008),
 doi:10.1016/j.jneumeth.2008.06.035; van Wijk et al., *Parametric estimation of

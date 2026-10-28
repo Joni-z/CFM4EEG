@@ -83,3 +83,32 @@ Historical cleanup records are external, relative to the repository root:
 records; `../maintenance/repository-cleanup-20261022/` holds the independently
 SHA-verified snapshot and path mapping. These are provenance records, not another
 active implementation.
+
+## Component validation record
+
+[PAC_COMPONENT_VALIDATION_20261028.json](../review/PAC_COMPONENT_VALIDATION_20261028.json)
+records the completed `measured_pac` measurement and tokenizer checks. It covers
+raw-signal recovery, selective cross-band pairing and the full seed-0 TUEV pair.
+The record belongs to this optional frontend; local-moment reference results
+retain their existing model identity.
+
+The complete evidence is outside Git in the workspace directory
+`../maintenance/autoresearch-pac-20261028/`, relative to the checkout. It includes
+`report.md`, per-case estimates, all attempted settings, raw predictions,
+validation histories, selected checkpoints and figures. The verified mirror is
+on 145. The portable snapshot is `component-validation-e2cf787.tar.gz`; its
+SHA256 and paths within the archive are in the repository record.
+
+Clinical training source `b8ddd17` and checkpoint-replay source `e2cf787` have
+distinct roles. Both complete checkpoints were replayed on all 29,421 test
+windows, with identical label order and zero logit differences. The clinical
+archive's 69 evidence files were hashed individually; the full snapshot has
+444 verified files. Source and configuration bindings are retained in each run's provenance.
+The recorded configuration paths are portable templates; their environment-based
+data roots differ from the executed absolute paths, whose hashes are recorded
+separately.
+
+This is an internal shared16 comparison, separate from native23 or published
+scores. Identity disables the complete guidance branch, including its phase
+projection. Fixed-checkpoint coefficient interventions diagnose reliance on the
+measured values and remain separate from retrained mechanism controls.
