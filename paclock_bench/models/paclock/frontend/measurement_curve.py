@@ -38,10 +38,10 @@ def curve_regression(phase: Tensor, envelope: Tensor, weights: Tensor,
     columns = [t]
     if source_envelope is not None:
         a = source_envelope.broadcast_to(envelope.shape)
-        cv = mean((a-mean(a)[..., None]).square()).sqrt()/mean(a).clamp_min(1e-12)
+        cv = mean((a-mean(a)[..., None]).square()).clamp_min(1e-12).sqrt()/mean(a).clamp_min(1e-12)
         a = a.clamp_min(1e-12).log()
         a = a-mean(a)[..., None]
-        sd = mean(a.square()).sqrt()
+        sd = mean(a.square()).clamp_min(1e-12).sqrt()
         a = torch.where((cv >= amplitude_floor)[..., None],
                         a/sd.clamp_min(1e-6)[..., None], torch.zeros_like(a))
         columns.extend([a, a.square()-mean(a.square())[..., None]])
@@ -52,11 +52,12 @@ def curve_regression(phase: Tensor, envelope: Tensor, weights: Tensor,
     my = mean(envelope)
     xc = design-mx[..., None, :]
     yc = envelope-my[..., None]
-    # Pseudoinverse handles absent/constant nuisance columns without imposing
-    # arbitrary QR directions. Double precision protects small regressions.
+    # A tiny nuisance ridge keeps absent columns differentiable. A truncated
+    # pseudoinverse has undefined derivatives at repeated zero eigenvalues.
     nd, wd = nuisance.double(), w.double()
     ng = nd.transpose(-1, -2) @ (nd*wd[..., None])
-    inverse = torch.linalg.pinv(ng, rtol=1e-6, hermitian=True)
+    nscale=ng.diagonal(dim1=-2,dim2=-1).mean(-1).clamp_min(1e-4)
+    inverse = torch.linalg.inv(ng+1e-8*nscale[...,None,None]*torch.eye(ng.shape[-1],device=phase.device))
     nx = inverse @ (nd.transpose(-1, -2) @ (xc.double()*wd[..., None]))
     ny = inverse @ (nd.transpose(-1, -2) @ (yc.double()*wd)[..., None])
     xr = xc.double()-nd@nx
@@ -76,9 +77,13 @@ def curve_regression(phase: Tensor, envelope: Tensor, weights: Tensor,
     valid = ((count >= max(8, 4*dim)) & (eigen[..., 0] >= .01)
              & (eigen[..., 0] >= .05*eigen[..., -1]) & (baseline > 1e-12) & finite)
     coef = torch.view_as_complex(beta.float().reshape(*beta.shape[:-1], harmonics, 2).contiguous())
+    nuisance_coef=ny.squeeze(-1)-(nx@beta[...,None]).squeeze(-1)
+    prediction=baseline[...,None]+(design.double()@beta[...,None]).squeeze(-1)+(nd@nuisance_coef[...,None]).squeeze(-1)
+    null_prediction=my.double()[...,None]+(nd@ny).squeeze(-1)
     return dict(coef=coef, baseline=baseline.float(), valid=valid,
                 mse=(residual.square()*wd).sum(-1).float(), count=count,
-                condition=(eigen[..., -1]/eigen[..., 0].clamp_min(1e-12)).float())
+                condition=(eigen[..., -1]/eigen[..., 0].clamp_min(1e-12)).float(),
+                prediction=prediction.float(),null_prediction=null_prediction.float())
 
 
 @dataclass
@@ -92,6 +97,7 @@ class PACCurveMeasurement:
     harmonic_support: Tensor   # [source,target,harmonic]
     observed_cycles: Tensor    # [B,C,source,target]
     condition: Tensor          # [B,C,P,source,target]
+    predictive_gain: Tensor    # [B,C,source,target], held-out half vs nuisance model
 
     def modulation(self, source: int, target: int, patch: int) -> Tensor:
         """Evaluate one pair's selected coefficient curve over the input."""
@@ -109,7 +115,7 @@ class PACCurveOperator(nn.Module):
                  sample_rate: int = 200, patch_len: int = 50,
                  passband=(.5,75.), excluded_intervals=((56.,64.),),
                  harmonics: int = 2, control_amplitude: bool = True,
-                 local: bool = True, ridge: float = 1e-3,
+                 local: bool = False, ridge: float = 1e-3,
                  local_ridge: float = .05, amplitude_floor: float = .02,
                  phase_cycles: float = 5.):
         super().__init__()
@@ -159,6 +165,7 @@ class PACCurveOperator(nn.Module):
         valid=torch.zeros_like(baseline,dtype=torch.bool); local_valid=valid.clone()
         global_valid=valid[:,:,0].clone(); cycles_out=baseline[:,:,0].clone()
         condition=baseline.clone(); times=torch.arange(length,device=x.device)
+        predictive_gain=cycles_out.clone()
         rms=clean.square().mean(-1).sqrt().clamp_min(1e-8)
         for i in range(ns):
             for j in range(nt):
@@ -180,6 +187,22 @@ class PACCurveOperator(nn.Module):
                 enough=(fit['count']-1)*self.analysis.phase_lower[i]/self.analysis.sample_rate>=2.98
                 good=fit['valid']&enough&(cycles>=2.98)&(freq>=self.analysis.phase_lower[i])&(freq<=self.analysis.phase_upper[i])
                 global_valid[:,:,i,j]=good;cycles_out[:,:,i,j]=cycles
+                if bool(good.any()):
+                    # Out-of-half prediction is diagnostic confidence, not a
+                    # p-value. Record-level calibration happens independently.
+                    with torch.no_grad():
+                        error=amp.new_zeros(b,c);null_error=error.clone();cv_good=good.clone()
+                        for half in (0,1):
+                            training=mask&((times<length//2) if half==0 else (times>=length//2))
+                            testing=mask&~training
+                            fold=curve_regression(ph.detach(),amp.detach(),training.float(),
+                                None if source_amp is None else source_amp.detach(),order,self.ridge,
+                                amplitude_floor=self.amplitude_floor)
+                            error+=((amp-fold['prediction']).square()*testing).sum(-1)
+                            null_error+=((amp-fold['null_prediction']).square()*testing).sum(-1)
+                            cv_good&=fold['valid']
+                        gain=(1-error/null_error.clamp_min(1e-12)).clamp(0,1)
+                        predictive_gain[:,:,i,j]=torch.where(cv_good,gain,0.)
                 global_coef=torch.where(good[...,None],fit['coef'],torch.zeros_like(fit['coef']))
                 out[:,:,:,i,j,:order]=global_coef[:,:,None,:]
                 baseline[:,:,:,i,j]=torch.where(good,fit['baseline'],0)[:,:,None]
@@ -201,4 +224,4 @@ class PACCurveOperator(nn.Module):
                     baseline[:,:,p,i,j]=torch.where(local_good,local_fit['baseline'],baseline[:,:,p,i,j])
                     condition[:,:,p,i,j]=torch.where(local_good,local_fit['condition'],condition[:,:,p,i,j])
         return PACCurveMeasurement(out,baseline,valid,local_valid,global_valid,phase,
-                                   self.harmonic_support,cycles_out,condition)
+                                   self.harmonic_support,cycles_out,condition,predictive_gain)

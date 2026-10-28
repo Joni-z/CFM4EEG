@@ -64,3 +64,13 @@ def test_second_harmonic_support_is_not_assumed_from_first():
     op=PACCurveOperator(local=False)
     assert bool((op.harmonic_support[...,0]&~op.harmonic_support[...,1]).any())
     assert not bool((~op.harmonic_support[...,0]&op.harmonic_support[...,1]).any())
+
+
+def test_local_mixed_validity_has_finite_gradient():
+    torch.manual_seed(8);torch.set_num_threads(4)
+    t=torch.arange(1000)/200
+    x=(torch.cos(2*math.pi*4*t)+(1+.5*torch.cos(2*math.pi*4*t))*torch.cos(2*math.pi*32*t))
+    x=(x[None,None]+.02*torch.randn(2,1,1000)).requires_grad_()
+    result=PACCurveOperator(local=True)(x)
+    (result.coef.abs().sum()+result.baseline.sum()).backward()
+    assert bool(torch.isfinite(x.grad).all())

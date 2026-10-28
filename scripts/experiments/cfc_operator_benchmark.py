@@ -104,6 +104,7 @@ def evaluate(args):
                     phase1_error_deg=abs(delta)*180/math.pi,
                     curve_rmse=rmse,curve_nrmse=rmse/true_sd if true_sd>1e-8 else None,
                     record_score=record_score,valid_pairs=int(all_valid.sum()),
+                    predictive_score=float(out.predictive_gain[n,0].max()),
                     global_coverage=float(out.global_valid[n].float().mean()),
                     measured_coef_real=[float(v.real) for v in coef],measured_coef_imag=[float(v.imag) for v in coef]))
         print(json.dumps({'condition':condition,'records':len(records),'seconds':time.monotonic()-start}),flush=True)
@@ -116,7 +117,8 @@ def evaluate(args):
             depth1_mae=float(np.mean([r['depth1_error'] for r in good])) if good else None,
             depth2_mae=float(np.mean([r['depth2_error'] for r in good])) if good else None,
             phase1_mae_deg=float(np.mean([r['phase1_error_deg'] for r in good if r['d1']>0])) if any(r['d1']>0 for r in good) else None,
-            record_score_q95=float(np.quantile([r['record_score'] for r in rows],.95)))
+            record_score_q95=float(np.quantile([r['record_score'] for r in rows],.95)),
+            predictive_score_q95=float(np.quantile([r['predictive_score'] for r in rows],.95)))
     positives=[r for r in records if r['d1']+r['d2']>0]
     # Invalid positive records incur a fixed full-scale error, never disappear.
     metric=float(np.mean([r['curve_rmse'] if r['valid'] else 1. for r in positives]))
