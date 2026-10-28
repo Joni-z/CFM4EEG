@@ -76,6 +76,9 @@ def test_calibration_ties_abstention_serialization_and_input_binding(tmp_path):
     assert PACCalibration.fit([0.],op,1,1000).threshold is None
     with pytest.raises(ValueError,match='finite'):
         PACCalibration.fit([float('nan')],op,1,1000)
+    op.analysis.amplitude_kernels.mul_(.99)
+    with pytest.raises(ValueError,match='match'):
+        cal.detect(out,op,1,1000)
 
 
 def test_unobservable_input_has_explicit_masks_and_zero_finite_derivative():

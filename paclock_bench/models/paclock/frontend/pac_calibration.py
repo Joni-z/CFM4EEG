@@ -6,6 +6,7 @@ assumption for real EEG. A physical-valid flag is never a significance flag.
 """
 from dataclasses import asdict, dataclass
 import hashlib
+import inspect
 import json
 import math
 from pathlib import Path
@@ -38,7 +39,20 @@ def calibration_rank(n: int, alpha: float, confidence: float | None = None) -> i
 def measurement_signature(operator, channels: int, samples: int) -> str:
     if channels<1 or samples<operator.analysis.patch_len:
         raise ValueError('positive channels and at least one token patch are required')
+    from .measurement_curve import PACCurveOperator,curve_regression
+    from .measurement import linear_analytic_filter
+    source=hashlib.sha256()
+    for function in (type(operator)._forward,PACCurveOperator._forward,
+                     PACCurveOperator._source_analysis,curve_regression,linear_analytic_filter):
+        source.update(inspect.getsource(function).encode())
+    state=hashlib.sha256()
+    for name,value in sorted(operator.state_dict().items()):
+        if isinstance(value,torch.Tensor):
+            state.update(name.encode());state.update(str(value.dtype).encode())
+            state.update(str(tuple(value.shape)).encode())
+            state.update(value.detach().cpu().contiguous().numpy().tobytes())
     data=dict(operator=type(operator).__name__,configuration=operator.configuration,
+              score_source_sha256=source.hexdigest(),physical_state_sha256=state.hexdigest(),
               channels=channels,samples=samples,score='max_predictive_gain_over_channels_and_pairs')
     return hashlib.sha256(json.dumps(data,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 
