@@ -119,7 +119,7 @@ class PACCurveOperator(nn.Module):
                  local: bool = False, ridge: float = 1e-3,
                  local_ridge: float = .05, amplitude_floor: float = .02,
                  phase_cycles: float = 9., refine_phase: bool = True,
-                 confidence_folds: str = 'halves'):
+                 confidence_folds: str = 'cycles'):
         super().__init__()
         if harmonics not in (1,2):
             raise ValueError('harmonics must be 1 or 2')
