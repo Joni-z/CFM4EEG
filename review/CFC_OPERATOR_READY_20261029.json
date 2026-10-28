@@ -449,7 +449,7 @@
         "finite_features": true,
         "finite_gradient": true,
         "cpu_cuda_max_abs_error": 4.0978193283081055e-07,
-        "wall_seconds_including_cpu_reference": 2.808693738654256,
+        "wall_seconds_including_cpu_reference": 1.588278315961361,
         "peak_allocated_mb": 111.89501953125,
         "physical_valid_fraction": 0.6666666865348816
       },
@@ -462,11 +462,12 @@
         "finite_features": true,
         "finite_gradient": true,
         "cpu_cuda_max_abs_error": 5.289912223815918e-07,
-        "wall_seconds_including_cpu_reference": 1.4500787016004324,
+        "wall_seconds_including_cpu_reference": 1.4972951840609312,
         "peak_allocated_mb": 239.57421875,
         "physical_valid_fraction": 0.8333333730697632
       }
-    }
+    },
+    "parent_bfloat16_preserves_physical_state": true
   },
   "counts": {
     "recovery_confirmation": 2688,
@@ -509,7 +510,8 @@
       "paclock_bench/models/paclock/frontend/measurement_uncertain.py/_forward": true,
       "paclock_bench/models/paclock/frontend/measurement_uncertain.py/coefficient_uncertainty": true
     },
-    "checkpoint_sha256": "4fc118357e52c10ae8ada6dbd04d9ffdc511e41d9a63e4df8e591d4702393948"
+    "checkpoint_sha256": "4fc118357e52c10ae8ada6dbd04d9ffdc511e41d9a63e4df8e591d4702393948",
+    "cuda_source": "0fe2d99da82791512a0af41b0d51d2e2c0e3f32b"
   },
   "execution_source": "769b44b97367c237a4690602857cb8bd6f35bc88",
   "source_tag": "cfc-ready-source-20261029",
