@@ -132,6 +132,11 @@ class PACCurveOperator(nn.Module):
         centers = tuple(source_hz)+tuple(target_hz)
         self.analysis = PhaseAmplitudeMeasurement(centers, sample_rate, patch_len,
             passband=passband, excluded_intervals=excluded_intervals,phase_cycles=phase_cycles)
+        sc=self.analysis.centers[:self.n_source]
+        search_low=torch.cat([self.analysis.phase_lower[:1],(sc[:-1]+sc[1:])/2])
+        search_high=torch.cat([(sc[:-1]+sc[1:])/2,self.analysis.phase_upper[self.n_source-1:self.n_source]])
+        self.register_buffer('search_low',search_low)
+        self.register_buffer('search_high',search_high)
         support = self.analysis.eligible[:self.n_source, self.n_source:, None].expand(-1,-1,harmonics).clone()
         for i in range(self.n_source):
             for j in range(self.n_target):
@@ -140,7 +145,7 @@ class PACCurveOperator(nn.Module):
                 for k in range(1,harmonics+1):
                     if not support[i,j,k-1]:
                         continue
-                    edge = k*float(self.analysis.phase_upper[i])
+                    edge = k*float(search_high[i]*(1+2/phase_cycles) if refine_phase else self.analysis.phase_upper[i])
                     response = _gain(kernel, torch.tensor([f-edge,f,f+edge]), sample_rate)
                     ok = bool(response[1]>0 and torch.minimum(response[0],response[2])/response[1]>=.9)
                     for low,high in excluded_intervals:
@@ -165,8 +170,7 @@ class PACCurveOperator(nn.Module):
             spectrum=torch.fft.rfft(x*torch.hann_window(length,device=x.device),dim=-1).abs().square()
             estimates=[]
             for i,center in enumerate(centers):
-                low=(centers[i-1]+center)/2 if i>0 else self.analysis.phase_lower[i]
-                high=(centers[i+1]+center)/2 if i+1<self.n_source else self.analysis.phase_upper[i]
+                low,high=self.search_low[i],self.search_high[i]
                 allowed=(frequency>=low)&(frequency<=high)
                 if not bool(allowed.any()):
                     estimates.append(center.expand(b,c));continue
@@ -179,11 +183,9 @@ class PACCurveOperator(nn.Module):
                 offset=torch.where(curvature.abs()>1e-8,.5*(left-right)/curvature,0.).clamp(-.5,.5)
                 estimates.append(((peak+offset)*fs/length).clamp(low,high))
             refined=torch.stack(estimates,-1)
-            # Keep effective support inside the original fixed source band,
-            # so refinement cannot invalidate the sideband eligibility proof.
-            margin=torch.minimum(refined-self.analysis.phase_lower[:self.n_source],
-                                 self.analysis.phase_upper[:self.n_source]-refined).clamp_min(.01)
-            cycles=torch.maximum(torch.full_like(refined,self.phase_cycles),2*refined/margin)
+            # Eligibility uses the worst upper support across the entire
+            # fixed search cell. No artificial long kernel is needed.
+            cycles=torch.full_like(refined,self.phase_cycles)
             guards=torch.ceil(3*cycles/(2*math.pi*refined)*fs).long()
         radius=int(guards.max());t=torch.arange(-radius,radius+1,device=x.device)/fs
         sigma=cycles/(2*math.pi*refined)
@@ -234,8 +236,10 @@ class PACCurveOperator(nn.Module):
                 steps=ph[...,1:]*ph[...,:-1].conj()
                 cycles=(torch.angle(steps)*(mask[...,1:]&mask[...,:-1])).sum(-1)/(2*math.pi)
                 freq=cycles*self.analysis.sample_rate/(fit['count']-1).clamp_min(1)
-                enough=(fit['count']-1)*self.analysis.phase_lower[i]/self.analysis.sample_rate>=2.98
-                good=fit['valid']&enough&(cycles>=2.98)&(freq>=self.analysis.phase_lower[i])&(freq<=self.analysis.phase_upper[i])
+                lower=source_frequency[:,:,i]*(1-2/self.phase_cycles)
+                upper=source_frequency[:,:,i]*(1+2/self.phase_cycles)
+                enough=(fit['count']-1)*lower/self.analysis.sample_rate>=2.98
+                good=fit['valid']&enough&(cycles>=2.98)&(freq>=lower)&(freq<=upper)
                 global_valid[:,:,i,j]=good;cycles_out[:,:,i,j]=cycles
                 if bool(good.any()):
                     # Out-of-half prediction is diagnostic confidence, not a
