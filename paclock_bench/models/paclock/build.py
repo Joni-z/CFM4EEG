@@ -101,10 +101,9 @@ class TriAxialPACLock(nn.Module):
             from .frontend.cfc import CFCFrontend
             if self.freq_mixer != "none" or cfg.get("aux_recon_weight", 0):
                 raise ValueError("CFC pilot requires the two-axis encoder without auxiliary loss")
+            if any(k in cfg for k in ("cfc_guidance", "cfc_stabilized", "cfc_fusion")):
+                raise ValueError("Earlier CFC pilots require their recorded source release")
             frontend_cls = CFCFrontend
-            frontend_extra.update(cfc_guidance=cfg.get("cfc_guidance", "measured"),
-                                  cfc_stabilized=cfg.get("cfc_stabilized", True),
-                                  cfc_fusion=cfg.get("cfc_fusion", "rotation"))
         elif cfg.get("tokenizer_mode") == "measured_pac":
             from .frontend.measured import MeasuredPACFrontend
             if self.freq_mixer != "none" or cfg.get("aux_recon_weight", 0):

@@ -61,8 +61,6 @@
   "configs/baselines/cbramod/iiic-scratch.yaml": "e7a0a6bdae6362c9899a1bd823166e4a58929467ad82c026a258305bf67a429a",
   "configs/baselines/eegpt/iiic-scratch.yaml": "44e5375b7f21a9dc5be2c4cc9329df594440677e7d57a6f1ee17f3639c423232",
   "configs/baselines/labram/iiic-scratch.json": "a4646e281efcd513e7094fc7dfd7a1c98125139b59ac6a4382c99ef19d10832a",
-  "configs/model/tuev-cfc-h2.yaml": "85f40f713255657cada76dbf6631978cfdfee24e3689b3e2ae3870abd939cc2a",
-  "configs/model/chbmit-cfc-h2.yaml": "772357dfd2506ad9c98f7d8d66dcd36268fc4f83021dd4fb1aa16ddf57176ea6",
-  "configs/model/tuev-cfc-residual.yaml": "813b35cef4d1b51e343099585a91a782e3839b532e8406496e6a4a04390df516",
-  "configs/model/chbmit-cfc-residual.yaml": "7fd1c581545e0107eb3f29e14c4f07f184cc16cc1b66545c60583f1803701ea7"
+  "configs/model/tuev-cfc-reference.yaml": "57f169d8bbee0d2d0f7a9eb58f0ce45ea92fc81e0fe144d0b6cc5959a5ff9cd2",
+  "configs/model/chbmit-cfc-reference.yaml": "cda0ee8df3924cc5ccb9a2fc92e2c44ba39f303975c093dd6a61cfc0e8810d52"
 }

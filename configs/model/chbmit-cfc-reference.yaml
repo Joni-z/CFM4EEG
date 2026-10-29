@@ -1,5 +1,5 @@
-name: chbmit-cfft_cfc_h2_twoaxis_20261029
-group: cfc_operator_tokenizer_pilot_20261029
+name: chbmit-cfft_cfc_reference_20261030
+group: cfc_reference_20261030
 dataset: chbmit
 data_root: $PACLOCK_PROC/processed/chbmit
 model: paclock
@@ -44,8 +44,6 @@ model_kwargs:
   pac_patch_len: 50
   waveform_modulation: quadrature
   space_over_bands: true
-  cfc_guidance: measured
-  cfc_stabilized: true
 seed: 0
 max_hours: 0
 focal_alpha: 0.25
@@ -55,16 +53,13 @@ run_monitor: true
 require_rebuild_ready: true
 amp: false
 reproduction:
-  kind: new_cfc_tokenizer_pilot
+  kind: operator_only_reference
   reference: configs/model/chbmit-scratch.yaml
   changes:
-  - validated global physical6x5 dual-harmonic PAC operator with optional stabilized
-    coefficients
-  - physical target-to-content mapping by actual Sinc frequency response
-  - both harmonics condition the existing quadrature content rotation
-  - preload arrays into available RAM; training/data/encoder recipe otherwise preserved
+  - new CFC operator replaces supported target rotation references; original local
+    reference elsewhere
+  - content, full rotation, encoder and training recipe unchanged
+  - 'runtime: preload accepted arrays'
   seed: 0
-  selection: validation only; no test-based tuning
-  operator_source_tag: cfc-ready-source-20261029
-checkpoint_selection: validation_best
+  selection: validation_best
 preload: true

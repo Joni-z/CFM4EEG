@@ -3,8 +3,8 @@
 CfFT constructs EEG tokens from band content and explicitly measured
 cross-frequency relationships. A learnable filterbank provides waveform and
 envelope features; a separate CFC operator measures phase–amplitude dependence.
-The residual tokenizer uses these measurements to condition all content bands
-before a compact Transformer encoder.
+The tokenizer uses supported measurements as rotation references for band
+content before a compact Transformer encoder.
 
 This repository contains the model, clinical preprocessing and baseline
 reproduction code. Baselines call the original authors' implementations through
