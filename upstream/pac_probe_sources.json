@@ -1,0 +1,31 @@
+{
+  "sklearn": {
+    "url": "https://github.com/scikit-learn/scikit-learn",
+    "tested_version": "1.9.1",
+    "license": "BSD-3-Clause",
+    "use": "Imported StandardScaler, Ridge, r2_score, roc_auc_score, GaussianRandomProjection; no copied solver implementation"
+  },
+  "scipy": {
+    "url": "https://github.com/scipy/scipy",
+    "tested_version": "1.18.0",
+    "license": "BSD-3-Clause",
+    "use": "Imported scipy.stats.bootstrap for paired group error intervals"
+  },
+  "eeg_probe": {
+    "paper": "https://arxiv.org/html/2605.11410v2",
+    "sections": ["3.2", "Appendix A Family X", "Appendix D"],
+    "use": "Methodological reference only; no public official implementation linked in this paper version",
+    "adaptations": ["generator-known full PAC curve targets", "pooled unclipped R2", "validation MSE selection", "curve RMS detection AUROC"]
+  },
+  "tfm": {
+    "url": "https://github.com/Jathurshan0330/TFM-Tokenizer",
+    "commit": "2d6da482b16dabbb2ebec808fa9f505fc6f367c4",
+    "license": "MIT; copyright 2025 Jathurshan Pradeepkumar",
+    "use": "Import original models/tfm_token.py factory and quantized-token endpoint; adapted 200Hz STFT from utils/utils.py:165-176 with full notice in features.py"
+  },
+  "synthetic_pac": {
+    "internal_source": "scripts/experiments/cfc_operator_capabilities.py:61-102 at 0a3a078",
+    "references": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC2941206/", "https://pubmed.ncbi.nlm.nih.gov/25212583/"],
+    "use": "Adapted harmonic amplitude-modulated signal construction; added analytic bin targets, independent drifting nulls, split identities and expected-power normalization"
+  }
+}

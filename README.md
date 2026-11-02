@@ -17,6 +17,7 @@ import and checkpoint compatibility.
 |---|---|
 | [Model](docs/MODEL.md) | Tokenizer variants, encoder, configurations and training commands |
 | [CFC operator](docs/CFC_OPERATOR.md) | Measurement algorithm, API, masks, calibration and validation records |
+| [PAC readout](docs/PAC_PROBE.md) | Ground-truth fixtures, frozen tokenizer interfaces and standard ridge/metric evaluation |
 | [Data](docs/DATA.md) | Cohorts, preprocessing, units and dataset acceptance |
 | [Baselines](docs/UPSTREAM.md) | Pinned author sources, native recipes and execution commands |
 | [Audit](docs/AUDIT.md) | Smoke checks, checkpoint selection, metrics and evidence |
@@ -27,6 +28,7 @@ import and checkpoint compatibility.
 |---|---|
 | `paclock_bench/models/` | CfFT tokenizer, CFC operator, encoder and waveform control |
 | `paclock_bench/data/`, `paclock_bench/training/` | Array loading, losses, metrics and project trainer |
+| `paclock_bench/probing/` | PAC truth curves, frozen-feature adapters and held-out readout scores |
 | `preprocessing/`, `data_reference/` | Clinical preparation and cohort/hash references |
 | `configs/model/`, `configs/datasets/` | Project model variants and dataset definitions |
 | `configs/baselines/` | Supported native baseline recipes |
