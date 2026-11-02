@@ -58,6 +58,7 @@ def main():
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--reference', type=Path, required=True)
     p.add_argument('--seed', type=int, default=1103)
+    p.add_argument('--cache-from', type=Path)
     p.add_argument('--train', type=int, default=2048)
     p.add_argument('--val', type=int, default=512)
     p.add_argument('--test', type=int, default=1024)
@@ -66,22 +67,33 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     torch.set_num_threads(4)
     start = time.monotonic()
-    data = generate_dataset(args.train,args.val,args.test,seed=args.seed)
+    if args.cache_from:
+        with np.load(args.cache_from/'data.npz',allow_pickle=False) as a:
+            data=dict(a)
+        assert int(data['seed'])==args.seed
+        assert [int((data['split']==s).sum()) for s in ('train','val','test')]==[args.train,args.val,args.test]
+    else:
+        data = generate_dataset(args.train,args.val,args.test,seed=args.seed)
     np.savez_compressed(args.output/'data.npz', **data)
     dump(args.output/'protocol.json', dict(seed=args.seed, train=args.train,val=args.val,test=args.test,
          gains=args.gains, degrees=[1,2], alphas=ALPHAS, selection='validation MSE only',
          dimension='complete original 16x20x128 token coordinates, flatten only',
          perturbation_budget='RMS(delta) / RMS(original) <= gain for every record',
          scope='frozen deterministic candidate feasibility; no clinical or PAC-supervised tokenizer training',
+         residual_scaling='per-kind train RMS matched, capped per record at original RMS before gain',
+         cache_from=str(args.cache_from),
+         runner_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
          candidate_source_sha256=hashlib.sha256(Path(__file__).with_name('pac_token_candidates.py').read_bytes()).hexdigest()))
     model, meta = load_project_tokenizer(args.reference/'original-training.yaml',
         args.reference/'original-best.pt',(16,1000),normalization='div100')
     candidates = PACResidualCandidates(model.frontend)
     n = len(data['signals']); shape = (n,40960)
-    arrays = {key: np.lib.format.open_memmap(args.output/(key+'.npy'), mode='w+',dtype=np.float32,shape=shape)
+    arrays = {key: (np.load(args.cache_from/(key+'.npy'),mmap_mode='r') if args.cache_from else
+                   np.lib.format.open_memmap(args.output/(key+'.npy'),mode='w+',dtype=np.float32,shape=shape))
               for key in ('base','coefficient','content','tangent')}
+    assert all(a.shape==shape for a in arrays.values())
     coefficient, mask = [], []
-    for first in range(0,n,32):
+    for first in range(0,0 if args.cache_from else n,32):
         x = torch.from_numpy(data['signals'][first:first+32])*.2
         base, additive, content, tangent, packet = candidates.components(x)
         for key, value in zip(arrays, (base,additive,content,tangent)):
@@ -92,7 +104,11 @@ def main():
             print('extracted',first,'/',n,round(time.monotonic()-start,2),flush=True)
     for a in arrays.values():
         a.flush()
-    coef = np.concatenate(coefficient)
+    if args.cache_from:
+        with np.load(args.cache_from/'operator.npz',allow_pickle=False) as a:
+            coef=a['coefficient'];mask=[a['valid']]
+    else:
+        coef = np.concatenate(coefficient)
     np.savez_compressed(args.output/'operator.npz',coefficient=coef,valid=np.concatenate(mask))
     te = data['split']=='test'
     report = dict(operator=score_curves(data['curves'][te],curve_from_coefficients(coef[te]),data['coupled'][te]),
@@ -102,6 +118,8 @@ def main():
     base = arrays['base']
     # One amplitude scale fitted on train only, no per-record ground truth.
     scale = float(np.sqrt(np.mean(np.square(base[data['split']=='train'],dtype=np.float64))))
+    residual_scales={key:scale/max(float(np.sqrt(np.mean(np.square(arrays[key][data['split']=='train'],dtype=np.float64)))),1e-12)
+                     for key in ('coefficient','content','tangent')}
     specs=[('original',None,0.)]+[(f'{kind}_{g:g}',kind,g)for kind in ('coefficient','content','tangent')for g in args.gains]
     with (args.output/'results.tsv').open('x') as table:
         table.write('variant\tdegree\tvalidation_mse\tcurve_r2\tdetection_auroc\tseconds\tmax_relative_perturbation\n')
@@ -111,7 +129,7 @@ def main():
             perturb = np.zeros(n)
             if kind:
                 for first in range(0,n,64):
-                    b = np.array(base[first:first+64]); delta = np.array(arrays[kind][first:first+64])*scale
+                    b = np.array(base[first:first+64]); delta = np.array(arrays[kind][first:first+64])*residual_scales[kind]
                     norm = np.sqrt(np.mean(b*b,axis=1,keepdims=True))
                     size = np.sqrt(np.mean(delta*delta,axis=1,keepdims=True))
                     delta *= np.minimum(1.,norm/np.maximum(size,1e-12))
@@ -135,7 +153,8 @@ def main():
                 sample_id=data['sample_id'][te],target=data['curves'][te],coupled=data['coupled'][te])
             del feature
     report['elapsed_seconds']=time.monotonic()-start
-    report['train_derived_residual_scale']=scale
+    report['train_derived_base_rms']=scale
+    report['train_derived_residual_scales']=residual_scales
     dump(args.output/'scores.json',report)
 
 
