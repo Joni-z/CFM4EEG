@@ -9,6 +9,7 @@ from paclock_bench.probing.synthetic import generate_dataset
 from scripts.experiments.pac_candidate_search import probe
 from scripts.experiments.pac_metric_calibration import signal_reference
 from scripts.experiments.pac_token_candidates import PACResidualCandidates
+from scripts.experiments.pac_multiband_fixture import generate_pair
 
 
 def test_raw_reference_recovers_both_harmonics_without_latent_inputs():
@@ -57,3 +58,16 @@ def test_readout_choice_does_not_use_test_targets():
     second,_=probe(x,changed,degree=2)
     assert first['validation_mse']==second['validation_mse']
     assert first['alpha']==second['alpha']
+
+
+def test_multiband_fixture_retains_truth_and_split_independence():
+    first=generate_pair(3.,24.,seed=81,n_train=16,n_val=8,n_test=8)
+    second=generate_pair(5.,40.,seed=81,n_train=16,n_val=8,n_test=8)
+    np.testing.assert_array_equal(first['curves'],second['curves'])
+    assert not np.array_equal(first['signals'],second['signals'])
+    for data,source,target in [(first,3.,24.),(second,5.,40.)]:
+        assert np.all(abs(data['source_hz']-source)<=.12)
+        assert np.all(abs(data['target_hz']-target)<=.3)
+        np.testing.assert_allclose(10*np.log10(data['clean_power']/data['noise_power']),data['snr_db'],atol=1e-10)
+        groups=[set(data['group_id'][data['split']==s])for s in ('train','val','test')]
+        assert not(groups[0]&groups[1]or groups[0]&groups[2]or groups[1]&groups[2])

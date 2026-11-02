@@ -12,7 +12,7 @@ from scipy.linalg import eigh
 from threadpoolctl import threadpool_limits
 import torch
 
-from paclock_bench.probing.features import load_project_tokenizer
+from paclock_bench.probing.features import load_project_tokenizer, linear_token_budget
 from paclock_bench.probing.synthetic import generate_dataset, curve_from_coefficients
 from paclock_bench.probing.scoring import score_curves
 from scripts.experiments.pac_metric_calibration import signal_reference
@@ -59,6 +59,10 @@ def main():
     p.add_argument('--reference', type=Path, required=True)
     p.add_argument('--seed', type=int, default=1103)
     p.add_argument('--cache-from', type=Path)
+    p.add_argument('--dataset', type=Path)
+    p.add_argument('--cell',type=int,nargs=2,default=[2,2])
+    p.add_argument('--query-pair',type=float,nargs=2)
+    p.add_argument('--common-budget',action='store_true')
     p.add_argument('--variants',nargs='+',choices=['coefficient','content','tangent'],default=['coefficient','content','tangent'])
     p.add_argument('--include-shuffle',action='store_true')
     p.add_argument('--train', type=int, default=2048)
@@ -69,8 +73,8 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     torch.set_num_threads(4)
     start = time.monotonic()
-    if args.cache_from:
-        with np.load(args.cache_from/'data.npz',allow_pickle=False) as a:
+    if args.dataset or args.cache_from:
+        with np.load(args.dataset or args.cache_from/'data.npz',allow_pickle=False) as a:
             data=dict(a)
         assert int(data['seed'])==args.seed
         assert [int((data['split']==s).sum()) for s in ('train','val','test')]==[args.train,args.val,args.test]
@@ -83,25 +87,27 @@ def main():
          perturbation_budget='RMS(delta) / RMS(original) <= gain for every record',
          scope='frozen deterministic candidate feasibility; no clinical or PAC-supervised tokenizer training',
          residual_scaling='per-kind train RMS matched, capped per record at original RMS before gain',
-         cache_from=str(args.cache_from),
+         cache_from=str(args.cache_from),dataset=str(args.dataset),cell=args.cell,query_pair=args.query_pair,common_budget=args.common_budget,
          runner_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
          candidate_source_sha256=hashlib.sha256(Path(__file__).with_name('pac_token_candidates.py').read_bytes()).hexdigest()))
     model, meta = load_project_tokenizer(args.reference/'original-training.yaml',
         args.reference/'original-best.pt',(16,1000),normalization='div100')
     candidates = PACResidualCandidates(model.frontend)
     n = len(data['signals']); shape = (n,40960)
+    array_keys=('base',)+tuple(dict.fromkeys(args.variants+(['coefficient']if args.include_shuffle else [])))
     arrays = {key: (np.load(args.cache_from/(key+'.npy'),mmap_mode='r') if args.cache_from else
                    np.lib.format.open_memmap(args.output/(key+'.npy'),mode='w+',dtype=np.float32,shape=shape))
-              for key in ('base','coefficient','content','tangent')}
+              for key in array_keys}
     assert all(a.shape==shape for a in arrays.values())
     coefficient, mask = [], []
     for first in range(0,0 if args.cache_from else n,32):
         x = torch.from_numpy(data['signals'][first:first+32])*.2
         base, additive, content, tangent, packet = candidates.components(x)
-        for key, value in zip(arrays, (base,additive,content,tangent)):
+        for key in arrays:
+            value=dict(base=base,coefficient=additive,content=content,tangent=tangent)[key]
             arrays[key][first:first+len(x)] = value.numpy().reshape(len(x),-1)
-        coefficient.append(packet['features'][:,0,0,2,2].flatten(-2).numpy())
-        mask.append(packet['harmonic_valid'][:,0,0,2,2].numpy())
+        coefficient.append(packet['features'][:,0,0,args.cell[0],args.cell[1]].flatten(-2).numpy())
+        mask.append(packet['harmonic_valid'][:,0,0,args.cell[0],args.cell[1]].numpy())
         if first % 512 == 0:
             print('extracted',first,'/',n,round(time.monotonic()-start,2),flush=True)
     for a in arrays.values():
@@ -113,15 +119,19 @@ def main():
         coef = np.concatenate(coefficient)
     np.savez_compressed(args.output/'operator.npz',coefficient=coef,valid=np.concatenate(mask))
     te = data['split']=='test'
+    ref_kwargs={}
+    if args.query_pair:
+        source,target=args.query_pair
+        ref_kwargs=dict(source_band=(source-1.2,source+1.2),target_band=(target-2*source-3,target+2*source+3))
     report = dict(operator=score_curves(data['curves'][te],curve_from_coefficients(coef[te]),data['coupled'][te]),
-                  signal_reference=score_curves(data['curves'][te],curve_from_coefficients(signal_reference(data['signals'][te])),data['coupled'][te]),
+                  signal_reference=score_curves(data['curves'][te],curve_from_coefficients(signal_reference(data['signals'][te],**ref_kwargs)),data['coupled'][te]),
                   checkpoint=meta,rows={})
     dump(args.output/'measurement.json',{k:v for k,v in report.items() if k!='rows'})
     base = arrays['base']
     # One amplitude scale fitted on train only, no per-record ground truth.
     scale = float(np.sqrt(np.mean(np.square(base[data['split']=='train'],dtype=np.float64))))
     residual_scales={key:scale/max(float(np.sqrt(np.mean(np.square(arrays[key][data['split']=='train'],dtype=np.float64)))),1e-12)
-                     for key in ('coefficient','content','tangent')}
+                     for key in array_keys if key!='base'}
     specs=[('original',None,0.)]+[(f'{kind}_{g:g}',kind,g)for kind in args.variants for g in args.gains]
     if args.include_shuffle:
         specs += [(f'shuffled_coefficient_{g:g}','shuffled',g)for g in args.gains]
@@ -148,7 +158,9 @@ def main():
                     delta *= np.minimum(1.,norm/np.maximum(size,1e-12))
                     feature[first:first+len(b)] += gain*delta
                     perturb[first:first+len(b)] = np.sqrt(np.mean((gain*delta)**2,axis=1))/norm[:,0]
-            row = dict(mean_relative_perturbation=float(perturb.mean()),max_relative_perturbation=float(perturb.max()),readouts=[])
+            if args.common_budget:
+                feature=linear_token_budget(feature.reshape(n,20,2048),time_bins=9,width=64,seed=0)
+            row = dict(readout_features=int(feature.shape[1]),mean_relative_perturbation=float(perturb.mean()),max_relative_perturbation=float(perturb.max()),readouts=[])
             predictions=[]
             for degree in (1,2):
                 result,pred = probe(feature,data,degree)

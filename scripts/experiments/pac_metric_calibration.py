@@ -21,16 +21,16 @@ from paclock_bench.probing.scoring import score_curves
 from paclock_bench.models.paclock.frontend.measurement_uncertain import CFCOperator
 
 
-def signal_reference(signals, fs=200.):
+def signal_reference(signals, fs=200., source_band=(2.5,5.5), target_band=(20.,45.)):
     """Fixed broad carrier band includes H2 sidebands for this fixture.
 
     This is a signal-derived reference, not a gold-standard physiological PAC
     estimator. Discard .75 s at both edges for the finite-window regression.
     """
     x = np.asarray(signals, dtype=np.float64)[:, 0]
-    phase = np.angle(hilbert(sosfiltfilt(butter(4, [2.5, 5.5], fs=fs,
+    phase = np.angle(hilbert(sosfiltfilt(butter(4, source_band, fs=fs,
                         btype='bandpass', output='sos'), x, axis=-1), axis=-1))
-    amplitude = np.abs(hilbert(sosfiltfilt(butter(4, [20., 45.], fs=fs,
+    amplitude = np.abs(hilbert(sosfiltfilt(butter(4, target_band, fs=fs,
                         btype='bandpass', output='sos'), x, axis=-1), axis=-1))
     edge = round(.75*fs)
     phase, amplitude = phase[:, edge:-edge], amplitude[:, edge:-edge]
