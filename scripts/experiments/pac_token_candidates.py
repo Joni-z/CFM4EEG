@@ -1,8 +1,8 @@
-"""Small, frozen-checkpoint PAC residual candidates for synthetic evaluation.
+"""Small, frozen-checkpoint PAC token candidates for synthetic evaluation.
 
 No downstream training or claimed clinical equivalence. Every candidate uses
-the complete original CfFT output and adds a bounded residual of the measured
-coefficients. Fixed seeded projections are not fitted to synthetic PAC labels.
+the complete original CfFT output, adding a bounded residual or a relation
+context slot. Fixed seeded projections are not fitted to synthetic PAC labels.
 """
 from __future__ import annotations
 
@@ -81,6 +81,18 @@ class PACResidualCandidates(nn.Module):
         base, coefficient, content, tangent, _ = self.components(x)
         residual = dict(coefficient=coefficient, content=content, tangent=tangent)[kind]
         return self.fuse(base, residual, gain, scale)
+
+    def context_tokens(self, x, *, scale):
+        """Append one relation-context slot per band; preserve content exactly.
+
+        Output is [B,C,band,P+1,D]. The final slot summarizes the measurement
+        context; it is not an additional .25-second signal observation. Scale
+        must be one finite nonnegative training-input calibration constant.
+        """
+        if not math.isfinite(scale) or scale<0:
+            raise ValueError('context scale must be finite and nonnegative')
+        base,coefficient,_,_,_=self.components(x)
+        return torch.cat([base,coefficient.mean(dim=3,keepdim=True)*scale],dim=3)
 
     @staticmethod
     def fuse(base, residual, gain, scale):

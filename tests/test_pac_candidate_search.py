@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 
 from paclock_bench.models.paclock.frontend.triaxial import TriAxialFrontend
 from paclock_bench.probing.synthetic import generate_dataset
-from scripts.experiments.pac_candidate_search import probe
+from scripts.experiments.pac_candidate_search import probe,cfft_sequence
 from scripts.experiments.pac_metric_calibration import signal_reference
 from scripts.experiments.pac_token_candidates import PACResidualCandidates
 from scripts.experiments.pac_multiband_fixture import generate_pair
@@ -20,7 +20,7 @@ def test_raw_reference_recovers_both_harmonics_without_latent_inputs():
     np.testing.assert_allclose(signal_reference(x)[0],coeff,atol=.025)
 
 
-def test_residual_preserves_baseline_zero_and_bounds_each_record():
+def test_residual_preserves_baseline_zero_and_bounds_each_record(tmp_path):
     torch.set_num_threads(2);torch.manual_seed(3)
     f=TriAxialFrontend(n_bands=16,hidden_dim=128,sample_rate=200,patch_len=50,
         filter_range=(.5,75.),tokenizer_mode='pac_interaction',interaction_mode='rotation',waveform_modulation='quadrature').eval()
@@ -31,6 +31,13 @@ def test_residual_preserves_baseline_zero_and_bounds_each_record():
     b,*parts=candidates.components(x)
     torch.testing.assert_close(b,f(x)[0],rtol=0,atol=0)
     torch.testing.assert_close(candidates(x,gain=0.),b,rtol=0,atol=0)
+    context=candidates.context_tokens(x,scale=.1)
+    assert context.shape==(1,1,16,21,128)
+    torch.testing.assert_close(context[:,:,:,:20],b,rtol=0,atol=0)
+    torch.save(candidates.state_dict(),tmp_path/'tokenizer.pt')
+    restored=PACResidualCandidates(f,seed=9001)
+    restored.load_state_dict(torch.load(tmp_path/'tokenizer.pt',weights_only=False),strict=True)
+    torch.testing.assert_close(restored.context_tokens(x,scale=.1),context,rtol=0,atol=0)
     for delta in parts[:3]:
         assert torch.equal(candidates.fuse(b,delta,0.,.1),b)
         out=candidates.fuse(b,delta,.1,.1)
@@ -71,3 +78,13 @@ def test_multiband_fixture_retains_truth_and_split_independence():
         np.testing.assert_allclose(10*np.log10(data['clean_power']/data['noise_power']),data['snr_db'],atol=1e-10)
         groups=[set(data['group_id'][data['split']==s])for s in ('train','val','test')]
         assert not(groups[0]&groups[1]or groups[0]&groups[2]or groups[1]&groups[2])
+
+
+def test_native_cache_time_axis_is_transposed_before_budgeting():
+    native=np.zeros((2,16,20,128),dtype=np.float32)
+    for band in range(16):
+        for time in range(20):native[:,band,time,:]=100*band+time
+    sequence=cfft_sequence(native.reshape(2,-1))
+    assert sequence.shape==(2,20,2048)
+    for time in range(20):
+        np.testing.assert_array_equal(sequence[0,time].reshape(16,128),native[0,:,time])

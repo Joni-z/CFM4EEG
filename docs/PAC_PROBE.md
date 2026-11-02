@@ -1,5 +1,10 @@
 # PAC representation readout
 
+The current synthetic candidate is the **relation-context slot**, described
+below. It preserves every original content token exactly and adds 5% more token
+positions. The earlier global-3%-residual study is retained as exploratory
+history; its global perturbation cap did not bound changes within each band.
+
 This module asks whether PAC relationships can be recovered from **final frozen
 token embeddings**. It separates measurement accuracy, token readability and
 clinical utility. The existing CFC operator and clinical trainer are unchanged.
@@ -196,3 +201,65 @@ The reference directory must contain `original-training.yaml` and the original
 `original-best.pt`. All outputs refuse to overwrite existing records. Raw
 arrays, predictions, selected readout settings and run protocols are retained
 outside the repository under `maintenance/autoresearch-pac-token-20261103`.
+
+## Broader audit and selected context candidate
+
+The global 3% residual can change a low-energy band by much more than 3%:
+the maximum measured bandwise RMS change was 111.5% in the first confirmation.
+It is not the selected preservation design. Band-bounded alternatives were
+tested: low-variance placement of coefficients reaches native-token R² 0.863
+at a 10% per-band cap, but only 0.177 after the common 576-feature reduction.
+
+The selected alternative leaves the original `[B,C,16,20,128]` content grid
+unchanged and appends one relation-context slot per band, yielding
+`[B,C,16,21,128]`. Its 128-dimensional relation embeddings are the same fixed,
+label-independent lift of measured H1/H2 coefficients mapped to token bands.
+Their amplitude scale is calibrated using training inputs only. The last slot
+represents the measurement context, not another 0.25 s of EEG. No content
+weights or encoder layers are replaced. The tokenizer parameter count remains
+9,760; added analysis kernels and projection matrices are buffers. A synthetic
+16-channel forward check accepts the new grid through the unchanged original
+encoder and head. This is compatibility evidence, not task-performance evidence.
+
+A third generator seed (16,103) confirms the selected design. With all neural
+rows reduced to 9 positions x 64 features and the same validation-tuned readout:
+
+| Frozen representation | Curve R² | Detection AUROC |
+|---|---:|---:|
+| Original CfFT | -0.001 | 0.485 |
+| CfFT + relation-context slot | 0.903 | 0.937 |
+| Released multi-dataset TFM tokenizer | 0.019 | 0.496 |
+| Trained waveform-patch tokenizer | -0.002 | 0.518 |
+| Context-slot control with wrong-sample PAC | 0.001 | 0.484 |
+
+H1/H2/mixed R² values are 0.917/0.893/0.900. Native, uncompressed context-token
+R² is 0.868. The 576-feature budget and native-coordinate results are different
+diagnostics, not interchangeable scores. The released TFM checkpoint strictly
+loads into the pinned author factory. Its SHA256 is
+`f7929eed0f8275d08a7e18743fdd188c7ba5b4722151333b4d386ca05b84d6d9`.
+The TUEV single-dataset release is incompatible with that factory and was not
+scored. WavePatch is restored from the checkpoint archive, SHA256
+`6bb370405986633aab7d9d2ff750ff95ebc15babaf50888e73dff4cb84049aa8`.
+Different tokenizer training histories prevent a causal claim that explicit
+modeling universally outperforms implicit modeling.
+
+Four additional predeclared physical-pair fixtures test 3/24, 3/40, 4/32 and
+5/40 Hz, retaining the analytic H1/H2/mixed/null targets. The operator's harmonic
+coverage is 100% in every fixture. Context-token R² under the common budget is
+0.831/0.820/0.852/0.727; corresponding AUROC is 0.767/0.724/0.852/0.769. Narrow
+frequency jitter makes population-null detection harder in these records.
+All selected pairs remain in the report. The operator itself retains R²
+0.967--0.984, separating measurement accuracy from finite-sample token readout.
+
+The first cycle-2 common-budget run mistakenly reshaped band-major caches as
+time-major. Those outputs (`common-comparison` and the initial multi-pair
+residual readouts) are superseded. `cfft_sequence` now transposes the axes
+explicitly; a test checks each physical time slice. Native-token cycle-1
+scores were unaffected. Current context results use the corrected conversion,
+and two independent constructions give identical predictions.
+
+`pac_residual_placement.py` evaluates the band-bounded and context alternatives;
+`pac_tokenizer_comparison.py` restores the four real tokenizer endpoints.
+`PACResidualCandidates.context_tokens(x, scale=...)` returns the actual final
+token tensor. Its serialization and exact content-prefix preservation are
+tested. No downstream training or clinical evaluation was run in this study.

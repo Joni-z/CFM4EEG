@@ -21,6 +21,12 @@ from scripts.experiments.pac_token_candidates import PACResidualCandidates
 ALPHAS = (1e-6, 1e-4, .01, 1., 100., 10000.)
 
 
+def cfft_sequence(flat, bands=16, patches=20, width=128):
+    """Native band-major cache -> physical time-major readout input."""
+    x=np.asarray(flat).reshape(len(flat),bands,patches,width)
+    return x.transpose(0,2,1,3).reshape(len(flat),patches,bands*width)
+
+
 def dump(path, obj):
     with path.open('x') as f:
         json.dump(obj, f, indent=2, allow_nan=False)
@@ -159,7 +165,7 @@ def main():
                     feature[first:first+len(b)] += gain*delta
                     perturb[first:first+len(b)] = np.sqrt(np.mean((gain*delta)**2,axis=1))/norm[:,0]
             if args.common_budget:
-                feature=linear_token_budget(feature.reshape(n,20,2048),time_bins=9,width=64,seed=0)
+                feature=linear_token_budget(cfft_sequence(feature),time_bins=9,width=64,seed=0)
             row = dict(readout_features=int(feature.shape[1]),mean_relative_perturbation=float(perturb.mean()),max_relative_perturbation=float(perturb.max()),readouts=[])
             predictions=[]
             for degree in (1,2):
