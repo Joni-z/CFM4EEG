@@ -67,6 +67,21 @@ class PACResidualCandidates(nn.Module):
         tangent = torch.stack([-pair[..., 1], pair[..., 0]], -1)*phase[..., None]
         return base, additive, content, tangent.flatten(-2), packet
 
+    def forward(self, x, *, kind='coefficient', gain=.03, scale=1.):
+        """Return the actual modified token tensor, using a train-set scale.
+
+        Frozen evaluation prototype: the caller supplies one scale calibrated
+        on training inputs only. No synthetic labels enter this transformation.
+        Gain is a hard per-record perturbation limit, not a PAC threshold.
+        """
+        if kind not in ('coefficient', 'content', 'tangent'):
+            raise ValueError('unknown residual kind')
+        if not 0 <= gain <= .1 or not math.isfinite(scale) or scale < 0:
+            raise ValueError('gain must be 0..0.1 and scale finite nonnegative')
+        base, coefficient, content, tangent, _ = self.components(x)
+        residual = dict(coefficient=coefficient, content=content, tangent=tangent)[kind]
+        return self.fuse(base, residual, gain, scale)
+
     @staticmethod
     def fuse(base, residual, gain, scale):
         """Bound actual RMS perturbation per record to gain * original RMS.

@@ -59,6 +59,8 @@ def main():
     p.add_argument('--reference', type=Path, required=True)
     p.add_argument('--seed', type=int, default=1103)
     p.add_argument('--cache-from', type=Path)
+    p.add_argument('--variants',nargs='+',choices=['coefficient','content','tangent'],default=['coefficient','content','tangent'])
+    p.add_argument('--include-shuffle',action='store_true')
     p.add_argument('--train', type=int, default=2048)
     p.add_argument('--val', type=int, default=512)
     p.add_argument('--test', type=int, default=1024)
@@ -76,7 +78,7 @@ def main():
         data = generate_dataset(args.train,args.val,args.test,seed=args.seed)
     np.savez_compressed(args.output/'data.npz', **data)
     dump(args.output/'protocol.json', dict(seed=args.seed, train=args.train,val=args.val,test=args.test,
-         gains=args.gains, degrees=[1,2], alphas=ALPHAS, selection='validation MSE only',
+         gains=args.gains, variants=args.variants, shuffle=args.include_shuffle, degrees=[1,2], alphas=ALPHAS, selection='validation MSE only',
          dimension='complete original 16x20x128 token coordinates, flatten only',
          perturbation_budget='RMS(delta) / RMS(original) <= gain for every record',
          scope='frozen deterministic candidate feasibility; no clinical or PAC-supervised tokenizer training',
@@ -120,7 +122,15 @@ def main():
     scale = float(np.sqrt(np.mean(np.square(base[data['split']=='train'],dtype=np.float64))))
     residual_scales={key:scale/max(float(np.sqrt(np.mean(np.square(arrays[key][data['split']=='train'],dtype=np.float64)))),1e-12)
                      for key in ('coefficient','content','tangent')}
-    specs=[('original',None,0.)]+[(f'{kind}_{g:g}',kind,g)for kind in ('coefficient','content','tangent')for g in args.gains]
+    specs=[('original',None,0.)]+[(f'{kind}_{g:g}',kind,g)for kind in args.variants for g in args.gains]
+    if args.include_shuffle:
+        specs += [(f'shuffled_coefficient_{g:g}','shuffled',g)for g in args.gains]
+    shuffle=np.arange(n)
+    rng=np.random.default_rng(91103)
+    for split in ('train','val','test'):
+        ids=np.flatnonzero(data['split']==split)
+        # Circular random nonzero shift is a derangement with no split mixing.
+        shuffle[ids]=np.roll(ids,int(rng.integers(1,len(ids))))
     with (args.output/'results.tsv').open('x') as table:
         table.write('variant\tdegree\tvalidation_mse\tcurve_r2\tdetection_auroc\tseconds\tmax_relative_perturbation\n')
         for name,kind,gain in specs:
@@ -129,7 +139,10 @@ def main():
             perturb = np.zeros(n)
             if kind:
                 for first in range(0,n,64):
-                    b = np.array(base[first:first+64]); delta = np.array(arrays[kind][first:first+64])*residual_scales[kind]
+                    b = np.array(base[first:first+64])
+                    source_kind='coefficient' if kind=='shuffled' else kind
+                    ids=shuffle[first:first+64] if kind=='shuffled' else slice(first,first+64)
+                    delta = np.array(arrays[source_kind][ids])*residual_scales[source_kind]
                     norm = np.sqrt(np.mean(b*b,axis=1,keepdims=True))
                     size = np.sqrt(np.mean(delta*delta,axis=1,keepdims=True))
                     delta *= np.minimum(1.,norm/np.maximum(size,1e-12))

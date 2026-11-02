@@ -29,6 +29,7 @@ def test_residual_preserves_baseline_zero_and_bounds_each_record():
     x=(torch.cos(ph)+(1+.4*torch.cos(ph))*torch.cos(2*torch.pi*32*t))[None,None]*.2
     b,*parts=candidates.components(x)
     torch.testing.assert_close(b,f(x)[0],rtol=0,atol=0)
+    torch.testing.assert_close(candidates(x,gain=0.),b,rtol=0,atol=0)
     for delta in parts[:3]:
         assert torch.equal(candidates.fuse(b,delta,0.,.1),b)
         out=candidates.fuse(b,delta,.1,.1)

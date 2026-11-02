@@ -127,3 +127,72 @@ tokenizer) and AAC/PPC downstream comparisons are not launched by this module.
 Tests: `python -m pytest -q tests/test_pac_probe_*.py`. To include the real pinned
 TFM implementation, set `TFM_VENDOR_ROOT=/path/to/pinned/TFM-Tokenizer` before
 running tests. Temporary random weights in adapter tests are fixtures only.
+
+## Full-token residual study (2026-11-03)
+
+The later study uses **all 40,960 original token coordinates**, with no time
+pooling or random token compression. It strictly restores the original TUEV
+seed-0 checkpoint (`8da3e24c9eed68d67c8a4cc64ecdfc4cb1ab67cf6d9081cc9a285b79d101048f`).
+No clinical model, operator implementation or training recipe is changed.
+
+The metric remains the analytic 24-bin curve R²/RMSE, plus curve-RMS detection
+AUROC. A fixed-band SciPy SOS/Hilbert/harmonic-regression reference and the CFC
+operator both receive waveforms only. On the fresh confirmation test of 2,048
+records, their curve R² values are 0.984 and 0.978. The operator's H1/H2 coverage
+is 100%. The independent-null generator can produce finite-window apparent
+coupling: in an 800-record audit, 36% of null frequency pairs were within one
+Fourier resolution bin. Detection AUROC is therefore a secondary measure, not
+a requirement of 100% accuracy. Increasing signal context from 5 to 20 seconds
+improves the operator's AUROC from 0.932 to 0.991 in a separate 256-record check.
+Gain and polarity checks preserve recovery; strong added noise reduces it.
+
+Three frozen residual prototypes preserve the full original output and token
+grid. They use the existing operator and seeded, label-independent projections:
+
+| Candidate | Operation | Development R² at 10% perturbation limit |
+|---|---|---:|
+| Coefficient residual | Add projected H1/H2 real/imaginary coefficients | 0.928 |
+| Content residual | Add relation-conditioned original content | 0.472 |
+| Rotation tangent | Add a bounded relation-conditioned rotation correction | 0.459 |
+
+Each residual is scaled using training inputs only and capped per record by
+RMS(delta)/RMS(original). The coefficient residual reaches development R² 0.793
+at a 1% limit and 0.898 at 3%. The 3% version was selected as a small-change
+candidate before a fresh generator-seed confirmation (9,103). Confirmation
+uses 2,048 training, 512 validation and 2,048 test records; it does not reuse the
+development seed (1,103). The perturbation choice is exploratory, not a
+preregistered clinical non-inferiority threshold.
+
+| Confirmation row | Curve R² | Detection AUROC |
+|---|---:|---:|
+| Original final tokens | -0.001 | 0.489 |
+| Original + coefficient residual, 3% limit | 0.902 | 0.918 |
+| Same residual, relations shifted between samples within each split | -0.001 | 0.488 |
+
+Readouts use train-only scaling, a centered linear or quadratic kernel and
+validation-only choice of degree and regularization. All rows retain identical
+token dimensionality and fitting budgets. H1/H2/mixed confirmation R² values
+for the 3% candidate are 0.903/0.904/0.900. Directly exposing measured coefficients
+can make PAC decoding easier by construction. These results establish recovery
+on this fixture, not superiority to TFM, clinical gains or retention of the
+original downstream accuracy. The external TFM/WavePatch comparison remains
+uncompleted. Original tokens may also admit recovery by other readout families.
+
+The experiment code is in `scripts/experiments/pac_metric_calibration.py`,
+`pac_metric_stress.py`, `pac_token_candidates.py` and `pac_candidate_search.py`.
+`PACResidualCandidates.forward` returns the actual modified token tensor; it
+does not expose a separate operator output to the readout. This is a frozen
+research prototype, not a new production clinical configuration.
+
+```bash
+python -m scripts.experiments.pac_candidate_search \
+  --reference /path/to/original-checkpoint-directory \
+  --output /path/outside/repo/confirmation \
+  --seed 9103 --train 2048 --val 512 --test 2048 \
+  --variants coefficient --gains .03 --include-shuffle
+```
+
+The reference directory must contain `original-training.yaml` and the original
+`original-best.pt`. All outputs refuse to overwrite existing records. Raw
+arrays, predictions, selected readout settings and run protocols are retained
+outside the repository under `maintenance/autoresearch-pac-token-20261103`.
