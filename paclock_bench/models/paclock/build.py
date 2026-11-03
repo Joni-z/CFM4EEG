@@ -140,7 +140,7 @@ class TriAxialPACLock(nn.Module):
             kernel_size=cfg.get("kernel_size", 201), patch_len=cfg.get("patch_len", 200),
             pac_patch_len=cfg.get("pac_patch_len"),
             return_pac_vector=self.freq_mixer == "phase",
-            tokenizer_mode=cfg.get("tokenizer_mode", "raw"),
+            tokenizer_mode=("pac_interaction" if cfg.get("tokenizer_mode") == "cfc_direct" else cfg.get("tokenizer_mode", "raw")),
             pac_token_mode=cfg.get("pac_token_mode", "measured"),
             interaction_mode=cfg.get("interaction_mode", "product"),
             hybrid_gate=cfg.get("hybrid_gate", "none"),
@@ -152,6 +152,11 @@ class TriAxialPACLock(nn.Module):
             local_residual=cfg.get("local_residual", False),
             waveform_modulation=cfg.get("waveform_modulation", "none"),
         )
+        if cfg.get("tokenizer_mode") == "cfc_direct":
+            if self.freq_mixer != "none" or cfg.get("aux_recon_weight", 0):
+                raise ValueError("candidate C requires no frequency mixer or auxiliary loss")
+            from .frontend.singlepath import DirectPACFrontend
+            self.frontend = DirectPACFrontend(self.frontend)
         if self.frontend.tokenizer_mode in ("hybrid", "duplex"):
             # The coupling/phase mixers consume an (nb, nb) coupling matrix and
             # would need it lifted to the 2*nb hybrid grid; nothing defines that
