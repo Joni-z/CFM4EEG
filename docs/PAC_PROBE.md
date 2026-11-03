@@ -1,10 +1,11 @@
 # PAC representation readout
 
-Current exploration keeps the original **20 content positions** and tests
-content-dependent PAC corrections inside that grid. The relation-context slot
-is retained as a PAC-as-feature control, not the selected main-model design.
-The clinical tokenizer and checkpoints are unchanged. The latest content-only
-findings and their limits are recorded at the end of this note.
+Current exploration keeps the original **20 content positions** and tests one
+measured-PAC path within the content transform. Three candidates have completed
+a synthetic screen; the direct bounded transform has passed fresh-sample checks.
+It is a candidate for user review, not a selected downstream model. The earlier
+relation slot and old-rotation-plus-residual designs remain comparison artifacts.
+The clinical tokenizer and checkpoints are unchanged. Latest results are below.
 
 This module asks whether PAC relationships can be recovered from **final frozen
 token embeddings**. It separates measurement accuracy, token readability and
@@ -289,7 +290,7 @@ Four small content-only transforms were screened: time-local envelope/waveform
 gain, signed-carrier binding, already-aligned-carrier binding, and nonnegative
 content-magnitude binding. All preserve the old projections/rotation and
 16 × 20 × 128 grid. None adds a separate PAC token. Uncalibrated variants fail.
-Train-input-only per-band RMS calibration makes the last variant promising.
+Train-input-only per-band RMS calibration improves the last variant's readout.
 It adds a measured-relation-weighted correction proportional to local,
 bias-free content magnitude. No signal content means no correction; the
 per-band RMS cap controls the change. It exposes measured relations inside
@@ -334,3 +335,69 @@ Reproduce with `scripts/experiments/pac_content_diagnosis.py`,
 The original neural content parameters remain trainable when the caller
 wants to fine-tune; the synthetic study performs inference only. No clinical
 trainer, model factory, dataset, checkpoint or paper is modified.
+
+## Single measured-PAC path (2026-11-04)
+
+This screen removes the duplicated old-PAC plus new-PAC path. All three research
+variants call `CFCOperator` once, reuse the trained Sinc/content projections and
+return the original 16-band × 20-position × 128-feature tensor. They add neither
+tokens nor learned parameters. The measured H1/H2 relations act on two groups
+of existing complex coordinates. Physical target frequencies map to learned
+bands through their actual half-power responses; unsupported bands use
+unrotated content. No generator labels or query pair enter token construction.
+
+| Candidate | Sole content transform | Development native R² | Common-budget R² |
+|---|---|---:|---:|
+| Original CfFT | Original local-PAC rotation | -0.001 | -0.001 |
+| A: aligned | Measured relation aligns projected source harmonics; unit rotation | 0.002 | 0.172 |
+| B: strength | A with bounded coupling-strength gain | 0.002 | 0.188 |
+| C: direct | Bounded complex gain from measured relations, replacing the old rotation | 0.784 | 0.768 |
+
+C uses `content * (1 + 0.5 * relation)`, with relation magnitude capped at one.
+The gain lies in [0.5, 1.5] and angle in [-30°, 30°]. No relation-only additive
+vector is packed into the token. C does not retain the original source-reference
+invariance. A/B retain it for consistent phase/coefficient reference changes.
+Their weaker recovery is a readout result, not proof that every decoder fails.
+
+The development fixture uses seed 1103 and 1,024/256/512 train/validation/test
+records. Common-budget validation MSE selects C before confirmation. Gains,
+readout degree options and regularization grid are fixed; probe settings use
+validation only. The common budget remains 9 × 64 features. Native and common
+results differ because compression changes the finite-sample readout problem.
+
+| Fresh confirmation, seed 41104; 1,024 test records | Native R² | Common R² | Common detection AUROC |
+|---|---:|---:|---:|
+| Original CfFT | -0.002 | -0.002 | 0.478 |
+| Unrotated original content | -0.002 | -0.002 | 0.488 |
+| C: direct | 0.773 | 0.750 | 0.906 |
+| C with wrong-record relations | -0.002 | -0.002 | 0.488 |
+
+Wrong relations use a derangement within each split, while current-record
+content is held fixed. The operator itself reaches R² 0.978. Removing the
+learned content projection bias in a post-screen diagnostic retains common
+R² 0.730; a bias-only carrier reaches 0.966 but carries essentially no tested
+waveform/power information. Thus a high PAC score alone cannot establish a
+useful content representation. The ordinary C transform also decodes fixed
+waveform projections at native R² 0.880 versus 0.916 for unrotated content,
+and generating band powers at 0.768 versus 0.922. These are limited readout
+diagnostics, not signal reconstruction or clinical outcomes.
+
+A separate 3/24-Hz fixture (seed 51104, 1,024 test records) gives C native/common
+R² 0.745/0.743, with no retuning. These fixtures cover two physical pair ranges,
+not general multi-source EEG. In the reference checkpoint only four learned
+target bands meet the physical mapping threshold.
+
+**Downstream preservation remains unknown.** C changes unrotated content by
+2.21% mean whole-record RMS, but differs from the original rotated tokens by
+141.56%. Keeping the tensor shape and parameter count does not make this a
+small perturbation of the trained model. No clinical job has been launched;
+the user decides whether this candidate warrants downstream training.
+
+Implementation: `scripts/experiments/pac_singlepath.py`; runner:
+`pac_singlepath_search.py`. Forty-three relevant tests pass, including exact
+equivalence to the earlier probe, single measurement, no old-PAC call, finite
+gradients, no-content behavior and serialization. An independent replay
+checks 72 reported target/budget metrics and prediction IDs across all three
+datasets. Source snapshots,
+protocol, predictions and prototype weights are retained outside the repository
+under `maintenance/pac-singlepath-20261104`.
