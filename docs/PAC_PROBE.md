@@ -401,3 +401,35 @@ checks 72 reported target/budget metrics and prediction IDs across all three
 datasets. Source snapshots,
 protocol, predictions and prototype weights are retained outside the repository
 under `maintenance/pac-singlepath-20261104`.
+
+## Candidate C downstream and D/E/F screen (2026-11-04)
+
+The user approved C for TUEV and CHB-MIT seed0 from-scratch training on 145.
+`tokenizer_mode=cfc_direct` uses the exact screened transform through
+`DirectPACFrontend`; both configurations retain the original encoder, loss,
+augmentation, optimizer, selection and stopping recipe. Accepted arrays are
+preloaded. Clinical execution is frozen at commit `134804c`, under
+`/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-direct-20261104` (GPU0 TUEV,
+GPU1 CHB-MIT). Smoke gates check real batches, gradients, validation, strict
+checkpoint reload and source/data identity before training. Best checkpoints
+are saved. No synthetic improvement is treated as a downstream result.
+
+D/E/F use the same single measured relation, harmonic groups and content grid:
+
+| Candidate | Content transform | Development native/common PAC R² |
+|---|---|---:|
+| D: strength only | Positive content gain from coupling depth, no angle | 0.001 / -0.001 |
+| E: angle only | Unit-normalized C transform, no gain | 0.410 / 0.343 |
+| F: envelope only | C transform acts on envelope; waveform contribution passes unchanged | 0.784 / 0.768 |
+
+D lacks preferred-phase information by construction; its curve score does
+not establish that strength is useless for classification. F was selected by
+common-budget validation MSE. On confirmation seed41104, its native/common
+R² is 0.773/0.750; wrong-record guidance gives -0.002/-0.002. C on the same
+records is 0.773/0.750. F preserves the separate waveform contribution but
+still replaces the original rotation; it has not demonstrated a clinical
+advantage and is not submitted downstream. Only readouts are fitted in the synthetic screen; the tokenizer stays frozen. Outputs and source snapshots are under
+`maintenance/pac-c-downstream-20261104`; original checkpoint and paper are
+unchanged. Forty-six focused tests pass, including exact C prototype/adapter
+parity, encoder initialization, gradients, checkpoint reload and F's waveform
+bypass. The D/E/F study does not alter the frozen clinical execution source.

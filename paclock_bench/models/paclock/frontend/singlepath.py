@@ -14,7 +14,7 @@ from paclock_bench.models.paclock.frontend.triaxial import _patch_project
 
 
 class SinglePathPAC(nn.Module):
-    MODES = ('aligned', 'strength', 'direct')
+    MODES = ('aligned', 'strength', 'direct', 'strength_only', 'angle_only', 'envelope_only')
 
     def __init__(self, frontend):
         super().__init__()
@@ -79,9 +79,14 @@ class SinglePathPAC(nn.Module):
             # b,c,p,n: one complex relation and a separate nonnegative depth.
             aggregate = torch.einsum('nj,bcpsj->bcpn', mapping, weight * beta)
             depth = torch.einsum('nj,bcpsj->bcpn', mapping.real, weight * beta.abs()).clamp(0, 1)
-            if mode == 'direct':
+            if mode in ('direct', 'strength_only', 'angle_only', 'envelope_only'):
                 bounded = aggregate / aggregate.abs().clamp_min(1.)
-                factor = (1 + .5 * bounded).permute(0, 1, 3, 2).unsqueeze(-1)
+                factor = 1 + .5 * bounded
+                if mode == 'strength_only':
+                    factor = 1 + .5 * depth
+                elif mode == 'angle_only':
+                    factor = factor / factor.abs().clamp_min(1e-6)
+                factor = factor.permute(0, 1, 3, 2).unsqueeze(-1)
             else:
                 context = torch.einsum('nj,bcpsj,bcpsd->bcpnd', mapping,
                                        weight * beta.conj(), prepared['source_features'][h])
@@ -91,7 +96,7 @@ class SinglePathPAC(nn.Module):
                 factor = reference.permute(0, 1, 3, 2, 4)
                 if mode == 'strength':
                     factor = factor * (1 + .3 * depth.permute(0, 1, 3, 2).unsqueeze(-1))
-            parts.append(content * factor)
+            parts.append(content.real * factor + 1j * content.imag if mode == 'envelope_only' else content * factor)
         return torch.view_as_real(torch.cat(parts, dim=-1)).flatten(-2)
 
     def forward(self, x, *, mode='aligned'):

@@ -20,3 +20,13 @@ def test_exact_candidate_and_encoder_initialization():
  assert new.frontend.original.waveform_quadrature.weight.grad.abs().sum()>0
  restored=build_model(cfg,(16,1000));restored.load_state_dict(new.state_dict(),strict=True)
  torch.testing.assert_close(restored.eval()(x),new.eval()(x),rtol=0,atol=0)
+
+
+def test_f_keeps_waveform_component_unmodulated():
+ from paclock_bench.models.paclock.frontend.triaxial import TriAxialFrontend
+ from scripts.experiments.pac_singlepath import SinglePathPAC
+ f=TriAxialFrontend(n_bands=16,hidden_dim=32,sample_rate=200,patch_len=50,filter_range=(.5,75.),tokenizer_mode='pac_interaction',interaction_mode='rotation',waveform_modulation='quadrature')
+ m=SinglePathPAC(f);p=m.prepare(torch.randn(1,1,1000)*.2)
+ p['content']=1j*p['content'].imag
+ out=m.transform(p,'envelope_only')
+ torch.testing.assert_close(out,torch.view_as_real(p['content']).flatten(-2),rtol=0,atol=0)

@@ -101,7 +101,8 @@ def main():
     assert int(data['seed']) == args.seed
     assert [int((data['split'] == s).sum()) for s in ('train', 'val', 'test')] == [args.train, args.val, args.test]
     np.savez_compressed(args.output / 'data.npz', **data)
-    sources = [Path(__file__), Path(__file__).with_name('pac_singlepath.py')]
+    sources = [Path(__file__), Path(__file__).with_name('pac_singlepath.py'),
+               Path(__file__).resolve().parents[2] / 'paclock_bench/models/paclock/frontend/singlepath.py']
     protocol = dict(seed=args.seed, variants=args.variants, wrong=args.wrong, input_gain=.2,
         diagnostic_cell=args.diagnostic_cell,
         train=args.train, val=args.val, test=args.test, alphas=ALPHAS, degrees=[1, 2],
