@@ -1,9 +1,10 @@
 # PAC representation readout
 
-The current synthetic candidate is the **relation-context slot**, described
-below. It preserves every original content token exactly and adds 5% more token
-positions. The earlier global-3%-residual study is retained as exploratory
-history; its global perturbation cap did not bound changes within each band.
+Current exploration keeps the original **20 content positions** and tests
+content-dependent PAC corrections inside that grid. The relation-context slot
+is retained as a PAC-as-feature control, not the selected main-model design.
+The clinical tokenizer and checkpoints are unchanged. The latest content-only
+findings and their limits are recorded at the end of this note.
 
 This module asks whether PAC relationships can be recovered from **final frozen
 token embeddings**. It separates measurement accuracy, token readability and
@@ -202,7 +203,7 @@ The reference directory must contain `original-training.yaml` and the original
 arrays, predictions, selected readout settings and run protocols are retained
 outside the repository under `maintenance/autoresearch-pac-token-20261103`.
 
-## Broader audit and selected context candidate
+## Earlier broader audit and context-slot control
 
 The global 3% residual can change a low-energy band by much more than 3%:
 the maximum measured bandwise RMS change was 111.5% in the first confirmation.
@@ -210,7 +211,7 @@ It is not the selected preservation design. Band-bounded alternatives were
 tested: low-variance placement of coefficients reaches native-token R² 0.863
 at a 10% per-band cap, but only 0.177 after the common 576-feature reduction.
 
-The selected alternative leaves the original `[B,C,16,20,128]` content grid
+The context-slot alternative leaves the original `[B,C,16,20,128]` content grid
 unchanged and appends one relation-context slot per band, yielding
 `[B,C,16,21,128]`. Its 128-dimensional relation embeddings are the same fixed,
 label-independent lift of measured H1/H2 coefficients mapped to token bands.
@@ -221,7 +222,7 @@ weights or encoder layers are replaced. The tokenizer parameter count remains
 16-channel forward check accepts the new grid through the unchanged original
 encoder and head. This is compatibility evidence, not task-performance evidence.
 
-A third generator seed (16,103) confirms the selected design. With all neural
+A third generator seed (16,103) confirms that context-slot prototype. With all neural
 rows reduced to 9 positions x 64 features and the same validation-tuned readout:
 
 | Frozen representation | Curve R² | Detection AUROC |
@@ -263,3 +264,73 @@ and two independent constructions give identical predictions.
 `PACResidualCandidates.context_tokens(x, scale=...)` returns the actual final
 token tensor. Its serialization and exact content-prefix preservation are
 tested. No downstream training or clinical evaluation was run in this study.
+
+
+## Original-path diagnosis and content-only fusion (2026-11-03)
+
+The original PAC-inspired tokenizer does not promise recovery of every PAC
+parameter. Its first angular moment misses a pure second-harmonic dependence;
+source-weight normalization and unit-modulus rotation discard some strength
+information within that path; multiple source edges become one rotation.
+These are conditional path properties, not proofs of information loss from
+the entire waveform/token representation. The learned narrow filters can
+also attenuate modulation sidebands within an individual band.
+
+A frozen-checkpoint diagnostic uses 1,024 training, 256 validation and 512
+test records. Raw local complex moments recover the analytic curve at R²
+0.412, versus -0.001 for final content tokens. Frozen identity rotation is
+0.001; rotation alone therefore does not explain the failure. The endpoints
+have different dimensions and are diagnostic, not a fair model ranking.
+Cubic/RBF readouts and all-band token-coherence summaries do not resolve
+final-token recovery. This remains a tested readout limitation, not an
+impossibility result for all decoders.
+
+Four small content-only transforms were screened: time-local envelope/waveform
+gain, signed-carrier binding, already-aligned-carrier binding, and nonnegative
+content-magnitude binding. All preserve the old projections/rotation and
+16 × 20 × 128 grid. None adds a separate PAC token. Uncalibrated variants fail.
+Train-input-only per-band RMS calibration makes the last variant promising.
+It adds a measured-relation-weighted correction proportional to local,
+bias-free content magnitude. No signal content means no correction; the
+per-band RMS cap controls the change. It exposes measured relations inside
+content coordinates and does not validate the old rotation mechanism alone.
+
+The 30% per-band cap was selected using development validation MSE before
+confirmation on fresh generator seed 271,103 (1,024/256/1,024). Readout degree
+and regularization still use validation only. All rows keep exactly 20 positions.
+
+| Frozen representation | Native curve R² | Common 576-feature R² |
+|---|---:|---:|
+| Original content tokens | -0.002 | -0.002 |
+| Content-magnitude binding, 10% per-band cap | 0.391 | 0.147 |
+| Content-magnitude binding, 30% per-band cap | 0.781 | 0.701 |
+| Wrong-sample guidance, 30% per-band cap | -0.002 | -0.002 |
+
+The 30% variant's mean whole-record RMS change is 5.92% (maximum 9.67%),
+but an individual band can change by 30%; a small whole-record value must
+not hide that fact. Native H1/H2/mixed R² values are 0.783/0.778/0.782.
+The operator itself reaches curve R² 0.978, with both harmonics supported
+in every test record at the fixed 4/32-Hz query. Native detection AUROC is
+0.875; common-budget detection AUROC is 0.840. A 2,000-resample paired
+bootstrap gives a positive-record MSE reduction of 0.05656, 95% percentile
+interval [0.05499, 0.05807], against the original. These are independent
+synthetic records, not clinical subjects.
+
+The stronger wrong-guidance control is reconstructed from cached tokens by
+the exact affine gain relation and independently checked against actual
+inference. Prediction-order checks and separate R²/AUROC recomputation agree
+within 1e-12. Strict prototype serialization reload reproduces tokens exactly.
+All failed candidates and original results remain outside the source tree
+under `maintenance/pac-content-fusion-20261103`. Executed source snapshots
+are retained beside the result arrays. The prototype has no new trainable
+parameters; its measurement/filter/projection state and train-derived
+calibration are saved as buffers. **Clinical accuracy preservation is untested.**
+
+Reproduce with `scripts/experiments/pac_content_diagnosis.py`,
+`pac_readout_diagnosis.py`, `pac_structured_readout_diagnosis.py` and
+`pac_content_fusion_search.py`. The actual content-only prototype is
+`PACContentFusion` in `pac_content_fusion.py`, used through
+`fuse(prepared, mode="radial_binding", gain=0.3)` or its `forward` method.
+The original neural content parameters remain trainable when the caller
+wants to fine-tune; the synthetic study performs inference only. No clinical
+trainer, model factory, dataset, checkpoint or paper is modified.
