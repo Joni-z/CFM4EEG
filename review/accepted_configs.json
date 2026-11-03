@@ -62,5 +62,7 @@
   "configs/baselines/eegpt/iiic-scratch.yaml": "44e5375b7f21a9dc5be2c4cc9329df594440677e7d57a6f1ee17f3639c423232",
   "configs/baselines/labram/iiic-scratch.json": "a4646e281efcd513e7094fc7dfd7a1c98125139b59ac6a4382c99ef19d10832a",
   "configs/model/tuev-cfc-reference.yaml": "57f169d8bbee0d2d0f7a9eb58f0ce45ea92fc81e0fe144d0b6cc5959a5ff9cd2",
-  "configs/model/chbmit-cfc-reference.yaml": "cda0ee8df3924cc5ccb9a2fc92e2c44ba39f303975c093dd6a61cfc0e8810d52"
+  "configs/model/chbmit-cfc-reference.yaml": "cda0ee8df3924cc5ccb9a2fc92e2c44ba39f303975c093dd6a61cfc0e8810d52",
+  "configs/model/tuev-cfc-direct.yaml": "22a48bb404fb5f6e0ef54f3aa45586ddb8d9df4ef5599887d47b0deb04429ed4",
+  "configs/model/chbmit-cfc-direct.yaml": "adc0222194aeae09b81e56b35112ef627048a25cfd5c5a97a5065deaf3df3e76"
 }
