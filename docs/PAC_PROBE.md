@@ -387,11 +387,12 @@ R² 0.745/0.743, with no retuning. These fixtures cover two physical pair ranges
 not general multi-source EEG. In the reference checkpoint only four learned
 target bands meet the physical mapping threshold.
 
-**Downstream preservation remains unknown.** C changes unrotated content by
+At the end of this synthetic screen, downstream preservation was unknown.
+C changes unrotated content by
 2.21% mean whole-record RMS, but differs from the original rotated tokens by
 141.56%. Keeping the tensor shape and parameter count does not make this a
-small perturbation of the trained model. No clinical job has been launched;
-the user decides whether this candidate warrants downstream training.
+small perturbation of the trained model. The subsequently authorized clinical
+study is recorded below.
 
 Implementation: `scripts/experiments/pac_singlepath.py`; runner:
 `pac_singlepath_search.py`. Forty-three relevant tests pass, including exact
@@ -413,6 +414,23 @@ preloaded. Clinical execution is frozen at commit `134804c`, under
 GPU1 CHB-MIT). Smoke gates check real batches, gradients, validation, strict
 checkpoint reload and source/data identity before training. Best checkpoints
 are saved. No synthetic improvement is treated as a downstream result.
+
+TUEV seed0 completed all 20 epochs: test kappa **0.660108**, balanced accuracy
+**0.642785**, weighted F1 **0.826950**. The validation-selected checkpoint is
+epoch7 (zero-based), validation kappa 0.603914. All three test metrics were
+independently recomputed from 29,421 saved predictions. The original rotating
+CfFT seed0 had validation kappa 0.586466 and test kappa 0.693214: improved
+validation/PAC readout did not preserve its test kappa. CHB-MIT remains running.
+
+The CHB-MIT original-tokenizer control uses
+`configs/model/chbmit-original-control.yaml`, seed0. Its sole computational
+configuration difference from C is `tokenizer_mode=pac_interaction`; encoder,
+loss, augmentation, schedule, stopping, accepted data and preload are identical.
+The release retains C's Python source at `134804c` plus this reviewed config,
+under `chbmit-original-control-20261104` on 145. This is the original **two-axis**
+model; its historical old-data seed0 test AUC-PR was 0.604655. The older
+three-axis range model's 0.696913 belongs to a different encoder. Data and
+recipe audit artifacts are under `maintenance/chbmit-control-audit-20261104`.
 
 D/E/F use the same single measured relation, harmonic groups and content grid:
 

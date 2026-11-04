@@ -55,6 +55,29 @@ adaptations remain part of the comparison record.
 
 ## Record a completed result
 
+### CHB-MIT recipe comparison (2026-11-04)
+
+The original-control run changes only C's tokenizer back to `pac_interaction`.
+Its optimizer, focal loss, augmentation and validation selection match the
+historical two-axis CfFT recipe. The corrected evaluation set differs as
+documented in [Data](DATA.md); old/new PR-AUC is not a paired comparison.
+
+| Active recipe | Input scale | Loss | Selection / budget |
+|---|---|---|---|
+| CfFT original / C | Per-window/channel Q95 | Focal alpha .25, gamma 2 | PR-AUC every200steps; patience20evaluations; up to20epochs |
+| Native CBraMod scratch | Restored physical microvolts /100 | BCE | AUROC; full50epochs |
+| Native TFM single-dataset | Author Q95 | Focal alpha .8, gamma .7 | AUROC; intended50epochs |
+
+CBraMod's checked corrected-test PR-AUC is .569932. The TFM run was interrupted
+at zero-based epoch42; its separately evaluated validation-best epoch4 gives
+PR-AUC .266357. Preserve that interruption status. These results use the common
+corrected cohort, not the TFM paper's original preprocessing. Recipe differences
+are candidate explanations, not isolated effects established by these runs.
+Execution receipts and source comparisons are retained outside the repository
+under `maintenance/chbmit-control-audit-20261104`.
+
+### Result entry
+
 After the checks pass, enter the three metrics into the matching dataset sheet
 of the existing tracking workbook and update its overview state. Leave
 pending/failed/unverified cells blank. Back up the workbook, check dataset/model/

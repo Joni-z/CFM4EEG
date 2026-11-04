@@ -26,6 +26,14 @@ IIIC contains 73,637 / 15,778 / 15,780. Use the exact manifest for other split
 counts. CAUEEG and TUAR storage copies are separate from these comparison inputs;
 a legacy copy is not automatically an accepted new version.
 
+CHB-MIT's corrected train split retains 316,205 windows (2,883 positive).
+Validation/test contain 21,094/17,224 windows, with 60/114 positives. The legacy
+cache added 90/162 seizure-centered positive windows to validation/test, giving
+150/276 positives. Removing these label-dependent evaluation windows changes
+both prevalence and sample composition. Old and corrected AUC-PR values are
+not a same-test comparison; the raw subject split, 16 channels, 200-Hz rate,
+10-second windows and Q95 normalization remain the same.
+
 ## Units and host interfaces
 
 - Reverse Q95 with its saved denominator when a loader expects physical µV;

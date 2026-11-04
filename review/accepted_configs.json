@@ -64,5 +64,6 @@
   "configs/model/tuev-cfc-reference.yaml": "57f169d8bbee0d2d0f7a9eb58f0ce45ea92fc81e0fe144d0b6cc5959a5ff9cd2",
   "configs/model/chbmit-cfc-reference.yaml": "cda0ee8df3924cc5ccb9a2fc92e2c44ba39f303975c093dd6a61cfc0e8810d52",
   "configs/model/tuev-cfc-direct.yaml": "22a48bb404fb5f6e0ef54f3aa45586ddb8d9df4ef5599887d47b0deb04429ed4",
-  "configs/model/chbmit-cfc-direct.yaml": "adc0222194aeae09b81e56b35112ef627048a25cfd5c5a97a5065deaf3df3e76"
+  "configs/model/chbmit-cfc-direct.yaml": "adc0222194aeae09b81e56b35112ef627048a25cfd5c5a97a5065deaf3df3e76",
+  "configs/model/chbmit-original-control.yaml": "11b00651a48450097f30e38c71aabb01d0b919c6aaf7adbf62f242551199fff4"
 }

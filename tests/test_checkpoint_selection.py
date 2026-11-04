@@ -24,7 +24,10 @@ def test_reported_weights_follow_recipe_not_validation_peak(tmp_path, monkeypatc
     loaders=[DataLoader(data,batch_size=2) for _ in range(3)]
     info=dict(input_shape=(2,),n_samples=dict(train=4,val=4,test=4),
               class_counts=dict(train=[1,2,1,0,0,0],val=[1,2,1,0,0,0]),manifest={})
-    monkeypatch.setattr(train,'build_dataloaders',lambda _: (*loaders,info))
+    def build_dataloaders(_, *, include_test=True):
+        assert include_test  # This exercises a full run, not the smoke path.
+        return (*loaders,info)
+    monkeypatch.setattr(train,'build_dataloaders',build_dataloaders)
     monkeypatch.setattr(train,'build_model',lambda *_:torch.nn.Linear(2,6))
     snapshots=[]; tested=[]
     def evaluate(model, loader, *args, **kwargs):

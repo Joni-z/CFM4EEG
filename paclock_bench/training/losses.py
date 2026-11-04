@@ -1,8 +1,7 @@
-"""Losses, one per dataset as pinned in PROTOCOLS.md appendix A.
+"""Losses for the CfFT trainer, selected by each experiment configuration.
 
-The mapping is data-driven rather than a per-model choice: every model on a
-given dataset trains against the same objective, which is what makes the C-group
-architecture comparison mean anything.
+Native baselines use their authors' losses through scripts/rebuild/. A shared
+dataset does not imply identical objectives across those training recipes.
 """
 
 from __future__ import annotations

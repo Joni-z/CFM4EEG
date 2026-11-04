@@ -129,23 +129,12 @@ def main():
     device = cfg.get("device", "cuda" if torch.cuda.is_available() else "cpu")
     dataset = cfg["dataset"]
     key = primary_metric(dataset)
-    # Which metric picks the checkpoint, which is not the same question as which
-    # metric gets reported. The protocol fixes the reported one; the model's own
-    # repo fixes the selection one, and hard rule 2 covers that too.
-    #
-    # It matters most where the two disagree in variance. CHB-MIT's validation
-    # split holds 150 positives in 21184 windows, so PR-AUC there swings between
-    # 0.007 and 0.5 between consecutive evaluations while AUROC barely moves.
-    # Selecting -- and early-stopping -- on that noise ended CBraMod's
-    # from-scratch runs after one epoch, at chance. CBraMod's own trainer never
-    # early-stops and keeps the best checkpoint by `roc_auc > roc_auc_best`.
-    #
-    # Defaults to the primary metric, so every config that does not set it is
-    # bit-identical to before.
+    # Selection and reporting metrics may differ. CfFT defaults to the task's
+    # primary metric. Native baseline selection belongs to the author trainer.
+    # Class counts come from the executed manifest, not a historical constant.
     select_key = cfg.get("select_metric", key)
 
-    # Group B runs each repo's own loader and normalisation -- the protocol
-    # forbids feeding these models our pipeline's data. `loader` selects it.
+    # Explicit loaders retain their declared input normalization.
     if cfg.get("loader") == "biot":
         from ..data.biot_dataset import build_biot_dataloaders
         train_loader, val_loader, test_loader, info = build_biot_dataloaders(cfg)
