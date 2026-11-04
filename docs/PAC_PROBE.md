@@ -485,3 +485,22 @@ recoverability and clinical discrimination are separate measured outcomes.
 Neither a high PAC readout nor a single lower clinical kappa identifies the
 benefit of estimator accuracy alone. Detailed matched configurations and
 graph checks are in the existing maintenance audit's `mechanism-followup.md`.
+
+### Candidate C, legacy CHB-MIT snapshot evaluation (2026-11-04)
+
+A frozen copy of the current validation-best checkpoint at epoch1 step6600
+(natural-grid validation PR .284963) was evaluated without retraining:
+
+| Test cohort | AUC-PR | AUROC | Balanced accuracy |
+|---|---:|---:|---:|
+| Legacy enriched windows, 17,386 rows /276 positives | .534567 | .882914 | .628506 |
+| Natural-grid subset, 17,224 rows /114 positives | .317193 | .824056 | .613918 |
+
+This is an interim checkpoint while clinical training continues. Selection
+used the current natural-grid validation set; it was not reselected on legacy
+validation or test scores. The exact legacy test arrays were restored and
+hash-verified. Strict checkpoint loading, all52 training source hashes, full
+prediction/label order and independent metric recomputation pass. FP32 inference
+at batch128 took679seconds. Checkpoint SHA starts `d8582906abcdab3f`; full weights,
+predictions and receipts are under `maintenance/chbmit-c-eval-legacy-20261104`.
+Both ongoing CHB-MIT training jobs and their selected checkpoints are unchanged.
