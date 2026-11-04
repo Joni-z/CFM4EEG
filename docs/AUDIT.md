@@ -115,6 +115,64 @@ Evidence: the maintenance audit's `data-causal-recomputed.json`, row maps,
 `evaluation-independent-check.json`, `training-parity.json` and
 `stage-comparison.json`. Original results and running releases are preserved.
 
+### Legacy content, rotation and encoder attribution (2026-11-05)
+
+The reference here is the 16-band `quad_range` quadrature model, not the earlier
+8-band duplex family. The archived ledger reconstructs 74 paired comparisons
+from 96 endpoints; independent recomputation agrees. These are historical
+protocol results, not a new comparison with corrected-data native baselines.
+
+CHB-MIT seed0 gives a useful encoder-by-guidance comparison:
+
+| Encoder / historical AUC-PR | Identity, no rotation | Measured rotation |
+|---|---:|---:|
+| Joint electrode-band two-axis | .664544 | .604655 |
+| Separate electrode/band three-axis | .671299 | .696913 |
+
+The three-minus-two difference is .006755 without rotation and .092258 with
+rotation. This suggests a representation/encoder interaction; one seed and
+changed capacity/initialization do not establish its cause. TUEV's interaction
+has the opposite sign: three-axis identity .729197 exceeds measured .713880,
+while two-axis measured .684601 exceeds identity .616390. Own-phase and
+weights-only are other rotations, not substitutes for the identity control.
+
+Keeping waveform content matters strongly in the three-axis CHB-MIT seed2
+comparison (.709807 versus envelope-only .543221); the corresponding TUEV
+difference is small (.715456 versus .713653). Older raw-band models also improve
+with eight bands over one on all three shared CHB-MIT and TUSZ seeds, but band
+count changes tokens and compute. The old flat comparison additionally changes
+frontend electrode mixing, positional paths, normalization and capacity; it does
+not isolate attention factorization.
+
+Both axis variants retain cross-band communication. Three-axis separates
+electrode and band attention; two-axis attends jointly over electrode×band.
+The reference frequency mixer is ordinary attention and ignores the explicit
+coupling argument. Guidance acts in the frontend before this learned mixing.
+Identity bypasses the learned source-phase path. A conditional unit rotation
+preserves projected content norm outside its numerical clamp, not all original
+signal information or all PAC coefficients.
+
+Saved seed0 predictions locate the CHB-MIT gain more narrowly. Historical PR-AUC
+on chb23 is .509141→.807399 for two→three axes, but on chb24 it is
+.669842→.624787. The same signs hold on the natural-grid subset
+(.284291→.604144 and .476238→.409370). These subject effects are not an additive
+decomposition of pooled PR-AUC. All 31 record-label hashes and both prediction
+label arrays were checked; independent threshold integration reproduces metrics
+within 2.22e-16. The pooled natural-grid axis advantage remains .081705, but the
+historical validation ranking favors two-axis in both shared seeds.
+
+The supported account is useful frequency-resolved content with a compatible
+encoder, plus task-dependent phase guidance. Accurate PAC estimation has not
+been identified as the clinical cause. The earlier original-token PAC readout
+used a TUEV two-axis checkpoint, not this CHB-MIT three-axis checkpoint. Keep
+measurement, token recovery and clinical claims bound to their actual models.
+
+Evidence and full scope: external
+`maintenance/legacy-triaxial-attribution-20261105/{report.md,contrasts.json,
+prediction-diagnostics.json,review/EXPERIMENT_AUDIT.md}`. The independent review
+passes arithmetic but rates causal attribution provisional. No training or
+paper edit was performed for this audit.
+
 ### Result entry
 
 After the checks pass, enter the three metrics into the matching dataset sheet
