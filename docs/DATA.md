@@ -34,6 +34,17 @@ both prevalence and sample composition. Old and corrected AUC-PR values are
 not a same-test comparison; the raw subject split, 16 channels, 200-Hz rate,
 10-second windows and Q95 normalization remain the same.
 
+For the historical CHB-MIT comparison selected on 2026-11-04, use the shared
+legacy enriched-window protocol: 21,184 validation and 17,386 test windows,
+including the90/162 additional seizure-centered positives. Describe this
+sampling explicitly. Include only results verified against that same cohort;
+do not mix natural-grid baseline scores or differently processed published
+numbers into its ranking. Shared sampling does not imply equal score gains
+for every architecture. Existing matching results can be reused without
+retraining; other retained checkpoints require evaluation on the same protocol
+and a recorded validation-selection rule. Natural-grid data, audit results and
+ongoing executions remain separate and unchanged.
+
 ## Units and host interfaces
 
 - Reverse Q95 with its saved denominator when a loader expects physical µV;
