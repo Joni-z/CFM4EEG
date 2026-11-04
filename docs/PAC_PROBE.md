@@ -1,15 +1,71 @@
 # PAC representation readout
 
-Current exploration keeps the original **20 content positions** and tests one
-measured-PAC path within the content transform. Three candidates have completed
-a synthetic screen; the direct bounded transform has passed fresh-sample checks.
-It is a candidate for user review, not a selected downstream model. The earlier
-relation slot and old-rotation-plus-residual designs remain comparison artifacts.
-The clinical tokenizer and checkpoints are unchanged. Latest results are below.
+The current attribution test restores the original **16-band quadrature +
+three-axis CfFT**. Four clinical checkpoints have completed frozen synthetic
+probes. No model weights or token dimensions were changed. Earlier candidate
+screens below remain separate from this attribution test.
 
 This module asks whether PAC relationships can be recovered from **final frozen
 token embeddings**. It separates measurement accuracy, token readability and
 clinical utility. The existing CFC operator and clinical trainer are unchanged.
+
+## Original three-axis rotation (2026-11-05)
+
+TUEV and CHB-MIT checkpoints, seeds 0 and 2, were fixed before probing. Each
+receives the same two synthetic fixtures: analytic PAC curves and four-record
+selective-pairing groups. Each fixture has 1,024/256/512 train/validation/test
+records. All 40,960 native token coordinates are retained. Each frozen frontend
+is evaluated with measured, identity and wrong-record relations; these are
+interventions on its existing weights, not separately trained clinical models.
+
+| Checkpoint | Pairing: measured, linear | Identity, linear | Measured, quadratic | Identity, quadratic |
+|---|---:|---:|---:|---:|
+| TUEV s0 | .646 | .508 | .855 | .898 |
+| TUEV s2 | .631 | .523 | .738 | .830 |
+| CHB-MIT s0 | .682 | .525 | .951 | .965 |
+| CHB-MIT s2 | .645 | .514 | .896 | .916 |
+
+The fixed primary linear readout improves by .107–.156 with measured relations.
+Identity is better with the quadratic readout in all four checkpoints; validation
+chooses quadratic for both measured and identity. Thus this is evidence of easier
+**linear** access to this pairing label, not greater information retention or
+readout-independent superiority. Wrong-record linear accuracy is .445–.473.
+
+Full PAC-curve R² from measured tokens remains about −.003 for linear and
+quadratic readouts. A separate known-frequency-pair diagnostic of the native
+local moment recovers the first-harmonic component with R² .796–.933; full-curve
+R² is .402–.471. The pair is selected using generator frequencies only in this
+diagnostic, never in token inputs. Neither result establishes general PAC
+estimation or clinical benefit. Linear waveform-projection recovery is also
+higher for identity (.854–.929) than measured (.099–.171); this is limited-readout
+accessibility, not proof that the rotation destroys information.
+
+Physical spectra are matched within each pairing quadruplet. TUEV's div100
+preserves that matching. CHB-MIT's sample-specific q95 normalization does not:
+a post-normalization two-power quadratic control reaches .756 accuracy
+(linear .557). CHB-MIT pairing therefore has a normalization-related shortcut
+and must not be described as spectrum-matched at the model input.
+
+The four checkpoints share one synthetic data realization. Bootstrap intervals
+resample test quadruplets only for measured versus identity. Wrong-record donors
+connect groups, so the original ordinary group intervals for that contrast are
+superseded; report only point differences. Source hashes, raw predictions and
+the independent audit are retained in maintenance run
+`legacy-triaxial-validation-20261105`. Independent token replay matches exactly;
+38 focused tests pass. Clinical seed-2 identity controls are configured separately
+with unchanged legacy recipes and data; their queued status is not a result.
+
+Reproduction (output must be a new directory):
+
+```bash
+python -m scripts.experiments.legacy_rotation_probe \
+  --config /path/to/original/config.yaml --checkpoint /path/to/original/best.pt \
+  --normalization div100 --counts 1024 256 512 --seed 20261105 \
+  --output /path/outside/repository/legacy-rotation-probe
+```
+
+Use `q95` for the bound CHB-MIT checkpoints. The runner keeps both physical and
+post-normalization power controls and selects readout regularization on validation.
 
 ## What is reused
 
