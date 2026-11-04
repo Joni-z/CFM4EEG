@@ -451,3 +451,37 @@ advantage and is not submitted downstream. Only readouts are fitted in the synth
 unchanged. Forty-six focused tests pass, including exact C prototype/adapter
 parity, encoder initialization, gradients, checkpoint reload and F's waveform
 bypass. The D/E/F study does not alter the frozen clinical execution source.
+
+## What the downstream discrepancy identifies (2026-11-04)
+
+C is not an isolated estimator replacement. Its global record-level relation
+is repeated at all patch positions; the direct transform does not consume the
+learned source-phase projections. A CPU backward check confirms no gradient
+for that projection in C, versus a nonzero gradient in the original. The
+original applies local, feature-dependent unit rotations; C uses bounded
+complex gains shared within harmonic groups. Initial physical mapping covers
+four of16 content bands. These changes alter time support, active learned
+paths, frequency coverage and content transformation together.
+
+Historical same-data controls separate several contributions:
+
+| Comparison | Seed | Full / control primary score | Interpretation |
+|---|---:|---:|---|
+| TUEV two-axis: measured / identity | 0 | .684601 / .616390 | Rotation helps this run |
+| TUEV two-axis: measured / identity | 2 | .713350 / .699077 | Smaller positive rotation effect |
+| CHB-MIT two-axis: measured / identity | 0 | .604655 / .664544 | Rotation is not universally beneficial |
+| CHB-MIT two-axis: full / envelope-only | 2 | .623756 / .561782 | Waveform content contributes |
+
+These CHB-MIT rows use the historical evaluation composition; see the
+[fixed-prediction rescore](AUDIT.md#chb-mit-historical-score-decomposition-2026-11-04).
+Earlier raw-band comparisons also show strong performance without PAC, but
+vary band count, token count and attention cost together. They support the
+frequency-resolved content/encoder combination, not a pure filter effect.
+
+Current C TUEV is a tradeoff: kappa .660108 versus original .693214, balanced
+accuracy .642785 versus .612351. The PAC screen used a frozen old checkpoint;
+clinical C trained from scratch. Accurate coefficient recovery, final-token
+recoverability and clinical discrimination are separate measured outcomes.
+Neither a high PAC readout nor a single lower clinical kappa identifies the
+benefit of estimator accuracy alone. Detailed matched configurations and
+graph checks are in the existing maintenance audit's `mechanism-followup.md`.

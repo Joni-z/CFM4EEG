@@ -76,6 +76,45 @@ are candidate explanations, not isolated effects established by these runs.
 Execution receipts and source comparisons are retained outside the repository
 under `maintenance/chbmit-control-audit-20261104`.
 
+### CHB-MIT historical-score decomposition (2026-11-04)
+
+The saved predictions permit a direct evaluation-composition check. Removing
+the 162 seizure-centered extra positive test windows, without changing weights,
+scores or thresholds, gives:
+
+| Historical seed0 model | Original test AUC-PR | Natural-grid subset AUC-PR | Difference |
+|---|---:|---:|---:|
+| Two-axis measured CfFT | .604625 | .403814 | -.200811 |
+| Three-axis range CfFT | .696899 | .485518 | -.211380 |
+
+The retained 17,224 rows have114 positives; removed rows are all positive.
+The new-to-old row mapping reproduces every accepted test label. Independent
+recomputation agrees within1e-12. Archived logits are float16, explaining the
+roughly1e-5 differences from the original full-precision result files. These
+are fixed historical predictions rescored on a subset, not new training or a
+checkpoint selected on corrected validation data. AUROC also falls from about
+.913 to .884: the change includes positive-example composition, not just class
+prevalence. The90 extra validation positives can additionally affect checkpoint
+selection; that effect has not been isolated.
+
+All683 effective raw EDF hashes match. After matching records, all training
+label sequences match. Across185 sampled complete signal windows, maximum
+relative RMS difference is1.46e-6. Training row order did change: legacy workers
+assembled records in completion order; the rebuild sorts files. Thus identical
+seeds do not imply identical minibatches.
+
+The archived `twoaxis-runtime` model source matches the current original path.
+A same-input CPU single-update check found identical initialization, logits,
+loss, gradients, AdamW updates and learning rate. This excludes a change in the
+tested core calculation, not all CUDA/runtime or full-training differences.
+The historical successful two-axis run also predicted all negatives at epoch0
+step5000 (validation PR .062058), before reaching its best checkpoint at epoch4
+step5000. Current early validation must not be compared with that final test.
+
+Evidence: the maintenance audit's `data-causal-recomputed.json`, row maps,
+`evaluation-independent-check.json`, `training-parity.json` and
+`stage-comparison.json`. Original results and running releases are preserved.
+
 ### Result entry
 
 After the checks pass, enter the three metrics into the matching dataset sheet
