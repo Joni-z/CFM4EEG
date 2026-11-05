@@ -52,8 +52,40 @@ connect groups, so the original ordinary group intervals for that contrast are
 superseded; report only point differences. Source hashes, raw predictions and
 the independent audit are retained in maintenance run
 `legacy-triaxial-validation-20261105`. Independent token replay matches exactly;
-38 focused tests pass. Clinical seed-2 identity controls are configured separately
-with unchanged legacy recipes and data; their queued status is not a result.
+38 focused tests pass. Clinical seed-2 identity controls use unchanged legacy
+recipes and data; the current clinical results are listed below.
+
+### Clinical rotation and raw-waveform controls
+
+On the same legacy test cohorts, seed 2 gives:
+
+| Dataset / metric | Original measured | Identity | Identity status |
+|---|---:|---:|---|
+| TUEV kappa | .715456 | .711191 | Completed 20 epochs |
+| CHB-MIT PR-AUC | .709807 | .699413 | Interim validation-best checkpoint; training continues |
+
+The CHB-MIT snapshot is selected at epoch 2, step 6200 by validation PR-AUC
+.500681. Its AUROC is .917884 and balanced accuracy .630318. Saved predictions
+recompute to numerical precision. The legacy cohort has 17,386 windows and 276
+positives; the same predictions score PR-AUC .488285 on the 17,224-window,
+114-positive natural-grid subset. Do not compare scores across these cohorts.
+
+The next control replaces the complete frontend with a shared raw-patch linear
+projection: 50 samples become 16 distinct learned content rows of width 128.
+Rows have learned index embeddings and reuse the exact channel/time/row
+Transformer and mean readout. They are not frequency bands. There is no sinc
+filterbank, Hilbert transform, envelope extraction, PAC measurement or rotation.
+The unchanged attention interface receives an unused zero tensor; it does not
+guide attention. Grid size and encoder parameters match; total parameters are
+1.715M versus 1.620M, so this is not a parameter-matched frontend comparison.
+
+[TUEV](../configs/model/tuev-wave-patch-threeaxis.yaml) and
+[CHB-MIT](../configs/model/chbmit-wave-patch-threeaxis.yaml) use the historical
+seed-2 training recipes and accepted data, on 145 GPUs 0 and 2. The first launch
+failed before any update because the encoder cannot accept a null coupling
+argument. The corrected launch passed CPU forward/backward/AdamW checks and
+keeps its own source snapshot; no historical run was overwritten. Runtime root:
+`/data2/zz5070/CFM4EEG-rebuild-20261021/raw-triaxial-control-20261105`.
 
 Reproduction (output must be a new directory):
 

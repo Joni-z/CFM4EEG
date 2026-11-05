@@ -1,0 +1,50 @@
+name: chbmit-wave_patch_threeaxis-20261105
+group: legacy_triaxial_raw_control
+dataset: chbmit
+data_root: $LEGACY_VALIDATION_DATA/chbmit
+model: wave_patch_threeaxis
+optimizer: adamw
+lr: 0.0001
+weight_decay: 0.05
+scheduler: cosine
+grad_clip: 1.0
+num_workers: 8
+device: cuda
+num_classes: 2
+epochs: 20
+batch_size: 32
+eval_every_steps: 200
+patience: 20
+loss: focal
+focal_alpha: 0.25
+focal_gamma: 2.0
+sample_rate: 200
+model_kwargs:
+  arch: triaxial
+  d_model: 128
+  depth: 6
+  n_heads: 4
+  dropout: 0.35
+  patch_len: 50
+  augmentations:
+  - flip0.5
+  - jitter0.05
+  - mask0.2
+  - channel0.2
+  - frequency0.2
+  freq_mixer: attention
+  spatial_pe: xyz
+  n_rows: 16
+seed: 2
+max_hours: 22.0
+budget_projection_epochs: 6
+reproduction:
+  kind: project_control
+  tokenizer: per-electrode raw50-sample patches -> Linear(50,16*128) ->16 distinct
+    learned content rows; learned row embedding
+  encoder: unchanged TriAxialEncoder, channel/time/row attention, depth6,width128,heads4
+  interpretation: Content rows are learned views, not frequency bands. No sinc,Hilbert,envelope,PAC,rotation.
+    Total frontend parameter count differs.
+  comparison: historical16-band three-axis measured/identity seed2; same accepted
+    legacy data and training recipe
+  gpu_smoke: explicitly waived by user; direct formal launch

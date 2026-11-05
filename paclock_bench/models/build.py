@@ -6,7 +6,7 @@ from ..paths import expand
 
 
 def build_model(cfg: dict, input_shape: tuple[int, ...]) -> nn.Module:
-    if cfg["model"] not in ("paclock", "wave_patch_twoaxis"):
+    if cfg["model"] not in ("paclock", "wave_patch_twoaxis", "wave_patch_threeaxis"):
         raise ValueError(
             f"Baseline {cfg['model']!r} must use its original entrypoint under "
             "scripts/rebuild/. Generic baseline construction has been retired."
@@ -23,11 +23,12 @@ def build_model(cfg: dict, input_shape: tuple[int, ...]) -> nn.Module:
         "sampling_rate": cfg.get("sample_rate", 200),
         "dataset": cfg["dataset"],
     }
-    if cfg["model"] == "wave_patch_twoaxis":
+    if cfg["model"] in ("wave_patch_twoaxis", "wave_patch_threeaxis"):
         if cfg.get("checkpoint"):
             raise ValueError("Waveform-patch control is trained from scratch")
-        from .wave_patch import WavePatchTwoAxis
-        return WavePatchTwoAxis(model_config)
+        from .wave_patch import WavePatchTwoAxis, WavePatchThreeAxis
+        model_class = WavePatchTwoAxis if cfg["model"] == "wave_patch_twoaxis" else WavePatchThreeAxis
+        return model_class(model_config)
     model = build_cfft(model_config)
     checkpoint = cfg.get("checkpoint")
     if checkpoint:
