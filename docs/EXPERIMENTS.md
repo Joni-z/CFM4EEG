@@ -1,5 +1,9 @@
 # Experiment records
 
+Current targeted study: [frozen W/E recovery and matched demodulation
+controls](DEMODULATION_CONTROLS.md). Its Method analysis and downstream controls
+have separate outputs; no main-table jobs are launched by this study.
+
 The consolidated local archive is:
 
 ```text

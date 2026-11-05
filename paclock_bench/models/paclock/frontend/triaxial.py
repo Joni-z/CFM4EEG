@@ -117,6 +117,8 @@ class TriAxialFrontend(nn.Module):
         waveform_modulation: str = "none",
         filter_range: tuple[float, float] | None = None,
         waveform_content: bool = True,
+        content_view: str = "both",
+        band_mix_seed: int | None = None,
         **_,
     ):
         super().__init__()
@@ -129,6 +131,22 @@ class TriAxialFrontend(nn.Module):
             raise ValueError("waveform modulation requires unmodified pac_interaction/rotation")
         self.waveform_modulation = waveform_modulation
         self.waveform_content = bool(waveform_content)
+        if content_view not in ("both", "waveform", "envelope"):
+            raise ValueError("content_view must be both/waveform/envelope")
+        if (content_view != "both" or band_mix_seed is not None) and (
+            tokenizer_mode != "pac_interaction" or interaction_mode != "rotation"
+            or pac_token_mode != "identity" or waveform_modulation != "quadrature"
+            or not waveform_content
+        ):
+            raise ValueError("content/grid controls require unrotated full quadrature tokens")
+        self.content_view = content_view
+        # A fixed invertible change of band basis, shared by all samples,
+        # electrodes, patches and features. No global RNG or learned parameters.
+        basis = None
+        if band_mix_seed is not None:
+            generator = torch.Generator().manual_seed(int(band_mix_seed))
+            basis, _ = torch.linalg.qr(torch.randn(n_bands, n_bands, generator=generator))
+        self.register_buffer("band_mix", basis)
         if not self.waveform_content and waveform_modulation != "quadrature":
             raise ValueError("waveform_content=False requires quadrature")
         self.local_residual = bool(local_residual)
@@ -620,7 +638,7 @@ class TriAxialFrontend(nn.Module):
         pr = _patch_project(self.phase_tokenizer, phase_unit.real.reshape(flat_shape))
         pi = _patch_project(self.phase_tokenizer, phase_unit.imag.reshape(flat_shape))
         amplitude_input = torch.log1p(amplitude)
-        if self.waveform_modulation in ("carrier", "anchored"):
+        if self.waveform_modulation in ("carrier", "anchored") or self.content_view == "waveform":
             if filtered is None:
                 raise ValueError("carrier modulation needs the filtered waveform")
             # Legacy parameter names retained for checkpoint provenance: this
@@ -641,8 +659,10 @@ class TriAxialFrontend(nn.Module):
         if self.waveform_modulation != "none":
             if filtered is None:
                 raise ValueError("waveform modulation needs the filtered waveform")
+            waveform_input = (torch.log1p(amplitude) if self.content_view == "envelope"
+                              else filtered)
             waveform_feat = _patch_project(
-                self.waveform_quadrature, filtered.reshape(flat_shape)
+                self.waveform_quadrature, waveform_input.reshape(flat_shape)
             ).reshape(B, C, nb, P, K).permute(0, 1, 3, 2, 4)
         # Keep the same parameter initialization and token grid in the ablation.
         # A fixed zero mask removes the waveform contribution (and its gradient).
@@ -770,6 +790,9 @@ class TriAxialFrontend(nn.Module):
         # semantics are defined for one estimation window. The first entry is
         # used, so a single-scale config is unaffected.
         coupling = pac_vector.abs()
+
+        if self.band_mix is not None:
+            tokens = torch.einsum("ij,bcjpd->bcipd", self.band_mix, tokens)
 
         if return_amp_target:
             # hybrid/duplex: the interaction token for band j carries a_j

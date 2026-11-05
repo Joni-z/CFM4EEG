@@ -96,7 +96,13 @@ class TriAxialPACLock(nn.Module):
             raise ValueError("local_residual requires tokenizer_mode=pac_interaction")
         frontend_cls = TriAxialFrontend
         frontend_extra = {"filter_range": cfg.get("filter_range"),
-                          "waveform_content": cfg.get("waveform_content", True)}
+                          "waveform_content": cfg.get("waveform_content", True),
+                          "content_view": cfg.get("content_view", "both"),
+                          "band_mix_seed": cfg.get("band_mix_seed")}
+        if cfg.get("content_view", "both") != "both" or cfg.get("band_mix_seed") is not None:
+            if (cfg.get("tokenizer_mode") != "pac_interaction"
+                    or self.freq_mixer != "attention" or cfg.get("aux_recon_weight", 0)):
+                raise ValueError("content/grid controls require pac_interaction/attention without auxiliary loss")
         if cfg.get("tokenizer_mode") == "cfc":
             from .frontend.cfc import CFCFrontend
             if self.freq_mixer != "none" or cfg.get("aux_recon_weight", 0):
