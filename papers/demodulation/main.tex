@@ -1,19 +1,16 @@
-% Independent opening-section draft, 2026-11-06. Not a full submission.
-% Opening sections only; see README.md for scope and build instructions.
+% Official CVPR 2027 review format; source and hashes are in README.md.
 \documentclass[10pt,twocolumn,letterpaper]{article}
-\usepackage[margin=0.75in,columnsep=0.25in]{geometry}
-\usepackage[T1]{fontenc}
-\usepackage{newtxtext,newtxmath,microtype}
-\usepackage[numbers,sort&compress]{natbib}
-\usepackage{xurl}
-\usepackage[colorlinks=true,allcolors=blue]{hyperref}
-\raggedbottom
-\renewcommand{\bibfont}{\small}
-\setlength{\parindent}{1em}
-\setlength{\parskip}{0pt}
+% Preserve pdfLaTeX default encoding when previewing with Tectonic/XeTeX.
+\ifdefined\XeTeXversion
+  \usepackage[OT1]{fontenc}
+\fi
+\usepackage[review]{cvpr}
+\definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
+\usepackage[pagebackref,breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
+\def\confName{CVPR}
+\def\confYear{2027}
 \title{Demodulate, Then Attend:\\Exposing Amplitude Dynamics for Compact EEG Models}
 \author{}
-\date{}
 \begin{document}
 \maketitle
 
@@ -232,7 +229,15 @@ side of this capacity problem: whether explicitly exposing
 discriminative signal structure lets a compact encoder use its learned
 capacity more effectively.
 
-\clearpage
-\bibliographystyle{plainnat}
+
+\section*{LLM Usage Statement}
+OpenAI Codex assisted with literature retrieval, drafting and editing the
+abstract, introduction, and related work, and LaTeX preparation. It also
+assisted with code inspection and checks of the experiment records used
+in this draft.
+
+{\small
+\bibliographystyle{ieeenat_fullname}
 \bibliography{references}
+}
 \end{document}
