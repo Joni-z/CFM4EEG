@@ -1,0 +1,238 @@
+% Independent opening-section draft, 2026-11-06. Not a full submission.
+% Opening sections only; see README.md for scope and build instructions.
+\documentclass[10pt,twocolumn,letterpaper]{article}
+\usepackage[margin=0.75in,columnsep=0.25in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext,newtxmath,microtype}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{xurl}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+\raggedbottom
+\renewcommand{\bibfont}{\small}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\title{Demodulate, Then Attend:\\Exposing Amplitude Dynamics for Compact EEG Models}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Large pretrained models are becoming central to electroencephalography
+(EEG) analysis, yet compact models trained from scratch can remain
+competitive. We examine this observation through the signal representation
+presented to the encoder. Clinical EEG contains both waveform morphology
+and changes in the amplitude of frequency-band activity. These changes
+are present in a raw waveform, but their nonlinear extraction remains
+part of the learning problem when tokens are formed by linear patch
+embedding. We present demodulation-first tokenization: extract bandwise
+amplitude envelopes before patch embedding, preserve their temporal
+structure, and retain band-limited waveforms as complementary content.
+Analytic demodulation and scattering theory motivate this separation
+between rapid oscillations and amplitude dynamics. A compact Transformer
+processes the resulting electrode--band--time grid. A reference model
+with 1.62 million parameters achieves Cohen's $\kappa=0.711$ on TUEV
+when trained from scratch, without cross-band phase rotation. Component
+comparisons further reveal different contributions of waveform content
+to event classification and seizure detection. Our work investigates
+how exposing useful signal structure before attention can make compact
+EEG models effective, and which temporal details a tokenizer should
+preserve for the encoder to learn.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+
+% P1 / C01: development -> small-model observation -> central question.
+EEG representation learning has progressed from compact convolutional
+networks to Transformers pretrained on large collections of recordings
+\citep{schirrmeister2017deep,lawhern2018eegnet,jiang2024labram,wang2025cbramod}.
+This progression promises increasingly transferable representations for
+clinical interpretation. Yet model scale does not consistently determine
+downstream performance: recent benchmarking finds that supervised
+specialists remain competitive with pretrained EEG models across many
+tasks \citep{liu2026compass}. Our own compact models motivate the same
+question: which properties of the input allow a small model to compete
+with a larger pretrained encoder? We investigate the representation on which the encoder
+operates, and the signal computations that representation makes explicit.
+
+% P2 / C02: clinically relevant structure motivates both views, not an envelope-only label model.
+A clinical EEG event has structure at more than one temporal scale.
+Individual discharges have a shape, duration, and polarity; repeated
+activity also has an onset, persistence, and pattern of recurrence.
+Clinical terminology describes morphology, frequency, temporal
+organization, and spatial distribution \citep{hirsch2021acns}.
+These properties motivate complementary views of a recording.
+Band-limited waveforms retain local oscillatory shape, while their
+amplitude envelopes describe how activity strengthens and weakens over
+time. Exposing both views provides a way to represent a transient's
+shape together with the activity pattern in which it occurs.
+
+% P3 / C03: distinguish information availability from explicit computation.
+Raw-patch tokenization does not explicitly make this separation.
+A linear projection maps samples within a patch into an embedding,
+leaving the encoder to learn useful nonlinear summaries. An amplitude
+envelope is one such summary: it requires a band-selective transformation
+followed by a nonlinear modulus. A linear patch embedding cannot perform
+this computation by itself. Consequently, preserving the waveform and
+exposing its envelope are different computational choices, even when
+both originate from exactly the same samples. We hypothesize that
+making the latter available at the input can reduce the feature-extraction
+burden on a compact encoder.
+
+% P4 / C04: theory explains the operation and the importance of retaining dynamics.
+Analytic demodulation provides a signal-processing basis for this
+hypothesis. The modulus of a band's analytic signal yields its amplitude
+envelope; for a narrowband amplitude-modulated component, this exposes
+the slower amplitude variation carried by the oscillation. Scattering
+theory develops this principle through cascaded bandpass transforms and
+modulus operations \citep{anden2014scattering}. It also identifies a
+second issue: averaging the demodulated response removes temporal
+modulations that may remain discriminative. The implication for
+tokenization is specific. Extracting an envelope and preserving the
+structure of that envelope are separate design decisions.
+
+% P5 / C05: derive the representation, without claiming that all labels depend on envelopes.
+Consider two intervals with similar average band energy. One contains
+sustained activity; the other contains several separated bursts. A
+single energy summary cannot specify this distinction, whereas an
+amplitude trajectory can. Conversely, two transients with similar
+envelopes can differ in waveform shape. This suggests a tokenizer that
+keeps a short trajectory within each band and a corresponding waveform
+view. Both should refer to the same electrode, band, and time interval,
+so that the encoder can learn their relationship without first inferring
+which observations belong together.
+
+% P6 / C06: precise prior-work distinction; no assertion that competitors lack dynamics.
+Existing time--frequency frontends implement parts of this idea in
+different ways. CBraMod adds a projected patch spectrum to convolutional
+waveform features \citep{wang2025cbramod}. TFM-Tokenizer learns and
+quantizes motifs from waveform and short-time spectral representations
+\citep{pradeepkumar2026tfm}. The Morlet Spectral Transformer constructs
+time-resolved amplitude features using wavelet modulus and temporal
+pooling \citep{qing2026morlet}. Their success makes amplitude information
+a substantive precedent. It also motivates a more specific question:
+how should amplitude dynamics and waveform detail be represented before
+they are compressed and mixed by the encoder? We examine this question
+through explicit band-content views and component comparisons with a
+fixed encoder within each comparison.
+
+% P7 / C07: actual identity-tokenizer implementation.
+Our reference tokenizer first decomposes each channel with a learnable
+bandpass filterbank. An analytic transform extracts the amplitude
+envelope of each filtered signal. Shared projections embed short
+sequences of log-envelope samples and band-limited waveform samples
+into two sets of token coordinates. The envelope projection receives
+the sequence itself, rather than a single average over the patch.
+The resulting tokens retain an electrode--band--time grid, processed by
+a compact axial Transformer. In the unrotated reference, the two content
+views are supplied directly to the encoder. This construction separates
+the extraction of signal content from the subsequent learning of
+relationships among tokens.
+
+% P8 / C08--C10: observed results; provenance is maintained with project experiment records.
+The reference model reaches Cohen's $\kappa=0.711$ on TUEV with
+1.62 million parameters and no pretraining. Component tests in the
+same model family also show that the two content views make different
+contributions across tasks. In matched seed-2 comparisons with the phase
+rotation held fixed, removing
+waveform content changes TUEV $\kappa$ from 0.715 to 0.714, but changes
+CHB-MIT PR-AUC from 0.710 to 0.543 under the same evaluation protocol.
+These observations support retaining complementary content while
+examining its contribution at the task level. They motivate our central
+hypothesis: directly exposing amplitude dynamics can simplify the
+representation problem faced by a small encoder, while waveform content
+preserves information useful for other clinical distinctions.
+
+% P9 / C11: contribution and outlook, not a promise of unperformed experiments.
+The focus of this work is the choice of signal content at the
+tokenizer--encoder interface. We bring demodulation, temporal detail,
+and waveform morphology into a common token construction, and use a
+compact reference model to study their predictive roles. More broadly,
+we ask which signal computations should be supplied explicitly before
+attention, so that learned capacity can be devoted to the structure
+that remains.
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{EEG pretraining and tokenization}
+
+% R1 / C12: pretraining approaches, their actual roles.
+EEG foundation models seek transferable representations across subjects,
+tasks, and recording configurations. BIOT organizes channelwise signal
+segments into a common token sequence for cross-data learning
+\citep{yang2023biot}. LaBraM learns discrete neural codes through
+spectrum prediction and uses these codes as targets for masked
+pretraining \citep{jiang2024labram}. EEGPT combines masked learning with
+representation alignment \citep{wang2024eegpt}, while CBraMod separates
+spatial and temporal interactions in a criss-cross Transformer
+\citep{wang2025cbramod}. These approaches address transfer and structural
+heterogeneity through different input representations and learning
+objectives.
+
+% R2 / C13: TFM is acknowledged specifically; distinguish learned motifs from direct content.
+TFM-Tokenizer places the frontend at the center of this pipeline. Its
+spectral path models interactions among frequency patches, combines
+them with waveform features, and learns a discrete vocabulary of
+time--frequency motifs \citep{pradeepkumar2026tfm}. This demonstrates
+that token construction can support both compact downstream models and
+existing encoders. We study a complementary design choice: explicitly
+extracting continuous amplitude trajectories and retaining their
+corresponding waveforms in each band. The distinction concerns what
+enters a token and which operations precede the encoder, rather than
+whether a model uses frequency information at all.
+
+\subsection{Frequency-resolved and amplitude-based EEG representations}
+
+% R3 / C14: acknowledge existing power-aware architectures.
+Explicit spectral structure has a long history in EEG decoding.
+Schirrmeister et al. incorporate squaring, temporal pooling, and a
+logarithm in a shallow convolutional architecture designed around
+band-power extraction \citep{schirrmeister2017deep}. EEGNet uses
+depthwise and separable convolutions to build compact temporal and
+spatial feature extractors \citep{lawhern2018eegnet}. FBCNet combines
+a filterbank, spatial filtering, and temporal variance aggregation
+\citep{mane2021fbcnet}. These methods demonstrate that useful
+signal-processing operations can be built into small learned models.
+
+% R4 / C15: nearest amplitude-token work; do not dismiss by task domain.
+Recent Transformer frontends extend this approach. CBraMod combines
+patchwise FFT magnitudes with waveform features
+\citep{wang2025cbramod}; the Morlet Spectral Transformer applies a fixed
+wavelet bank, takes its modulus, pools it over time, and learns
+frequency-specific spatial projections \citep{qing2026morlet}.
+The latter already represents amplitude variation across time bins.
+Our construction instead projects a sequence of envelope samples within
+each token and pairs it with the waveform from the same band, while
+retaining electrodes as a token axis. These differences make the
+granularity of amplitude representation and the contribution of
+waveform detail concrete objects of study.
+
+\subsection{Demodulation and representations for compact models}
+
+% R5 / C16: exact theoretical precedent and its role.
+Demodulation separates an oscillatory component from its amplitude
+variation. In the deep scattering spectrum, analytic wavelet transforms
+and modulus operations expose subband envelopes, and further transforms
+recover modulation structure lost through local averaging
+\citep{anden2014scattering}. This provides a useful distinction between
+extracting amplitude and retaining its dynamics. Our tokenizer follows
+the former signal-processing principle and supplies the resulting
+trajectories to learned attention, alongside waveform content.
+
+% R6 / C17: JiT analogy is about parameterization, not a borrowed theorem.
+JiT distinguishes the network's direct prediction from the space in
+which its training loss is evaluated, showing that the prediction
+parameterization can determine whether an apparently under-capacity
+network succeeds \citep{li2025jit}. EEG-FM-Compass likewise finds that
+larger pretrained EEG models do not consistently outperform supervised
+specialists \citep{liu2026compass}. Our question concerns the input
+side of this capacity problem: whether explicitly exposing
+discriminative signal structure lets a compact encoder use its learned
+capacity more effectively.
+
+\clearpage
+\bibliographystyle{plainnat}
+\bibliography{references}
+\end{document}

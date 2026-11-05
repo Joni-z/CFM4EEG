@@ -1,0 +1,9 @@
+# Local LaTeX build intermediates; keep the PDF preview tracked.
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
