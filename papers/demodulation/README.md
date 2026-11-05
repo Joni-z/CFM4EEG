@@ -2,7 +2,8 @@
 
 **Exposing Amplitude Dynamics for Compact EEG Models**
 
-- [PDF preview](main.pdf)
+- [Overleaf project](https://www.overleaf.com/project/6aeccfc695be3d39c99405dd)
+- [PDF preview](https://github.com/Joni-z/CFM4EEG/blob/main/papers/demodulation/main.pdf)
 - [Editable LaTeX](main.tex)
 - [References](references.bib)
 
