@@ -1,243 +1,758 @@
-% Official CVPR 2027 review format; source and hashes are in README.md.
+% Official CVPR 2027 review format; template hashes are in README.md.
 \documentclass[10pt,twocolumn,letterpaper]{article}
-% Preserve pdfLaTeX default encoding when previewing with Tectonic/XeTeX.
 \ifdefined\XeTeXversion
   \usepackage[OT1]{fontenc}
 \fi
 \usepackage[review]{cvpr}
+\usepackage{amsmath,amssymb,booktabs,graphicx}
 \definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
 \usepackage[pagebackref,breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
 \def\confName{CVPR}
 \def\confYear{2027}
+\newcommand{\pending}{\phantom{0.000}}
+\newcommand{\ours}{Demodulation-first}
 \title{Demodulate, Then Attend:\\Exposing Amplitude Dynamics for Compact EEG Models}
 \author{}
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Large pretrained models are becoming central to electroencephalography
-(EEG) analysis, yet compact models trained from scratch can remain
-competitive. We examine this observation through the signal representation
-presented to the encoder. Clinical EEG contains both waveform morphology
-and changes in the amplitude of frequency-band activity. These changes
-are present in a raw waveform, but their nonlinear extraction remains
-part of the learning problem when tokens are formed by linear patch
-embedding. We present demodulation-first tokenization: extract bandwise
-amplitude envelopes before patch embedding, preserve their temporal
-structure, and retain band-limited waveforms as complementary content.
-Analytic demodulation and scattering theory motivate this separation
-between rapid oscillations and amplitude dynamics. A compact Transformer
-processes the resulting electrode--band--time grid. A reference model
-with 1.62 million parameters achieves Cohen's $\kappa=0.711$ on TUEV
-when trained from scratch, without cross-band phase rotation. Component
-comparisons further reveal different contributions of waveform content
-to event classification and seizure detection. Our work investigates
-how exposing useful signal structure before attention can make compact
-EEG models effective, and which temporal details a tokenizer should
-preserve for the encoder to learn.
+Electroencephalography (EEG) modeling increasingly relies on larger
+networks and pretraining corpora, yet compact supervised models can
+remain competitive. This suggests that the signal representation supplied
+to the encoder may be as important as its capacity.
+We argue that bandwise amplitude dynamics should be exposed before
+attention, together with the waveforms that carry them.
+Analytic demodulation separates these two views, while scattering theory
+explains why extracting an envelope and retaining its temporal variation
+are distinct representation choices.
+We build a simple tokenizer around this principle: filter each channel
+into bands, extract its amplitude envelopes, and jointly embed matching
+waveform and envelope sequences without averaging either into a scalar.
+A compact axial Transformer reads the resulting electrode--band--time grid.
+With the reader and training recipe fixed, this representation improves
+TUEV Cohen's $\kappa$ from 0.576 to 0.711, an absolute gain of 0.135,
+while using fewer parameters; the same construction achieves 0.699 PR-AUC
+on CHB-MIT with 1.62 million parameters and no pretraining.
+These results motivate a representation-first approach to compact EEG
+models: make useful signal structure available in the tokens, then learn
+how it is organized across time, electrodes, and frequency.
 \end{abstract}
 
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/architecture.pdf}
+  \caption{\textbf{Demodulate, then attend.} A learned filterbank produces
+  band-limited waveforms. The analytic modulus supplies a corresponding
+  amplitude envelope. Shared projections embed both 50-sample sequences
+  into one token, retaining their electrode, band, and time indices.
+  Six axial Transformer blocks learn interactions on this grid. The
+  analytic transform is applied to the full input window before patching.}
+  \label{fig:architecture}
+\end{figure*}
+
 \section{Introduction}
-\label{sec:introduction}
-
-% P1 / C01: development -> small-model observation -> central question.
-EEG representation learning has progressed from compact convolutional
-networks to Transformers pretrained on large collections of recordings
+\label{sec:intro}
+EEG modeling has progressed from compact convolutional networks to
+Transformers pretrained on large collections of recordings
 \citep{schirrmeister2017deep,lawhern2018eegnet,jiang2024labram,wang2025cbramod}.
-This progression promises increasingly transferable representations for
-clinical interpretation. Yet model scale does not consistently determine
-downstream performance: recent benchmarking finds that supervised
-specialists remain competitive with pretrained EEG models across many
-tasks \citep{liu2026compass}. Our own compact models motivate the same
-question: which properties of the input allow a small model to compete
-with a larger pretrained encoder? We investigate the representation on which the encoder
-operates, and the signal computations that representation makes explicit.
+Larger models promise broader transfer across clinical tasks, subjects,
+and acquisition systems. Yet scale alone does not determine downstream
+performance: recent benchmarking finds that supervised specialists
+remain competitive with pretrained EEG models \citep{liu2026compass}.
+This observation suggests an input-side question. Before asking how much
+capacity an encoder needs, what signal structure should its tokens
+already expose?
 
-% P2 / C02: clinically relevant structure motivates both views, not an envelope-only label model.
-A clinical EEG event has structure at more than one temporal scale.
-Individual discharges have a shape, duration, and polarity; repeated
-activity also has an onset, persistence, and pattern of recurrence.
-Clinical terminology describes morphology, frequency, temporal
-organization, and spatial distribution \citep{hirsch2021acns}.
-These properties motivate complementary views of a recording.
-Band-limited waveforms retain local oscillatory shape, while their
-amplitude envelopes describe how activity strengthens and weakens over
-time. Exposing both views provides a way to represent a transient's
-shape together with the activity pattern in which it occurs.
+Clinical EEG interpretation involves both the shape of a transient and
+the organization of ongoing activity. Morphology, recurrence, evolution,
+and spatial distribution all enter standardized descriptions
+\citep{hirsch2021acns}. A sharp discharge and a smooth oscillation differ
+in shape; sustained activity and a sequence of bursts differ in amplitude
+dynamics. These distinctions motivate two complementary views of each
+frequency band: its signed waveform and its amplitude envelope. The
+first retains oscillatory detail, and the second exposes when activity
+strengthens or weakens. A representation should make their correspondence
+available at the same electrode and time.
 
-% P3 / C03: distinguish information availability from explicit computation.
-Raw-patch tokenization does not explicitly make this separation.
-A linear projection maps samples within a patch into an embedding,
-leaving the encoder to learn useful nonlinear summaries. An amplitude
-envelope is one such summary: it requires a band-selective transformation
-followed by a nonlinear modulus. A linear patch embedding cannot perform
-this computation by itself. Consequently, preserving the waveform and
-exposing its envelope are different computational choices, even when
-both originate from exactly the same samples. We hypothesize that
-making the latter available at the input can reduce the feature-extraction
-burden on a compact encoder.
+Linear patch embedding leaves this separation implicit. An envelope is
+present in the recorded samples, but extracting it requires a band-selective
+transform and a nonlinear modulus. A linear map of a raw patch cannot
+perform that computation on its own. The subsequent network can learn
+nonlinear features, but doing so becomes part of its supervised learning
+problem. Our hypothesis is that a compact encoder benefits when these
+amplitude dynamics are supplied before attention, alongside waveform
+content that amplitude alone cannot specify.
 
-% P4 / C04: theory explains the operation and the importance of retaining dynamics.
-Analytic demodulation provides a signal-processing basis for this
-hypothesis. The modulus of a band's analytic signal yields its amplitude
-envelope; for a narrowband amplitude-modulated component, this exposes
-the slower amplitude variation carried by the oscillation. Scattering
-theory develops this principle through cascaded bandpass transforms and
-modulus operations \citep{anden2014scattering}. It also identifies a
-second issue: averaging the demodulated response removes temporal
-modulations that may remain discriminative. The implication for
-tokenization is specific. Extracting an envelope and preserving the
-structure of that envelope are separate design decisions.
+Analytic demodulation gives this hypothesis a concrete foundation. For
+an amplitude-modulated oscillation, the analytic modulus removes the
+rapid carrier and exposes its amplitude variation. Scattering theory
+builds representations by composing bandpass transforms with modulus
+operations and shows how temporal averaging can discard modulation
+structure \citep{anden2014scattering}. This distinction is central here:
+\emph{extracting amplitude is not the same as retaining amplitude dynamics}.
+Two intervals can have the same average band energy and different burst
+patterns. A sequence of envelope values retains that difference; a
+single pooled energy does not.
 
-% P5 / C05: derive the representation, without claiming that all labels depend on envelopes.
-Consider two intervals with similar average band energy. One contains
-sustained activity; the other contains several separated bursts. A
-single energy summary cannot specify this distinction, whereas an
-amplitude trajectory can. Conversely, two transients with similar
-envelopes can differ in waveform shape. This suggests a tokenizer that
-keeps a short trajectory within each band and a corresponding waveform
-view. Both should refer to the same electrode, band, and time interval,
-so that the encoder can learn their relationship without first inferring
-which observations belong together.
+The resulting design is simple. Demodulate each band before patch
+embedding, preserve a short envelope trajectory, and pair it with the
+waveform from that same band and interval. Each token then describes
+both what a local oscillation looks like and how its amplitude changes.
+Keeping electrodes, bands, and time intervals as separate indices gives
+the encoder an explicit grid on which to learn interactions. An ordinary
+axial Transformer reads this grid; no separate coupling estimator,
+phase rotation, or reconstruction objective is required.
 
-% P6 / C06: precise prior-work distinction; no assertion that competitors lack dynamics.
-Existing time--frequency frontends implement parts of this idea in
-different ways. CBraMod adds a projected patch spectrum to convolutional
-waveform features \citep{wang2025cbramod}. TFM-Tokenizer learns and
-quantizes motifs from waveform and short-time spectral representations
-\citep{pradeepkumar2026tfm}. The Morlet Spectral Transformer constructs
-time-resolved amplitude features using wavelet modulus and temporal
-pooling \citep{qing2026morlet}. Their success makes amplitude information
-a substantive precedent. It also motivates a more specific question:
-how should amplitude dynamics and waveform detail be represented before
-they are compressed and mixed by the encoder? We examine this question
-through explicit band-content views and component comparisons with a
-fixed encoder within each comparison.
+This construction builds on, rather than replaces, earlier spectral
+frontends. CBraMod adds patchwise spectral and convolutional waveform
+features \citep{wang2025cbramod}. TFM-Tokenizer learns discrete motifs
+from waveform and time--frequency representations
+\citep{pradeepkumar2026tfm}. The Morlet Spectral Transformer preserves
+time-resolved wavelet amplitudes \citep{qing2026morlet}.
+Our focus is the \emph{local pairing before attention}:
+within each band, a token receives the envelope trajectory together with
+its corresponding waveform. Content controls with a fixed reader make
+this representation choice a testable object, rather than attributing
+an entire architecture's performance to its frontend.
 
-% P7 / C07: actual identity-tokenizer implementation.
-Our reference tokenizer first decomposes each channel with a learnable
-bandpass filterbank. An analytic transform extracts the amplitude
-envelope of each filtered signal. Shared projections embed short
-sequences of log-envelope samples and band-limited waveform samples
-into two sets of token coordinates. The envelope projection receives
-the sequence itself, rather than a single average over the patch.
-The resulting tokens retain an electrode--band--time grid, processed by
-a compact axial Transformer. In the unrotated reference, the two content
-views are supplied directly to the encoder. This construction separates
-the extraction of signal content from the subsequent learning of
-relationships among tokens.
+The unrotated reference reaches $\kappa=0.711$ on TUEV and PR-AUC 0.699
+on CHB-MIT using 1.62 million parameters. On TUEV, replacing it with raw
+patches projected into the same number of learned rows reduces $\kappa$
+to 0.576 under the same reader, split, and training recipe. The proposed
+frontend improves F1 in all six event categories. A separate frozen-token
+readout recovers both local content views, checking that the tokenizer
+actually preserves what the design intends to expose.
 
-% P8 / C08--C10: observed results; provenance is maintained with project experiment records.
-The reference model reaches Cohen's $\kappa=0.711$ on TUEV with
-1.62 million parameters and no pretraining. Component tests in the
-same model family also show that the two content views make different
-contributions across tasks. In matched seed-2 comparisons with the phase
-rotation held fixed, removing
-waveform content changes TUEV $\kappa$ from 0.715 to 0.714, but changes
-CHB-MIT PR-AUC from 0.710 to 0.543 under the same evaluation protocol.
-These observations support retaining complementary content while
-examining its contribution at the task level. They motivate our central
-hypothesis: directly exposing amplitude dynamics can simplify the
-representation problem faced by a small encoder, while waveform content
-preserves information useful for other clinical distinctions.
+Our contribution is a representation choice and a way to examine it:
+demodulate before embedding, pair corresponding waveform and amplitude
+trajectories, and hold the reader fixed when testing their predictive
+roles. This shifts the emphasis from adding machinery to deciding which
+signal computations should precede learned attention. The broader question
+is how much of a compact model's effectiveness comes from the information
+made directly usable at its input.
 
-% P9 / C11: contribution and outlook, not a promise of unperformed experiments.
-The focus of this work is the choice of signal content at the
-tokenizer--encoder interface. We bring demodulation, temporal detail,
-and waveform morphology into a common token construction, and use a
-compact reference model to study their predictive roles. More broadly,
-we ask which signal computations should be supplied explicitly before
-attention, so that learned capacity can be devoted to the structure
-that remains.
+
 
 \section{Related Work}
 \label{sec:related}
-
 \subsection{EEG pretraining and tokenization}
+EEG foundation models address transfer across subjects, tasks, and
+recording systems. BIOT organizes channelwise signal segments into a
+common sequence \citep{yang2023biot}. LaBraM learns discrete neural codes
+through spectrum prediction \citep{jiang2024labram}, and EEGPT uses
+masked representation learning with alignment \citep{wang2024eegpt}.
+CBraMod separates spatial and temporal interactions in a criss-cross
+Transformer \citep{wang2025cbramod}; REVE extends large-scale pretraining
+to heterogeneous acquisition setups \citep{elouahidi2025reve}.
+These methods combine input representations, learning objectives, and
+encoder designs to obtain transferable features.
 
-% R1 / C12: pretraining approaches, their actual roles.
-EEG foundation models seek transferable representations across subjects,
-tasks, and recording configurations. BIOT organizes channelwise signal
-segments into a common token sequence for cross-data learning
-\citep{yang2023biot}. LaBraM learns discrete neural codes through
-spectrum prediction and uses these codes as targets for masked
-pretraining \citep{jiang2024labram}. EEGPT combines masked learning with
-representation alignment \citep{wang2024eegpt}, while CBraMod separates
-spatial and temporal interactions in a criss-cross Transformer
-\citep{wang2025cbramod}. These approaches address transfer and structural
-heterogeneity through different input representations and learning
-objectives.
+TFM-Tokenizer instead makes the frontend a primary object of study:
+waveform and spectral paths produce a vocabulary of time--frequency
+motifs that can serve different encoders \citep{pradeepkumar2026tfm}.
+Our construction uses continuous, explicitly demodulated band content.
+It does not require a learned codebook or a separate tokenizer pretraining
+stage. The question is which local signal views should remain available
+inside each token before the encoder mixes information across locations.
 
-% R2 / C13: TFM is acknowledged specifically; distinguish learned motifs from direct content.
-TFM-Tokenizer places the frontend at the center of this pipeline. Its
-spectral path models interactions among frequency patches, combines
-them with waveform features, and learns a discrete vocabulary of
-time--frequency motifs \citep{pradeepkumar2026tfm}. This demonstrates
-that token construction can support both compact downstream models and
-existing encoders. We study a complementary design choice: explicitly
-extracting continuous amplitude trajectories and retaining their
-corresponding waveforms in each band. The distinction concerns what
-enters a token and which operations precede the encoder, rather than
-whether a model uses frequency information at all.
+\subsection{Amplitude-based EEG representations}
+Explicit amplitude information is well established in EEG decoding.
+The shallow network of Schirrmeister et al. uses squaring, pooling, and
+logarithmic compression to extract power-related features
+\citep{schirrmeister2017deep}. FBCNet combines a filterbank, spatial
+filtering, and variance aggregation \citep{mane2021fbcnet}.
+EEGNet provides another compact architecture through factorized temporal
+and spatial filtering \citep{lawhern2018eegnet}.
+These precedents show the value of building signal operations into
+small learned models.
 
-\subsection{Frequency-resolved and amplitude-based EEG representations}
+Recent frontends also preserve spectral or amplitude variation.
+CBraMod projects a one-second patch spectrum and combines it with
+waveform features \citep{wang2025cbramod}. The Morlet Spectral Transformer
+uses wavelet modulus, temporal pooling, and frequency-specific spatial
+projections \citep{qing2026morlet}. Our distinction is narrower than
+introducing amplitude: a token embeds a sequence of envelope samples and
+the corresponding signed waveform from one band, while electrodes remain
+a token axis. This makes local content and the granularity of its
+representation explicit experimental variables.
 
-% R3 / C14: acknowledge existing power-aware architectures.
-Explicit spectral structure has a long history in EEG decoding.
-Schirrmeister et al. incorporate squaring, temporal pooling, and a
-logarithm in a shallow convolutional architecture designed around
-band-power extraction \citep{schirrmeister2017deep}. EEGNet uses
-depthwise and separable convolutions to build compact temporal and
-spatial feature extractors \citep{lawhern2018eegnet}. FBCNet combines
-a filterbank, spatial filtering, and temporal variance aggregation
-\citep{mane2021fbcnet}. These methods demonstrate that useful
-signal-processing operations can be built into small learned models.
+\subsection{Demodulation before learned processing}
+The deep scattering spectrum extracts subband envelopes with analytic
+wavelets and modulus operations, then recovers modulation structure that
+would be lost through averaging \citep{anden2014scattering}. We adopt
+the demodulation principle while passing local trajectories to learned
+attention. The implementation uses trainable sinc filters
+\citep{ravanelli2018sincnet}, rather than a fixed scattering cascade.
+Its contribution is the token interface, not a new demodulation theorem.
 
-% R4 / C15: nearest amplitude-token work; do not dismiss by task domain.
-Recent Transformer frontends extend this approach. CBraMod combines
-patchwise FFT magnitudes with waveform features
-\citep{wang2025cbramod}; the Morlet Spectral Transformer applies a fixed
-wavelet bank, takes its modulus, pools it over time, and learns
-frequency-specific spatial projections \citep{qing2026morlet}.
-The latter already represents amplitude variation across time bins.
-Our construction instead projects a sequence of envelope samples within
-each token and pairs it with the waveform from the same band, while
-retaining electrodes as a token axis. These differences make the
-granularity of amplitude representation and the contribution of
-waveform detail concrete objects of study.
+These signal-processing precedents suggest an input-side study of
+compact models: explicitly expose useful structure and measure what a
+fixed reader can learn from it.
 
-\subsection{Demodulation and representations for compact models}
+\section{Method}
+\label{sec:method}
+Let $x_c[t]$ be the normalized EEG signal at channel $c$. We construct
+one token per channel $c$, band $b$, and time interval $p$. The method
+has three steps: demodulate the bands, embed paired local content, and
+read the resulting grid (\cref{fig:architecture}).
 
-% R5 / C16: exact theoretical precedent and its role.
-Demodulation separates an oscillatory component from its amplitude
-variation. In the deep scattering spectrum, analytic wavelet transforms
-and modulus operations expose subband envelopes, and further transforms
-recover modulation structure lost through local averaging
-\citep{anden2014scattering}. This provides a useful distinction between
-extracting amplitude and retaining its dynamics. Our tokenizer follows
-the former signal-processing principle and supplies the resulting
-trajectories to learned attention, alongside waveform content.
+\subsection{Bandwise demodulation}
+\label{sec:demod}
+A shared bank of $B$ learnable bandpass filters produces signed
+waveforms $w_{c,b}$ and their analytic envelopes:
+\begin{equation}
+  \begin{aligned}
+    w_{c,b}&=g_b*x_c,\\
+    e_{c,b}&=\big|w_{c,b}+\mathrm{i}\mathcal{H}[w_{c,b}]\big|.
+  \end{aligned}
+  \label{eq:demod}
+\end{equation}
+where $\mathcal{H}$ is the Hilbert transform. Each sinc filter $g_b$
+is parameterized by two cutoffs \citep{ravanelli2018sincnet}. We use
+16 filters, initialized with logarithmically spaced edges from
+0.5 to 75 Hz, and a 201-sample impulse response at 200 Hz. The cutoffs
+are learned during supervised training.
 
-% R6 / C17: JiT analogy is about parameterization, not a borrowed theorem.
-JiT distinguishes the network's direct prediction from the space in
-which its training loss is evaluated, showing that the prediction
-parameterization can determine whether an apparently under-capacity
-network succeeds \citep{li2025jit}. EEG-FM-Compass likewise finds that
-larger pretrained EEG models do not consistently outperform supervised
-specialists \citep{liu2026compass}. Our question concerns the input
-side of this capacity problem: whether explicitly exposing
-discriminative signal structure lets a compact encoder use its learned
-capacity more effectively.
+For a narrowband amplitude-modulated component
+$w(t)=A(t)\cos\phi(t)$ with suitable separation between modulation and
+carrier frequencies, the analytic envelope approximates $A(t)$.
+Thus the modulus exposes amplitude dynamics that would otherwise need
+to be derived from oscillating samples. With general EEG, it is the
+well-defined amplitude of the filtered analytic signal; it need not
+identify a single physiological oscillator. We retain the signed
+waveform in parallel because taking a modulus removes its phase and
+polarity information.
 
+Filtering and the analytic transform operate on the entire input window.
+Only afterward do we divide the two sequences into tokens. A 0.25-s
+token therefore summarizes a local part of an envelope estimated with
+context beyond that token. The token interval is not the filter's
+support and does not impose a 0.25-s Hilbert-estimation window.
+
+\subsection{Pair local waveform and envelope trajectories}
+\label{sec:token}
+For interval $p$ of length $L$, let
+$\mathbf{w}_{c,b,p}\in\mathbb{R}^{L}$ and
+$\mathbf{e}_{c,b,p}\in\mathbb{R}^{L}$ contain corresponding waveform
+and envelope samples. We form
+\begin{equation}
+  \mathbf{h}_{c,b,p}
+  =\left[
+     P_E\log(1+\mathbf{e}_{c,b,p})+\mathbf{b}_E\,;\,
+     P_W\mathbf{w}_{c,b,p}
+    \right],
+  \label{eq:token}
+\end{equation}
+with $P_E,P_W\in\mathbb{R}^{(d/2)\times L}$.
+Both projections are shared across channels, bands, and intervals.
+The implementation interleaves the two sets of coordinates, which is
+a fixed permutation of the concatenation in \cref{eq:token}.
+We use $L=50$ and $d=128$. The logarithm compresses envelope dynamic
+range without averaging its trajectory.
+
+The pairing is deliberately local. Each token places waveform and
+amplitude dynamics from the same signal component in a common learned
+representation. The encoder can then model their relationship without
+first matching independently aggregated views. We preserve all 50 input
+positions through separate projections rather than substituting a
+single power or variance statistic. There is no phase rotation or
+additional learned fusion module at this stage.
+
+This construction also separates \emph{available information} from
+\emph{explicit computation}. A raw-patch projection can preserve all its
+input samples when its matrix has sufficient rank. It nevertheless does
+not output an amplitude envelope: the modulus is nonlinear. Our design
+supplies this computation before attention and retains the waveform from
+which it was derived. It introduces a representational bias, not an
+additional measurement of the underlying EEG.
+
+\subsection{A compact reader for the token grid}
+\label{sec:reader}
+Tokens form a $C\times B\times P$ grid. Channel embeddings derived
+from electrode coordinates and learned band-index embeddings identify
+the two non-temporal axes. Each pre-normalized Transformer block applies
+self-attention along time, channels, and bands in sequence, followed by
+a feed-forward network. Time attention uses rotary positions. Each axis
+uses ordinary four-head attention; the reference has six blocks,
+width 128, and a feed-forward expansion of two.
+
+The axes follow the representation: time relates intervals, channels
+relate recording locations, and bands relate signal components.
+Factorization permits this grid to be read without global attention
+over all its tokens. Global mean pooling, layer normalization, and a linear classifier
+predict the window label. The complete reference
+contains approximately 1.62 million parameters. We keep this reader
+fixed in the content experiments; it is not a separate proposed
+attention mechanism.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/recovery.pdf}
+  \caption{\textbf{What remains in a token?} A linear readout of frozen
+  TUEV tokens recovers the waveform and envelope of a held-out band
+  segment. Curves overlap at this scale. This checks local content
+  preservation before attention; classification controls test utility.}
+  \label{fig:recovery}
+\end{figure}
+
+\begin{table}[t]
+  \centering
+  \caption{\textbf{Content recovery before attention.} Held-out normalized
+  RMSE of linear readouts fitted to frozen tokens. Targets are the
+  frontend's waveform and log-envelope samples.}
+  \label{tab:recovery}
+  \small
+  \begin{tabular}{lcc}
+    \toprule
+    Target & TUEV & CHB-MIT \\
+    \midrule
+    Waveform & $3.21\!\times\!10^{-4}$ & $1.33\!\times\!10^{-4}$ \\
+    Log-envelope & $4.13\!\times\!10^{-7}$ & $5.38\!\times\!10^{-7}$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Checking the token's content}
+\label{sec:recovery}
+Before attributing a classification result to preserved content, we
+check that the two intended views can be recovered from the token.
+We freeze the trained frontend and fit separate linear readouts to
+waveform and log-envelope samples, using training windows only. Readout
+regularization is selected on validation windows; reconstruction is
+measured on held-out test windows. No classification labels enter this
+check, and no classifier weights are updated.
+
+Both content views are recovered with small error
+(\cref{tab:recovery,fig:recovery}). The two $64\times50$ projection
+matrices have full column rank in both trained models, explaining why
+linear recovery is possible. This is a functional check of the
+representation, not evidence that every retained coordinate is needed
+for classification. In particular, reconstruction does not establish
+whether a waveform-only or envelope-only token would perform equally
+well. Those questions require the content controls in \cref{sec:controls}.
+
+\section{Experimental Setup}
+\label{sec:setup}
+\paragraph{Tasks and data.}
+We study six-class event classification on TUEV
+\citep{nedcTUEV} and binary seizure-window classification on CHB-MIT
+\citep{guttag2010chbmit}. Both use 16 bipolar channels at 200 Hz.
+TUEV contains 5-s event-centered windows, with subject-separated training
+and validation sets drawn from the official training partition and the
+official evaluation subjects reserved for testing. CHB-MIT uses 10-s
+windows and case-separated partitions. Its evaluated protocol includes
+additional seizure-centered windows in each partition; the test set has
+17,386 windows, including 276 positives. All within-dataset comparisons
+must use these same windows. Appendix~\ref{app:data} gives normalization,
+partition counts, and the exact sampling protocol.
+
+\paragraph{Training.}
+Models are trained from scratch with AdamW, a learning rate of $10^{-4}$,
+weight decay 0.05, cosine scheduling, batch size 32, and a maximum of
+20 epochs. The configured dropout is 0.35. TUEV uses cross-entropy with
+label smoothing 0.1; CHB-MIT uses focal loss with $\alpha=0.25$ and
+$\gamma=2$. All content arms share the same data augmentation, optimizer,
+reader, and checkpoint-selection rule. Appendix~\ref{app:recipe} details
+the transformations and validation schedule.
+
+\paragraph{Evaluation.}
+We select checkpoints by validation $\kappa$ on TUEV and validation
+PR-AUC on CHB-MIT. The held-out test set is used for reporting. TUEV
+reports $\kappa$, balanced accuracy, and support-weighted F1. CHB-MIT
+reports trapezoidal PR-AUC, AUROC, and balanced accuracy at threshold
+0.5; we additionally give average precision. The completed comparisons
+use the fixed seed 2, and tables leave unavailable results empty.
+Baseline scores from incompatible montages or window sets are not
+substituted into these comparisons.
+
+\begin{table*}[t]
+  \centering
+  \caption{\textbf{Clinical evaluation under a common data protocol.}
+  Both tasks use 16 bipolar channels. The raw-patch row uses the same
+  three-axis reader and training recipe as our tokenizer. Empty baseline
+  cells are reserved for protocol-matched evaluations; they do not
+  denote zero performance. Bold marks the best available value per
+  metric. Parameter counts are for the TUEV classifier.}
+  \label{tab:main}
+  \small
+  \setlength{\tabcolsep}{5.5pt}
+  \begin{tabular}{lcrrrrrr}
+    \toprule
+    & & \multicolumn{3}{c}{TUEV} & \multicolumn{3}{c}{CHB-MIT} \\
+    \cmidrule(lr){3-5}\cmidrule(lr){6-8}
+    Model & Params (M) & $\kappa\uparrow$ & Bal. acc.$\uparrow$ & wF1$\uparrow$
+    & PR-AUC$\uparrow$ & AUROC$\uparrow$ & Bal. acc.$\uparrow$ \\
+    \midrule
+    BIOT \citep{yang2023biot} & & \pending & \pending & \pending & \pending & \pending & \pending \\
+    LaBraM \citep{jiang2024labram} & & \pending & \pending & \pending & \pending & \pending & \pending \\
+    EEGPT \citep{wang2024eegpt} & & \pending & \pending & \pending & \pending & \pending & \pending \\
+    CBraMod \citep{wang2025cbramod} & & \pending & \pending & \pending & \pending & \pending & \pending \\
+    REVE \citep{elouahidi2025reve} & & \pending & \pending & \pending & \pending & \pending & \pending \\
+    TFM-Tokenizer \citep{pradeepkumar2026tfm} & & \pending & \pending & \pending & \pending & \pending & \pending \\
+    \midrule
+    Raw-patch rows + axial reader & 1.72 & 0.576 & 0.552 & 0.782 & \pending & \pending & \pending \\
+    \ours{} (ours) & 1.62 & \textbf{0.711} & \textbf{0.634} & \textbf{0.849}
+    & \textbf{0.699} & \textbf{0.918} & \textbf{0.630} \\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+\section{Results}
+\label{sec:results}
+\subsection{Clinical performance}
+The reference achieves $\kappa=0.711$, balanced accuracy 0.634, and
+weighted F1 0.849 on TUEV (\cref{tab:main}). On CHB-MIT it achieves
+PR-AUC 0.699 and AUROC 0.918. Average precision is 0.702, close to the
+trapezoidal PR-AUC. These results are obtained with supervised training
+alone and a compact common reader.
+
+The directly controlled TUEV comparison changes the input representation.
+Raw-patch tokenization maps each 50-sample channel segment into 16 learned
+rows of width 128. It therefore supplies the same grid size and attention
+structure as the bandwise frontend, without filtering or demodulation.
+It obtains $\kappa=0.576$. Exposing bandwise waveform and amplitude
+trajectories raises $\kappa$ by 0.135, balanced accuracy by 0.081, and
+weighted F1 by 0.067. The raw-row model actually has more parameters
+(1.72M versus 1.62M), so the gain is not obtained by increasing parameter
+count. This comparison establishes the value of the complete input
+construction under a fixed reader; the next controls separate its content.
+
+\begin{table}[t]
+  \centering
+  \caption{\textbf{Content controls with a fixed reader.} All bandwise
+  variants keep 16 bands, two 64-coordinate projection blocks, and the
+  same training recipe. Repeating one view in both blocks preserves
+  projection dimensions and parameter count. Unfinished cells remain empty.}
+  \label{tab:content}
+  \small
+  \begin{tabular}{lcc}
+    \toprule
+    Token input & TUEV $\kappa$ & CHB-MIT PR-AUC \\
+    \midrule
+    Raw learned rows & 0.576 & \pending \\
+    Waveform only & \pending & \pending \\
+    Envelope only & \pending & \pending \\
+    Envelope + waveform & \textbf{0.711} & \textbf{0.699} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Which content contributes?}
+\label{sec:controls}
+A waveform-only arm tests whether filtering and the band grid suffice.
+An envelope-only arm tests how much classification needs oscillatory
+shape beyond amplitude dynamics. Both retain the reference's two
+projection blocks and reader; they replace only the signal supplied
+to each block (\cref{tab:content}). This avoids conflating removal of a
+view with a smaller token or a smaller encoder.
+
+The comparisons answer two distinct questions. Envelope versus waveform
+isolates the type of band content made explicit. Pairing both versus
+either alone tests complementarity at the token interface. The completed
+raw-row comparison supports the whole construction, while these bandwise
+arms determine which part of its signal content accounts for the gain.
+
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/class_f1.pdf}
+  \caption{\textbf{TUEV gains across event categories.} Paired markers
+  compare held-out F1 for raw learned rows and demodulation-first tokens
+  with the same reader. Text gives the absolute difference. All six
+  categories improve; the figure does not attribute these gains to the
+  envelope alone.}
+  \label{fig:class}
+\end{figure}
+
+\subsection{Where does event recognition improve?}
+The aggregate gain extends beyond the majority background category
+(\cref{fig:class}). GPED F1 increases from 0.710 to 0.842, and PLED F1
+from 0.547 to 0.709. F1 also improves for spike/sharp-wave events, eye
+movements, artifacts, and background. These results connect the overall
+score to both recurrent-discharge and other event categories, rather
+than supporting an explanation confined to a single label type.
+
+The class breakdown also shows what the aggregate metrics hide.
+Spike/sharp-wave F1 rises from 0.028 to 0.196, but recall remains 0.109.
+For eye movements, F1 improves despite a decline in recall, because
+precision rises. Table~\ref{tab:classes} in the appendix reports precision and recall
+alongside F1. This distinguishes improved category-level discrimination
+from uniform improvements in every operating characteristic.
+
+\subsection{What the representation makes explicit}
+The recovery check and classification comparison play different roles.
+The former shows that trained tokens retain the intended local trajectories
+before attention. The latter shows that replacing raw learned rows with
+this bandwise representation improves TUEV performance at fixed reader
+capacity. Together they connect the implemented content interface to
+an observed predictive gain. They do not require a new attention rule
+or an auxiliary objective.
+
+Matched label-budget and capacity experiments can further test whether
+this representation reduces what must be learned from supervision.
+
+\section{Discussion and Conclusion}
+\label{sec:conclusion}
+\paragraph{Scope.}
+The current paired comparison fixes one reader, one seed, and one
+training recipe. It establishes a frontend effect under those conditions,
+not a universal advantage over pretrained models or a proof of reduced
+sample complexity. CHB-MIT results describe the specified enriched
+window protocol rather than continuous-recording alarm performance.
+The filterbank and full-window analytic transform can introduce boundary
+and overlap effects; their implementation is documented in the appendix.
+
+\paragraph{Conclusion.}
+We present a simple way to construct EEG tokens: demodulate before
+embedding and retain the corresponding waveform alongside its amplitude
+trajectory. A standard axial reader turns these local descriptions into
+clinical predictions. The observed TUEV gain shows that input
+representation can materially change what a compact model achieves
+without increasing its capacity. The resulting research direction is
+concrete: identify useful signal computations, expose their outputs
+without discarding complementary detail, and let attention learn the
+relationships that remain.
 
 \section*{LLM Usage Statement}
-OpenAI Codex assisted with literature retrieval, drafting and editing the
-abstract, introduction, and related work, and LaTeX preparation. It also
-assisted with code inspection and checks of the experiment records used
-in this draft.
+OpenAI Codex assisted with literature retrieval, manuscript drafting and
+editing, code and result-record inspection, figure preparation, and
+LaTeX compilation. It also assisted with numerical consistency checks
+and the organization of the experimental evidence.
 
 {\small
 \bibliographystyle{ieeenat_fullname}
 \bibliography{references}
 }
+
+\clearpage
+\appendix
+\section{Data and Evaluation Protocol}
+\label{app:data}
+\paragraph{TUEV.}
+The evaluated TUEV v2.0.1 cache contains five-second windows around
+annotated events. Signals are resampled to 200 Hz, bandpass filtered
+from 0.3 to 75 Hz, and notch filtered at 60 Hz. Values in microvolts
+are divided by 100 before storage. The official training subjects are
+sorted and split 80:20 into training and validation partitions; official
+evaluation subjects form the test partition. There are 232, 58, and
+80 subjects, respectively. We do not apply a second scaling operation
+in the model loader.
+
+\paragraph{CHB-MIT.}
+The evaluated CHB-MIT v1.0.0 cache resamples the recordings from 256 to
+200 Hz and extracts non-overlapping ten-second windows, dropping
+incomplete tails. Any overlap with an annotated seizure gives a positive
+label. Additional windows are extracted around seizure intervals with
+one-second pre/post margins and a five-second stride; these are labeled
+positive. This enrichment applies to training, validation, and test
+partitions, adding 1,781, 90, and 162 windows, respectively. It is part
+of the evaluated protocol, not training augmentation. A natural-grid-only
+evaluation would be a different test set.
+
+Each window and channel is divided by its own 95th percentile absolute
+amplitude plus $10^{-8}$. Thus amplitude in this experiment refers to
+variation within this normalization, not calibrated clinical voltage.
+Training uses cases chb01--chb19 and chb21; validation uses chb20 and
+chb22; testing uses chb23 and chb24. The repeated-subject recordings
+chb01 and chb21 both remain in training. The test set has 17,110 negative
+and 276 positive windows (1.59\% positive). PR-AUC should be compared
+only on this same case and window composition.
+
+\begin{table}[t]
+  \centering
+  \caption{\textbf{Evaluated window counts.} Counts include the specified
+  CHB-MIT seizure-window enrichment.}
+  \label{tab:counts}
+  \small
+  \begin{tabular}{lrrr}
+    \toprule
+    Dataset & Train & Validation & Test \\
+    \midrule
+    TUEV & 68,445 & 15,487 & 29,421 \\
+    CHB-MIT & 316,205 & 21,184 & 17,386 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Common montage.}
+Both tasks use the following bipolar chains: FP1--F7--T7--P7--O1,
+FP2--F8--T8--P8--O2, FP1--F3--C3--P3--O1, and
+FP2--F4--C4--P4--O2. Adjacent pairs in each chain form the 16 channels.
+Older T3/T4/T5/T6 aliases are mapped to T7/T8/P7/P8. This is a
+16-channel protocol; results from a 23-channel native pipeline require
+a separate evaluation rather than direct insertion into the main table.
+
+\paragraph{Metrics.}
+For multiclass TUEV, balanced accuracy is mean class recall and weighted
+F1 is weighted by test-class support. For binary CHB-MIT, PR-AUC is
+trapezoidal integration of the precision--recall curve. Average precision
+is also reported because it uses a different interpolation convention.
+The binary decision threshold is 0.5. Neither the threshold nor the
+checkpoint is selected on test labels.
+
+
+\begin{table*}[t]
+  \centering
+  \caption{\textbf{TUEV test-category breakdown.} The two validation-selected
+  checkpoints are evaluated on the same 29,421 windows. Bold marks the
+  better tokenizer within each class and metric.}
+  \label{tab:classes}
+  \small
+  \begin{tabular}{lrrrrrrr}
+    \toprule
+    & & \multicolumn{3}{c}{Raw-patch rows} & \multicolumn{3}{c}{\ours{}} \\
+    \cmidrule(lr){3-5}\cmidrule(lr){6-8}
+    Category & Support & Precision & Recall & F1 & Precision & Recall & F1 \\
+    \midrule
+    SPSW & 567 & 0.024 & 0.034 & 0.028 & \textbf{0.925} & \textbf{0.109} & \textbf{0.196} \\
+    GPED & 4,677 & 0.743 & 0.679 & 0.710 & \textbf{0.915} & \textbf{0.779} & \textbf{0.842} \\
+    PLED & 1,998 & \textbf{0.661} & 0.467 & 0.547 & 0.641 & \textbf{0.792} & \textbf{0.709} \\
+    EYEM & 329 & 0.396 & \textbf{0.669} & 0.497 & \textbf{0.585} & 0.562 & \textbf{0.574} \\
+    ARTF & 2,204 & 0.390 & 0.595 & 0.471 & \textbf{0.463} & \textbf{0.637} & \textbf{0.536} \\
+    BCKG & 19,646 & 0.900 & 0.871 & 0.885 & \textbf{0.926} & \textbf{0.922} & \textbf{0.924} \\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+\section{Implementation and Training}
+\label{app:recipe}
+\paragraph{Frontend.}
+The 16 sinc filters share their parameters across channels. Each
+201-sample symmetric FIR uses a Hamming window and zero padding of
+100 samples on each side. The FFT-based Hilbert transform doubles
+positive-frequency coefficients, preserves the DC and Nyquist terms,
+and zeros negative frequencies. It is applied to the complete 5-s or
+10-s filtered window. No extension beyond that window is used for the
+analytic transform. Responses near the boundaries may therefore depend
+on the finite-window convention.
+
+The initialization is logarithmic; the learned bank is not constrained
+to retain constant-Q spacing or non-overlapping passbands. A token
+indexes a particular learned filter, rather than presupposing a
+physiological frequency category. Each content projection maps 50
+samples to 64 coordinates. The envelope projection is affine and has a
+learned coordinatewise scale, absorbed into $P_E$ and $\mathbf b_E$ in
+\cref{eq:token}. The waveform projection has no bias and is initialized
+to zero. Its full trained rank in \cref{tab:rank} confirms that it does
+not remain the initial zero map. Content controls preserve these
+projection shapes and initialization rules.
+
+\paragraph{Reader.}
+Bipolar channel coordinates concatenate the two electrode endpoints
+before a two-layer MLP. Dropout acts in the feed-forward sublayer.
+Global mean pooling precedes layer normalization and the classifier.
+
+For $C$ channels, $B$ bands, and $P$ intervals, the number of attention
+scores per head and block is
+\begin{equation}
+  CBP^2+BP C^2+CP B^2=CBP(P+C+B).
+  \label{eq:complexity}
+\end{equation}
+This describes attention-score complexity, not measured throughput.
+Projection and feed-forward costs remain proportional to token count
+and feature dimension. TUEV has $16\times16\times20=5{,}120$ tokens;
+CHB-MIT has $16\times16\times40=10{,}240$.
+
+
+
+\paragraph{Training augmentation.}
+One of five transformations is sampled uniformly per training batch:
+time reversal with probability 0.5, Gaussian noise with standard
+deviation 0.05 in stored signal units, masking 20\% of temporal samples,
+masking 20\% of channels, or masking Fourier bins with probability 0.2.
+Transformations act on the input before either frontend. The raw-row
+and band-content arms use the same choices. No training augmentation
+is applied during validation, testing, or token recovery.
+
+\paragraph{Checkpoint selection.}
+TUEV is validated once per epoch. CHB-MIT is validated every 200
+optimizer steps and at epoch end. The patience counter counts
+non-improving validation evaluations; the stopping condition is checked
+at epoch boundaries. Patience is 20 for both tasks. The completed TUEV
+models finish all 20 epochs, whereas the CHB-MIT reference stops by
+patience after four epochs. Neither reported reference is terminated
+by its wall-clock budget. The selected TUEV reference checkpoint comes
+from evaluation 1 (zero-based), and the raw-row checkpoint from
+evaluation 14; the CHB-MIT reference comes from evaluation 130.
+All selection uses the validation metric specified in \cref{sec:setup}.
+
+\section{Recoverability of Paired Content}
+\label{app:recovery}
+\paragraph{Why reconstruction is possible.}
+Write a token before positional embeddings as
+$\mathbf h=[P_E\boldsymbol\ell+\mathbf b_E;P_W\mathbf w]$, where
+$\boldsymbol\ell=\log(1+\mathbf e)$. If both projection matrices have
+column rank $L$, their Moore--Penrose inverses recover the two local
+input vectors in exact arithmetic:
+\begin{equation}
+  \boldsymbol\ell=P_E^{\dagger}(\mathbf h_E-\mathbf b_E),\qquad
+  \mathbf w=P_W^{\dagger}\mathbf h_W.
+  \label{eq:inverse}
+\end{equation}
+Interleaving token coordinates merely changes how the two blocks are
+indexed. The envelope follows by applying $\exp(\boldsymbol\ell)-1$.
+This statement concerns the band-limited waveform and its envelope;
+it is not a claim that the complete original recording can be inverted
+from the filterbank.
+
+\begin{table}[t]
+  \centering
+  \caption{\textbf{Trained projection matrices.} Each matrix has shape
+  $64\times50$. Full column rank explains local recoverability;
+  conditioning determines sensitivity to numerical error.}
+  \label{tab:rank}
+  \small
+  \begin{tabular}{llrr}
+    \toprule
+    Dataset & Projection & Rank & Condition no. \\
+    \midrule
+    TUEV & Waveform & 50 & $3.90\times10^4$ \\
+         & Log-envelope & 50 & $11.66$ \\
+    CHB-MIT & Waveform & 50 & $3.25\times10^4$ \\
+            & Log-envelope & 50 & $11.64$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Readout protocol.}
+For each dataset we select 128 training, 32 validation, and 64 test
+windows with fixed seed 2. Four evenly spaced channel indices, all 16
+bands, and three fixed interior patch indices are used per window.
+The sample counts for fitting, validation, and testing are consequently
+24,576, 6,144, and 12,288 tokens. Separate ridge readouts predict the
+50 waveform or log-envelope samples from the 128 token coordinates.
+Each readout is shared across channel, band, and patch indices.
+The regularization coefficient is selected from
+$\{10^{-8},10^{-5},10^{-2},1\}$ by validation reconstruction error;
+both datasets select $10^{-8}$ for both targets.
+
+Token coordinates are standardized with training-set means and standard
+deviations before fitting each ridge readout. Normalized RMSE is the
+square root of the total squared prediction error divided by the target's
+summed squared deviations from its per-coordinate test-set mean.
+For the physical envelope, obtained by exponentiating the log-envelope
+prediction, normalized RMSE is $1.12\times10^{-6}$ on TUEV and
+$1.38\times10^{-6}$ on CHB-MIT. A second check using the known projection
+weights and \cref{eq:inverse} produces the same qualitative result.
+Figure~\ref{fig:recovery} shows a fixed example, not a reconstruction
+chosen to minimize error: the first held-out window and selected channel,
+band 12, and the middle of the three sampled intervals.
+
+\paragraph{What a linear patch map cannot compute.}
+For a nonzero filtered signal $w$, its envelope satisfies
+$|\mathcal A(-w)|=|\mathcal A(w)|$, where $\mathcal A$ is the linear
+analytic-signal operator. A linear map instead satisfies
+$F(-w)=-F(w)$. It therefore cannot equal the nonzero envelope map for
+both $w$ and $-w$. This does not imply that a linear token loses the
+waveform, or that a nonlinear encoder cannot learn to compute an
+envelope. It identifies the computation explicitly moved ahead of the
+encoder in our representation.
+
+\paragraph{Event categories.}
+
+SPSW denotes spike and sharp waves, GPED generalized periodic epileptiform
+discharges, PLED periodic lateralized epileptiform discharges, EYEM eye
+movement, ARTF artifact, and BCKG background.
+
 \end{document}
