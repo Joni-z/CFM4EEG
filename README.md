@@ -22,7 +22,7 @@ import and checkpoint compatibility.
 | [Baselines](docs/UPSTREAM.md) | Pinned author sources, native recipes and execution commands |
 | [Audit](docs/AUDIT.md) | Smoke checks, checkpoint selection, metrics and evidence |
 | [Experiment records](docs/EXPERIMENTS.md) | Unified result workbook, model-version index and checkpoint archive locations |
-| [Demodulation paper](papers/demodulation/README.md) | Abstract, introduction, related work and compiled PDF |
+| [Demodulation paper](papers/demodulation/README.md) | Full manuscript, verified measurements, figures and compiled PDF |
 
 ## Layout
 
