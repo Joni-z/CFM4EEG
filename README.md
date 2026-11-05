@@ -21,6 +21,7 @@ import and checkpoint compatibility.
 | [Data](docs/DATA.md) | Cohorts, preprocessing, units and dataset acceptance |
 | [Baselines](docs/UPSTREAM.md) | Pinned author sources, native recipes and execution commands |
 | [Audit](docs/AUDIT.md) | Smoke checks, checkpoint selection, metrics and evidence |
+| [Experiment records](docs/EXPERIMENTS.md) | Unified result workbook, model-version index and checkpoint archive locations |
 
 ## Layout
 
