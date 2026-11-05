@@ -31,7 +31,7 @@ or inferred standard deviations are used.
 
 ## Recovery records and figures
 
-`recovery-tuev.npz` and `recovery-chbmit.npz` contain small derived example arrays
+`recovery-example.json` contains only the four plotted 50-sample traces
 from the completed frozen-token recovery check. `make_figures.py` uses the first
 held-out example/channel, band index 11, and the middle of three selected patches.
 Aggregate scores in `results.json` use all sampled held-out tokens, not only the

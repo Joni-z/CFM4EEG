@@ -67,12 +67,11 @@ def architecture():
 
 
 def recovery():
-    a = np.load(ROOT/'evidence/recovery-tuev.npz')
-    idx = 11*3+1  # fixed first example/electrode, band 12, middle sampled patch
+    a = json.loads((ROOT/'evidence/recovery-example.json').read_text())['samples']
     t = np.arange(50)/200
     fig, axes = plt.subplots(2,1,figsize=(3.32,2.15),sharex=True)
     for ax,key,label,color in zip(axes,['W','E'],['Band waveform','Amplitude envelope'],[TEAL,CORAL]):
-        target, decoded = a[key][idx], a[f'{key}_decoded'][idx]
+        target, decoded = a[key], a[f'{key}_decoded']
         ax.plot(t,target,color=color,lw=1.5,label='Frontend signal')
         ax.plot(t,decoded,color=INK,lw=.9,ls=(0,(3,2)),label='Decoded from token')
         ax.set_ylabel('Amplitude',labelpad=3)
