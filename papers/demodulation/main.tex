@@ -32,6 +32,8 @@ With the reader and training recipe fixed, this representation improves
 TUEV Cohen's $\kappa$ from 0.576 to 0.711, an absolute gain of 0.135,
 while using fewer parameters; the same construction achieves 0.699 PR-AUC
 on CHB-MIT with 1.62 million parameters and no pretraining.
+With the filterbank and reader unchanged, waveform-only and envelope-only
+tokens reach 0.498 and 0.642 on TUEV, compared with 0.711 for the pair.
 These results motivate a representation-first approach to compact EEG
 models: make useful signal structure available in the tokens, then learn
 how it is organized across time, electrodes, and frequency.
@@ -70,15 +72,16 @@ motivate two descriptions of each frequency band. The signed
 correspondence matters: a transient has a local shape and occurs within
 an evolving pattern of activity.
 
-Raw-patch embedding leaves the envelope implicit. Although amplitude
-dynamics are contained in the samples, exposing them requires a
-band-selective transform followed by a nonlinear modulus. A linear
-patch projection cannot perform this computation itself, so its
-implementation is left to the subsequent nonlinear network. We advocate
-\emph{demodulation before attention}: extract each band's amplitude
-envelope and retain its corresponding waveform at the input. This makes
-amplitude dynamics directly available while preserving morphology.
-We hypothesize that doing so simplifies a compact encoder's learning problem.
+These two descriptions suggest a concrete input choice. Raw-patch
+embedding leaves the envelope implicit: exposing bandwise amplitude
+requires filtering followed by a nonlinear modulus, which a linear patch
+projection cannot compute. Supplying an envelope performs this operation
+before learning, but removes polarity and phase detail. We therefore
+retain the corresponding signed waveform and ask whether the two views
+are more useful together than either alone. This leads to
+\emph{demodulation before attention}: expose amplitude dynamics without
+replacing the waveform that carries them. We hypothesize that this input
+choice simplifies a compact encoder's learning problem.
 
 Scattering theory clarifies what should be preserved after demodulation.
 Bandpass transforms and modulus operations expose subband amplitude,
@@ -115,10 +118,13 @@ The reference reaches $\kappa=0.711$ on TUEV and PR-AUC 0.699
 on CHB-MIT using 1.62 million parameters. On TUEV, replacing it with raw
 patches projected into the same number of learned rows reduces $\kappa$
 to 0.576 under the same reader, split, and training recipe: an absolute
-difference of 0.135 with fewer parameters in the proposed model. F1
-improves in all six event categories. A separate linear readout of frozen
-tokens recovers both local content views, checking that the intended
-waveform and amplitude trajectories remain available before attention.
+difference of 0.135 with fewer parameters in the proposed model.
+Holding the filterbank fixed further separates the two content views:
+waveform-only and envelope-only tokens reach 0.498 and 0.642,
+respectively, while their pairing reaches 0.711. F1 improves in all six
+event categories in the raw-row comparison. A separate linear readout
+of frozen tokens checks that both intended trajectories remain available
+before attention.
 
 We propose demodulation before attention as a simple principle for EEG
 tokenization, implement it with local waveform--envelope pairs, and
@@ -158,8 +164,10 @@ logarithmic compression to extract power-related features
 filtering, and variance aggregation \citep{mane2021fbcnet}.
 EEGNet provides another compact architecture through factorized temporal
 and spatial filtering \citep{lawhern2018eegnet}.
-These precedents show the value of building signal operations into
-small learned models.
+HTNet computes filter--Hilbert power at learned frequencies before neural
+decoding \citep{Peterson_2021}. Hilbert envelopes and temporal fine
+structure have also been concatenated for EEG speech decoding
+\citep{duraisamy2025transferlearningcovertspeech}.
 
 Recent frontends also preserve spectral or amplitude variation.
 CBraMod projects a one-second patch spectrum and combines it with
@@ -412,6 +420,10 @@ matching the reference token grid. Replacing these rows with bandwise
 waveform--envelope pairs improves all three metrics, including an
 absolute $\kappa$ gain of 0.135, with fewer parameters. The comparison
 tests the complete frontend; the content controls below separate its views.
+On CHB-MIT, paired input raises PR-AUC from 0.642 to 0.699, a gain of
+0.058. The raw-row model has higher AUROC (0.928 versus 0.918), so this
+comparison does not imply improvement in every operating characteristic
+(Appendix~\ref{app:content-metrics}).
 
 \begin{table}[t]
   \centering
@@ -436,36 +448,46 @@ tests the complete frontend; the content controls below separate its views.
   \centering
   \caption{\textbf{Content controls with a fixed reader.} All bandwise
   variants keep 16 bands, two 64-coordinate projection blocks, and the
-  same training recipe. Repeating one view in both blocks preserves
-  projection dimensions and parameter count. Unfinished cells remain empty.}
+  same seed-2 training recipe. Repeating one view in both blocks preserves
+  projection dimensions and parameter count. Cells without completed tests
+  remain empty; mean-envelope and bandmix controls are defined in the text.}
   \label{tab:content}
   \small
   \begin{tabular}{lcc}
     \toprule
     Token input & TUEV $\kappa$ & CHB-MIT PR-AUC \\
     \midrule
-    Raw learned rows & 0.576 & \pending \\
-    Waveform only & \pending & \pending \\
-    Envelope only & \pending & \pending \\
+    Raw learned rows & 0.576 & 0.642 \\
+    Waveform only & 0.498 & \pending \\
+    Envelope only & 0.642 & \pending \\
     Envelope + waveform & \textbf{0.711} & \textbf{0.699} \\
+    \midrule
+    Waveform + mean E & \pending & \pending \\
+    Mixed band basis & \pending & \pending \\
     \bottomrule
   \end{tabular}
 \end{table}
 
 \subsection{Which content contributes?}
 \label{sec:controls}
-A waveform-only arm tests whether filtering and the band grid suffice.
-An envelope-only arm tests how much classification needs oscillatory
-shape beyond amplitude dynamics. Both retain the reference's two
-projection blocks and reader; they replace only the signal supplied
-to each block (\cref{tab:content}). This avoids conflating removal of a
-view with a smaller token or a smaller encoder.
+We hold the filterbank, reader and training recipe fixed. Waveform-only
+and envelope-only arms fill both projection blocks with the same view,
+retaining the reference's parameter count and initialization
+(\cref{tab:content}).
 
-The comparisons answer two distinct questions. Envelope versus waveform
-isolates the type of band content made explicit. Pairing both versus
-either alone tests complementarity at the token interface. The completed
-raw-row comparison supports the whole construction, while these bandwise
-arms determine which part of its signal content accounts for the gain.
+On TUEV, envelope-only tokens reach $\kappa=0.642$, compared with
+0.498 for waveform-only tokens. Pairing the views reaches 0.711:
+an increase of 0.213 over waveform alone and 0.070 over envelope alone.
+Balanced accuracy and weighted F1 follow the same ordering
+(Appendix~\ref{app:content-metrics}). Under this controlled replacement,
+explicit amplitude helps beyond filtered waveform, and retaining the
+waveform adds further benefit.
+
+The \emph{mean-envelope} control retains the waveform and replaces each
+log-envelope patch by its broadcast mean. The \emph{bandmix} control
+applies a fixed orthogonal change of band basis before positional
+embeddings. They test within-token amplitude variation and physical band
+organization, respectively; Appendix~\ref{app:recipe} gives the constructions.
 
 
 \begin{figure}[t]
@@ -503,15 +525,13 @@ The filterbank and full-window analytic transform can introduce boundary
 and overlap effects; their implementation is documented in the appendix.
 
 \paragraph{Conclusion.}
-We present a simple way to construct EEG tokens: demodulate before
-embedding and retain the corresponding waveform alongside its amplitude
-trajectory. A standard axial reader turns these local descriptions into
-clinical predictions. The observed TUEV gain shows that input
-representation can materially change what a compact model achieves
-without increasing its capacity. The resulting research direction is
-concrete: identify useful signal computations, expose their outputs
-without discarding complementary detail, and let attention learn the
-relationships that remain.
+We construct EEG tokens by pairing local waveform and demodulated
+amplitude trajectories before attention. With the reader fixed, this
+input improves clinical prediction over raw learned rows; matched
+bandwise controls show an advantage over either content view alone.
+The result points to a simple design principle: expose useful signal
+computations without discarding complementary detail, then let attention
+learn their organization.
 
 \section*{LLM Usage Statement}
 OpenAI Codex assisted with literature retrieval, manuscript drafting and
@@ -674,7 +694,52 @@ patience after four epochs. Neither reported reference is terminated
 by its wall-clock budget. The selected TUEV reference checkpoint comes
 from evaluation 1 (zero-based), and the raw-row checkpoint from
 evaluation 14; the CHB-MIT reference comes from evaluation 130.
+The new TUEV waveform-only and envelope-only controls also select
+evaluation 1 and complete all 20 epochs. The CHB-MIT raw-row control
+selects evaluation 246 and stops by patience after six epochs.
 All selection uses the validation metric specified in \cref{sec:setup}.
+
+\paragraph{Organization controls.}
+The mean-envelope control replaces each 50-sample log1p-envelope patch
+by its within-patch mean, repeated 50 times. Filtering, the full-window
+Hilbert transform, both projection matrices, their initialization, and
+the waveform input remain unchanged. The bandmix control multiplies
+the 16-band token axis by a fixed dense orthogonal matrix obtained by QR
+factorization of a Gaussian matrix with seed 2. The same matrix acts on
+all channels, intervals, features and examples, before positional
+embeddings. It adds no trainable parameters. Each control changes one
+model configuration field relative to the paired reference.
+
+\paragraph{Complete content-control metrics.}
+\label{app:content-metrics}
+\Cref{tab:content-metrics} reports all three task metrics for the completed
+comparisons. Each row uses the test predictions of its validation-selected
+checkpoint. The CHB-MIT raw-row and paired models have average precision
+0.642 and 0.702, respectively. Original prediction and checkpoint hashes
+are retained with the result records.
+
+\begin{table}[t]
+  \centering
+  \caption{\textbf{Complete metrics for the content comparisons.}
+  Seed 2 throughout. The two CHB-MIT rows use the same enriched
+  17,386-window test protocol. Bold denotes the best value per panel.}
+  \label{tab:content-metrics}
+  \small
+  \begin{tabular}{lrrr}
+    \toprule
+    TUEV input & $\kappa$ & Bal. acc. & wF1 \\
+    \midrule
+    Waveform only & 0.498 & 0.510 & 0.735 \\
+    Envelope only & 0.642 & 0.577 & 0.812 \\
+    Envelope + waveform & \textbf{0.711} & \textbf{0.634} & \textbf{0.849} \\
+    \midrule
+    CHB-MIT input & PR-AUC & AUROC & Bal. acc. \\
+    \midrule
+    Raw learned rows & 0.642 & \textbf{0.928} & 0.538 \\
+    Envelope + waveform & \textbf{0.699} & 0.918 & \textbf{0.630} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \section{Recoverability of Paired Content}
 \label{app:recovery}

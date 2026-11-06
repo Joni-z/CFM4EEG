@@ -82,6 +82,101 @@
       "epochs_run": 20,
       "stopped_by": "epochs",
       "wall_time_sec": 13550.263241529465
+    },
+    "tuev_waveform": {
+      "test": {
+        "accuracy": 0.734305428095578,
+        "balanced_acc": 0.5103231057613876,
+        "cohen_kappa": 0.49835326243651457,
+        "weighted_f1": 0.7348056416163915
+      },
+      "seed": 2,
+      "params_M": 1.620774,
+      "result_sha256": "b901939f367661578accdf29ce6e934b708fa250a8037888bba4f25b31916778",
+      "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+      "selection": {
+        "selection_metric": "cohen_kappa",
+        "early_stopping_metric": "cohen_kappa",
+        "tag": "epoch   1 |",
+        "evaluation_index": 1,
+        "metrics": {
+          "accuracy": 0.9176728869374314,
+          "balanced_acc": 0.5876267637439216,
+          "cohen_kappa": 0.6382901268583221,
+          "weighted_f1": 0.9254096933140287
+        }
+      },
+      "epochs_run": 20,
+      "stopped_by": "epochs",
+      "wall_time_sec": 13867.639938354492,
+      "checkpoint_sha256": "e05cce97797a49e8f200c5f1d8aed131e76eedbe898af98a17b0d377d8dae2a1",
+      "prediction_sha256": "5f9acacb5b77e91d466f4fd08c6b74e8e302872f76a28364efad8c2824d433fb",
+      "metric_replay_max_error": 0.0,
+      "source_run": "tuev-demodulation-waveform-20261106"
+    },
+    "tuev_envelope": {
+      "test": {
+        "accuracy": 0.8127527956221746,
+        "balanced_acc": 0.5770917221189306,
+        "cohen_kappa": 0.6416508750387823,
+        "weighted_f1": 0.812230854275556
+      },
+      "seed": 2,
+      "params_M": 1.620774,
+      "result_sha256": "cde68fabeeb78507c03278a686c1a4879e5adc69f07b1b8debb66bdaddb2ef6c",
+      "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+      "selection": {
+        "selection_metric": "cohen_kappa",
+        "early_stopping_metric": "cohen_kappa",
+        "tag": "epoch   1 |",
+        "evaluation_index": 1,
+        "metrics": {
+          "accuracy": 0.9041131271388907,
+          "balanced_acc": 0.506062783906601,
+          "cohen_kappa": 0.5862612817188675,
+          "weighted_f1": 0.9149133675691256
+        }
+      },
+      "epochs_run": 20,
+      "stopped_by": "epochs",
+      "wall_time_sec": 13988.610947608948,
+      "checkpoint_sha256": "ab337c61a68279b7a58c19f6f8891cf581841d9d0e2176f66c68ff268fbe57e5",
+      "prediction_sha256": "517ac6d097b04c2ebc56c00117dfbcf60ec92f02b1facad7bf0e59dfa37b8c4f",
+      "metric_replay_max_error": 0.0,
+      "source_run": "tuev-demodulation-envelope-20261106"
+    },
+    "chbmit_raw": {
+      "test": {
+        "accuracy": 0.9852755090302542,
+        "balanced_acc": 0.5380142555840723,
+        "pr_auc": 0.6418777628931015,
+        "average_precision": 0.6424818499748948,
+        "auroc": 0.9277181324591941
+      },
+      "seed": 2,
+      "params_M": 1.714946,
+      "result_sha256": "8886403e041c16f06fe3ec5e3c26d156414a6e06fdae6839bfbe66edc81e7bbb",
+      "manifest_sha256": "3c9979b8fb0a00e9f0d49fbe07bba7a6572b757c0a13ed21fa21438913e43842",
+      "selection": {
+        "selection_metric": "pr_auc",
+        "early_stopping_metric": "pr_auc",
+        "tag": "epoch 4 step 9400 |",
+        "evaluation_index": 246,
+        "metrics": {
+          "accuracy": 0.9937688821752266,
+          "balanced_acc": 0.56,
+          "pr_auc": 0.44623676326357026,
+          "average_precision": 0.44688413479358957,
+          "auroc": 0.8587309435517099
+        }
+      },
+      "epochs_run": 6,
+      "stopped_by": "patience",
+      "wall_time_sec": 71613.17593836784,
+      "checkpoint_sha256": "74b76c64d8ef3b3a3089a554ca07067dd556559d764ede6c3767c27a1b2d023e",
+      "prediction_sha256": "aeea26cec1d573d8b74cb745cad289e10337bc1966efac8528b951bf43918056",
+      "metric_replay_max_error": 0.0,
+      "source_run": "chbmit-wave_patch_threeaxis-20261105"
     }
   },
   "classes": [

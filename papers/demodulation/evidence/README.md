@@ -13,6 +13,9 @@ not copied into this paper directory.
 | `tuev_full` | `tuev-legacy-triaxial-identity-20261105` | 2 | κ 0.7111908486 |
 | `chbmit_full` | `chbmit-legacy-triaxial-identity-20261105` | 2 | PR-AUC 0.6994134955 |
 | `tuev_raw` | `tuev-wave_patch_threeaxis-20261105` | 2 | κ 0.5758048478 |
+| `tuev_waveform` | `tuev-demodulation-waveform-20261106` | 2 | κ 0.4983532624 |
+| `tuev_envelope` | `tuev-demodulation-envelope-20261106` | 2 | κ 0.6416508750 |
+| `chbmit_raw` | `chbmit-wave_patch_threeaxis-20261105` | 2 | PR-AUC 0.6418777629 |
 
 Both reference runs use unrotated waveform/envelope tokens and the same
 three-axis reader. The TUEV raw control uses 16 learned rows, not physical
@@ -28,6 +31,15 @@ TUEV full/raw labels were verified identical in order; kappa, balanced accuracy
 and weighted F1 were independently recomputed and matched the stored records
 within 1e-12. Per-class values use those same saved predictions. These reference/control entries are individual runs; no inferred standard
 deviations are used.
+
+The new TUEV waveform-only and envelope-only arms retain both 64-coordinate
+projections, their initialization and all 1,620,774 parameters. The input type
+of the projection blocks is the only changed model field. Both finish 20 epochs
+and select validation evaluation 1, matching the paired reference. New
+test metrics were replayed from stored logits and labels with zero numerical
+difference. Each entry records final result, prediction, checkpoint and
+data-manifest hashes. The CHB raw learned-row arm finishes six epochs by patience,
+selecting evaluation 246; the test cohort contains 17,386 windows.
 
 ## Recovery records and figures
 
@@ -45,9 +57,11 @@ predictive necessity.
 
 ## Empty table cells
 
-Bandwise waveform-only and envelope-only controls require final test artifacts.
-The reference scores must not be combined with historical rotated ablations to
-fill them. The CHB-MIT scratch EEGPT and REVE main-table cells have no compatible
+The CHB-MIT envelope-only arm and TUEV mean-envelope/bandmix follow-ups have
+no completed final test record in this revision. Their cells remain empty.
+Historical rotated ablations are not used to fill them. The CHB-MIT
+waveform-only cell is also empty; no such matched run is recorded. The
+CHB-MIT scratch EEGPT and REVE main-table cells have no compatible
 completed run and remain empty. Unrecorded native TUEV parameter counts
 are also left unreported. This directory contains only finished measurements.
 
