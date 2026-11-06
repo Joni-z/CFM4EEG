@@ -98,8 +98,10 @@ class TriAxialPACLock(nn.Module):
         frontend_extra = {"filter_range": cfg.get("filter_range"),
                           "waveform_content": cfg.get("waveform_content", True),
                           "content_view": cfg.get("content_view", "both"),
-                          "band_mix_seed": cfg.get("band_mix_seed")}
-        if cfg.get("content_view", "both") != "both" or cfg.get("band_mix_seed") is not None:
+                          "band_mix_seed": cfg.get("band_mix_seed"),
+                          "envelope_pool": cfg.get("envelope_pool", "none")}
+        if (cfg.get("content_view", "both") != "both" or cfg.get("band_mix_seed") is not None
+                or cfg.get("envelope_pool", "none") != "none"):
             if (cfg.get("tokenizer_mode") != "pac_interaction"
                     or self.freq_mixer != "attention" or cfg.get("aux_recon_weight", 0)):
                 raise ValueError("content/grid controls require pac_interaction/attention without auxiliary loss")

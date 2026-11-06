@@ -119,6 +119,7 @@ class TriAxialFrontend(nn.Module):
         waveform_content: bool = True,
         content_view: str = "both",
         band_mix_seed: int | None = None,
+        envelope_pool: str = "none",
         **_,
     ):
         super().__init__()
@@ -133,13 +134,18 @@ class TriAxialFrontend(nn.Module):
         self.waveform_content = bool(waveform_content)
         if content_view not in ("both", "waveform", "envelope"):
             raise ValueError("content_view must be both/waveform/envelope")
-        if (content_view != "both" or band_mix_seed is not None) and (
+        if envelope_pool not in ("none", "patch_mean"):
+            raise ValueError("envelope_pool must be none/patch_mean")
+        if envelope_pool != "none" and (content_view != "both" or band_mix_seed is not None):
+            raise ValueError("envelope pooling is a single-field control of full W/E content")
+        if (content_view != "both" or band_mix_seed is not None or envelope_pool != "none") and (
             tokenizer_mode != "pac_interaction" or interaction_mode != "rotation"
             or pac_token_mode != "identity" or waveform_modulation != "quadrature"
             or not waveform_content
         ):
             raise ValueError("content/grid controls require unrotated full quadrature tokens")
         self.content_view = content_view
+        self.envelope_pool = envelope_pool
         # A fixed invertible change of band basis, shared by all samples,
         # electrodes, patches and features. No global RNG or learned parameters.
         basis = None
@@ -638,6 +644,13 @@ class TriAxialFrontend(nn.Module):
         pr = _patch_project(self.phase_tokenizer, phase_unit.real.reshape(flat_shape))
         pi = _patch_project(self.phase_tokenizer, phase_unit.imag.reshape(flat_shape))
         amplitude_input = torch.log1p(amplitude)
+        if self.envelope_pool == "patch_mean":
+            # Keep the original Hilbert context and projection, but expose only
+            # one log-amplitude value per patch instead of its full trajectory.
+            usable = (T // self.patch_len) * self.patch_len
+            patches = amplitude_input[..., :usable].reshape(B, C, nb, -1, self.patch_len)
+            constant = patches.mean(-1, keepdim=True).expand_as(patches).flatten(-2)
+            amplitude_input = torch.cat((constant, amplitude_input[..., usable:]), dim=-1)
         if self.waveform_modulation in ("carrier", "anchored") or self.content_view == "waveform":
             if filtered is None:
                 raise ValueError("carrier modulation needs the filtered waveform")
