@@ -54,83 +54,79 @@ how it is organized across time, electrodes, and frequency.
 EEG modeling has progressed from compact convolutional networks to
 Transformers pretrained on large collections of recordings
 \citep{schirrmeister2017deep,lawhern2018eegnet,jiang2024labram,wang2025cbramod}.
-Larger models promise broader transfer across clinical tasks, subjects,
-and acquisition systems. Yet scale alone does not determine downstream
-performance: recent benchmarking finds that supervised specialists
-remain competitive with pretrained EEG models \citep{liu2026compass}.
-This observation suggests an input-side question. Before asking how much
-capacity an encoder needs, what signal structure should its tokens
-already expose?
+Yet larger models do not consistently
+outperform compact supervised specialists \citep{liu2026compass}.
+This observation motivates a more basic question: what representation
+should an EEG model learn from? We examine the signal computations
+performed before attention and the signal properties they expose.
 
-Clinical EEG interpretation involves both the shape of a transient and
-the organization of ongoing activity. Morphology, recurrence, evolution,
-and spatial distribution all enter standardized descriptions
-\citep{hirsch2021acns}. A sharp discharge and a smooth oscillation differ
-in shape; sustained activity and a sequence of bursts differ in amplitude
-dynamics. These distinctions motivate two complementary views of each
-frequency band: its signed waveform and its amplitude envelope. The
-first retains oscillatory detail, and the second exposes when activity
-strengthens or weakens. A representation should make their correspondence
-available at the same electrode and time.
+Clinical EEG descriptions characterize morphology, recurrence, evolution, and
+spatial distribution \citep{hirsch2021acns}. A sharp discharge and a
+smooth oscillation differ in waveform shape; sustained activity and
+separated bursts differ in how their strength evolves. These properties
+motivate two descriptions of each frequency band. The signed
+\emph{waveform} retains oscillatory shape, while the amplitude
+\emph{envelope} tracks how activity strengthens and weakens. Their
+correspondence matters: a transient has a local shape and occurs within
+an evolving pattern of activity.
 
-Linear patch embedding leaves this separation implicit. An envelope is
-present in the recorded samples, but extracting it requires a band-selective
-transform and a nonlinear modulus. A linear map of a raw patch cannot
-perform that computation on its own. The subsequent network can learn
-nonlinear features, but doing so becomes part of its supervised learning
-problem. Our hypothesis is that a compact encoder benefits when these
-amplitude dynamics are supplied before attention, alongside waveform
-content that amplitude alone cannot specify.
+Raw-patch embedding leaves the envelope implicit. Although amplitude
+dynamics are contained in the samples, exposing them requires a
+band-selective transform followed by a nonlinear modulus. A linear
+patch projection cannot perform this computation itself, so its
+implementation is left to the subsequent nonlinear network. We advocate
+\emph{demodulation before attention}: extract each band's amplitude
+envelope and retain its corresponding waveform at the input. This makes
+amplitude dynamics directly available while preserving morphology.
+We hypothesize that doing so simplifies a compact encoder's learning problem.
 
-Analytic demodulation gives this hypothesis a concrete foundation. For
-an amplitude-modulated oscillation, the analytic modulus removes the
-rapid carrier and exposes its amplitude variation. Scattering theory
-builds representations by composing bandpass transforms with modulus
-operations and shows how temporal averaging can discard modulation
-structure \citep{anden2014scattering}. This distinction is central here:
-\emph{extracting amplitude is not the same as retaining amplitude dynamics}.
-Two intervals can have the same average band energy and different burst
-patterns. A sequence of envelope values retains that difference; a
-single pooled energy does not.
+Scattering theory clarifies what should be preserved after demodulation.
+Bandpass transforms and modulus operations expose subband amplitude,
+but subsequent averaging can discard temporal modulation structure
+\citep{anden2014scattering}. An envelope trajectory can distinguish
+burst patterns with similar average band energy.
+At the same time, taking a modulus discards waveform polarity and phase
+detail. These observations motivate preserving the envelope sequence
+together with its signed waveform: demodulation exposes a useful view
+of the signal without making that view the entire representation.
 
-The resulting design is simple. Demodulate each band before patch
-embedding, preserve a short envelope trajectory, and pair it with the
-waveform from that same band and interval. Each token then describes
-both what a local oscillation looks like and how its amplitude changes.
-Keeping electrodes, bands, and time intervals as separate indices gives
-the encoder an explicit grid on which to learn interactions. An ordinary
-axial Transformer reads this grid; no separate coupling estimator,
-phase rotation, or reconstruction objective is required.
+The resulting tokenizer is simple. A learnable filterbank decomposes
+each channel into bands, and an analytic transform extracts their
+envelopes before patching. Shared projections pair waveform and
+log-envelope sequences from the same electrode, band, and interval. The
+tokens form an electrode--band--time grid, read by an ordinary axial
+Transformer. Attention relates intervals along time, locations across
+channels, and components across bands. The complete model is trained
+with supervised classification alone.
 
-This construction builds on, rather than replaces, earlier spectral
-frontends. CBraMod adds patchwise spectral and convolutional waveform
-features \citep{wang2025cbramod}. TFM-Tokenizer learns discrete motifs
-from waveform and time--frequency representations
+Frequency-aware frontends provide important precedents. CBraMod adds
+patchwise spectral and convolutional waveform features
+\citep{wang2025cbramod}. TFM-Tokenizer learns discrete motifs from
+waveform and time--frequency representations
 \citep{pradeepkumar2026tfm}. The Morlet Spectral Transformer preserves
 time-resolved wavelet amplitudes \citep{qing2026morlet}.
-Our focus is the \emph{local pairing before attention}:
-within each band, a token receives the envelope trajectory together with
-its corresponding waveform. Content controls with a fixed reader make
-this representation choice a testable object, rather than attributing
-an entire architecture's performance to its frontend.
+We study a specific continuous input representation: the local pairing
+of a band's waveform and envelope trajectory before attention.
+Holding the reader fixed makes it possible to compare this explicit
+signal representation with raw learned rows, and to separate the
+contributions of its two content views through controlled replacements.
 
-The unrotated reference reaches $\kappa=0.711$ on TUEV and PR-AUC 0.699
+The reference reaches $\kappa=0.711$ on TUEV and PR-AUC 0.699
 on CHB-MIT using 1.62 million parameters. On TUEV, replacing it with raw
 patches projected into the same number of learned rows reduces $\kappa$
-to 0.576 under the same reader, split, and training recipe. The proposed
-frontend improves F1 in all six event categories. A separate frozen-token
-readout recovers both local content views, checking that the tokenizer
-actually preserves what the design intends to expose.
+to 0.576 under the same reader, split, and training recipe: an absolute
+difference of 0.135 with fewer parameters in the proposed model. F1
+improves in all six event categories. A separate linear readout of frozen
+tokens recovers both local content views, checking that the intended
+waveform and amplitude trajectories remain available before attention.
 
-Our contribution is a representation choice and a way to examine it:
-demodulate before embedding, pair corresponding waveform and amplitude
-trajectories, and hold the reader fixed when testing their predictive
-roles. This shifts the emphasis from adding machinery to deciding which
-signal computations should precede learned attention. The broader question
-is how much of a compact model's effectiveness comes from the information
-made directly usable at its input.
-
-
+We propose demodulation before attention as a simple principle for EEG
+tokenization, implement it with local waveform--envelope pairs, and
+examine its effect with a fixed compact reader. The resulting model
+connects an explicit signal representation to clinical prediction
+without a separate pretraining stage. More broadly, this work asks
+which useful signal computations should precede learning, so that an
+encoder can build on directly available structure in the recording.
 
 \section{Related Work}
 \label{sec:related}
