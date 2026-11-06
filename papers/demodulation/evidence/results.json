@@ -177,6 +177,68 @@
       "prediction_sha256": "aeea26cec1d573d8b74cb745cad289e10337bc1966efac8528b951bf43918056",
       "metric_replay_max_error": 0.0,
       "source_run": "chbmit-wave_patch_threeaxis-20261105"
+    },
+    "tuev_patchmean": {
+      "test": {
+        "accuracy": 0.8425614357091873,
+        "balanced_acc": 0.6124834297207195,
+        "cohen_kappa": 0.6953713257904645,
+        "weighted_f1": 0.8415543419390137
+      },
+      "seed": 2,
+      "params_M": 1.620774,
+      "result_sha256": "259eba672366a1e76316d6badf2ead344f9d55c97f2ac0fea938a0e1ea897d34",
+      "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+      "selection": {
+        "selection_metric": "cohen_kappa",
+        "early_stopping_metric": "cohen_kappa",
+        "tag": "epoch   1 |",
+        "evaluation_index": 1,
+        "metrics": {
+          "accuracy": 0.8894556724995157,
+          "balanced_acc": 0.5134866187427124,
+          "cohen_kappa": 0.5361994457500124,
+          "weighted_f1": 0.8958936852451004
+        }
+      },
+      "epochs_run": 20,
+      "stopped_by": "epochs",
+      "wall_time_sec": 13963.050746679306,
+      "checkpoint_sha256": "7f7bc18e523e0f1d62e6c576632c6265366653d1afc125afbe253b3d6ddb0c08",
+      "prediction_sha256": "0bd1ffa3eabfb75cdfae609aa21081f1ed3bbdb144ad7fd4a53e43ae13441510",
+      "metric_replay_max_error": 0.0,
+      "source_run": "tuev-demodulation-patchmean-20261106"
+    },
+    "tuev_bandmix": {
+      "test": {
+        "accuracy": 0.7804969239658747,
+        "balanced_acc": 0.5295831644316192,
+        "cohen_kappa": 0.5853923585753402,
+        "weighted_f1": 0.7881733120198919
+      },
+      "seed": 2,
+      "params_M": 1.620774,
+      "result_sha256": "d8a3f4bca36addbf7d51108a1386a2045e4b8e4b20eda314d27329c99eefaca6",
+      "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+      "selection": {
+        "selection_metric": "cohen_kappa",
+        "early_stopping_metric": "cohen_kappa",
+        "tag": "epoch   1 |",
+        "evaluation_index": 1,
+        "metrics": {
+          "accuracy": 0.9047588299864402,
+          "balanced_acc": 0.537947780844606,
+          "cohen_kappa": 0.5588669683520762,
+          "weighted_f1": 0.9052775364442157
+        }
+      },
+      "epochs_run": 20,
+      "stopped_by": "epochs",
+      "wall_time_sec": 14401.743056297302,
+      "checkpoint_sha256": "5669af22f2bce24f0be318165678643c9bcc4d361079642f350cd551ebb5b071",
+      "prediction_sha256": "614165013c6a54359df6922cc78565bbebf52d037ef8334bcf6858a70191e181",
+      "metric_replay_max_error": 0.0,
+      "source_run": "tuev-demodulation-bandmix-restart-20261106"
     }
   },
   "classes": [

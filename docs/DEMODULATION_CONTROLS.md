@@ -108,6 +108,53 @@ and bandmix successor PID2475318/GPU1. Excluding the first smoke step, mean
 training-step times were 0.3070s and 0.3148s, respectively. New jobs have no
 final test scores at launch.
 
+Both follow-ups subsequently completed all20epochs and final tests:
+
+| Supplementary TUEV input | Kappa | Balanced accuracy | Weighted F1 |
+|---|---:|---:|---:|
+| Waveform + patch-mean log1p envelope | 0.6953713258 | 0.6124834297 | 0.8415543419 |
+| Paired content in a mixed band basis | 0.5853923586 | 0.5295831644 | 0.7881733120 |
+
+The user then narrowed priority to core content evidence. The patchmean
+process had already exited. A cooperative stop request for bandmix arrived
+during its final test pass; it completed normally (`stopped_by: epochs`),
+not as a canceled run. Its pre-request best checkpoint was separately
+preserved. Both final tests were replayed from stored logits with zero
+metric difference. GPU0/1 are released; CHB envelope PID762197 onGPU4 is
+the only remaining project task from this study. No further exploration
+of these variants is scheduled. Their manuscript results remain in the
+appendix, outside the main content table.
+
+## Core evidence and minimal capacity comparison
+
+The main comparison concerns local waveform/envelope content. The completed
+six-block TUEV comparison is W-only0.498353, E-only0.641651 and paired0.711191.
+The CHB-MIT envelope-only arm remains active to test waveform complementarity
+on seizure detection. Mean-envelope and bandmix are supplementary; no further
+variants of either are scheduled.
+
+Two additional TUEV configs reduce the reader from six blocks to two:
+`tuev-capacity2-paired.yaml` and `tuev-capacity2-waveform.yaml`. They retain
+16bands,width128,seed2,20epochs,learning rate,augmentation and validation
+selection. The pair differs only in content_view and uses identical parameter
+initialization and parameter count. Existing six-block results are reused.
+This tests whether paired content retains its advantage with a smaller
+encoder; it does not assume that the capacity trend will hold.
+
+The frozen release is `demodulation-capacity-20261106/` on145. GPU0/1 are
+assigned only after idle-card checks and actual training/validation/reload
+smokes. CHB envelope remains onGPU4. No model-size sweep, baseline rerun or
+pretraining task is part of this pass.
+
+The user subsequently requested discussing the plan before running it. The
+agent had already launched the two capacity arms and issued cooperative stop
+requests for both; retain their outputs, without restart or further training
+until the user authorizes after discussion. These configs remain a proposed
+comparison rather than an approved active plan. The pre-existing CHB envelope
+run is retained.
+Both capacity processes have now exited with `operator_stop`, `stop_file`;
+each saved `best.pt`, and neither evaluated the test set. GPU0/1 are free.
+
 ## Locations and execution
 
 145 release root:

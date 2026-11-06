@@ -16,6 +16,8 @@ not copied into this paper directory.
 | `tuev_waveform` | `tuev-demodulation-waveform-20261106` | 2 | κ 0.4983532624 |
 | `tuev_envelope` | `tuev-demodulation-envelope-20261106` | 2 | κ 0.6416508750 |
 | `chbmit_raw` | `chbmit-wave_patch_threeaxis-20261105` | 2 | PR-AUC 0.6418777629 |
+| `tuev_patchmean` | `tuev-demodulation-patchmean-20261106` | 2 | κ 0.6953713258 |
+| `tuev_bandmix` | `tuev-demodulation-bandmix-restart-20261106` | 2 | κ 0.5853923586 |
 
 Both reference runs use unrotated waveform/envelope tokens and the same
 three-axis reader. The TUEV raw control uses 16 learned rows, not physical
@@ -57,8 +59,10 @@ predictive necessity.
 
 ## Empty table cells
 
-The CHB-MIT envelope-only arm and TUEV mean-envelope/bandmix follow-ups have
-no completed final test record in this revision. Their cells remain empty.
+The CHB-MIT envelope-only arm has no completed final test record in this
+revision. Its cell remains empty. The TUEV mean-envelope and mixed-basis
+follow-ups completed all 20 epochs; their results are retained in the
+appendix as supplementary comparisons, outside the main content table.
 Historical rotated ablations are not used to fill them. The CHB-MIT
 waveform-only cell is also empty; no such matched run is recorded. The
 CHB-MIT scratch EEGPT and REVE main-table cells have no compatible

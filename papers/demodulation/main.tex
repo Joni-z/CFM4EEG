@@ -450,7 +450,7 @@ comparison does not imply improvement in every operating characteristic
   variants keep 16 bands, two 64-coordinate projection blocks, and the
   same seed-2 training recipe. Repeating one view in both blocks preserves
   projection dimensions and parameter count. Cells without completed tests
-  remain empty; mean-envelope and bandmix controls are defined in the text.}
+  remain empty.}
   \label{tab:content}
   \small
   \begin{tabular}{lcc}
@@ -461,9 +461,6 @@ comparison does not imply improvement in every operating characteristic
     Waveform only & 0.498 & \pending \\
     Envelope only & 0.642 & \pending \\
     Envelope + waveform & \textbf{0.711} & \textbf{0.699} \\
-    \midrule
-    Waveform + mean E & \pending & \pending \\
-    Mixed band basis & \pending & \pending \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -482,12 +479,6 @@ Balanced accuracy and weighted F1 follow the same ordering
 (Appendix~\ref{app:content-metrics}). Under this controlled replacement,
 explicit amplitude helps beyond filtered waveform, and retaining the
 waveform adds further benefit.
-
-The \emph{mean-envelope} control retains the waveform and replaces each
-log-envelope patch by its broadcast mean. The \emph{bandmix} control
-applies a fixed orthogonal change of band basis before positional
-embeddings. They test within-token amplitude variation and physical band
-organization, respectively; Appendix~\ref{app:recipe} gives the constructions.
 
 
 \begin{figure}[t]
@@ -699,7 +690,7 @@ evaluation 1 and complete all 20 epochs. The CHB-MIT raw-row control
 selects evaluation 246 and stops by patience after six epochs.
 All selection uses the validation metric specified in \cref{sec:setup}.
 
-\paragraph{Organization controls.}
+\paragraph{Exploratory representation controls.}
 The mean-envelope control replaces each 50-sample log1p-envelope patch
 by its within-patch mean, repeated 50 times. Filtering, the full-window
 Hilbert transform, both projection matrices, their initialization, and
@@ -708,7 +699,12 @@ the 16-band token axis by a fixed dense orthogonal matrix obtained by QR
 factorization of a Gaussian matrix with seed 2. The same matrix acts on
 all channels, intervals, features and examples, before positional
 embeddings. It adds no trainable parameters. Each control changes one
-model configuration field relative to the paired reference.
+model configuration field relative to the paired reference. The
+mean-envelope arm reaches $\kappa=0.695$, retaining amplitude changes
+between token intervals while averaging variation within each interval.
+The mixed-basis arm reaches 0.585. These supplementary comparisons are
+reported in \cref{tab:content-metrics}; the main content comparison
+holds the physical grid fixed.
 
 \paragraph{Complete content-control metrics.}
 \label{app:content-metrics}
@@ -732,6 +728,8 @@ are retained with the result records.
     Waveform only & 0.498 & 0.510 & 0.735 \\
     Envelope only & 0.642 & 0.577 & 0.812 \\
     Envelope + waveform & \textbf{0.711} & \textbf{0.634} & \textbf{0.849} \\
+    Waveform + mean E & 0.695 & 0.612 & 0.842 \\
+    Mixed band basis & 0.585 & 0.530 & 0.788 \\
     \midrule
     CHB-MIT input & PR-AUC & AUROC & Bal. acc. \\
     \midrule
