@@ -17,19 +17,17 @@
 \maketitle
 
 \begin{abstract}
-Electroencephalography (EEG) modeling increasingly relies on larger
-networks and pretraining corpora, yet compact supervised models can
-remain competitive. This suggests that the signal representation supplied
-to the encoder may be as important as its capacity.
-We argue that bandwise amplitude dynamics should be exposed before
-attention, together with the waveforms that carry them.
-Analytic demodulation separates these two views, while scattering theory
-explains why extracting an envelope and retaining its temporal variation
-are distinct representation choices.
-We build a simple tokenizer around this principle: filter each channel
-into bands, extract its amplitude envelopes, and jointly embed matching
-waveform and envelope sequences without averaging either into a scalar.
-A compact axial Transformer reads the resulting electrode--band--time grid.
+Modern electroencephalography (EEG) models increasingly rely on larger
+networks and more pretraining. We revisit a simpler choice: the signal
+representation on which learning operates.
+We advocate demodulation before attention: extract each band's amplitude
+envelope and pair it with the corresponding waveform, exposing both
+amplitude dynamics and oscillatory morphology.
+Scattering theory motivates this separation and explains why temporal
+averaging can discard useful modulation structure.
+A simple tokenizer applies a learnable filterbank and embeds matched
+local waveform and envelope sequences into an electrode--band--time grid.
+A compact axial Transformer reads this representation.
 With the reader and training recipe fixed, this representation improves
 TUEV Cohen's $\kappa$ from 0.576 to 0.711, an absolute gain of 0.135,
 while using fewer parameters; the same construction achieves 0.699 PR-AUC
