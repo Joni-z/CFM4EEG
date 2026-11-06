@@ -180,10 +180,6 @@ attention. The implementation uses trainable sinc filters
 \citep{ravanelli2018sincnet}, rather than a fixed scattering cascade.
 Its contribution is the token interface, not a new demodulation theorem.
 
-These signal-processing precedents suggest an input-side study of
-compact models: explicitly expose useful structure and measure what a
-fixed reader can learn from it.
-
 \section{Method}
 \label{sec:method}
 Let $x_c[t]$ be the normalized EEG signal at channel $c$. We construct
@@ -342,7 +338,8 @@ must use these same windows. Appendix~\ref{app:data} gives normalization,
 partition counts, and the exact sampling protocol.
 
 \paragraph{Training.}
-Models are trained from scratch with AdamW, a learning rate of $10^{-4}$,
+The reference and content controls are trained from scratch with AdamW,
+a learning rate of $10^{-4}$,
 weight decay 0.05, cosine scheduling, batch size 32, and a maximum of
 20 epochs. The configured dropout is 0.35. TUEV uses cross-entropy with
 label smoothing 0.1; CHB-MIT uses focal loss with $\alpha=0.25$ and
@@ -355,39 +352,46 @@ We select checkpoints by validation $\kappa$ on TUEV and validation
 PR-AUC on CHB-MIT. The held-out test set is used for reporting. TUEV
 reports $\kappa$, balanced accuracy, and support-weighted F1. CHB-MIT
 reports trapezoidal PR-AUC, AUROC, and balanced accuracy at threshold
-0.5; we additionally give average precision. The completed comparisons
-use the fixed seed 2, and tables leave unavailable results empty.
-Baseline scores from incompatible montages or window sets are not
-substituted into these comparisons.
+0.5; we additionally give average precision. The reference and content controls use seed 2. Historical baseline
+cells summarize seeds 0, 1, and 2 with sample SD, except the available
+shared-protocol TUEV LaBraM and EEGPT runs, which use seed 0.
+Baseline recipes and task adaptations are documented in
+Appendix~\ref{app:baselines}. Empty cells have no compatible completed
+run; scores from other montages or window sets are not substituted.
 
 \begin{table*}[t]
   \centering
-  \caption{\textbf{Clinical evaluation under a common data protocol.}
-  Both tasks use 16 bipolar channels. The raw-patch row uses the same
-  three-axis reader and training recipe as our tokenizer. Empty baseline
-  cells are reserved for protocol-matched evaluations; they do not
-  denote zero performance. Bold marks the best available value per
-  metric. Parameter counts are for the TUEV classifier.}
+  \caption{\textbf{Clinical evaluation on shared data protocols.}
+  Baselines reuse completed runs with their recorded task adaptations
+  (Appendix~\ref{app:baselines}). Values with dispersion are mean $\pm$
+  sample SD; single-run entries have no SD. Size gives recorded parameter
+  counts in millions for TUEV / CHB-MIT; unrecorded counts are shown as
+  --. Bold marks the highest available score in each column.}
   \label{tab:main}
   \small
-  \setlength{\tabcolsep}{5.5pt}
+  \setlength{\tabcolsep}{2.4pt}
   \begin{tabular}{lcrrrrrr}
     \toprule
     & & \multicolumn{3}{c}{TUEV} & \multicolumn{3}{c}{CHB-MIT} \\
     \cmidrule(lr){3-5}\cmidrule(lr){6-8}
-    Model & Params (M) & $\kappa\uparrow$ & Bal. acc.$\uparrow$ & wF1$\uparrow$
+    Model & Size (M) & $\kappa\uparrow$ & Bal. acc.$\uparrow$ & wF1$\uparrow$
     & PR-AUC$\uparrow$ & AUROC$\uparrow$ & Bal. acc.$\uparrow$ \\
     \midrule
-    BIOT \citep{yang2023biot} & & \pending & \pending & \pending & \pending & \pending & \pending \\
-    LaBraM \citep{jiang2024labram} & & \pending & \pending & \pending & \pending & \pending & \pending \\
-    EEGPT \citep{wang2024eegpt} & & \pending & \pending & \pending & \pending & \pending & \pending \\
-    CBraMod \citep{wang2025cbramod} & & \pending & \pending & \pending & \pending & \pending & \pending \\
-    REVE \citep{elouahidi2025reve} & & \pending & \pending & \pending & \pending & \pending & \pending \\
-    TFM-Tokenizer \citep{pradeepkumar2026tfm} & & \pending & \pending & \pending & \pending & \pending & \pending \\
+    \multicolumn{8}{l}{\emph{Pretrained}} \\
+    BIOT \citep{yang2023biot} & 3.19 / 3.19 & $0.530\!\pm\!0.028$ & $0.489\!\pm\!0.030$ & $0.753\!\pm\!0.016$ & $0.560\!\pm\!0.077$ & $0.874\!\pm\!0.004$ & $0.619\!\pm\!0.045$ \\
+    LaBraM \citep{jiang2024labram} & -- / 5.82 & $0.602$ & $\boldsymbol{0.655}$ & $0.797$ & $0.452\!\pm\!0.097$ & $0.871\!\pm\!0.062$ & $0.586\!\pm\!0.047$ \\
+    EEGPT \citep{wang2024eegpt} & -- / 25.69 & $0.634$ & $0.594$ & $0.812$ & $0.281\!\pm\!0.133$ & $0.857\!\pm\!0.038$ & $0.547\!\pm\!0.063$ \\
+    CBraMod \citep{wang2025cbramod} & 17.85 / 30.65 & $0.645\!\pm\!0.022$ & $0.603\!\pm\!0.011$ & $0.813\!\pm\!0.012$ & $0.233\!\pm\!0.098$ & $0.783\!\pm\!0.047$ & $0.545\!\pm\!0.020$ \\
+    REVE \citep{elouahidi2025reve} & 69.48 / 69.46 & $0.685\!\pm\!0.039$ & $0.648\!\pm\!0.018$ & $0.838\!\pm\!0.019$ & $0.580\!\pm\!0.196$ & $0.898\!\pm\!0.064$ & $0.632\!\pm\!0.068$ \\
+    TFM-Tokenizer \citep{pradeepkumar2026tfm} & 1.89 / 1.89 & $0.652\!\pm\!0.021$ & $0.596\!\pm\!0.036$ & $0.817\!\pm\!0.010$ & $0.627\!\pm\!0.025$ & $\boldsymbol{0.929\!\pm\!0.006}$ & $\boldsymbol{0.634\!\pm\!0.016}$ \\
     \midrule
-    Raw-patch rows + axial reader & 1.72 & 0.576 & 0.552 & 0.782 & \pending & \pending & \pending \\
-    \ours{} (ours) & 1.62 & \textbf{0.711} & \textbf{0.634} & \textbf{0.849}
-    & \textbf{0.699} & \textbf{0.918} & \textbf{0.630} \\
+    \multicolumn{8}{l}{\emph{From scratch}} \\
+    BIOT \citep{yang2023biot} & 3.19 / 3.19 & $0.532\!\pm\!0.025$ & $0.535\!\pm\!0.062$ & $0.761\!\pm\!0.013$ & $0.566\!\pm\!0.072$ & $0.875\!\pm\!0.019$ & $0.624\!\pm\!0.071$ \\
+    LaBraM \citep{jiang2024labram} & -- / 5.82 & $0.569$ & $0.380$ & $0.766$ & $0.360\!\pm\!0.050$ & $0.823\!\pm\!0.030$ & $0.585\!\pm\!0.065$ \\
+    EEGPT \citep{wang2024eegpt} & -- / -- & $0.578$ & $0.530$ & $0.783$ & \pending & \pending & \pending \\
+    CBraMod \citep{wang2025cbramod} & 17.85 / 30.65 & $0.564\!\pm\!0.024$ & $0.574\!\pm\!0.010$ & $0.767\!\pm\!0.004$ & $0.317\!\pm\!0.205$ & $0.780\!\pm\!0.133$ & $0.602\!\pm\!0.088$ \\
+    REVE \citep{elouahidi2025reve} & 69.48 / -- & $0.319\!\pm\!0.014$ & $0.370\!\pm\!0.042$ & $0.655\!\pm\!0.004$ & \pending & \pending & \pending \\
+    \ours{} (ours) & 1.62 / 1.62 & $\boldsymbol{0.711}$ & $0.634$ & $\boldsymbol{0.849}$ & $\boldsymbol{0.699}$ & $0.918$ & $0.630$ \\
     \bottomrule
   \end{tabular}
 \end{table*}
@@ -395,22 +399,38 @@ substituted into these comparisons.
 \section{Results}
 \label{sec:results}
 \subsection{Clinical performance}
-The reference achieves $\kappa=0.711$, balanced accuracy 0.634, and
-weighted F1 0.849 on TUEV (\cref{tab:main}). On CHB-MIT it achieves
-PR-AUC 0.699 and AUROC 0.918. Average precision is 0.702, close to the
-trapezoidal PR-AUC. These results are obtained with supervised training
-alone and a compact common reader.
+The 1.62M reference achieves $\kappa=0.711$ on TUEV and PR-AUC 0.699
+on CHB-MIT (\cref{tab:main}). It exceeds the highest recorded pretrained
+baseline primary scores, from REVE and TFM-Tokenizer respectively, by
+0.027 and 0.073. CHB-MIT average precision is 0.702, close to its
+trapezoidal PR-AUC of 0.699.
 
-The directly controlled TUEV comparison changes the input representation.
-Raw-patch tokenization maps each 50-sample channel segment into 16 learned
-rows of width 128. It therefore supplies the same grid size and attention
-structure as the bandwise frontend, without filtering or demodulation.
-It obtains $\kappa=0.576$. Exposing bandwise waveform and amplitude
-trajectories raises $\kappa$ by 0.135, balanced accuracy by 0.081, and
-weighted F1 by 0.067. The raw-row model actually has more parameters
-(1.72M versus 1.62M), so the gain is not obtained by increasing parameter
-count. This comparison establishes the value of the complete input
-construction under a fixed reader; the next controls separate its content.
+To examine the frontend directly, we hold the reader and training recipe
+fixed and change its input (\cref{tab:fixed-reader}). A linear map turns
+each raw 50-sample channel patch into 16 learned rows of width 128,
+matching the reference token grid. Replacing these rows with bandwise
+waveform--envelope pairs improves all three metrics, including an
+absolute $\kappa$ gain of 0.135, with fewer parameters. The comparison
+tests the complete frontend; the content controls below separate its views.
+
+\begin{table}[t]
+  \centering
+  \caption{\textbf{Changing the input, keeping the reader.} TUEV with
+  the same six-block, width-128 axial Transformer and training recipe.
+  Changes are computed before rounding.}
+  \label{tab:fixed-reader}
+  \small
+  \begin{tabular}{lrrrr}
+    \toprule
+    Token input & Params (M) & $\kappa$ & Bal. acc. & wF1 \\
+    \midrule
+    Raw patches & 1.72 & 0.576 & 0.552 & 0.782 \\
+    W+E pairs & 1.62 & \textbf{0.711} & \textbf{0.634} & \textbf{0.849} \\
+    \midrule
+    \multicolumn{2}{l}{Change (W+E $-$ raw)} & +0.135 & +0.081 & +0.067 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \begin{table}[t]
   \centering
@@ -474,25 +494,10 @@ precision rises. Table~\ref{tab:classes} in the appendix reports precision and r
 alongside F1. This distinguishes improved category-level discrimination
 from uniform improvements in every operating characteristic.
 
-\subsection{What the representation makes explicit}
-The recovery check and classification comparison play different roles.
-The former shows that trained tokens retain the intended local trajectories
-before attention. The latter shows that replacing raw learned rows with
-this bandwise representation improves TUEV performance at fixed reader
-capacity. Together they connect the implemented content interface to
-an observed predictive gain. They do not require a new attention rule
-or an auxiliary objective.
-
-Matched label-budget and capacity experiments can further test whether
-this representation reduces what must be learned from supervision.
-
 \section{Discussion and Conclusion}
 \label{sec:conclusion}
 \paragraph{Scope.}
-The current paired comparison fixes one reader, one seed, and one
-training recipe. It establishes a frontend effect under those conditions,
-not a universal advantage over pretrained models or a proof of reduced
-sample complexity. CHB-MIT results describe the specified enriched
+The matched comparison uses one reader, one seed, and one training recipe. CHB-MIT results describe the specified enriched
 window protocol rather than continuous-recording alarm performance.
 The filterbank and full-window analytic transform can introduce boundary
 and overlap effects; their implementation is documented in the appendix.
@@ -748,5 +753,43 @@ encoder in our representation.
 SPSW denotes spike and sharp waves, GPED generalized periodic epileptiform
 discharges, PLED periodic lateralized epileptiform discharges, EYEM eye
 movement, ARTF artifact, and BCKG background.
+
+
+\section{Historical Baseline Configurations}
+\label{app:baselines}
+\paragraph{Runs and initialization.}
+The main table reuses complete baseline result records on the shared
+16-channel protocols. Each multi-run cell includes all three recorded
+seeds from one training recipe. The TUEV LaBraM and EEGPT entries use
+single completed runs through the authors' shared16 entrypoints, with
+scratch and pretrained initialization reported separately. The older
+LaBraM results on 26,067 evaluation windows are outside this comparison.
+CHB-MIT scratch EEGPT and REVE have no completed result on the evaluated
+17,386-window protocol, so those cells remain empty. TFM's main-table
+entry uses both its pretrained tokenizer and pretrained encoder.
+
+\paragraph{Task adaptations.}
+Historical baselines retain their recorded, model-specific recipes.
+BIOT uses its channelwise spectral input. The historical CBraMod
+implementation uses an 800-unit local classification head; its binary
+variant uses two logits and focal loss. CHB-MIT EEGPT uses a decoder
+derived from its sleep-stage configuration and a 16-to-19 channel
+mapping. The recorded REVE implementation uses direct fine-tuning with
+AdamW and omits the native learned-query context token. These scores
+therefore describe the documented task adaptations rather than exact
+reproductions of every model's published training pipeline. Their
+optimizer, loss, batch size, and training budget are preserved in the
+accompanying result records. The matched-reader comparison in
+\cref{tab:fixed-reader} instead uses the same recipe in both arms.
+
+\paragraph{Metrics and model size.}
+The shared evaluation uses trapezoidal PR-AUC and a fixed binary threshold
+of 0.5. The native LaBraM keys \texttt{balanced\_accuracy} and
+\texttt{f1\_weighted} map to balanced accuracy and weighted F1.
+Model sizes include task-specific heads and can differ between datasets:
+for example, the recorded CBraMod instances contain 17.85M parameters
+on TUEV and 30.65M on CHB-MIT. Total parameter counts were not retained
+for the native shared16 LaBraM and EEGPT runs; the table leaves those
+sizes unreported rather than borrowing counts from different heads.
 
 \end{document}

@@ -1,0 +1,1886 @@
+{
+  "selection": "Completed canonical recipes; all recorded seeds per recipe; native shared16 TUEV LaBraM/EEGPT exceptions verified from provenance. No test-score-based seed or recipe selection.",
+  "dispersion": "Sample SD (ddof=1); no SD for n=1.",
+  "baseline_kind": "Recorded task adaptations; see manuscript Appendix D.",
+  "rows": [
+    {
+      "model": "BIOT",
+      "initialization": "scratch",
+      "datasets": {
+        "tuev": {
+          "comparison_protocol": "shared16_29421",
+          "recipe_id": "ff855d0e94b1a1d8",
+          "n": 3,
+          "summary": {
+            "cohen_kappa": {
+              "mean": 0.5323858502881215,
+              "sd": 0.02504125918175947
+            },
+            "balanced_acc": {
+              "mean": 0.5350961827661609,
+              "sd": 0.062454498759451464
+            },
+            "weighted_f1": {
+              "mean": 0.7611532533089861,
+              "sd": 0.012592297839090456
+            }
+          },
+          "params_M": 3.187734,
+          "runs": [
+            {
+              "record_id": "30c48235f7baea652ca0",
+              "run": "tuev-biot_scratch",
+              "seed": 0,
+              "test": {
+                "cohen_kappa": 0.5038691031613584,
+                "balanced_acc": 0.502116061997695,
+                "weighted_f1": 0.7470942554081018
+              },
+              "params_M": 3.187734,
+              "artifact_sha256": "28fe1c72c75934db54207341d0848bb6e11f7b31b3ce8d24d52bc7da3d6a3473",
+              "recipe": {
+                "optimizer": "adam",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": null,
+                "batch_size": 128,
+                "epochs": 100,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.0,
+                "patience": 5,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "token_size": 200,
+                  "hop_length": 100
+                }
+              }
+            },
+            {
+              "record_id": "038caeea9887fc2abeb6",
+              "run": "tuev-biot_scratch",
+              "seed": 1,
+              "test": {
+                "cohen_kappa": 0.5425016387420284,
+                "balanced_acc": 0.6071272022784767,
+                "weighted_f1": 0.7649695920727024
+              },
+              "params_M": 3.187734,
+              "artifact_sha256": "a95f834800740b00a23c9997bc3237347142722e14d07255828e89ece0910f37",
+              "recipe": {
+                "optimizer": "adam",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": null,
+                "batch_size": 128,
+                "epochs": 100,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.0,
+                "patience": 5,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "token_size": 200,
+                  "hop_length": 100
+                }
+              }
+            },
+            {
+              "record_id": "7f9b723b1a9837fdeafc",
+              "run": "tuev-biot_scratch",
+              "seed": 2,
+              "test": {
+                "cohen_kappa": 0.5507868089609775,
+                "balanced_acc": 0.49604528402231085,
+                "weighted_f1": 0.7713959124461541
+              },
+              "params_M": 3.187734,
+              "artifact_sha256": "a6d034c4506a90e7d78b9578e58b36ce144203df3abc495f406ca5baed2da331",
+              "recipe": {
+                "optimizer": "adam",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": null,
+                "batch_size": 128,
+                "epochs": 100,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.0,
+                "patience": 5,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "token_size": 200,
+                  "hop_length": 100
+                }
+              }
+            }
+          ]
+        },
+        "chbmit": {
+          "comparison_protocol": "legacy_enriched_17386",
+          "recipe_id": "36106eb291a28710",
+          "n": 3,
+          "summary": {
+            "pr_auc": {
+              "mean": 0.5661421588369223,
+              "sd": 0.07216916012562159
+            },
+            "auroc": {
+              "mean": 0.8747583129339285,
+              "sd": 0.01851820547290303
+            },
+            "balanced_acc": {
+              "mean": 0.6239870177905398,
+              "sd": 0.07108796996020973
+            }
+          },
+          "params_M": 3.186706,
+          "runs": [
+            {
+              "record_id": "56e2b891b4a2e6e7b6b2",
+              "run": "chbmit-biot_scratch",
+              "seed": 0,
+              "test": {
+                "pr_auc": 0.6491244135080462,
+                "auroc": 0.8953444887725629,
+                "balanced_acc": 0.705966508271288
+              },
+              "params_M": 3.186706,
+              "artifact_sha256": "e499dea48679a18339e69a20f3299bf2ca60d0593ab6bbd76e47e9f38370fcd2",
+              "recipe": {
+                "optimizer": "adam",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": null,
+                "batch_size": 512,
+                "epochs": 100,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 5,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "token_size": 200,
+                  "hop_length": 100
+                }
+              }
+            },
+            {
+              "record_id": "d6e23ee6e55ac4a8afed",
+              "run": "chbmit-biot_scratch",
+              "seed": 1,
+              "test": {
+                "pr_auc": 0.5180293451217306,
+                "auroc": 0.8594571358388602,
+                "balanced_acc": 0.5866058496175641
+              },
+              "params_M": 3.186706,
+              "artifact_sha256": "2871930483411944fb2601f8db2584018c03274b68db0d85ea5db88b19b7236c",
+              "recipe": {
+                "optimizer": "adam",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": null,
+                "batch_size": 512,
+                "epochs": 100,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 5,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "token_size": 200,
+                  "hop_length": 100
+                }
+              }
+            },
+            {
+              "record_id": "ae5c9033f7c97e957fef",
+              "run": "chbmit-biot_scratch",
+              "seed": 2,
+              "test": {
+                "pr_auc": 0.5312727178809904,
+                "auroc": 0.8694733141903626,
+                "balanced_acc": 0.5793886954827671
+              },
+              "params_M": 3.186706,
+              "artifact_sha256": "b14413e21e8abdebb3d4832d331b0bddca704514c2cf7ca32d372e0f51f801c2",
+              "recipe": {
+                "optimizer": "adam",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": null,
+                "batch_size": 512,
+                "epochs": 100,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 5,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "token_size": 200,
+                  "hop_length": 100
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "model": "LaBraM",
+      "initialization": "scratch",
+      "datasets": {
+        "tuev": {
+          "comparison_protocol": "shared16_29421",
+          "recipe_id": "b433d5116462e3cc",
+          "n": 1,
+          "summary": {
+            "cohen_kappa": {
+              "mean": 0.5685423791112559,
+              "sd": null
+            },
+            "balanced_acc": {
+              "mean": 0.3798104296606244,
+              "sd": null
+            },
+            "weighted_f1": {
+              "mean": 0.7656133173460867,
+              "sd": null
+            }
+          },
+          "params_M": null,
+          "runs": [
+            {
+              "record_id": "e3200830185721d7fd2b",
+              "run": "tuev-labram-shared16-scratch-s0",
+              "seed": 0,
+              "test": {
+                "cohen_kappa": 0.5685423791112559,
+                "balanced_acc": 0.3798104296606244,
+                "weighted_f1": 0.7656133173460867
+              },
+              "params_M": null,
+              "artifact_sha256": "e3200830185721d7fd2b5713b643946389685a58b02e7563620a180e24be06fa",
+              "recipe": {
+                "lr": 0.0005,
+                "batch_size": 64,
+                "epochs": 50
+              }
+            }
+          ]
+        },
+        "chbmit": {
+          "comparison_protocol": "legacy_enriched_17386",
+          "recipe_id": "64e586acec8416b4",
+          "n": 3,
+          "summary": {
+            "pr_auc": {
+              "mean": 0.3595731422339776,
+              "sd": 0.049811479035551595
+            },
+            "auroc": {
+              "mean": 0.8225610005731597,
+              "sd": 0.02977902898141504
+            },
+            "balanced_acc": {
+              "mean": 0.5853786383644336,
+              "sd": 0.06493305398925432
+            }
+          },
+          "params_M": 5.820338,
+          "runs": [
+            {
+              "record_id": "5b03943b9f7a087459f1",
+              "run": "chbmit-labram_scratch",
+              "seed": 0,
+              "test": {
+                "pr_auc": 0.4020347502569709,
+                "auroc": 0.8413510405814042,
+                "balanced_acc": 0.6497194199510414
+              },
+              "params_M": 5.820338,
+              "artifact_sha256": "d2163dbc3e224bbbcf04d2e85b7f3a3da382de30bfc658f64164993fc107a8d3",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0005,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "patience": 10,
+                "eval_every_steps": 0,
+                "loader_divisor": 1.0,
+                "model_kwargs": {
+                  "montage_mode": "positional",
+                  "target_len": 2000
+                }
+              }
+            },
+            {
+              "record_id": "500f42de1ad3572ae371",
+              "run": "chbmit-labram_scratch",
+              "seed": 1,
+              "test": {
+                "pr_auc": 0.3719420752271876,
+                "auroc": 0.8381057352679592,
+                "balanced_acc": 0.5198690908782897
+              },
+              "params_M": 5.820338,
+              "artifact_sha256": "566e562ced1ed5a0b25dbed2dae91bf00eeb716e30c44dc9ba8f6fe79532a3dd",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0005,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "patience": 10,
+                "eval_every_steps": 0,
+                "loader_divisor": 1.0,
+                "model_kwargs": {
+                  "montage_mode": "positional",
+                  "target_len": 2000
+                }
+              }
+            },
+            {
+              "record_id": "79217793a3b24a9884a9",
+              "run": "chbmit-labram_scratch",
+              "seed": 2,
+              "test": {
+                "pr_auc": 0.30474260121777436,
+                "auroc": 0.7882262258701158,
+                "balanced_acc": 0.5865474042639698
+              },
+              "params_M": 5.820338,
+              "artifact_sha256": "e8177c34e5b956a2b89e4386c8d44b9c4a9a6d55563d8f6909e418514679d3f8",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0005,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "patience": 10,
+                "eval_every_steps": 0,
+                "loader_divisor": 1.0,
+                "model_kwargs": {
+                  "montage_mode": "positional",
+                  "target_len": 2000
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "model": "EEGPT",
+      "initialization": "scratch",
+      "datasets": {
+        "tuev": {
+          "comparison_protocol": "shared16_29421",
+          "recipe_id": "211ac88326064f5a",
+          "n": 1,
+          "summary": {
+            "cohen_kappa": {
+              "mean": 0.577934457265901,
+              "sd": null
+            },
+            "balanced_acc": {
+              "mean": 0.529786463672354,
+              "sd": null
+            },
+            "weighted_f1": {
+              "mean": 0.7832119041851915,
+              "sd": null
+            }
+          },
+          "params_M": null,
+          "runs": [
+            {
+              "record_id": "0dcc6e0f8727c4f27b31",
+              "run": "tuev-eegpt_scratch_shared16_20261026",
+              "seed": 0,
+              "test": {
+                "cohen_kappa": 0.577934457265901,
+                "balanced_acc": 0.529786463672354,
+                "weighted_f1": 0.7832119041851915
+              },
+              "params_M": null,
+              "artifact_sha256": "0dcc6e0f8727c4f27b311f70ace559be8af1bed376a9963bd70a681e582a5b31",
+              "recipe": {
+                "batch_size": 400,
+                "epochs": 30
+              }
+            }
+          ]
+        },
+        "chbmit": null
+      }
+    },
+    {
+      "model": "CBraMod",
+      "initialization": "scratch",
+      "datasets": {
+        "tuev": {
+          "comparison_protocol": "shared16_29421",
+          "recipe_id": "5195b96880bb9c10",
+          "n": 3,
+          "summary": {
+            "cohen_kappa": {
+              "mean": 0.5638376367081208,
+              "sd": 0.023635314759073555
+            },
+            "balanced_acc": {
+              "mean": 0.5743775088779182,
+              "sd": 0.010479631305107377
+            },
+            "weighted_f1": {
+              "mean": 0.7671130387956694,
+              "sd": 0.004138402238971772
+            }
+          },
+          "params_M": 17.846006,
+          "runs": [
+            {
+              "record_id": "db929df3cc0f104c0951",
+              "run": "tuev-cbramod_scratch",
+              "seed": 0,
+              "test": {
+                "cohen_kappa": 0.5755034870462123,
+                "balanced_acc": 0.586034229457714,
+                "weighted_f1": 0.7718901447990905
+              },
+              "params_M": 17.846006,
+              "artifact_sha256": "840d467509831fcdd361e55f69c3254ca58e1a7d5262152c9db9535b24c842c5",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "patience": 0,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.1
+                }
+              }
+            },
+            {
+              "record_id": "de9784b3a715dba4b597",
+              "run": "tuev-cbramod_scratch",
+              "seed": 1,
+              "test": {
+                "cohen_kappa": 0.5366374689542814,
+                "balanced_acc": 0.5657360859715096,
+                "weighted_f1": 0.7646204821133277
+              },
+              "params_M": 17.846006,
+              "artifact_sha256": "8596941568ae8ac572ff048f847f8717502e615cf26a1c707b504751f7cb79f5",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "patience": 0,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.1
+                }
+              }
+            },
+            {
+              "record_id": "1788fa7bc27b523c7473",
+              "run": "tuev-cbramod_scratch",
+              "seed": 2,
+              "test": {
+                "cohen_kappa": 0.5793719541238687,
+                "balanced_acc": 0.5713622112045309,
+                "weighted_f1": 0.7648284894745898
+              },
+              "params_M": 17.846006,
+              "artifact_sha256": "c08ac4ba337d16548f5ec8f4650fc9d1246887917265a8837340564d26124726",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "patience": 0,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.1
+                }
+              }
+            }
+          ]
+        },
+        "chbmit": {
+          "comparison_protocol": "legacy_enriched_17386",
+          "recipe_id": "c9747f7c80e3dfd0",
+          "n": 3,
+          "summary": {
+            "pr_auc": {
+              "mean": 0.31688170468234256,
+              "sd": 0.2050232658752232
+            },
+            "auroc": {
+              "mean": 0.7802337531799072,
+              "sd": 0.1332909440553833
+            },
+            "balanced_acc": {
+              "mean": 0.6018290995745065,
+              "sd": 0.08830057034936253
+            }
+          },
+          "params_M": 30.645202,
+          "runs": [
+            {
+              "record_id": "330abf5b6ea0ce91255b",
+              "run": "chbmit-cbramod_scratch",
+              "seed": 0,
+              "test": {
+                "pr_auc": 0.414799866963265,
+                "auroc": 0.8329237923411175,
+                "balanced_acc": 0.6482584978697092
+              },
+              "params_M": 30.645202,
+              "artifact_sha256": "fa1cdf7b003816f8e1c18c4a2f1a01be79855c00b233a7305f1fb21fc809a995",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 0,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.1
+                }
+              }
+            },
+            {
+              "record_id": "7dfaadeea3c0e19cc03e",
+              "run": "chbmit-cbramod_scratch",
+              "seed": 1,
+              "test": {
+                "pr_auc": 0.454586933659771,
+                "auroc": 0.8791256913915925,
+                "balanced_acc": 0.6572288008538104
+              },
+              "params_M": 30.645202,
+              "artifact_sha256": "cc046dfe8b969e9aeac894b0e3dd817cade04398da092611cc62cfc38d5d2f7b",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 0,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.1
+                }
+              }
+            },
+            {
+              "record_id": "1b3d45da02c897b901c3",
+              "run": "chbmit-cbramod_scratch",
+              "seed": 2,
+              "test": {
+                "pr_auc": 0.08125831342399169,
+                "auroc": 0.6286517758070117,
+                "balanced_acc": 0.5
+              },
+              "params_M": 30.645202,
+              "artifact_sha256": "b36e5b1f726bb79074605286e280da431a01a093b44f70fe87c01a46a1973b0f",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 0,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.1
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "model": "REVE",
+      "initialization": "scratch",
+      "datasets": {
+        "tuev": {
+          "comparison_protocol": "shared16_29421",
+          "recipe_id": "331d89a789bdcb6e",
+          "n": 3,
+          "summary": {
+            "cohen_kappa": {
+              "mean": 0.3189042972068666,
+              "sd": 0.014058123039673742
+            },
+            "balanced_acc": {
+              "mean": 0.3698672597265098,
+              "sd": 0.04224547998136798
+            },
+            "weighted_f1": {
+              "mean": 0.6549224770494088,
+              "sd": 0.004379363265922048
+            }
+          },
+          "params_M": 69.476358,
+          "runs": [
+            {
+              "record_id": "f6c606bd1bd131552f3e",
+              "run": "tuev-reve_scratch",
+              "seed": 0,
+              "test": {
+                "cohen_kappa": 0.3033306262774893,
+                "balanced_acc": 0.3226022253873922,
+                "weighted_f1": 0.6578054017580997
+              },
+              "params_M": 69.476358,
+              "artifact_sha256": "e7ea25bc6615a2101c1397265b9c1bd7d273e5777dbd60de218569c468cf0e83",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.01,
+                "scheduler": "cosine",
+                "batch_size": 128,
+                "epochs": 30,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.0,
+                "patience": 10,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.15
+                }
+              }
+            },
+            {
+              "record_id": "f21c3e1c35e1de247b31",
+              "run": "tuev-reve_scratch",
+              "seed": 1,
+              "test": {
+                "cohen_kappa": 0.33065678567405143,
+                "balanced_acc": 0.3830502326214272,
+                "weighted_f1": 0.6570789837691275
+              },
+              "params_M": 69.476358,
+              "artifact_sha256": "34c1b524dd164d948cc399d3cefe7c53d3223a423850ae82728f1e347ba0da12",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.01,
+                "scheduler": "cosine",
+                "batch_size": 128,
+                "epochs": 30,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.0,
+                "patience": 10,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.15
+                }
+              }
+            },
+            {
+              "record_id": "40f3200955d83fb22e53",
+              "run": "tuev-reve_scratch",
+              "seed": 2,
+              "test": {
+                "cohen_kappa": 0.32272547966905907,
+                "balanced_acc": 0.4039493211707099,
+                "weighted_f1": 0.6498830456209992
+              },
+              "params_M": 69.476358,
+              "artifact_sha256": "758577e1c6fc3142b31750152b105f69f214f687c1128a2589e4cd536a31cef5",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.01,
+                "scheduler": "cosine",
+                "batch_size": 128,
+                "epochs": 30,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.0,
+                "patience": 10,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.15
+                }
+              }
+            }
+          ]
+        },
+        "chbmit": null
+      }
+    },
+    {
+      "model": "BIOT",
+      "initialization": "pretrained",
+      "datasets": {
+        "tuev": {
+          "comparison_protocol": "shared16_29421",
+          "recipe_id": "ade38f07b17240e2",
+          "n": 3,
+          "summary": {
+            "cohen_kappa": {
+              "mean": 0.5304225273173689,
+              "sd": 0.027742073162987345
+            },
+            "balanced_acc": {
+              "mean": 0.48940374949912485,
+              "sd": 0.030194977837173204
+            },
+            "weighted_f1": {
+              "mean": 0.7532497201015581,
+              "sd": 0.01576782892620492
+            }
+          },
+          "params_M": 3.187734,
+          "runs": [
+            {
+              "record_id": "5e582148075bcb0e2c30",
+              "run": "tuev-biot_prest16",
+              "seed": 0,
+              "test": {
+                "cohen_kappa": 0.5005366237685529,
+                "balanced_acc": 0.46121766462866126,
+                "weighted_f1": 0.7382755085249126
+              },
+              "params_M": 3.187734,
+              "artifact_sha256": "75f28257ffb153daa47d0ca4a3d59ddd354261aff6cc66c9062752dfd06d6477",
+              "recipe": {
+                "optimizer": "adam",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": null,
+                "batch_size": 128,
+                "epochs": 100,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.0,
+                "patience": 5,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "token_size": 200,
+                  "hop_length": 100
+                }
+              }
+            },
+            {
+              "record_id": "03a4f71925369f0cfd34",
+              "run": "tuev-biot_prest16",
+              "seed": 1,
+              "test": {
+                "cohen_kappa": 0.535378127081174,
+                "balanced_acc": 0.48572335244326076,
+                "weighted_f1": 0.7517672010488156
+              },
+              "params_M": 3.187734,
+              "artifact_sha256": "205c834e83f6adb1e1f328479838945a62cb2317eb986c5b1c84bcd0a4c55883",
+              "recipe": {
+                "optimizer": "adam",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": null,
+                "batch_size": 128,
+                "epochs": 100,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.0,
+                "patience": 5,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "token_size": 200,
+                  "hop_length": 100
+                }
+              }
+            },
+            {
+              "record_id": "2a3f4d4dcb1b8a6114f6",
+              "run": "tuev-biot_prest16",
+              "seed": 2,
+              "test": {
+                "cohen_kappa": 0.5553528311023798,
+                "balanced_acc": 0.5212702314254526,
+                "weighted_f1": 0.7697064507309462
+              },
+              "params_M": 3.187734,
+              "artifact_sha256": "1651b542138b56090ea81bbe5335ef9a4623a534216615295556ac33ceb4dfd4",
+              "recipe": {
+                "optimizer": "adam",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": null,
+                "batch_size": 128,
+                "epochs": 100,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.0,
+                "patience": 5,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "token_size": 200,
+                  "hop_length": 100
+                }
+              }
+            }
+          ]
+        },
+        "chbmit": {
+          "comparison_protocol": "legacy_enriched_17386",
+          "recipe_id": "4d55954b14950db4",
+          "n": 3,
+          "summary": {
+            "pr_auc": {
+              "mean": 0.5601006795660143,
+              "sd": 0.0771205919671172
+            },
+            "auroc": {
+              "mean": 0.8738463395420935,
+              "sd": 0.0036376931607548235
+            },
+            "balanced_acc": {
+              "mean": 0.6189515411785632,
+              "sd": 0.04465714322689723
+            }
+          },
+          "params_M": 3.186706,
+          "runs": [
+            {
+              "record_id": "c2db3edf9d90a15322ba",
+              "run": "chbmit-biot_prest16",
+              "seed": 0,
+              "test": {
+                "pr_auc": 0.471274423877622,
+                "auroc": 0.8717410362615302,
+                "balanced_acc": 0.66897483461659
+              },
+              "params_M": 3.186706,
+              "artifact_sha256": "a93d2079321daf0e1936140604508bea2f8744c3f33d253424c9cab44b408b06",
+              "recipe": {
+                "optimizer": "adam",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": null,
+                "batch_size": 512,
+                "epochs": 100,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 5,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "token_size": 200,
+                  "hop_length": 100
+                }
+              }
+            },
+            {
+              "record_id": "9be06ecbbd41bbc9549d",
+              "run": "chbmit-biot_prest16",
+              "seed": 1,
+              "test": {
+                "pr_auc": 0.5990358579175757,
+                "auroc": 0.8780467816938988,
+                "balanced_acc": 0.5830995519189558
+              },
+              "params_M": 3.186706,
+              "artifact_sha256": "fd21d0675a695a60fd2619a1d67c7f7abe525889928dfbcf0d071c046d78fab8",
+              "recipe": {
+                "optimizer": "adam",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": null,
+                "batch_size": 512,
+                "epochs": 100,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 5,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "token_size": 200,
+                  "hop_length": 100
+                }
+              }
+            },
+            {
+              "record_id": "76b5d8d0930526d86cf7",
+              "run": "chbmit-biot_prest16",
+              "seed": 2,
+              "test": {
+                "pr_auc": 0.6099917569028449,
+                "auroc": 0.871751200670851,
+                "balanced_acc": 0.6047802370001439
+              },
+              "params_M": 3.186706,
+              "artifact_sha256": "38d66e309ee417baf4e5e07de0d8e8c287226437864b55f997e9fa5a6a78212a",
+              "recipe": {
+                "optimizer": "adam",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": null,
+                "batch_size": 512,
+                "epochs": 100,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 5,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "token_size": 200,
+                  "hop_length": 100
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "model": "LaBraM",
+      "initialization": "pretrained",
+      "datasets": {
+        "tuev": {
+          "comparison_protocol": "shared16_29421",
+          "recipe_id": "cfe555efaac65451",
+          "n": 1,
+          "summary": {
+            "cohen_kappa": {
+              "mean": 0.602002903506254,
+              "sd": null
+            },
+            "balanced_acc": {
+              "mean": 0.6546638125314018,
+              "sd": null
+            },
+            "weighted_f1": {
+              "mean": 0.7965992171148938,
+              "sd": null
+            }
+          },
+          "params_M": null,
+          "runs": [
+            {
+              "record_id": "f48f767a23f2b3e80c23",
+              "run": "tuev-labram-shared16-pretrained-s0",
+              "seed": 0,
+              "test": {
+                "cohen_kappa": 0.602002903506254,
+                "balanced_acc": 0.6546638125314018,
+                "weighted_f1": 0.7965992171148938
+              },
+              "params_M": null,
+              "artifact_sha256": "f48f767a23f2b3e80c23e2c61b99e18abdc0090933825d74d20b85b0ae2673e4",
+              "recipe": {
+                "lr": 0.0005,
+                "batch_size": 64,
+                "epochs": 50
+              }
+            }
+          ]
+        },
+        "chbmit": {
+          "comparison_protocol": "legacy_enriched_17386",
+          "recipe_id": "c3af647499843ba5",
+          "n": 3,
+          "summary": {
+            "pr_auc": {
+              "mean": 0.45188655141528344,
+              "sd": 0.09692870078926621
+            },
+            "auroc": {
+              "mean": 0.8709147897802513,
+              "sd": 0.062123835183281795
+            },
+            "balanced_acc": {
+              "mean": 0.5855344926406852,
+              "sd": 0.047399277809308596
+            }
+          },
+          "params_M": 5.820338,
+          "runs": [
+            {
+              "record_id": "8c6d8927539347b8a925",
+              "run": "chbmit-labram_pretrained",
+              "seed": 0,
+              "test": {
+                "pr_auc": 0.5425231293534374,
+                "auroc": 0.9384974885438637,
+                "balanced_acc": 0.6390544134712305
+              },
+              "params_M": 5.820338,
+              "artifact_sha256": "64e4279e09fd000178630474aea1ca07af4a86b43ec127e47e2a4583d2528b39",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0005,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "patience": 10,
+                "eval_every_steps": 0,
+                "loader_divisor": 1.0,
+                "model_kwargs": {
+                  "montage_mode": "positional",
+                  "target_len": 2000
+                }
+              }
+            },
+            {
+              "record_id": "35499fe902b9d5f50d84",
+              "run": "chbmit-labram_pretrained",
+              "seed": 1,
+              "test": {
+                "pr_auc": 0.3497005994782173,
+                "auroc": 0.8579514268289584,
+                "balanced_acc": 0.5488545981246665
+              },
+              "params_M": 5.820338,
+              "artifact_sha256": "0d1c811ccdf6cfaea59e888f059f04043a2e9ec5af842ac2c489b1677338e8e0",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0005,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "patience": 10,
+                "eval_every_steps": 0,
+                "loader_divisor": 1.0,
+                "model_kwargs": {
+                  "montage_mode": "positional",
+                  "target_len": 2000
+                }
+              }
+            },
+            {
+              "record_id": "c9a633aacda5f295efaa",
+              "run": "chbmit-labram_pretrained",
+              "seed": 2,
+              "test": {
+                "pr_auc": 0.46343592541419565,
+                "auroc": 0.8162954539679312,
+                "balanced_acc": 0.5686944663261589
+              },
+              "params_M": 5.820338,
+              "artifact_sha256": "b0a8f2f3c3bced19e35e16792fb438355fa96d6e1db430bd2bbf67df472f4665",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0005,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "patience": 10,
+                "eval_every_steps": 0,
+                "loader_divisor": 1.0,
+                "model_kwargs": {
+                  "montage_mode": "positional",
+                  "target_len": 2000
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "model": "EEGPT",
+      "initialization": "pretrained",
+      "datasets": {
+        "tuev": {
+          "comparison_protocol": "shared16_29421",
+          "recipe_id": "c5f178e920f6c4d7",
+          "n": 1,
+          "summary": {
+            "cohen_kappa": {
+              "mean": 0.6342570565950338,
+              "sd": null
+            },
+            "balanced_acc": {
+              "mean": 0.5943302181038491,
+              "sd": null
+            },
+            "weighted_f1": {
+              "mean": 0.8121248741522505,
+              "sd": null
+            }
+          },
+          "params_M": null,
+          "runs": [
+            {
+              "record_id": "f665930d6c77908903b9",
+              "run": "tuev-eegpt_pretrained_shared16_20261025",
+              "seed": 0,
+              "test": {
+                "cohen_kappa": 0.6342570565950338,
+                "balanced_acc": 0.5943302181038491,
+                "weighted_f1": 0.8121248741522505
+              },
+              "params_M": null,
+              "artifact_sha256": "f665930d6c77908903b95b047725ac29a6cdf85010fba3bfa70bcc3d590fb85b",
+              "recipe": {
+                "batch_size": 400,
+                "epochs": 30
+              }
+            }
+          ]
+        },
+        "chbmit": {
+          "comparison_protocol": "legacy_enriched_17386",
+          "recipe_id": "5e5583c5ede4f26b",
+          "n": 3,
+          "summary": {
+            "pr_auc": {
+              "mean": 0.2811227064976129,
+              "sd": 0.13252862470286259
+            },
+            "auroc": {
+              "mean": 0.8573900196794257,
+              "sd": 0.03775785998235793
+            },
+            "balanced_acc": {
+              "mean": 0.5467896701366831,
+              "sd": 0.0632026541391276
+            }
+          },
+          "params_M": 25.685829,
+          "runs": [
+            {
+              "record_id": "c88be091c71c1c0cb82d",
+              "run": "chbmit-eegpt_pretrained",
+              "seed": 0,
+              "test": {
+                "pr_auc": 0.40406964731911016,
+                "auroc": 0.8993719242073879,
+                "balanced_acc": 0.5216806850811883
+              },
+              "params_M": 25.685829,
+              "artifact_sha256": "90be7bf117b396cc7af52ebc89d69ab44a5cbe1395089de8eeb0aedc6b96ffe0",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0004,
+                "weight_decay": 0.01,
+                "scheduler": "onecycle",
+                "batch_size": 32,
+                "epochs": 40,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 10,
+                "eval_every_steps": 200
+              }
+            },
+            {
+              "record_id": "ef18fbf5d35ac545a77d",
+              "run": "chbmit-eegpt_pretrained",
+              "seed": 1,
+              "test": {
+                "pr_auc": 0.2985597783015053,
+                "auroc": 0.8465870878120262,
+                "balanced_acc": 0.618688325328861
+              },
+              "params_M": 25.685829,
+              "artifact_sha256": "c4dd807f90d48d9d3e1cd4a702642442e32be013883337a56380f59de7680ca0",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0004,
+                "weight_decay": 0.01,
+                "scheduler": "onecycle",
+                "batch_size": 32,
+                "epochs": 40,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 10,
+                "eval_every_steps": 200
+              }
+            },
+            {
+              "record_id": "e86b36e1e0a6eb761207",
+              "run": "chbmit-eegpt_pretrained",
+              "seed": 2,
+              "test": {
+                "pr_auc": 0.1407386938722233,
+                "auroc": 0.8262110470188635,
+                "balanced_acc": 0.5
+              },
+              "params_M": 25.685829,
+              "artifact_sha256": "5512e08e834236fe314bc8837382f2c25d077327f11b5e9f8881750df2a62f4b",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0004,
+                "weight_decay": 0.01,
+                "scheduler": "onecycle",
+                "batch_size": 32,
+                "epochs": 40,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 10,
+                "eval_every_steps": 200
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "model": "CBraMod",
+      "initialization": "pretrained",
+      "datasets": {
+        "tuev": {
+          "comparison_protocol": "shared16_29421",
+          "recipe_id": "e52930f480a859ba",
+          "n": 3,
+          "summary": {
+            "cohen_kappa": {
+              "mean": 0.644871101769375,
+              "sd": 0.021660988701367942
+            },
+            "balanced_acc": {
+              "mean": 0.6029337991181649,
+              "sd": 0.010783214855508077
+            },
+            "weighted_f1": {
+              "mean": 0.8130200791718526,
+              "sd": 0.011694111447038007
+            }
+          },
+          "params_M": 17.846006,
+          "runs": [
+            {
+              "record_id": "f36548147226884cb5cd",
+              "run": "tuev-cbramod_pretrained",
+              "seed": 0,
+              "test": {
+                "cohen_kappa": 0.6198764399012977,
+                "balanced_acc": 0.6151714008197438,
+                "weighted_f1": 0.8000171789895598
+              },
+              "params_M": 17.846006,
+              "artifact_sha256": "dd50d790b9bdb05451853050c2928d24ef13ad4576c2add22e9bf90f43b1cb8d",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "patience": 0,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.1
+                }
+              }
+            },
+            {
+              "record_id": "44f803b12ad584e48ad8",
+              "run": "tuev-cbramod_pretrained",
+              "seed": 1,
+              "test": {
+                "cohen_kappa": 0.6565630817885024,
+                "balanced_acc": 0.5988046090497109,
+                "weighted_f1": 0.8226752069054892
+              },
+              "params_M": 17.846006,
+              "artifact_sha256": "f483a9ffbb2956ccd671f32f063a8c8544908982ae1bed27e73db01e49a3c3f3",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "patience": 0,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.1
+                }
+              }
+            },
+            {
+              "record_id": "1cfe4e6b3556b9da0c71",
+              "run": "tuev-cbramod_pretrained",
+              "seed": 2,
+              "test": {
+                "cohen_kappa": 0.6581737836183251,
+                "balanced_acc": 0.59482538748504,
+                "weighted_f1": 0.8163678516205088
+              },
+              "params_M": 17.846006,
+              "artifact_sha256": "f2011d4b7d3b5cadeeb19c59a96e28aedc93a66c6fc1fd0c8991ac9ed4ec502c",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "patience": 0,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.1
+                }
+              }
+            }
+          ]
+        },
+        "chbmit": {
+          "comparison_protocol": "legacy_enriched_17386",
+          "recipe_id": "9f767377000f4e00",
+          "n": 3,
+          "summary": {
+            "pr_auc": {
+              "mean": 0.2331551036781142,
+              "sd": 0.09776119544779592
+            },
+            "auroc": {
+              "mean": 0.7828148072856228,
+              "sd": 0.0473754935757094
+            },
+            "balanced_acc": {
+              "mean": 0.5445983223077726,
+              "sd": 0.019823283786599633
+            }
+          },
+          "params_M": 30.645202,
+          "runs": [
+            {
+              "record_id": "1dea48861050d07256c8",
+              "run": "chbmit-cbramod_pretrained",
+              "seed": 0,
+              "test": {
+                "pr_auc": 0.12028053676404563,
+                "auroc": 0.7304028070710407,
+                "balanced_acc": 0.5289270618927824
+              },
+              "params_M": 30.645202,
+              "artifact_sha256": "4a386ef04422f32b22a2e7d95122972418348321d83ec0fc7115d40f1053e95a",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 0,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.1
+                }
+              }
+            },
+            {
+              "record_id": "0d802664b4f1bb579157",
+              "run": "chbmit-cbramod_pretrained",
+              "seed": 1,
+              "test": {
+                "pr_auc": 0.2909154303518432,
+                "auroc": 0.822591882025089,
+                "balanced_acc": 0.5379850329072752
+              },
+              "params_M": 30.645202,
+              "artifact_sha256": "12a26108a659fa038699d48edb3b1d19fb851b9b17b0e9dcbe362a2fa1d6aec0",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 0,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.1
+                }
+              }
+            },
+            {
+              "record_id": "4a777de86a554937c644",
+              "run": "chbmit-cbramod_pretrained",
+              "seed": 2,
+              "test": {
+                "pr_auc": 0.2882693439184538,
+                "auroc": 0.7954497327607384,
+                "balanced_acc": 0.5668828721232604
+              },
+              "params_M": 30.645202,
+              "artifact_sha256": "d705a05d166a87dc6a2079b44fc174e4e1c62c4013d395f827d3eafdae27ef5e",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.05,
+                "scheduler": "cosine",
+                "batch_size": 64,
+                "epochs": 50,
+                "loss": "focal",
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 0,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.1
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "model": "REVE",
+      "initialization": "pretrained",
+      "datasets": {
+        "tuev": {
+          "comparison_protocol": "shared16_29421",
+          "recipe_id": "5670ae281ee50233",
+          "n": 3,
+          "summary": {
+            "cohen_kappa": {
+              "mean": 0.6846127156984488,
+              "sd": 0.03891479963199707
+            },
+            "balanced_acc": {
+              "mean": 0.6476835416185182,
+              "sd": 0.018307433502549545
+            },
+            "weighted_f1": {
+              "mean": 0.83775371307155,
+              "sd": 0.018668791369800167
+            }
+          },
+          "params_M": 69.476358,
+          "runs": [
+            {
+              "record_id": "ac9c34c3b0ab585a0e34",
+              "run": "tuev-reve_pretrained",
+              "seed": 0,
+              "test": {
+                "cohen_kappa": 0.7188463207753975,
+                "balanced_acc": 0.6505893743954118,
+                "weighted_f1": 0.8536415816184043
+              },
+              "params_M": 69.476358,
+              "artifact_sha256": "188b59a36223e66335ee28d481eadb0abb4e461ca77c89db26aef6dabc271889",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.01,
+                "scheduler": "cosine",
+                "batch_size": 128,
+                "epochs": 30,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.0,
+                "patience": 10,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.15
+                }
+              }
+            },
+            {
+              "record_id": "6f62b5521e1795c3c9e1",
+              "run": "tuev-reve_pretrained",
+              "seed": 1,
+              "test": {
+                "cohen_kappa": 0.6422886355803723,
+                "balanced_acc": 0.6280969763045291,
+                "weighted_f1": 0.8171921127703848
+              },
+              "params_M": 69.476358,
+              "artifact_sha256": "75640ee09ba14af69a8a72ebae259cc437d78f6b1b3fa129c81ac43c13090075",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.01,
+                "scheduler": "cosine",
+                "batch_size": 128,
+                "epochs": 30,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.0,
+                "patience": 10,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.15
+                }
+              }
+            },
+            {
+              "record_id": "2a7d891ead3271f07f22",
+              "run": "tuev-reve_pretrained",
+              "seed": 2,
+              "test": {
+                "cohen_kappa": 0.6927031907395769,
+                "balanced_acc": 0.6643642741556137,
+                "weighted_f1": 0.8424274448258607
+              },
+              "params_M": 69.476358,
+              "artifact_sha256": "ad41c23eedfb6ada07407762a46aa77f9aaa919d8b494d51ca2916b2581a0f40",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.01,
+                "scheduler": "cosine",
+                "batch_size": 128,
+                "epochs": 30,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.0,
+                "patience": 10,
+                "eval_every_steps": 0,
+                "model_kwargs": {
+                  "dropout": 0.15
+                }
+              }
+            }
+          ]
+        },
+        "chbmit": {
+          "comparison_protocol": "legacy_enriched_17386",
+          "recipe_id": "75b6563382abff22",
+          "n": 3,
+          "summary": {
+            "pr_auc": {
+              "mean": 0.580243397633088,
+              "sd": 0.19562238537390103
+            },
+            "auroc": {
+              "mean": 0.8976749266609634,
+              "sd": 0.0641123205043271
+            },
+            "balanced_acc": {
+              "mean": 0.6320418180740139,
+              "sd": 0.06752406289753562
+            }
+          },
+          "params_M": 69.45997,
+          "runs": [
+            {
+              "record_id": "36539a28d8ab3463c24a",
+              "run": "chbmit-reve_pretrained",
+              "seed": 0,
+              "test": {
+                "pr_auc": 0.7258368079622748,
+                "auroc": 0.9368513836302189,
+                "balanced_acc": 0.7043302501291727
+              },
+              "params_M": 69.45997,
+              "artifact_sha256": "1a408c13b20f313a753a119ddf5e406f517f56f3820a62b51fecc76b2a4f3e21",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.01,
+                "scheduler": "cosine",
+                "batch_size": 128,
+                "epochs": 15,
+                "loss": "bce_with_logits",
+                "patience": 10,
+                "eval_every_steps": 500,
+                "model_kwargs": {
+                  "dropout": 0.15
+                }
+              }
+            },
+            {
+              "record_id": "a97e24f5dc8f70371bf7",
+              "run": "chbmit-reve_pretrained",
+              "seed": 1,
+              "test": {
+                "pr_auc": 0.35788053048352947,
+                "auroc": 0.823687308887929,
+                "balanced_acc": 0.5705937285594491
+              },
+              "params_M": 69.45997,
+              "artifact_sha256": "ba0530e26e149d0863b3eca5310113043d6ee517355e453549cc8561712dcd69",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.01,
+                "scheduler": "cosine",
+                "batch_size": 128,
+                "epochs": 15,
+                "loss": "bce_with_logits",
+                "patience": 10,
+                "eval_every_steps": 500,
+                "model_kwargs": {
+                  "dropout": 0.15
+                }
+              }
+            },
+            {
+              "record_id": "0909d5ab32c23a9f8293",
+              "run": "chbmit-reve_pretrained",
+              "seed": 2,
+              "test": {
+                "pr_auc": 0.6570128544534597,
+                "auroc": 0.9324860874647423,
+                "balanced_acc": 0.6212014755334198
+              },
+              "params_M": 69.45997,
+              "artifact_sha256": "95fadabeeb116cc78ab25bf8f4ab652201866a0f1e149c060fe9071db63b888d",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.0001,
+                "weight_decay": 0.01,
+                "scheduler": "cosine",
+                "batch_size": 128,
+                "epochs": 15,
+                "loss": "bce_with_logits",
+                "patience": 10,
+                "eval_every_steps": 500,
+                "model_kwargs": {
+                  "dropout": 0.15
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "model": "TFM-Tokenizer",
+      "initialization": "pretrained",
+      "datasets": {
+        "tuev": {
+          "comparison_protocol": "shared16_29421",
+          "recipe_id": "a27086e769c0356e",
+          "n": 3,
+          "summary": {
+            "cohen_kappa": {
+              "mean": 0.6519067074065356,
+              "sd": 0.020880395198939295
+            },
+            "balanced_acc": {
+              "mean": 0.5959311175025039,
+              "sd": 0.0359499272840203
+            },
+            "weighted_f1": {
+              "mean": 0.817050258289799,
+              "sd": 0.010454381655997746
+            }
+          },
+          "params_M": 1.891114,
+          "runs": [
+            {
+              "record_id": "12fae1703121e0e0d84c",
+              "run": "tuev-tfm_pretrained",
+              "seed": 0,
+              "test": {
+                "cohen_kappa": 0.6542689710040224,
+                "balanced_acc": 0.6087536703779156,
+                "weighted_f1": 0.8186898230286914
+              },
+              "params_M": 1.891114,
+              "artifact_sha256": "e91626dcd25f3338f13775d7fad7defb849f286d47d926fe9aff3c5a17ec22e4",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "batch_size": 512,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "patience": 10,
+                "eval_every_steps": 100
+              }
+            },
+            {
+              "record_id": "87ea2faa06353d553b26",
+              "run": "tuev-tfm_pretrained",
+              "seed": 1,
+              "test": {
+                "cohen_kappa": 0.6299456408945675,
+                "balanced_acc": 0.5553279725132799,
+                "weighted_f1": 0.8058729681887847
+              },
+              "params_M": 1.891114,
+              "artifact_sha256": "c75f8d4fc9e1a942b3e8ccda8c0fc4d5b216b0f5a55714763ca3eaab88412d5d",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "batch_size": 512,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "patience": 10,
+                "eval_every_steps": 100
+              }
+            },
+            {
+              "record_id": "ec1d1469c085fe61e7cb",
+              "run": "tuev-tfm_pretrained",
+              "seed": 2,
+              "test": {
+                "cohen_kappa": 0.6715055103210168,
+                "balanced_acc": 0.6237117096163164,
+                "weighted_f1": 0.8265879836519214
+              },
+              "params_M": 1.891114,
+              "artifact_sha256": "3a086f79ee333c042faca3208ee29cd1c436b6c6d831da04f47cdd14d974402c",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "batch_size": 512,
+                "epochs": 50,
+                "loss": "cross_entropy",
+                "label_smoothing": 0.1,
+                "patience": 10,
+                "eval_every_steps": 100
+              }
+            }
+          ]
+        },
+        "chbmit": {
+          "comparison_protocol": "legacy_enriched_17386",
+          "recipe_id": "c2bfd52184702a95",
+          "n": 3,
+          "summary": {
+            "pr_auc": {
+              "mean": 0.6268812190873417,
+              "sd": 0.025075319897574593
+            },
+            "auroc": {
+              "mean": 0.9291076566236655,
+              "sd": 0.005517918016472307
+            },
+            "balanced_acc": {
+              "mean": 0.6344475361189462,
+              "sd": 0.016307625456946903
+            }
+          },
+          "params_M": 1.890854,
+          "runs": [
+            {
+              "record_id": "4ac42db07020d0306b60",
+              "run": "chbmit-tfm_pretrained",
+              "seed": 0,
+              "test": {
+                "pr_auc": 0.6365849495819684,
+                "auroc": 0.9231081493151729,
+                "balanced_acc": 0.6175782871276226
+              },
+              "params_M": 1.890854,
+              "artifact_sha256": "a8f4da6c5c414356a5c70591b48ce4e2da00435c9b7ae122c2f7d403e57cbcf5",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "batch_size": 512,
+                "epochs": 7,
+                "loss": "focal",
+                "label_smoothing": 0.1,
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 10,
+                "eval_every_steps": 100
+              }
+            },
+            {
+              "record_id": "69ea96cad40e1c4e26fd",
+              "run": "chbmit-tfm_pretrained",
+              "seed": 1,
+              "test": {
+                "pr_auc": 0.6456545496875009,
+                "auroc": 0.9302494938971192,
+                "balanced_acc": 0.6501285374262021
+              },
+              "params_M": 1.890854,
+              "artifact_sha256": "976763ba5082836d889b6cf60874c4453fb34487ba628bfe90521767b92fd19c",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "batch_size": 512,
+                "epochs": 7,
+                "loss": "focal",
+                "label_smoothing": 0.1,
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 10,
+                "eval_every_steps": 100
+              }
+            },
+            {
+              "record_id": "a88d8e1ae9008dfae76c",
+              "run": "chbmit-tfm_pretrained",
+              "seed": 2,
+              "test": {
+                "pr_auc": 0.5984041579925556,
+                "auroc": 0.9339653266587045,
+                "balanced_acc": 0.6356357838030138
+              },
+              "params_M": 1.890854,
+              "artifact_sha256": "7ffab64726d6f6c4d82eca1193ee554160b2c26fd36179c3df6547159d41babc",
+              "recipe": {
+                "optimizer": "adamw",
+                "lr": 0.001,
+                "weight_decay": 1e-05,
+                "scheduler": "cosine",
+                "batch_size": 512,
+                "epochs": 7,
+                "loss": "focal",
+                "label_smoothing": 0.1,
+                "focal_alpha": 0.25,
+                "focal_gamma": 2.0,
+                "patience": 10,
+                "eval_every_steps": 100
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

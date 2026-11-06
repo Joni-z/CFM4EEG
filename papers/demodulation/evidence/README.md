@@ -26,8 +26,8 @@ Native 23-channel baseline results do not fill these table entries.
 
 TUEV full/raw labels were verified identical in order; kappa, balanced accuracy
 and weighted F1 were independently recomputed and matched the stored records
-within 1e-12. Per-class values use those same saved predictions. No seed averaging
-or inferred standard deviations are used.
+within 1e-12. Per-class values use those same saved predictions. These reference/control entries are individual runs; no inferred standard
+deviations are used.
 
 ## Recovery records and figures
 
@@ -47,5 +47,27 @@ predictive necessity.
 
 Bandwise waveform-only and envelope-only controls require final test artifacts.
 The reference scores must not be combined with historical rotated ablations to
-fill them. The raw CHB-MIT result and protocol-matched baseline results are also
-left empty until validated. This directory contains only finished measurements.
+fill them. The CHB-MIT scratch EEGPT and REVE main-table cells have no compatible
+completed run and remain empty. Unrecorded native TUEV parameter counts
+are also left unreported. This directory contains only finished measurements.
+
+## Historical main-table baselines
+
+`baseline-results.json` preserves 52 completed run records, grouped into 20
+model/task/initialization cells. Each multi-run cell reports all three seeds
+from one canonical recipe using sample SD (ddof=1). TUEV LaBraM and EEGPT
+use the verified shared16 native-engine seed0 runs. No archived wrong-recipe,
+wrong-batch or stale variant is merged into those families, and no seed is
+removed for a low score or first-evaluation peak.
+
+Every included metric was matched against its original document in the
+project's historical ledger. Each public entry retains its record ID,
+original artifact hash, recipe identity, seed, actual test metrics and the
+recorded training settings. Native LaBraM metric aliases are mapped to the
+shared headers. The original 26,067-window LaBraM results and natural-grid
+CHB-MIT results are not used in the current common-protocol comparison.
+
+The manuscript distinguishes pretrained and scratch initialization and
+documents model-specific adaptations in Appendix D. Parameter counts are
+reported separately for TUEV and CHB-MIT; other-head sizes are not transferred
+to unrecorded native entries.

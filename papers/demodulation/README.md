@@ -15,9 +15,11 @@ motivation, token construction, frozen-token recovery, TUEV/CHB-MIT evaluation,
 and content controls with a fixed reader. The appendix documents the actual data
 protocol, training recipe, reconstruction check, and per-class TUEV results.
 
-Edit `main.tex` directly. Unfinished comparisons have empty cells. The current
-completed values use seed 2 and validation-selected checkpoints; original result
-hashes and dataset identities are retained in `evidence/results.json`.
+Edit `main.tex` directly. Unfinished comparisons have empty cells. The reference and matched content controls use seed 2 and validation-selected
+checkpoints. Historical baseline cells retain their recorded seeds and report
+mean and sample SD where multiple runs exist. Original results, recipe identities,
+and dataset bindings are retained in `evidence/results.json` and
+`evidence/baseline-results.json`.
 
 ## Build
 
