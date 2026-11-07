@@ -39,7 +39,7 @@ examples on a plotting host.
 
 The first batch used GPU0/1/4 plus the existing raw-CHB task on GPU2. Both
 TUEV content arms and the raw-CHB task have completed; CHB-MIT envelope-only
-remains in progress. The original bandmix process was stopped under the user's
+also completed on November 7. The original bandmix process was stopped under the user's
 four-card limit, with all existing artifacts retained. Its separately named
 successor and the patch-mean-envelope control were subsequently authorized.
 
@@ -120,17 +120,38 @@ process had already exited. A cooperative stop request for bandmix arrived
 during its final test pass; it completed normally (`stopped_by: epochs`),
 not as a canceled run. Its pre-request best checkpoint was separately
 preserved. Both final tests were replayed from stored logits with zero
-metric difference. GPU0/1 are released; CHB envelope PID762197 onGPU4 is
-the only remaining project task from this study. No further exploration
+metric difference. At that November 6 check, GPU0/1 were released and CHB
+envelope PID762197 onGPU4 was the only remaining task from this study. No further exploration
 of these variants is scheduled. Their manuscript results remain in the
 appendix, outside the main content table.
+
+## CHB-MIT envelope-only result, November 7
+
+The last content arm completed six epochs and stopped by patience. Its
+validation-selected checkpoint is epoch 4, step 9400, evaluation 246. It is not
+an interim evaluation or a wall-clock-truncated result. Saved test logits
+reproduce every recorded metric exactly. Best checkpoint SHA256:
+`98f535b00cd51812c9d1090b3ae324379706a909e6ff528b34a135e9fd7a5d19`.
+
+| CHB-MIT content, seed 2 | PR-AUC | Average precision | AUROC | Balanced accuracy |
+|---|---:|---:|---:|---:|
+| Envelope only | 0.7436105115 | 0.7448687723 | 0.9244401105 | 0.6157959156 |
+| Paired envelope/waveform reference | 0.6994134955 | 0.7017071444 | 0.9178836429 | 0.6303178919 |
+
+Both have 1,620,258 parameters, the same input contract, class counts and
+17,386-window enriched test protocol. The only changed model field is
+content_view. Envelope-only is higher by 0.0441970161 PR-AUC and 0.0065564675 AUROC;
+the paired reference is higher by 0.0145219763 balanced accuracy. TUEV supports
+a paired-content advantage; the CHB primary metric does not. Do not describe
+waveform complementarity as established across both tasks from these runs.
+All comparisons here use one shared seed.
 
 ## Core evidence and minimal capacity comparison
 
 The main comparison concerns local waveform/envelope content. The completed
 six-block TUEV comparison is W-only0.498353, E-only0.641651 and paired0.711191.
-The CHB-MIT envelope-only arm remains active to test waveform complementarity
-on seizure detection. Mean-envelope and bandmix are supplementary; no further
+The CHB-MIT envelope-only arm has completed with the reverse primary-metric
+ordering shown above. Mean-envelope and bandmix are supplementary; no further
 variants of either are scheduled.
 
 Two additional TUEV configs reduce the reader from six blocks to two:
@@ -143,7 +164,7 @@ encoder; it does not assume that the capacity trend will hold.
 
 The frozen release is `demodulation-capacity-20261106/` on145. GPU0/1 are
 assigned only after idle-card checks and actual training/validation/reload
-smokes. CHB envelope remains onGPU4. No model-size sweep, baseline rerun or
+smokes. CHB envelope was left onGPU4. No model-size sweep, baseline rerun or
 pretraining task is part of this pass.
 
 The user subsequently requested discussing the plan before running it. The
@@ -153,7 +174,9 @@ until the user authorizes after discussion. These configs remain a proposed
 comparison rather than an approved active plan. The pre-existing CHB envelope
 run is retained.
 Both capacity processes have now exited with `operator_stop`, `stop_file`;
-each saved `best.pt`, and neither evaluated the test set. GPU0/1 are free.
+each saved `best.pt`, and neither evaluated the test set. As checked on
+November 7, no project GPU process or training controller from this study is
+active on145. No new experiments or restarts are authorized before discussion.
 
 ## Locations and execution
 
