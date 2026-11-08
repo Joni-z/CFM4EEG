@@ -1,0 +1,195 @@
+{
+  "status": "PASS",
+  "scope": "CPU replay of retained predictions and exact label/mapping checks; no training or model inference",
+  "model_scores": {
+    "old_twoaxis_s0": {
+      "seed": 0,
+      "scores_sha256": "f45fa5137295aefd3eaf2dfc6b16433afcfd65bf82d366741d8853ddc22915f2",
+      "saved_logit_dtype": "float16",
+      "legacy": {
+        "pr_auc": 0.6046248135567729,
+        "average_precision": 0.6052206568098373,
+        "auroc": 0.9127947678703021,
+        "balanced_acc": 0.5524485638536664
+      },
+      "natural_subset": {
+        "pr_auc": 0.40381367967952,
+        "average_precision": 0.4061985424065292,
+        "auroc": 0.8844996770125195,
+        "balanced_acc": 0.5350000512678541
+      },
+      "protocol": "same stored checkpoint predictions; no new-protocol training",
+      "promoted_to_float64_for_replay": true
+    },
+    "old_rotating_threeaxis_s0": {
+      "seed": 0,
+      "scores_sha256": "570163d2a96d7475603ffacdad979d328284097d83cdcf36fa76aee9cb1f115b",
+      "saved_logit_dtype": "float16",
+      "legacy": {
+        "pr_auc": 0.6968987245811329,
+        "average_precision": 0.6986738798408805,
+        "auroc": 0.9129092233544245,
+        "balanced_acc": 0.6085495387899271
+      },
+      "natural_subset": {
+        "pr_auc": 0.48551824159186574,
+        "average_precision": 0.49160255553870674,
+        "auroc": 0.8837486029509777,
+        "balanced_acc": 0.5963451146861894
+      },
+      "protocol": "same stored checkpoint predictions; no new-protocol training",
+      "promoted_to_float64_for_replay": true
+    },
+    "unrotated_threeaxis_EW_s2": {
+      "seed": 2,
+      "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+      "snapshot_and_final_checkpoint_identical": true,
+      "saved_logit_dtype": "float32",
+      "scores_sha256": "a6f8e6af1e6e0764e7d5bcc6ca23ff6e35f21a9d3db649c23c0aef1e1583b64c",
+      "legacy": {
+        "pr_auc": 0.6994134954688619,
+        "average_precision": 0.7017071443852212,
+        "auroc": 0.9178836429243006,
+        "balanced_acc": 0.6303178919015069
+      },
+      "natural_subset": {
+        "pr_auc": 0.4882846033467016,
+        "average_precision": 0.49415591491020733,
+        "auroc": 0.8803762035128733,
+        "balanced_acc": 0.6183041619243902
+      },
+      "legacy_replay_max_error": 1.1102230246251565e-16,
+      "validation_argmax_verified": true,
+      "selected_validation": {
+        "selection_metric": "pr_auc",
+        "early_stopping_metric": "pr_auc",
+        "tag": "epoch 2 step 6200 |",
+        "evaluation_index": 130,
+        "metrics": {
+          "accuracy": 0.9942409365558912,
+          "balanced_acc": 0.5966428956292986,
+          "pr_auc": 0.5006808708203393,
+          "average_precision": 0.5013153671154542,
+          "auroc": 0.9097401033247758
+        }
+      },
+      "protocol": "legacy-selected final checkpoint, natural test subset rescoring only"
+    }
+  },
+  "mapping_checks": {
+    "train": {
+      "old_rows": 316205,
+      "old_positive": 2883,
+      "new_rows": 316205,
+      "new_positive": 2883,
+      "removed": 0,
+      "removed_positive": 0,
+      "mapped_labels_exact": true
+    },
+    "val": {
+      "old_rows": 21184,
+      "old_positive": 150,
+      "new_rows": 21094,
+      "new_positive": 60,
+      "removed": 90,
+      "removed_positive": 90,
+      "mapped_labels_exact": true
+    },
+    "test": {
+      "old_rows": 17386,
+      "old_positive": 276,
+      "new_rows": 17224,
+      "new_positive": 114,
+      "removed": 162,
+      "removed_positive": 162,
+      "mapped_labels_exact": true
+    }
+  },
+  "subject_checks": {
+    "legacy": {
+      "declared_subjects": {
+        "train": [
+          "chb01",
+          "chb02",
+          "chb03",
+          "chb04",
+          "chb05",
+          "chb06",
+          "chb07",
+          "chb08",
+          "chb09",
+          "chb10",
+          "chb11",
+          "chb12",
+          "chb13",
+          "chb14",
+          "chb15",
+          "chb16",
+          "chb17",
+          "chb18",
+          "chb19",
+          "chb21"
+        ],
+        "val": [
+          "chb20",
+          "chb22"
+        ],
+        "test": [
+          "chb23",
+          "chb24"
+        ]
+      },
+      "declared_overlap": {
+        "train_val": [],
+        "train_test": [],
+        "val_test": []
+      },
+      "scope": "Manifest subject declarations; use separate raw/record audit for actual included cases."
+    },
+    "corrected": {
+      "declared_subjects": {
+        "test": [
+          "chb23",
+          "chb24"
+        ],
+        "train": [
+          "chb01",
+          "chb02",
+          "chb03",
+          "chb04",
+          "chb05",
+          "chb06",
+          "chb07",
+          "chb08",
+          "chb09",
+          "chb10",
+          "chb11",
+          "chb12",
+          "chb13",
+          "chb14",
+          "chb15",
+          "chb16",
+          "chb17",
+          "chb18",
+          "chb19"
+        ],
+        "val": [
+          "chb20",
+          "chb22"
+        ]
+      },
+      "declared_overlap": {
+        "train_val": [],
+        "train_test": [],
+        "val_test": []
+      },
+      "scope": "Manifest subject declarations; use separate raw/record audit for actual included cases."
+    }
+  },
+  "input_hashes": {
+    "old_manifest": "3c9979b8fb0a00e9f0d49fbe07bba7a6572b757c0a13ed21fa21438913e43842",
+    "new_manifest": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+    "new_labels": "ae8af62e7bc513afeb0832bc32884ea70a08fdbc6f9db8c070eb2da49ed7fd6b",
+    "new_to_old_row": "ace781307c620dc97f4533b35005dac04ffb8b22d867159064243cf8fdd72eba"
+  }
+}

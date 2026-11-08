@@ -101,6 +101,7 @@ def main():
               f'**{summary["model_versions"]}** 个模型版本。生成索引不代表重新查询了集群任务，采集范围见 [summary.json](summary.json)。', "",
               "| 数据集 | 记录数 | 下载 |", "|---|---:|---|", *dataset_links, "",
               "## 查阅方式", "",
+              "[CHB-MIT 新旧协议分数审计](../docs/CHBMIT_SCORE_AUDIT.md) 单独说明旧 CfFT 与三轴 E+W 的数值来源和比较边界。", "",
               "1. 按数据集进入，再对照 `protocol`、`setting`、`recipe_id` 和 seed。",
               "2. 用 `record_id` 在完整工作簿或 [runs.csv](runs.csv) 中查询；`source_ref` 指向原始记录，`checkpoint_ref` 指向权重记录。",
               "3. `completed_record` 只说明存在完成记录；历史结果不因收入本表就自动通过新的数值审计。",

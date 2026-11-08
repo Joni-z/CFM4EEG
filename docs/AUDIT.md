@@ -1,5 +1,9 @@
 # Experiment audit
 
+For the model-specific CHB-MIT enriched/natural-grid score review, see
+[CHB-MIT score audit](CHBMIT_SCORE_AUDIT.md). It separates numerical integrity,
+checkpoint rescoring, completed training and comparison eligibility.
+
 ## Follow one execution
 
 Check each model/dataset/seed in this order:

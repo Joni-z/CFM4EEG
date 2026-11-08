@@ -1,0 +1,156 @@
+{
+  "audit_skill": "experiment-audit",
+  "generated_at": "2026-11-08T15:23:14.227984+00:00",
+  "verdict": "WARN",
+  "overall_verdict": "warn",
+  "integrity_status": "warn",
+  "reason_code": "protocol_and_evaluation_scope_must_remain_distinct",
+  "reviewer_model_selected": "gpt-6-astra",
+  "reviewer_reasoning_selected": "ultra",
+  "reviewer_model_returned_attestation": null,
+  "reviewer_family": "openai",
+  "review_independence": "same-family",
+  "acceptance_status": "provisional",
+  "agent_id": "/root/chbmit_integrity_review",
+  "summary": "已见分数可保留在其声明的任务内；未发现伪造GT、自归一化指标或患者跨拆分泄漏证据。natural子集复评分不构成自然验证协议训练完成。",
+  "checks": {
+    "A_gt_provenance": {
+      "status": "PASS",
+      "evaluation_type": "real_gt",
+      "qualification": "现有注释与代码来源链；未重新核对全部原始外部标注"
+    },
+    "B_score_normalization": {
+      "status": "PASS",
+      "pr_auc_definition": "trapezoidal integral; average precision separately named"
+    },
+    "C_result_existence": {
+      "status": "WARN",
+      "details": "existing final and rescore artifacts exist; full natural-validation training claims lack final evidence"
+    },
+    "D_metric_execution": {
+      "status": "PASS",
+      "warning": "legacy test-AUROC reporting gate can bias aggregation if used to exclude low scores"
+    },
+    "E_scope": {
+      "status": "WARN",
+      "test_patients": 2,
+      "current_ew_seeds": [
+        2
+      ],
+      "cross_protocol_ranking_supported": false
+    },
+    "F_evaluation_type": {
+      "status": "PASS",
+      "type": "real_gt"
+    }
+  },
+  "cells": [
+    {
+      "model": "twoaxis_rotating_cfft",
+      "protocol": "legacy_enriched_17386",
+      "seeds": {
+        "0": 0.6046553741835056,
+        "2": 0.6237556105134634
+      },
+      "disposition": "keep_with_protocol_label"
+    },
+    {
+      "model": "twoaxis_rotating_cfft",
+      "protocol": "natural_grid_17224",
+      "seed": 0,
+      "pr_auc": 0.40381367967952,
+      "evaluation_kind": "stored_prediction_subset_rescore",
+      "trained_and_selected_on": "legacy_enriched",
+      "natural_training_status": "operator_stopped_in_ledger_without_final_test",
+      "disposition": "keep_as_rescore_only"
+    },
+    {
+      "model": "threeaxis_unrotated_E_plus_W_identity",
+      "protocol": "legacy_enriched_17386",
+      "seed": 2,
+      "pr_auc": 0.699413495468862,
+      "disposition": "keep_single_seed_completed_result"
+    },
+    {
+      "model": "threeaxis_unrotated_E_plus_W_identity",
+      "protocol": "natural_grid_17224",
+      "seed": 2,
+      "pr_auc": 0.48828460334670165,
+      "evaluation_kind": "stored_prediction_subset_rescore",
+      "final_checkpoint_bound_to_snapshot": true,
+      "trained_and_selected_on": "legacy_enriched",
+      "disposition": "keep_as_final_checkpoint_rescore_only"
+    }
+  ],
+  "historical_threeaxis_rotating_alternative": {
+    "run": "chbmit-quad_range_20260916",
+    "legacy_seed0": 0.6969134781325137,
+    "legacy_seed2": 0.7098068742625526,
+    "natural_subset_seed0": 0.48551824159186574,
+    "metric": "pr_auc",
+    "not_cohen_kappa": true
+  },
+  "deterministic_checks": {
+    "canonical_patient_counts": [
+      19,
+      2,
+      2
+    ],
+    "patient_intersections_empty": true,
+    "old_manifest_duplicate_raw_hash_groups": 0,
+    "extra_windows_reconstructed": {
+      "val": 90,
+      "test": 162
+    },
+    "extra_windows_without_annotation_overlap": {
+      "val": 0,
+      "test": 0
+    },
+    "remote_collection_file_sha_checks": 10,
+    "remote_collection_file_sha_mismatches": 0,
+    "ew_checkpoint_sha_three_way_match": true,
+    "ew_checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+    "ew_final_validation_argmax_tag_and_score_match": true,
+    "ew_local_source_hashes_checked": 103,
+    "ew_local_source_hash_mismatches": [
+      "scripts/experiments/legacy_rotation_probe.py"
+    ]
+  },
+  "limitations": [
+    "No retraining or GPU inference in this review.",
+    "No full signal near-duplicate scan or independent raw EEG annotation re-adjudication.",
+    "Prior signal parity covers sampled windows only.",
+    "E+W had a test snapshot while training continued; final checkpoint is identical, but absence of researcher-level test feedback cannot be certified.",
+    "Parent-generated CPU replay script and outputs directly reviewed; all mapped labels match and scores reproduce. This is stored-prediction recomputation, not new-array model inference or cross-provider semantic certification."
+  ],
+  "audited_input_hashes": {
+    "data_reference/chbmit.json": "sha256:3c9979b8fb0a00e9f0d49fbe07bba7a6572b757c0a13ed21fa21438913e43842",
+    "preprocessing/rebuild_clinical.py": "sha256:faf4cd02fa9f0e6a675f4c5502a59339c0d93362d4a86c8ade79206519b7b96a",
+    ".local/legacy/code/main/preprocessing/chbmit.py": "sha256:ea758dc8dc77764ca9a60b3cb1c52186871bdee7b6d33cbd689aa1ed02544164",
+    ".local/legacy/code/twoaxis-runtime/paclock_bench/training/train.py": "sha256:ec8c15480fb734b47716e16100ac3afdcf3b99344c20d975a47b3e6a98192084",
+    ".local/legacy/code/twoaxis-runtime/paclock_bench/training/metrics.py": "sha256:67c112cf100be71138706847bbb399aab3be7f3b583e8fcada5b697a32ecdb87",
+    ".local/workspace/maintenance/chbmit-control-audit-20261104/data-causal-recomputed.json": "sha256:28932aa374de7e82c55b64d7322a558b743cd7440ed893e01ec24ccaaa789412",
+    ".local/workspace/maintenance/chbmit-control-audit-20261104/data-current-record-samples.json": "sha256:843f2bb439ef6e548382321a87a3ed65c79c9689c486178de7951a32c0f758f0",
+    ".local/workspace/maintenance/legacy-triaxial-validation-20261105/evaluations/chbmit-identity-s2-snapshot-20261105/result.json": "sha256:981b1e327c5fae8bd83c09904a998afbeedf5b47e272688178a9319142e282f4",
+    ".local/workspace/maintenance/training-status-20261106/identity-chbmit/result.json": "sha256:91033d01c999b536fa24305434fd65083e4f3076b7cf902efceed7f5557939f4",
+    ".local/workspace/maintenance/chbmit-four-cells-audit-20261108/remote-evidence/manifest.json": "sha256:95845d17a8886b56a733ae8017bcc8daf1635ca230cacb9f08505e3314a60f1d",
+    ".local/workspace/maintenance/chbmit-four-cells-audit-20261108/remote-evidence/ew_final/result.json": "sha256:91033d01c999b536fa24305434fd65083e4f3076b7cf902efceed7f5557939f4",
+    ".local/workspace/maintenance/chbmit-four-cells-audit-20261108/remote-evidence/ew_final/provenance.json": "sha256:3db451447070a038aad3ac8b321c3ad79300b6087f071e15b95fbdfaeed32d33",
+    ".local/workspace/maintenance/chbmit-four-cells-audit-20261108/remote-evidence/corrected_data/manifest.json": "sha256:f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+    ".local/workspace/maintenance/chbmit-four-cells-audit-20261108/verify_scores.py": "sha256:b6b0d829df4cf9aa367f24186bbac80316b97bb52ec42686f90583e09c40e59e",
+    ".local/workspace/maintenance/chbmit-four-cells-audit-20261108/numeric-replay.json": "sha256:fd596c48679055f2faa45379cd851bd24ebe2358fcb13576df09f65cad8b0370"
+  },
+  "changed_files": [
+    "fresh-review.md",
+    "fresh-review.json"
+  ],
+  "numeric_replay_review": {
+    "reviewed_code": "verify_scores.py:11-49",
+    "result": "numeric-replay.json",
+    "all_three_split_labels_mapped_exact": true,
+    "ew_final_enriched_metric_max_error": 1.1102230246251565e-16,
+    "ew_final_natural_subset_pr_auc": 0.4882846033467016,
+    "model_inference_performed": false,
+    "semantic_acceptance_unchanged": "provisional"
+  }
+}
