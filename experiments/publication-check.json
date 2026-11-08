@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "clinical_records": 2684,
+  "dataset_pages": 19,
+  "every_record_exported_once": true,
+  "compact_csv_values_exact": true,
+  "source_files_unchanged_by_web_export": true,
+  "scope": "Record export verification; not a re-audit of every historical training run."
+}

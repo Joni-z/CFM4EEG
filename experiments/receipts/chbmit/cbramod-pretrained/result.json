@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "model": "CBraMod",
+  "setting": "pretrained",
+  "dataset": "chbmit",
+  "seed": 0,
+  "test_rows": 17224,
+  "metrics": {
+    "balanced_acc": 0.6551503686158705,
+    "pr_auc": 0.16945433600698642,
+    "auroc": 0.7639484450459874,
+    "average_precision": 0.17091436379967753
+  },
+  "checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/pretrained-20261025/runs/chbmit-cbramod-pretrained-s0/epoch5_acc_0.65515_pr_0.16945_roc_0.76395.pth",
+  "checkpoint_sha256": "ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5",
+  "selection_rule": "Native strict validation-AUROC maximum across50epochs; test after restoring best; save native pth.",
+  "source_verified": true,
+  "cohort_verified": true,
+  "strict_checkpoint_load": true,
+  "native_evaluator_replay": true,
+  "independent_prediction_metrics_exact": true,
+  "training_performed": false,
+  "source_run_unchanged": true,
+  "data_manifest_sha256": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+  "native_completed_sha256": "a52cd9f65e595321699c884b245331c5f14fe1ebc8136195ecc592fb881566b2",
+  "predictions_sha256": "e917e21b50385aba60744df0f28d5a9016cda1668863f38614b732717932be48"
+}

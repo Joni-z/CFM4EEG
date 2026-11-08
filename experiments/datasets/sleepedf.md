@@ -1,0 +1,142 @@
+# Sleep-EDF 实验记录
+
+[返回总入口](../README.md)
+
+共 130 条记录。[完整精度及来源 CSV](sleepedf.csv)。
+同一表中的数据协议、模型版本和训练配置可能不同，请先核对协议；本页不选择最佳 seed、不合并跨协议成绩。
+空白表示原记录缺失；没有测试结果的训练记录保留空白。显示六位小数，CSV 保留原始精度。
+
+## protocol_not_bound（130 条）
+
+| 记录 ID | 模型 / run | 初始化 | seed | 状态 / 类型 | κ | PR-AUC | AP | AUROC | Bal. acc. | wF1 |
+|---|---|---|---|---|---:|---:|---:|---:|---:|---:|
+| `049a0b42c06bd5328cc3` | CfFT其他前端<br>sleepedf-factorized_f0 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.629249 |  |  |  | 0.607783 | 0.749791 |
+| `081754f2c477fb2b7cc2` | CfFT其他前端<br>sleepedf-factorized_f1 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.673685 |  |  |  | 0.645414 | 0.774231 |
+| `6633cd2324176c7d1534` | CfFT其他前端<br>sleepedf-factorized_f2 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.672452 |  |  |  | 0.687808 | 0.772882 |
+| `d28f68a16b8589b4189b` | CfFT其他前端<br>sleepedf-factorized_f3 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.695008 |  |  |  | 0.695282 | 0.782177 |
+| `c58499b923e579ce9b72` | CfFT其他前端<br>sleepedf-factorized_f4_blockcontrol | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.697766 |  |  |  | 0.684906 | 0.780402 |
+| `d3ecfe4e2db3661dbcf7` | CfFT其他前端<br>sleepedf-factorized_f4_blockcontrol | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.693237 |  |  |  | 0.700352 | 0.785996 |
+| `374d9136e993f3f97739` | CfFT其他前端<br>sleepedf-factorized_f4_rmsgeglu | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.667647 |  |  |  | 0.679984 | 0.773250 |
+| `e5813fba038d80de886e` | CfFT其他前端<br>sleepedf-factorized_f4_rmsgeglu | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.671993 |  |  |  | 0.678398 | 0.770279 |
+| `8e9ce7cb9a00c9b0838c` | Duplex<br>sleepedf-cf2_v0d192 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.609901 |  |  |  | 0.579604 | 0.733459 |
+| `e973b98801f721300aea` | Duplex<br>sleepedf-cf2_v0d192cs | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.614401 |  |  |  | 0.575041 | 0.738398 |
+| `1f39bd384cbd88eb77d3` | Duplex<br>sleepedf-cf2_v1d256 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.652904 |  |  |  | 0.624262 | 0.755692 |
+| `675bea624497fc88d8c5` | Duplex-A128<br>sleepedf-paclock_duplex_pt | checkpoint_loaded | 0 | completed_record<br>clinical_run | 0.674613 |  |  |  | 0.657729 | 0.772199 |
+| `d1e67f5c3a8ef3eb80ab` | Duplex-A128<br>sleepedf-paclock_duplex_pt2 | checkpoint_loaded | 0 | completed_record<br>clinical_run | 0.677479 |  |  |  | 0.657835 | 0.776938 |
+| `e0543387c00f42e77d2e` | Duplex-A128<br>sleepedf-paclock_duplex_pt3 | checkpoint_loaded | 0 | completed_record<br>clinical_run | 0.666380 |  |  |  | 0.635583 | 0.764164 |
+| `291356b0314661143451` | Duplex-A128<br>sleepedf-paclock_duplex_ptF | checkpoint_loaded | 0 | completed_record<br>clinical_run | 0.667211 |  |  |  | 0.624573 | 0.772152 |
+| `344d5295e0359480afb7` | Duplex-A128<br>sleepedf-paclock_duplex_ptS | checkpoint_loaded | 0 | completed_record<br>clinical_run | 0.674668 |  |  |  | 0.635390 | 0.767325 |
+| `7118a88e436a8dce4862` | Duplex-A128<br>sleepedf-a128_r1_20260916 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.653197 |  |  |  | 0.641444 | 0.757893 |
+| `8c67177f779a60b337fd` | Duplex-A128<br>sleepedf-paclock_duplex | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.653285 |  |  |  | 0.627558 | 0.759714 |
+| `a1f8dd6d190105adda63` | Duplex-A128<br>sleepedf-paclock_duplex | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.645609 |  |  |  | 0.635995 | 0.751914 |
+| `a10e3730ea86a67be2a0` | Duplex-A128<br>sleepedf-paclock_duplex | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.626543 |  |  |  | 0.644160 | 0.743380 |
+| `2fa54147ac54ffab3d5e` | Duplex-A128<br>sleepedf-paclock_tune_t1 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.646172 |  |  |  | 0.610025 | 0.757547 |
+| `f97aa53de480dd2c7518` | Duplex-A128<br>sleepedf-paclock_tune_t2 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.650911 |  |  |  | 0.647049 | 0.763869 |
+| `ddd72bf19c3fbab48490` | Duplex-F192<br>sleepedf-cf2_v1d192_ptR | checkpoint_loaded | 0 | completed_record<br>clinical_run | 0.619110 |  |  |  | 0.640727 | 0.738965 |
+| `e41e57d8261842072731` | Duplex-F192<br>sleepedf-cf2_v1d192 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.639259 |  |  |  | 0.609400 | 0.748635 |
+| `f7ca19f3d58800b878ae` | Duplex-F192<br>sleepedf-cf2_v1d192 | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.639741 |  |  |  | 0.621012 | 0.754422 |
+| `a2cdb42ebdc459b47d01` | Duplex-F192<br>sleepedf-cf2_v1d192 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.619254 |  |  |  | 0.615163 | 0.741381 |
+| `9da565b44da33e21dec1` | Duplex-F192<br>sleepedf-cf2_v1d192_r1 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.653468 |  |  |  | 0.599183 | 0.756355 |
+| `8d23d6e0a47aad5dec72` | Duplex-F192<br>sleepedf-cf2_v1d192_r2 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.649104 |  |  |  | 0.608188 | 0.755709 |
+| `ff98c1ac71055aa9f02b` | Duplex-F192<br>sleepedf-cf2_v1d192_r3 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.673360 |  |  |  | 0.615481 | 0.769063 |
+| `6659df687dbe56110167` | Duplex-F192<br>sleepedf-cf2_v1d192_r4 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.661101 |  |  |  | 0.630598 | 0.760838 |
+| `acf19c5ae6511ec72fa5` | Duplex-F192<br>sleepedf-cf2_v3 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.632461 |  |  |  | 0.652747 | 0.745901 |
+| `1bbb5a3a1e9d997e9dde` | Quad-Range<br>sleepedf-quad_range_20260916 | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.700367 |  |  |  | 0.696973 | 0.791212 |
+| `972ff053166858a0d174` | Quad-Range<br>sleepedf-range_twoaxis_measured_20260917 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.684031 |  |  |  | 0.677453 | 0.784779 |
+| `d6742693db67911f2f9e` | Quad-Range<br>sleepedf-range_twoaxis_measured_m200_20260917 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.688461 |  |  |  | 0.684085 | 0.785691 |
+| `05c58d7846ab915fb7be` | Quad16<br>sleepedf-quad16_breadth_20260915 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.655418 |  |  |  | 0.621871 | 0.766224 |
+| `992c756c6318ee272df2` | Quad16<br>sleepedf-quad16_breadth_20260915 | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.651893 |  |  |  | 0.653174 | 0.763632 |
+| `9155d4fc89839ef4ed52` | Quad16<br>sleepedf-quad16_breadth_20260915 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.656134 |  |  |  | 0.628900 | 0.765183 |
+| `0deaf605245acd9608e5` | biot<br>sleepedf-biot_prest16 | checkpoint_loaded | 0 | completed_record<br>clinical_run | 0.580419 |  |  |  | 0.526735 | 0.701289 |
+| `94233d89a74f39bcb992` | biot<br>sleepedf-biot_prest16 | checkpoint_loaded | 1 | completed_record<br>clinical_run | 0.586075 |  |  |  | 0.600610 | 0.717747 |
+| `26d93021f7c72e7c02ea` | biot<br>sleepedf-biot_prest16 | checkpoint_loaded | 2 | completed_record<br>clinical_run | 0.615599 |  |  |  | 0.560190 | 0.732711 |
+| `546a010c30b7d0f1d9a0` | biot<br>sleepedf-biot_scratch | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.657872 |  |  |  | 0.650883 | 0.772467 |
+| `7376f12aa6fd125d36e8` | biot<br>sleepedf-biot_scratch | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.634098 |  |  |  | 0.638454 | 0.756299 |
+| `fc325efb981705012bce` | biot<br>sleepedf-biot_scratch | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.672249 |  |  |  | 0.622122 | 0.767835 |
+| `0556295613352ead2ffa` | cbramod<br>sleepedf-cbramod_pac | pretrained | 0 | completed_record<br>clinical_run | 0.667775 |  |  |  | 0.699169 | 0.767417 |
+| `b6961d6f3902020a72ca` | cbramod<br>sleepedf-cbramod_pac | pretrained | 1 | completed_record<br>clinical_run | 0.673829 |  |  |  | 0.687736 | 0.777846 |
+| `253da944d42e21b9d117` | cbramod<br>sleepedf-cbramod_pac | pretrained | 2 | completed_record<br>clinical_run | 0.695564 |  |  |  | 0.670930 | 0.781705 |
+| `29767f1a3fd5512a01ad` | cbramod<br>sleepedf-cbramod_pretrained | pretrained | 0 | completed_record<br>clinical_run | 0.674413 |  |  |  | 0.688128 | 0.771053 |
+| `ab70d8af01802272093e` | cbramod<br>sleepedf-cbramod_pretrained | pretrained | 0 | completed_record<br>clinical_run | 0.665839 |  |  |  | 0.703890 | 0.764905 |
+| `c5dcebc92c3d98eab117` | cbramod<br>sleepedf-cbramod_pretrained | pretrained | 1 | completed_record<br>clinical_run | 0.674290 |  |  |  | 0.674927 | 0.763639 |
+| `f9214b9e2f5adfcf779f` | cbramod<br>sleepedf-cbramod_pretrained | pretrained | 1 | completed_record<br>clinical_run | 0.667106 |  |  |  | 0.686698 | 0.772700 |
+| `152422690f924a84d2f5` | cbramod<br>sleepedf-cbramod_pretrained | pretrained | 2 | completed_record<br>clinical_run | 0.674234 |  |  |  | 0.675584 | 0.770863 |
+| `bdb7f9f0108a62d6939a` | cbramod<br>sleepedf-cbramod_pretrained | pretrained | 2 | completed_record<br>clinical_run | 0.674917 |  |  |  | 0.665393 | 0.779651 |
+| `8ff3d43790b315efff60` | cbramod<br>sleepedf-cbramod_scratch | scratch | 0 | completed_record<br>clinical_run | 0.662144 |  |  |  | 0.668141 | 0.761352 |
+| `b15fb7e6b986db33bac9` | cbramod<br>sleepedf-cbramod_scratch | scratch | 0 | completed_record<br>clinical_run | 0.650389 |  |  |  | 0.655868 | 0.756913 |
+| `9bc8381adfda4fac5db4` | cbramod<br>sleepedf-cbramod_scratch | scratch | 1 | completed_record<br>clinical_run | 0.656664 |  |  |  | 0.671770 | 0.765184 |
+| `e11482c53defa30bab89` | cbramod<br>sleepedf-cbramod_scratch | scratch | 1 | completed_record<br>clinical_run | 0.656132 |  |  |  | 0.662522 | 0.762757 |
+| `97c31db83bbe6ac10da2` | cbramod<br>sleepedf-cbramod_scratch | scratch | 2 | completed_record<br>clinical_run | 0.657342 |  |  |  | 0.679777 | 0.763205 |
+| `caf9492f55d4bab09d17` | cbramod<br>sleepedf-cbramod_scratch | scratch | 2 | completed_record<br>clinical_run | 0.656867 |  |  |  | 0.658036 | 0.764622 |
+| `5df628c6c75889233152` | cbramod_paclockfe宿主转接<br>sleepedf-cbramod_crofremo | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.608413 |  |  |  | 0.613831 | 0.723526 |
+| `a6da5e91b4e9e98e4f15` | cbramod_paclockfe宿主转接<br>sleepedf-cbramod_crofremo | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.609248 |  |  |  | 0.597364 | 0.723574 |
+| `caca59d6456ab645329f` | cbramod_paclockfe宿主转接<br>sleepedf-cbramod_crofremo | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.607458 |  |  |  | 0.595072 | 0.719931 |
+| `823fa8d2ba811dcd42be` | cnn_transformer<br>sleepedf-cnn_transformer | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.687066 |  |  |  | 0.706452 | 0.784969 |
+| `88355f6ecd37b228dab4` | cnn_transformer<br>sleepedf-cnn_transformer | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.661393 |  |  |  | 0.684069 | 0.767059 |
+| `b96a9c4f1a4229773705` | cnn_transformer<br>sleepedf-cnn_transformer | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.684984 |  |  |  | 0.706095 | 0.779225 |
+| `61fbb91e5e6301dac55b` | contrawr<br>sleepedf-contrawr | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.675181 |  |  |  | 0.711862 | 0.773442 |
+| `1e75c910ee526a9d1778` | contrawr<br>sleepedf-contrawr | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.696401 |  |  |  | 0.694592 | 0.789607 |
+| `5d2b433cec954526a1d0` | contrawr<br>sleepedf-contrawr | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.703105 |  |  |  | 0.711313 | 0.796779 |
+| `9605034c306bd02a8016` | eegpt<br>sleepedf-eegpt_pretrained | pretrained | 0 | completed_record<br>clinical_run | 0.607134 |  |  |  | 0.627141 | 0.728217 |
+| `59abc253b66ced49562f` | eegpt<br>sleepedf-eegpt_pretrained | pretrained | 1 | completed_record<br>clinical_run | 0.583104 |  |  |  | 0.636899 | 0.716485 |
+| `0fa23267c202c7e673b5` | eegpt<br>sleepedf-eegpt_pretrained | pretrained | 2 | completed_record<br>clinical_run | 0.603111 |  |  |  | 0.651345 | 0.731147 |
+| `8fdc83d22b3080dc5343` | ffcl<br>sleepedf-ffcl | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.678509 |  |  |  | 0.707670 | 0.779463 |
+| `bb649624a9ad71c238c5` | ffcl<br>sleepedf-ffcl | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.672963 |  |  |  | 0.692819 | 0.763211 |
+| `225bc570786499affea3` | ffcl<br>sleepedf-ffcl | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.682388 |  |  |  | 0.688512 | 0.772267 |
+| `1d87ddc2a1322076610d` | labram<br>sleepedf-labram_pretrained | pretrained | 0 | completed_record<br>clinical_run | 0.597333 |  |  |  | 0.621468 | 0.722162 |
+| `a260da3f2badab045c3e` | labram<br>sleepedf-labram_pretrained | pretrained | 0 | completed_record<br>clinical_run | 0.601914 |  |  |  | 0.632491 | 0.723875 |
+| `dc2abd8dff177a629ded` | labram<br>sleepedf-labram_pretrained | pretrained | 0 | completed_record<br>clinical_run | 0.608150 |  |  |  | 0.621652 | 0.725791 |
+| `2beb0e994d0d29ce120d` | labram<br>sleepedf-labram_pretrained | pretrained | 1 | completed_record<br>clinical_run | 0.621724 |  |  |  | 0.623735 | 0.740545 |
+| `4049a8dac9dfc3706eeb` | labram<br>sleepedf-labram_pretrained | pretrained | 1 | completed_record<br>clinical_run | 0.607414 |  |  |  | 0.643939 | 0.724046 |
+| `c5122da2341af9af5f49` | labram<br>sleepedf-labram_pretrained | pretrained | 1 | completed_record<br>clinical_run | 0.603221 |  |  |  | 0.641320 | 0.728728 |
+| `10265b416112bfdf21ee` | labram<br>sleepedf-labram_pretrained | pretrained | 2 | completed_record<br>clinical_run | 0.608920 |  |  |  | 0.652923 | 0.736628 |
+| `91b0a34815be9e28d52c` | labram<br>sleepedf-labram_pretrained | pretrained | 2 | completed_record<br>clinical_run | 0.583211 |  |  |  | 0.641838 | 0.724451 |
+| `f314efaf8b81b8496102` | labram<br>sleepedf-labram_pretrained | pretrained | 2 | completed_record<br>clinical_run | 0.618778 |  |  |  | 0.656765 | 0.741756 |
+| `73afebb34a4228bd1a16` | labram<br>sleepedf-labram_scratch | scratch | 0 | completed_record<br>clinical_run | 0.582978 |  |  |  | 0.573879 | 0.704100 |
+| `a2bdcec1a9db6145a18a` | labram<br>sleepedf-labram_scratch | scratch | 0 | completed_record<br>clinical_run | 0.609402 |  |  |  | 0.617367 | 0.725484 |
+| `c8b405523a369e6fc0d4` | labram<br>sleepedf-labram_scratch | scratch | 0 | completed_record<br>clinical_run | 0.572756 |  |  |  | 0.579439 | 0.704353 |
+| `4bd2876598d7d7b5509e` | labram<br>sleepedf-labram_scratch | scratch | 1 | completed_record<br>clinical_run | 0.593153 |  |  |  | 0.619350 | 0.711877 |
+| `750e70ea8e41592cbdf7` | labram<br>sleepedf-labram_scratch | scratch | 1 | completed_record<br>clinical_run | 0.550934 |  |  |  | 0.585260 | 0.684269 |
+| `b07a0382f8feafaa89f2` | labram<br>sleepedf-labram_scratch | scratch | 1 | completed_record<br>clinical_run | 0.542530 |  |  |  | 0.574073 | 0.677088 |
+| `1d7699996b533a9e57cb` | labram<br>sleepedf-labram_scratch | scratch | 2 | completed_record<br>clinical_run | 0.571545 |  |  |  | 0.585930 | 0.685487 |
+| `a87e8c010c47336da0da` | labram<br>sleepedf-labram_scratch | scratch | 2 | completed_record<br>clinical_run | 0.591450 |  |  |  | 0.604654 | 0.707686 |
+| `eebcf0a994c1e03517f7` | labram<br>sleepedf-labram_scratch | scratch | 2 | completed_record<br>clinical_run | 0.567852 |  |  |  | 0.573792 | 0.687305 |
+| `c1f7c57cdac34a0f68d8` | reve<br>sleepedf-reve_scratch_rebuild20261021 | scratch | 0 | completed_record<br>clinical_run | 0.638913 |  |  |  | 0.671159 | 0.728097 |
+| `5e9d4f25d5e0caf98c8a` | sparcnet<br>sleepedf-sparcnet | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.666231 |  |  |  | 0.683309 | 0.770168 |
+| `49c6785d81fe233d4025` | sparcnet<br>sleepedf-sparcnet | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.684754 |  |  |  | 0.685398 | 0.779573 |
+| `54c513843e9c1f08d1a1` | sparcnet<br>sleepedf-sparcnet | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.663150 |  |  |  | 0.687673 | 0.765698 |
+| `6ec1b5259292f8c74dc4` | st_transformer<br>sleepedf-st_transformer | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.650809 |  |  |  | 0.650154 | 0.761586 |
+| `8b2396e71a3b2ea97467` | st_transformer<br>sleepedf-st_transformer | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.656989 |  |  |  | 0.665433 | 0.764122 |
+| `f4dbd7aa3b2f6c997865` | st_transformer<br>sleepedf-st_transformer | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.658109 |  |  |  | 0.657251 | 0.756269 |
+| `7c6bfa19b81f2ac6bf9c` | tfm<br>sleepedf-tfm_pretrained | pretrained | 0 | completed_record<br>clinical_run | 0.616525 |  |  |  | 0.546866 | 0.727580 |
+| `c2c094f9c2e81a9a89c3` | tfm<br>sleepedf-tfm_pretrained | pretrained | 1 | completed_record<br>clinical_run | 0.612573 |  |  |  | 0.562137 | 0.724510 |
+| `fa7fa39a361775c60088` | tfm<br>sleepedf-tfm_pretrained | pretrained | 2 | completed_record<br>clinical_run | 0.612223 |  |  |  | 0.563289 | 0.727575 |
+| `b886145703e8cc833475` | 频带关系内容版<br>sleepedf-paclock_pt_base | checkpoint_loaded | 0 | completed_record<br>clinical_run | 0.673177 |  |  |  | 0.640295 | 0.777749 |
+| `ded5013ae2ad87e3088a` | 频带关系内容版<br>sleepedf-paclock_pt_base | checkpoint_loaded | 0 | completed_record<br>clinical_run | 0.644735 |  |  |  | 0.605857 | 0.751364 |
+| `4a58daaaf7d8907c179a` | 频带关系内容版<br>sleepedf-paclock_pt_base | checkpoint_loaded | 1 | completed_record<br>clinical_run | 0.652775 |  |  |  | 0.637812 | 0.767868 |
+| `9ac8d8f032e50b2c471c` | 频带关系内容版<br>sleepedf-paclock_pt_base | checkpoint_loaded | 1 | completed_record<br>clinical_run | 0.686189 |  |  |  | 0.656640 | 0.781842 |
+| `7d85323f61af48bf4790` | 频带关系内容版<br>sleepedf-paclock_pt_base | checkpoint_loaded | 2 | completed_record<br>clinical_run | 0.669385 |  |  |  | 0.634771 | 0.774942 |
+| `e899b1463f76d9e1fce4` | 频带关系内容版<br>sleepedf-paclock_pt_base | checkpoint_loaded | 2 | completed_record<br>clinical_run | 0.667406 |  |  |  | 0.639110 | 0.771412 |
+| `99ade81c08d565fa5172` | 频带关系内容版<br>sleepedf-paclock_pt_large | checkpoint_loaded | 0 | completed_record<br>clinical_run | 0.664129 |  |  |  | 0.613781 | 0.771621 |
+| `abd717ce6b063b11e3ac` | 频带关系内容版<br>sleepedf-paclock_pt_large | checkpoint_loaded | 1 | completed_record<br>clinical_run | 0.668480 |  |  |  | 0.652301 | 0.774754 |
+| `5c61c2d103bc8a6b3e9f` | 频带关系内容版<br>sleepedf-paclock_pt_large | checkpoint_loaded | 2 | completed_record<br>clinical_run | 0.659630 |  |  |  | 0.647929 | 0.758823 |
+| `210889f5014fc5f8174c` | 频带关系内容版<br>sleepedf-paclock_full | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.637577 |  |  |  | 0.601273 | 0.745976 |
+| `55e05c8eb8d6a1d82645` | 频带关系内容版<br>sleepedf-paclock_full | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.622844 |  |  |  | 0.613335 | 0.736643 |
+| `dd642e42a778da0a9992` | 频带关系内容版<br>sleepedf-paclock_full | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.610010 |  |  |  | 0.595986 | 0.732173 |
+| `f0871af1fce349157d76` | 频带关系内容版<br>sleepedf-paclock_full | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.618881 |  |  |  | 0.575928 | 0.729007 |
+| `4ebe7971adb804366808` | 频带关系内容版<br>sleepedf-paclock_full | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.612101 |  |  |  | 0.621801 | 0.736811 |
+| `bdc42e4fae5a916b2b61` | 频带关系内容版<br>sleepedf-paclock_full | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.624491 |  |  |  | 0.579047 | 0.740148 |
+| `6b99cf9c5e67f857fa38` | 频带关系内容版<br>sleepedf-paclock_pac | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.625428 |  |  |  | 0.600095 | 0.742505 |
+| `ade5d65ca557e7ece533` | 频带关系内容版<br>sleepedf-paclock_pac | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.625826 |  |  |  | 0.613468 | 0.746726 |
+| `7cb9b8661d857e0da3dc` | 频带关系内容版<br>sleepedf-paclock_pac | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.606731 |  |  |  | 0.615888 | 0.738183 |
+| `b1c0cf6af6b7cc0c4699` | 频带关系内容版<br>sleepedf-paclock_rot2 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.644926 |  |  |  | 0.616938 | 0.758635 |
+| `ddbe53c028549b53be25` | 频带关系内容版<br>sleepedf-paclock_rot2 | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.650228 |  |  |  | 0.615247 | 0.757239 |
+| `4dcf4e6ee86cbaee63c0` | 频带关系内容版<br>sleepedf-paclock_rot2 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.620288 |  |  |  | 0.624642 | 0.737759 |
+| `a3428c8bf0703e143896` | 频带关系内容版<br>sleepedf-paclock_v2 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.653466 |  |  |  | 0.629701 | 0.760828 |
+| `9188e87a546adb03d0bc` | 频带关系内容版<br>sleepedf-paclock_v2 | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.642659 |  |  |  | 0.622184 | 0.750542 |
+| `49e5b2945dc830ad00e7` | 频带关系内容版<br>sleepedf-paclock_v2 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.641428 |  |  |  | 0.633308 | 0.757486 |
+| `db1f6f47391b02c86a8b` | 频带关系内容版<br>sleepedf-rot2_residual_control | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.640308 |  |  |  | 0.574148 | 0.751547 |
+| `8f669f9ca063c7d71873` | 频带关系内容版 / local-residual<br>sleepedf-rot2_residual_band | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.642588 |  |  |  | 0.630595 | 0.757074 |
+| `67e7c949b8f2315e6fc4` | 频带波形原始版<br>sleepedf-paclock_rawtok | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.648723 |  |  |  | 0.660708 | 0.758949 |
+| `78769041a5e54ef837f1` | 频带波形原始版<br>sleepedf-paclock_rawtok | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.649762 |  |  |  | 0.614803 | 0.753754 |
+| `28f496a6c1bf7d9ede63` | 频带波形原始版<br>sleepedf-paclock_rawtok | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.652331 |  |  |  | 0.650827 | 0.762768 |

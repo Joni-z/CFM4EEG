@@ -11,6 +11,18 @@ reproduction code. Baselines call the original authors' implementations through
 explicit data/runtime bridges. The package name `paclock_bench` is retained for
 import and checkpoint compatibility.
 
+## Project entry points
+
+**[Browse experiment records](experiments/README.md)** ·
+[Download the experiment workbook](experiments/Experiment-Records.xlsx) ·
+[Model versions](experiments/models.csv) ·
+[Project layout](docs/PROJECT_LAYOUT.md)
+
+The active Mac mini checkout is `/Users/mr.z/CFM4EEG`, connected to
+`Joni-z/CFM4EEG` on GitHub. Code, papers, documentation and experiment indexes
+are available here. Large local artifacts and historical workspaces live in
+the ignored `.local/` directory under that same project root.
+
 ## Guides
 
 | Guide | Contents |
@@ -21,7 +33,7 @@ import and checkpoint compatibility.
 | [Data](docs/DATA.md) | Cohorts, preprocessing, units and dataset acceptance |
 | [Baselines](docs/UPSTREAM.md) | Pinned author sources, native recipes and execution commands |
 | [Audit](docs/AUDIT.md) | Smoke checks, checkpoint selection, metrics and evidence |
-| [Experiment records](docs/EXPERIMENTS.md) | Unified result workbook, model-version index and checkpoint archive locations |
+| [Experiment records](experiments/README.md) | Browse by dataset, download the workbook, and trace results to source records |
 | [Demodulation paper](papers/demodulation/README.md) | Full manuscript, verified measurements, figures and compiled PDF |
 
 ## Layout
@@ -40,9 +52,12 @@ import and checkpoint compatibility.
 | `upstream/sources.json` | Author repositories, pinned commits and entry files |
 | [environments/](environments/README.md) | Recorded model-specific runtimes |
 | `tests/`, `slurm/rebuild/` | CPU checks and scheduler templates |
+| `experiments/` | Source-linked experiment ledger, dataset pages, workbook and checkpoint index |
+| `.local/` (local only) | Historical archives, data, runtimes and maintenance evidence |
 
 Author checkouts and released-weight caches belong in ignored `vendor/`.
-Datasets, run outputs and trained checkpoints stay outside the source tree.
+Datasets, run outputs and trained checkpoints are excluded from Git; on the
+Mac mini they are retained under `.local/`.
 
 ## Run
 

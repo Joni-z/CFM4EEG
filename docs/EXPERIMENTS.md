@@ -1,61 +1,26 @@
 # Experiment records
 
-Current targeted study: [frozen W/E recovery and matched demodulation
-controls](DEMODULATION_CONTROLS.md). Its Method analysis and downstream controls
-have separate outputs; no main-table jobs are launched by this study.
+The canonical ledger is now versioned in this repository:
 
-The consolidated local archive is:
+- **[Browse by dataset](../experiments/README.md)** directly on GitHub.
+- **[Download the complete workbook](../experiments/Experiment-Records.xlsx)** for filtering across datasets, model versions, protocols and seeds.
+- [Full run records](../experiments/runs.csv), [model versions](../experiments/models.csv), [operator/readout studies](../experiments/studies.csv), [checkpoint locations](../experiments/checkpoints.csv), and [records requiring review](../experiments/conflicts.csv).
 
-```text
-/Users/mr.z/CFM4EEG-rebuild-20261021/experiments/
-```
+The Mac mini copy is `/Users/mr.z/CFM4EEG/experiments/`. The workbook and dataset pages come from the same CSV records; they are not independently maintained result tables. `record_id` identifies an entry, `source_ref` links its original record, and `model_version` / `recipe_id` identify the architecture and training recipe. Historical source paths remain as recorded even when their local copies have moved.
 
-Open `Experiment-Records.xlsx` for filtering by dataset, model version, seed,
-training status and evaluation protocol. It contains six sheets: clinical
-records, model versions, operator/readout studies, checkpoint locations,
-records requiring review, and a short guide. Metrics display three decimals
-while retaining their original values.
+Check `protocol`, `setting`, `data_binding` and `metric_convention` before comparing scores. CHB-MIT enriched and natural-grid results are separate. Average precision is not trapezoidal PR-AUC. Running records have no test scores. A completed record is not an automatic numerical certification, and historical checkpoint locations do not imply current online availability.
 
-| File | Purpose |
-|---|---|
-| `runs.csv` | Clinical result records, checkpoint evaluations and latest collected training progress |
-| `models.csv` | Configuration-based versions: actual tokenizer, encoding axes, physical bands, content rows and dimensions |
-| `studies.csv` | Synthetic/operator trials, frozen-token readouts and linked experiment analyses |
-| `checkpoints.csv` | Recorded host/path, available SHA256 and archived object location |
-| `conflicts.csv` | Multiple results for matching settings/seeds and historical conflicts, with no score-based winner selection |
-| `source-records.jsonl` | Original result documents and source copies, including diagnostic revisions |
-| `summary.json`, `README.md` | Input hashes, coverage, collection dates and usage |
+The index combines archived and collected metadata. Rebuilding it does not contact clusters or refresh live job status. Collection coverage and source hashes are in [summary.json](../experiments/summary.json).
 
-Filter `dataset`, then `model_display`, `encoder_axes` and `seed`. Follow
-`source_ref` to the original record, `model_version` to its structure, and
-`checkpoint_ref` to its weights. `recipe_id` separates training recipes.
-Check `protocol`, `data_binding` and `metric_convention` before comparing rows.
-Running records have empty test-score cells. Interim and subset evaluations
-have distinct record types.
-
-Old `raw` band tokens still use sinc filtering. WavePatch encodes unfiltered
-waveform patches. Its three-axis control uses learned content rows rather than
-physical frequency bands. A grid constructor named `triaxial` alone does not
-establish three-axis attention; inspect `space_over_bands` and `freq_mixer`.
-
-Identical training/config/test documents with different diagnostic verdicts
-share one table row; every original document and ID remains in the source
-archive. Conflicting scores remain separate. Missing fields stay unknown.
-The inventory is not a new numerical certification of all historical runs.
-Historical checkpoint locations do not establish current online availability.
-
-The bounded 145 metadata collection and existing local/historical archives are
-combined. The workbook records each collection's cutoff; rebuilding alone does
-not query clusters. Torch could not be refreshed during the initial collection.
-
-To rebuild after collecting new metadata:
+After collecting new metadata on the Mac mini:
 
 ```bash
-cd /Users/mr.z/CFM4EEG-rebuild-20261021
-python3 maintenance/experiment-ledger-20261105/build_ledger.py
-venv/bin/python maintenance/experiment-ledger-20261105/render_workbook.py
+cd /Users/mr.z/CFM4EEG
+python3 scripts/experiments/build_ledger.py
+.local/workspace/venv/bin/python scripts/experiments/render_workbook.py
+python3 scripts/experiments/publish_records.py
 ```
 
-Data and run outputs remain outside this source repository. Original results,
-frozen execution releases, trained weights, the manuscript and the Numbers
-tracking workbook are preserved.
+The builder needs the retained `.local/workspace/maintenance/` collections and `.local/legacy/experiments/` archive. The workbook exporter requires openpyxl; the webpage exporter uses the Python standard library. These scripts do not train models, alter original metrics or choose best seeds.
+
+Current targeted study: [frozen W/E recovery and matched demodulation controls](DEMODULATION_CONTROLS.md). See [project layout](PROJECT_LAYOUT.md) for source, paper and local archive locations.

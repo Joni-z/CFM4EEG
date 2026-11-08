@@ -1,0 +1,31 @@
+{
+  "dataset": "chbmit",
+  "model": "cbramod",
+  "setting": "scratch",
+  "seed": 0,
+  "metrics": {
+    "accuracy": 0.9947166744078031,
+    "balanced_acc": 0.8012873358146975,
+    "pr_auc": 0.5699322115060282,
+    "average_precision": 0.5101817757451116,
+    "auroc": 0.9271801654926329
+  },
+  "native_metrics": {
+    "balanced_acc": 0.8012873358146975,
+    "pr_auc": 0.569932211506028,
+    "auroc": 0.9271801654926329
+  },
+  "rows": 17224,
+  "status": "完成·已核验",
+  "source": "/data1/zz5070/CFM4EEG-rebuild-20261021/training-native8/runs/chbmit-cbramod_scratch_native20261022/seed0",
+  "checkpoint": "/data1/zz5070/CFM4EEG-rebuild-20261021/training-native8/runs/chbmit-cbramod_scratch_native20261022/seed0/epoch14_acc_0.80129_pr_0.56993_roc_0.92718.pth",
+  "checkpoint_sha256": "38432e138c4af34119d0d07d7694d51131c776341253dfbf7e7474e1338019eb",
+  "prediction_sha256": "727972fd61443ec174db678667c79c226d4a7b84df253b96418b76034e01ad53",
+  "code_logic_verified": true,
+  "numeric_check_passed": true,
+  "cohort": "shared",
+  "comparison_status": "same_cohort_model_specific_recipe",
+  "notes": [
+    "Accepted shared cohort; not certified identical to published original preprocessing."
+  ]
+}

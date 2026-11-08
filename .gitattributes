@@ -1,0 +1,3 @@
+# Preserve standard CSV CRLF endings without reporting each row as whitespace.
+*.csv whitespace=cr-at-eol
+*.xlsx binary

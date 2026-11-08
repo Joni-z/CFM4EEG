@@ -23,3 +23,6 @@ venv/
 *.ckpt
 *.safetensors
 slurm-*.out
+
+# Local-only archives, data, runtimes and maintenance receipts.
+/.local/
