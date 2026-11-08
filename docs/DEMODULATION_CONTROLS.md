@@ -146,6 +146,42 @@ a paired-content advantage; the CHB primary metric does not. Do not describe
 waveform complementarity as established across both tasks from these runs.
 All comparisons here use one shared seed.
 
+## Frozen E-only checkpoint on corrected test data, November 8
+
+The completed E-only seed-2 checkpoint was evaluated without training on the
+actual accepted natural-grid test arrays: 17,224 windows, 114 positives,
+16 bipolar channels, 200 Hz, 10 seconds, stored Q95 normalization. The model
+and checkpoint selection remain those of the legacy-validation run; there
+is no validation reselection or threshold tuning in this evaluation.
+
+| Test cohort, same checkpoint | PR-AUC | Average precision | AUROC | Balanced accuracy |
+|---|---:|---:|---:|---:|
+| Original enriched test, 17,386 windows | 0.7436105115 | 0.7448687723 | 0.9244401105 | 0.6157959156 |
+| Actual corrected natural grid, 17,224 windows | 0.5346450541 | 0.5408366754 | 0.9016554390 | 0.5963451147 |
+
+The original saved predictions restricted to the same natural-grid windows
+give PR-AUC 0.5346450608, essentially the same result. The maximum absolute
+logit difference between new-array inference and mapped old predictions is
+1.6689301e-6. Thus the approximately 0.209 PR-AUC difference is accounted for
+by test composition, rather than by a new training run. Different cohorts
+must not be pooled into one ranking.
+
+All 54 frozen source hashes, the checkpoint hash and all corrected test
+artifact hashes were checked. A 32-window old-input parity check matched
+saved logits within 1.1920929e-7. Independent replay of the new prediction
+file reproduces every test metric exactly. Both training and capacity runs
+remain stopped; GPU4 was used only for 91.83 seconds of inference and released.
+
+The separate evaluation output on145 is
+`/data2/zz5070/CFM4EEG-rebuild-20261021/eonly-natural-grid-eval-20261108/`.
+Its `evaluate.py`, `result.json`, `test_scores.npz`, selection receipt and
+local independent check preserve the evaluation. The checkpoint SHA remains
+`98f535b00cd51812c9d1090b3ae324379706a909e6ff528b34a135e9fd7a5d19`;
+the corrected manifest SHA is
+`f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567`.
+This is a frozen-checkpoint re-evaluation, not a model trained and selected
+under the corrected protocol. The manuscript and Overleaf were not changed.
+
 ## Core evidence and minimal capacity comparison
 
 The main comparison concerns local waveform/envelope content. The completed
