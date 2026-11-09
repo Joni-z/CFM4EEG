@@ -13,9 +13,18 @@
   },
   "eeg_probe": {
     "paper": "https://arxiv.org/html/2605.11410v2",
-    "sections": ["3.2", "Appendix A Family X", "Appendix D"],
+    "sections": [
+      "3.2",
+      "Appendix A Family X",
+      "Appendix D"
+    ],
     "use": "Methodological reference only; no public official implementation linked in this paper version",
-    "adaptations": ["generator-known full PAC curve targets", "pooled unclipped R2", "validation MSE selection", "curve RMS detection AUROC"]
+    "adaptations": [
+      "generator-known full PAC curve targets",
+      "pooled unclipped R2",
+      "validation MSE selection",
+      "curve RMS detection AUROC"
+    ]
   },
   "tfm": {
     "url": "https://github.com/Jathurshan0330/TFM-Tokenizer",
@@ -25,7 +34,32 @@
   },
   "synthetic_pac": {
     "internal_source": "scripts/experiments/cfc_operator_capabilities.py:61-102 at 0a3a078",
-    "references": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC2941206/", "https://pubmed.ncbi.nlm.nih.gov/25212583/"],
+    "references": [
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC2941206/",
+      "https://pubmed.ncbi.nlm.nih.gov/25212583/"
+    ],
     "use": "Adapted harmonic amplitude-modulated signal construction; added analytic bin targets, independent drifting nulls, split identities and expected-power normalization"
+  },
+  "eeg_probe_real": {
+    "paper": "https://arxiv.org/html/2605.11410v2",
+    "sections": [
+      "Appendix A X001-X003",
+      "C.3",
+      "C.4",
+      "C.5",
+      "Appendix D"
+    ],
+    "implementation": [
+      "paclock_bench/probing/real_eeg.py",
+      "paclock_bench/probing/real_eeg_models.py",
+      "scripts/experiments/pac_real_eeg_probe.py"
+    ],
+    "use": "Implement stated real-EEG Tort18 MI, six channel summaries, frozen layer mean pooling and validation-selected standardized ridge; no official audit code copied",
+    "adaptations": [
+      "TUEV/CHB-MIT and existing task-trained seed0 weights",
+      "additional tokenizer endpoint",
+      "bounded-memory ridge sufficient statistics verified against sklearn",
+      "no concept erasure or causal-use claim"
+    ]
   }
 }

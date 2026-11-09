@@ -118,6 +118,52 @@ We do not label this implementation as the authors' code. Analytic curve targets
 pooled unclipped R², validation-MSE selection and RMS detection are our adaptations.
 References and versions are in [pac_probe_sources.json](../upstream/pac_probe_sources.json).
 
+## Real-EEG PAC readout
+
+`scripts/experiments/pac_real_eeg_probe.py` implements a separate real-EEG
+readout following Tang et al., Appendix A/C/D. Targets are the three Tort MI
+features delta→beta, theta→gamma and alpha→gamma. The fixed bands are
+[0.5,4), [4,8), [8,13), [13,30) and [30,45) Hz. A whole-epoch rectangular FFT
+filter and analytic transform supply phase and amplitude; 18 phase bins supply
+MI. Channel mean, population standard deviation, median, q25, q75 and maximum
+give six targets per feature. Zero-energy pairs have MI=0; empty phase bins
+have zero mean amplitude and are counted in the quality report.
+
+Frozen tokenizer outputs and encoder-block outputs are separate endpoints.
+All non-hidden axes are mean-pooled, with no random projection. Training rows
+fit target median/IQR scaling (mean/std fallback) and activation mean/std.
+Validation selects ridge alpha from {0.1,1,10,100} and the encoder peak layer
+per PAC feature. Per-dimension R² is clipped at zero before averaging; raw
+dimension scores are retained. Shuffled-training-target and independent
+Gaussian-target probes provide validation controls. The test partition is
+passed through the frozen model after selection; predictions and fitted affine
+probes are retained. This measures linear readability, not downstream use.
+
+Input NPY files are read in batches, without a whole-dataset mapping or a token
+cache. Ridge fits use sufficient statistics, checked against sklearn's
+`StandardScaler` + `Ridge` in `tests/test_real_eeg_pac.py`. Storage is O(D²)
+per layer for fitting rather than O(N×tokens×D). Author model files are imported
+unchanged and hash-checked; checkpoint loading is strict. CHB-MIT baseline
+inputs invert the recorded q95 scale and apply the native microvolt/100 bridge.
+
+The 2026-11-10 launch uses existing task-trained seed-0 checkpoints on TUEV
+and corrected CHB-MIT, adapting the source paper's metric to our datasets and
+weights. CfFT uses its prior TUEV two-axis checkpoint and completed historical
+CHB-MIT three-axis checkpoint; their model/training protocols stay explicit.
+It does not rerun the source paper's five-dataset or concept-erasure audit.
+
+On shared 145, each evaluator is bound to one of GPU 4–7 with a 6 GiB PyTorch
+allocator budget, one CPU thread, no loader workers, and a user-systemd cgroup
+with `MemoryHigh=2G`, `MemoryMax=3G`, `MemorySwapMax=0`, `OOMPolicy=stop`.
+Low host/GPU/disk headroom pauses our evaluator, then stops it if prolonged.
+No existing user's process or GPU configuration is modified.
+
+Checkpoints remain in the private Hugging Face archive
+`JoniZz/CFM4EEG-checkpoint-archive`. Job records pin an archive commit, object
+path, original source path and SHA256; restored local files must match before
+loading. Probe weights are separate artifacts, never replacements for EEG
+model checkpoints.
+
 ## Target and comparison
 
 The generator supplies the normalized phase-conditioned mean amplitude curve,

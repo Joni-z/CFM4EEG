@@ -1,0 +1,608 @@
+{
+  "status": "launch_verified",
+  "date": "2026-11-09T21:16:23.358915+00:00",
+  "host": "145",
+  "study": "real_eeg_Tort18_PAC_ridge",
+  "source_paper": "https://arxiv.org/html/2605.11410v2",
+  "source_base_commit": "6eb227b1d2a72adc9be4cee5302b49a624f658e8",
+  "source_sha256": {
+    "paclock_bench/probing/real_eeg.py": "5a6aad063549beef7a137e08590244164ac23b9f863ed896d6eb53a1a57f4341",
+    "paclock_bench/probing/real_eeg_models.py": "690a692c7ddc8e20ffef2ae04116ef0e69c3fda2b7ca5bbda417ee34c5254143",
+    "scripts/experiments/pac_real_eeg_probe.py": "25cbdfb3c2a15fbe4ebdcac4c5f59c175556263c6446fa5e628f76ff1ec6a3ef"
+  },
+  "source_packet": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/source",
+  "pipelines": {
+    "4": [
+      "cfft-tuev"
+    ],
+    "5": [
+      "cbramod-tuev",
+      "cbramod-chbmit"
+    ],
+    "6": [
+      "labram-tuev",
+      "labram-chbmit"
+    ],
+    "7": [
+      "targets-tuev",
+      "targets-chbmit",
+      "cfft-chbmit"
+    ]
+  },
+  "resources": {
+    "per_process_gpu_allocator_GiB": 6,
+    "per_unit_memory_high_GiB": 2,
+    "per_unit_memory_max_GiB": 3,
+    "per_unit_swap_bytes": 0,
+    "cpu_threads": 1,
+    "batch_size": 4,
+    "loader_workers": 0,
+    "full_token_cache": false
+  },
+  "jobs": {
+    "cbramod-chbmit": {
+      "kind": "cbramod",
+      "dataset": "chbmit",
+      "seed": 0,
+      "initialization": "scratch",
+      "checkpoint": "/data2/zz5070/.maintenance/cbramod-chbmit-audit-20261104/scratch-best.pth",
+      "checkpoint_sha256": "38432e138c4af34119d0d07d7694d51131c776341253dfbf7e7474e1338019eb",
+      "archive": {
+        "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+        "revision": "c3274a007f2693e695ecdf329b4caf99f2c3373f",
+        "object_path": "objects/38/38432e138c4af34119d0d07d7694d51131c776341253dfbf7e7474e1338019eb.bin",
+        "source_path": "/data1/zz5070/CFM4EEG-rebuild-20261021/training-native8/runs/chbmit-cbramod_scratch_native20261022/seed0/epoch14_acc_0.80129_pr_0.56993_roc_0.92718.pth"
+      },
+      "data_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/data/processed/chbmit",
+      "targets_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/targets/chbmit",
+      "manifest_sha256": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+      "out": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cbramod-chbmit",
+      "vendor": "/data2/zz5070/CFM4EEG-rebuild-20261021/vendor/cbramod",
+      "batch_size": 4,
+      "num_classes": 1,
+      "source_sha256": {
+        "models/model_for_tuab.py": "0f1b544d079c66231dcaad4344b468fbfdf3ac28eac566bf69d67df93c90851e",
+        "models/model_for_chb.py": "5346a02842e0539133f9b975b3cc43eb8f298fe2451a97f174205d5f95df80b4",
+        "models/model_for_tuev.py": "29df3cad926996f17771bed3055f57899d61df23ba04533298f006ec04dfc1ab",
+        "models/cbramod.py": "caa7c5a0e4acd488a6f625b56f7b54dc4e7190d6b68ef5b76dff2cef86874a14",
+        "models/criss_cross_transformer.py": "90e90b8c98ca7eb543c44e32afc29674d3f71cb090692ad9f82db3a43edf334c"
+      },
+      "variant": "pinned author-native task checkpoint",
+      "protocol": "real_eeg_Tort18_ridge_v1; task-trained checkpoints, TUEV and corrected CHB; not source-paper dataset replication"
+    },
+    "cbramod-tuev": {
+      "kind": "cbramod",
+      "dataset": "tuev",
+      "seed": 0,
+      "initialization": "scratch",
+      "checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/weights/cbramod-tuev.pt",
+      "checkpoint_sha256": "81beffca7085edb9402212cd09e8dde64bf094f425680181397166256cc57f0b",
+      "archive": {
+        "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+        "revision": "c3274a007f2693e695ecdf329b4caf99f2c3373f",
+        "object_path": "objects/81/81beffca7085edb9402212cd09e8dde64bf094f425680181397166256cc57f0b.bin",
+        "source_path": "/data1/zz5070/CFM4EEG-rebuild-20261021/training-native8/runs/tuev-cbramod_scratch_native20261022/seed0/epoch3_acc_0.56558_kappa_0.57490_f1_0.77467.pth"
+      },
+      "data_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/data/processed/tuev",
+      "targets_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/targets/tuev",
+      "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+      "out": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cbramod-tuev",
+      "vendor": "/data2/zz5070/CFM4EEG-rebuild-20261021/vendor/cbramod",
+      "batch_size": 4,
+      "num_classes": 6,
+      "source_sha256": {
+        "models/model_for_tuab.py": "0f1b544d079c66231dcaad4344b468fbfdf3ac28eac566bf69d67df93c90851e",
+        "models/model_for_chb.py": "5346a02842e0539133f9b975b3cc43eb8f298fe2451a97f174205d5f95df80b4",
+        "models/model_for_tuev.py": "29df3cad926996f17771bed3055f57899d61df23ba04533298f006ec04dfc1ab",
+        "models/cbramod.py": "caa7c5a0e4acd488a6f625b56f7b54dc4e7190d6b68ef5b76dff2cef86874a14",
+        "models/criss_cross_transformer.py": "90e90b8c98ca7eb543c44e32afc29674d3f71cb090692ad9f82db3a43edf334c"
+      },
+      "variant": "pinned author-native task checkpoint",
+      "protocol": "real_eeg_Tort18_ridge_v1; task-trained checkpoints, TUEV and corrected CHB; not source-paper dataset replication"
+    },
+    "cfft-chbmit": {
+      "kind": "cfft",
+      "dataset": "chbmit",
+      "seed": 0,
+      "initialization": "scratch",
+      "checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/weights/cfft-chbmit.pt",
+      "checkpoint_sha256": "66dbc5919fbe02f6aa49457a2329390211d5576642a276dfb98dcbbef8dfabff",
+      "archive": {
+        "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+        "revision": "c3274a007f2693e695ecdf329b4caf99f2c3373f",
+        "object_path": "objects/66/66dbc5919fbe02f6aa49457a2329390211d5576642a276dfb98dcbbef8dfabff.bin",
+        "source_path": "/data2/zz5070/CFM4EEG-range-final-20260916/runs/chbmit-quad_range_20260916/seed0/best.pt"
+      },
+      "data_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/data/processed/chbmit",
+      "targets_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/targets/chbmit",
+      "manifest_sha256": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+      "out": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cfft-chbmit",
+      "vendor": "/data2/zz5070/CFM4EEG-rebuild-20261021/vendor/cfft",
+      "batch_size": 4,
+      "num_classes": 1,
+      "source_sha256": {},
+      "variant": "historical completed three-axis Quad-Range seed0; not the interrupted two-axis control",
+      "protocol": "real_eeg_Tort18_ridge_v1; task-trained checkpoints, TUEV and corrected CHB; not source-paper dataset replication"
+    },
+    "cfft-tuev": {
+      "kind": "cfft",
+      "dataset": "tuev",
+      "seed": 0,
+      "initialization": "scratch",
+      "checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/weights/cfft-tuev.pt",
+      "checkpoint_sha256": "8da3e24c9eed68d67c8a4cc64ecdfc4cb1ab67cf6d9081cc9a285b79d101048f",
+      "archive": {
+        "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+        "revision": "c3274a007f2693e695ecdf329b4caf99f2c3373f",
+        "object_path": "objects/8d/8da3e24c9eed68d67c8a4cc64ecdfc4cb1ab67cf6d9081cc9a285b79d101048f.bin",
+        "source_path": "/data1/zz5070/CFM4EEG-rebuild-20261021/training-tokenizer-pair-20261022/runs/tuev-cfft_twoaxis_rebuild20261022/seed0/best.pt"
+      },
+      "data_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/data/processed/tuev",
+      "targets_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/targets/tuev",
+      "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+      "out": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cfft-tuev",
+      "vendor": "/data2/zz5070/CFM4EEG-rebuild-20261021/vendor/cfft",
+      "batch_size": 4,
+      "num_classes": 6,
+      "source_sha256": {},
+      "variant": "original two-axis measured rotation",
+      "protocol": "real_eeg_Tort18_ridge_v1; task-trained checkpoints, TUEV and corrected CHB; not source-paper dataset replication"
+    },
+    "labram-chbmit": {
+      "kind": "labram",
+      "dataset": "chbmit",
+      "seed": 0,
+      "initialization": "scratch",
+      "checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/weights/labram-chbmit.pt",
+      "checkpoint_sha256": "386ff27381c03608362de030dad874357cdca87f39dd77c27a0760d82fd0a7f7",
+      "archive": {
+        "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+        "revision": "c3274a007f2693e695ecdf329b4caf99f2c3373f",
+        "object_path": "objects/38/386ff27381c03608362de030dad874357cdca87f39dd77c27a0760d82fd0a7f7.bin",
+        "source_path": "/data1/zz5070/CFM4EEG-rebuild-20261021/training/native-labram/chbmit-seed0/checkpoint-best.pth"
+      },
+      "data_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/data/processed/chbmit",
+      "targets_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/targets/chbmit",
+      "manifest_sha256": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+      "out": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/labram-chbmit",
+      "vendor": "/data2/zz5070/CFM4EEG-rebuild-20261021/vendor/labram",
+      "batch_size": 4,
+      "num_classes": 1,
+      "source_sha256": {
+        "run_class_finetuning.py": "5aeeb1290ed5a1e2be0ba7244181864d86ebd8d3f67489c46f27979b50fd57dc",
+        "engine_for_finetuning.py": "7e0e8dad3f208645ac3c966ef356433b84def3f371852daf2858778562726f92",
+        "utils.py": "c5ad729bd57ab31e04572f426d94f7fb164ef0fbfd1f7076da6bf8dfbd833e32",
+        "modeling_finetune.py": "7b3514c9a661ebd417a2dd9834a9f2fab0a2e518c8212c73ebebaaa165c29d88",
+        "optim_factory.py": "7f82eeef697f6abc5a1c76e5e6be0087a42c95656d89a6b7d46b8216d246e1ab"
+      },
+      "variant": "pinned author-native task checkpoint",
+      "protocol": "real_eeg_Tort18_ridge_v1; task-trained checkpoints, TUEV and corrected CHB; not source-paper dataset replication"
+    },
+    "labram-tuev": {
+      "kind": "labram",
+      "dataset": "tuev",
+      "seed": 0,
+      "initialization": "scratch",
+      "checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/weights/labram-tuev.pt",
+      "checkpoint_sha256": "3caeb07fda89dd503488d0f4bb286af2468144538e26ca88fd534f6dd3ff6edd",
+      "archive": {
+        "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+        "revision": "c3274a007f2693e695ecdf329b4caf99f2c3373f",
+        "object_path": "objects/3c/3caeb07fda89dd503488d0f4bb286af2468144538e26ca88fd534f6dd3ff6edd.bin",
+        "source_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/scratch-native-20261026/runs/tuev-labram-shared16-scratch-s0/checkpoint-best.pth"
+      },
+      "data_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/data/processed/tuev",
+      "targets_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/targets/tuev",
+      "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+      "out": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/labram-tuev",
+      "vendor": "/data2/zz5070/CFM4EEG-rebuild-20261021/vendor/labram",
+      "batch_size": 4,
+      "num_classes": 6,
+      "source_sha256": {
+        "run_class_finetuning.py": "5aeeb1290ed5a1e2be0ba7244181864d86ebd8d3f67489c46f27979b50fd57dc",
+        "engine_for_finetuning.py": "7e0e8dad3f208645ac3c966ef356433b84def3f371852daf2858778562726f92",
+        "utils.py": "c5ad729bd57ab31e04572f426d94f7fb164ef0fbfd1f7076da6bf8dfbd833e32",
+        "modeling_finetune.py": "7b3514c9a661ebd417a2dd9834a9f2fab0a2e518c8212c73ebebaaa165c29d88",
+        "optim_factory.py": "7f82eeef697f6abc5a1c76e5e6be0087a42c95656d89a6b7d46b8216d246e1ab"
+      },
+      "variant": "pinned author-native task checkpoint",
+      "protocol": "real_eeg_Tort18_ridge_v1; task-trained checkpoints, TUEV and corrected CHB; not source-paper dataset replication"
+    }
+  },
+  "checkpoint_publication": {
+    "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+    "private": true,
+    "commit": "c4068216e7e3a1facdb931e6dbac164eb551697d",
+    "url": "https://huggingface.co/JoniZz/CFM4EEG-checkpoint-archive/commit/c4068216e7e3a1facdb931e6dbac164eb551697d",
+    "weights_revision": "c3274a007f2693e695ecdf329b4caf99f2c3373f"
+  },
+  "smoke": {
+    "cbramod-chbmit": {
+      "status": "passed",
+      "cuda_peak_GiB": 0.5993084907531738,
+      "endpoints": {
+        "tokenizer": [
+          2,
+          200
+        ],
+        "layer_01": [
+          2,
+          200
+        ],
+        "layer_02": [
+          2,
+          200
+        ],
+        "layer_03": [
+          2,
+          200
+        ],
+        "layer_04": [
+          2,
+          200
+        ],
+        "layer_05": [
+          2,
+          200
+        ],
+        "layer_06": [
+          2,
+          200
+        ],
+        "layer_07": [
+          2,
+          200
+        ],
+        "layer_08": [
+          2,
+          200
+        ],
+        "layer_09": [
+          2,
+          200
+        ],
+        "layer_10": [
+          2,
+          200
+        ],
+        "layer_11": [
+          2,
+          200
+        ],
+        "layer_12": [
+          2,
+          200
+        ]
+      },
+      "checkpoint_sha256": "38432e138c4af34119d0d07d7694d51131c776341253dfbf7e7474e1338019eb"
+    },
+    "cbramod-tuev": {
+      "status": "passed",
+      "cuda_peak_GiB": 0.17182111740112305,
+      "endpoints": {
+        "tokenizer": [
+          2,
+          200
+        ],
+        "layer_01": [
+          2,
+          200
+        ],
+        "layer_02": [
+          2,
+          200
+        ],
+        "layer_03": [
+          2,
+          200
+        ],
+        "layer_04": [
+          2,
+          200
+        ],
+        "layer_05": [
+          2,
+          200
+        ],
+        "layer_06": [
+          2,
+          200
+        ],
+        "layer_07": [
+          2,
+          200
+        ],
+        "layer_08": [
+          2,
+          200
+        ],
+        "layer_09": [
+          2,
+          200
+        ],
+        "layer_10": [
+          2,
+          200
+        ],
+        "layer_11": [
+          2,
+          200
+        ],
+        "layer_12": [
+          2,
+          200
+        ]
+      },
+      "checkpoint_sha256": "81beffca7085edb9402212cd09e8dde64bf094f425680181397166256cc57f0b"
+    },
+    "cfft-chbmit": {
+      "status": "passed",
+      "cuda_peak_GiB": 0.1247549057006836,
+      "endpoints": {
+        "tokenizer": [
+          2,
+          128
+        ],
+        "layer_01": [
+          2,
+          128
+        ],
+        "layer_02": [
+          2,
+          128
+        ],
+        "layer_03": [
+          2,
+          128
+        ],
+        "layer_04": [
+          2,
+          128
+        ],
+        "layer_05": [
+          2,
+          128
+        ],
+        "layer_06": [
+          2,
+          128
+        ]
+      },
+      "checkpoint_sha256": "66dbc5919fbe02f6aa49457a2329390211d5576642a276dfb98dcbbef8dfabff"
+    },
+    "cfft-tuev": {
+      "status": "passed",
+      "cuda_peak_GiB": 0.06792068481445312,
+      "endpoints": {
+        "tokenizer": [
+          2,
+          128
+        ],
+        "layer_01": [
+          2,
+          128
+        ],
+        "layer_02": [
+          2,
+          128
+        ],
+        "layer_03": [
+          2,
+          128
+        ],
+        "layer_04": [
+          2,
+          128
+        ],
+        "layer_05": [
+          2,
+          128
+        ],
+        "layer_06": [
+          2,
+          128
+        ]
+      },
+      "checkpoint_sha256": "8da3e24c9eed68d67c8a4cc64ecdfc4cb1ab67cf6d9081cc9a285b79d101048f"
+    },
+    "labram-chbmit": {
+      "status": "passed",
+      "cuda_peak_GiB": 0.03594636917114258,
+      "endpoints": {
+        "tokenizer": [
+          2,
+          200
+        ],
+        "layer_01": [
+          2,
+          200
+        ],
+        "layer_02": [
+          2,
+          200
+        ],
+        "layer_03": [
+          2,
+          200
+        ],
+        "layer_04": [
+          2,
+          200
+        ],
+        "layer_05": [
+          2,
+          200
+        ],
+        "layer_06": [
+          2,
+          200
+        ],
+        "layer_07": [
+          2,
+          200
+        ],
+        "layer_08": [
+          2,
+          200
+        ],
+        "layer_09": [
+          2,
+          200
+        ],
+        "layer_10": [
+          2,
+          200
+        ],
+        "layer_11": [
+          2,
+          200
+        ],
+        "layer_12": [
+          2,
+          200
+        ]
+      },
+      "checkpoint_sha256": "386ff27381c03608362de030dad874357cdca87f39dd77c27a0760d82fd0a7f7"
+    },
+    "labram-tuev": {
+      "status": "passed",
+      "cuda_peak_GiB": 0.032602787017822266,
+      "endpoints": {
+        "tokenizer": [
+          2,
+          200
+        ],
+        "layer_01": [
+          2,
+          200
+        ],
+        "layer_02": [
+          2,
+          200
+        ],
+        "layer_03": [
+          2,
+          200
+        ],
+        "layer_04": [
+          2,
+          200
+        ],
+        "layer_05": [
+          2,
+          200
+        ],
+        "layer_06": [
+          2,
+          200
+        ],
+        "layer_07": [
+          2,
+          200
+        ],
+        "layer_08": [
+          2,
+          200
+        ],
+        "layer_09": [
+          2,
+          200
+        ],
+        "layer_10": [
+          2,
+          200
+        ],
+        "layer_11": [
+          2,
+          200
+        ],
+        "layer_12": [
+          2,
+          200
+        ]
+      },
+      "checkpoint_sha256": "3caeb07fda89dd503488d0f4bb286af2468144538e26ca88fd534f6dd3ff6edd"
+    }
+  },
+  "launch_verification": {
+    "units": {
+      "4": {
+        "MainPID": "3473061",
+        "MemoryCurrent": "1371320320",
+        "MemoryMax": "3221225472",
+        "MemorySwapMax": "0",
+        "ActiveState": "active"
+      },
+      "5": {
+        "MainPID": "3473074",
+        "MemoryCurrent": "861736960",
+        "MemoryMax": "3221225472",
+        "MemorySwapMax": "0",
+        "ActiveState": "active"
+      },
+      "6": {
+        "MainPID": "3473086",
+        "MemoryCurrent": "958083072",
+        "MemoryMax": "3221225472",
+        "MemorySwapMax": "0",
+        "ActiveState": "active"
+      },
+      "7": {
+        "MainPID": "3473093",
+        "MemoryCurrent": "2147184640",
+        "MemoryMax": "3221225472",
+        "MemorySwapMax": "0",
+        "ActiveState": "active"
+      }
+    },
+    "progress": {
+      "targets/tuev/progress.json": {
+        "status": "running",
+        "split": "test",
+        "completed": 28832,
+        "total": 29421
+      },
+      "targets/chbmit/progress.json": {
+        "status": "running",
+        "split": "train",
+        "completed": 105632,
+        "total": 316205
+      },
+      "results/labram-tuev/progress.json": {
+        "status": "running",
+        "split": "train",
+        "completed": 10804,
+        "total": 68445,
+        "elapsed_sec": 173.1817323397845,
+        "cuda_peak_GiB": 0.03453636169433594,
+        "host_available_GiB": 42.60614013671875,
+        "disk_free_GiB": 17.33157730102539,
+        "gpu_free_GiB": 36.65911865234375
+      },
+      "results/cbramod-tuev/progress.json": {
+        "status": "running",
+        "split": "train",
+        "completed": 10004,
+        "total": 68445,
+        "elapsed_sec": 170.08290569670498,
+        "cuda_peak_GiB": 0.1780853271484375,
+        "host_available_GiB": 42.553016662597656,
+        "disk_free_GiB": 17.331634521484375,
+        "gpu_free_GiB": 36.43060302734375
+      },
+      "results/cfft-tuev/progress.json": {
+        "status": "running",
+        "split": "train",
+        "completed": 11604,
+        "total": 68445,
+        "elapsed_sec": 176.14824309758842,
+        "cuda_peak_GiB": 0.1232767105102539,
+        "host_available_GiB": 42.84491729736328,
+        "disk_free_GiB": 17.33157730102539,
+        "gpu_free_GiB": 36.55169677734375
+      }
+    },
+    "errors": {}
+  },
+  "comparisons": "Separate tokenizer and validation-selected encoder peak; existing task-trained scratch seed0 weights. CfFT TUEV two-axis and historical CHB three-axis are separate configurations. No completed probe scores yet."
+}
