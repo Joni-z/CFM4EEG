@@ -16,7 +16,7 @@ separate inputs; training does not silently download them.
 | EEGConformer | `native_eegconformer_clinical_entry.py` | Author model and Adam/CE update block; new clinical tasks require explicit shape/budget changes and omit MI-specific S&R augmentation |
 | EEGPT, CHB / IIIC | `run_eegpt_chb_official.py` | Original TUAB main/model/engine; 16→20 channel convolution, task output head and sequential validation/test |
 | EEGPT, TUEV | `run_eegpt_tuev_official.py` | Original TUEV main/model/engine; shared16 changes the input convolution width, native23 retains its own cohort; native AMP replaces the released shell's DeepSpeed backend |
-| LaBraM | `run_labram_original.py` | Original main/engine, AdamW and schedule; explicit spatial slots, units and accumulation; CHB uses a recorded validation-AUROC selection adaptation |
+| LaBraM | `run_labram_original.py` | Original main/engine, AdamW and schedule; explicit spatial-slot initialization, units and single-GPU accumulation |
 | REVE | `run_reve_native.py` | Original downstream LP/FT loops, StableAdamW, warmup and criterion; shared arrays/coordinates; scratch uses full FT from random initialization |
 | TFM-Tokenizer | `run_tfm_chain.py`, `run_tfm_stage.py` | Original tokenizer, MTP and downstream modules; single-dataset stages use only target training data and explicit dependencies |
 
@@ -91,18 +91,6 @@ python scripts/rebuild/run_labram_original.py configs/baselines/labram/chbmit-sc
 Released-weight runs use the corresponding pretrained JSON and the same CLI.
 For native23, `PACLOCK_NATIVE` points to the parent of the verified
 `tuev-labram23/` cache. Scratch CHB/ADFD spatial slots carry no anatomical claim.
-
-The current CHB scratch and released-weight presets both use microbatch64 ×
-accumulation8 (effective batch512) and select by validation AUROC, retaining the
-first maximum. This is an explicit new-task adaptation of the TUAB command;
-TUEV/IIIC retain native validation-accuracy selection. The CHB selection patch is
-saved as `upstream-selection.patch`; author source files remain unchanged.
-CHB smoke exercises four full accumulation groups. Formal completion requires
-the full epoch history, actual optimizer/backbone updates and final testing of
-the restored validation-best checkpoint. Testing is deferred until then.
-Earlier smoke receipts do not match the repaired runner/configuration; a new
-GPU smoke is required before formal training. This repair has CPU verification,
-not a completed GPU smoke or replacement clinical result.
 
 ### EEGPT
 
@@ -189,7 +177,7 @@ run multi-dataset pretraining. Keep scratch and pretrained results separate.
 | BIOT | `tuev-pretrained.yaml`, `chbmit-pretrained.yaml` | `$PACLOCK_BIOT_WEIGHTS`; SHHS+PREST encoder, capacity 18 for 16 actual channels; native Adam, early stopping and classifier |
 | CBraMod | `tuev-pretrained.yaml`, `chbmit-pretrained.yaml` | `$PACLOCK_CBRAMOD_WEIGHTS`; strict backbone load, pretraining projection removed; original head and 50-epoch full finetuning |
 | EEGPT | `tuev-shared16-pretrained.yaml`, `chbmit-pretrained.yaml` | `$PACLOCK_EEGPT_PRETRAINED`; complete target encoder checked tensor by tensor; original two-rank recipes with explicit BF16 |
-| LaBraM | `tuev-shared16-pretrained.json`, `chbmit-pretrained.json` | `$CFM_VENDOR/labram/checkpoints/labram-base.pth`; student backbone, native engine; TUEV validation accuracy / CHB validation AUROC; batch 64 × 8 accumulation |
+| LaBraM | `tuev-shared16-pretrained.json`, `chbmit-pretrained.json` | `$CFM_VENDOR/labram/checkpoints/labram-base.pth`; student backbone, native engine and validation-accuracy selection; batch 64 × 8 accumulation |
 | REVE | `tuev-pretrained.yaml`, `chbmit-pretrained.yaml` | Local `vendor/reve_weights/`; SHA-bound safetensors encoder/query; original LP then FT, StableAdamW, warmup and validation-balanced-accuracy selection |
 
 Supply weight paths before smoke. `CFM_VENDOR` expands LaBraM's weight path;

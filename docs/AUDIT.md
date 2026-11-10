@@ -30,14 +30,6 @@ This review does not certify the other baseline training runs or establish the
 cause of the PAC-readout differences. No model, training configuration, result
 or checkpoint was changed, and no training or GPU inference was launched.
 
-The subsequent code repair updates the prospective CHB scratch preset to
-effective batch512 and both CHB presets to validation-AUROC selection. It keeps
-native model/optimizer/engine/schedule, defers testing until best-checkpoint
-restoration and records the selected epoch and actual optimizer-update count.
-CPU checks cover conflicting accuracy/AUROC/test maxima, first ties, zero AUROC,
-test deferral and configuration validation. A new matching GPU smoke and new
-training are still required; the historical result above is unchanged.
-
 ## Follow one execution
 
 Check each model/dataset/seed in this order:
