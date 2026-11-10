@@ -4,6 +4,32 @@ For the model-specific CHB-MIT enriched/natural-grid score review, see
 [CHB-MIT score audit](CHBMIT_SCORE_AUDIT.md). It separates numerical integrity,
 checkpoint rescoring, completed training and comparison eligibility.
 
+## Baseline training review (2026-11-10)
+
+The [training evidence](../experiments/audits/baseline-training-20261110.json)
+binds the four scratch CBraMod/LaBraM weights used in the real-EEG PAC readouts
+to their executed recipes, 50-epoch histories and selected checkpoints.
+Successful score replay or strict weight loading alone does not certify training.
+
+| Actual checkpoint | Training finding | Disposition |
+|---|---|---|
+| CBraMod, TUEV | Original trainer, AdamW, native multi-LR/cosine, all 50 epochs; validation-kappa selection | No training implementation defect found; shared-cohort adaptation |
+| CBraMod, CHB-MIT | Original binary trainer, BCE, native multi-LR/cosine, all 50 epochs; validation-AUROC selection | No training implementation defect found; patient generalization remains a limitation |
+| LaBraM, TUEV | Native engine, effective batch 512, all 50 epochs, 6,648 of 6,650 planned updates | Retain as a declared scratch adaptation |
+| LaBraM, CHB-MIT | Native engine and all 50 epochs, but effective batch 64 and accuracy-based checkpoint selection on a 99.716% negative validation set | Review the new-task recipe before another run; preserve the recorded result |
+
+LaBraM's selected CHB checkpoint is human epoch 37; validation average precision
+peaks at epoch 5. That does not give the test score of an alternative checkpoint.
+Its selected optimizer state contains 182,709 of 182,780 planned updates, so
+nonfinite epoch-average gradient norms do not imply that most training failed.
+Both LaBraM scratch runs use layer decay 1.0. The published fine-tuning table uses
+0.65, but its scratch appendix supplies no separate complete recipe; this is a
+declared difference, not an established implementation error.
+
+This review does not certify the other baseline training runs or establish the
+cause of the PAC-readout differences. No model, training configuration, result
+or checkpoint was changed, and no training or GPU inference was launched.
+
 ## Follow one execution
 
 Check each model/dataset/seed in this order:

@@ -1,0 +1,215 @@
+{
+  "audit_date": "2026-11-10",
+  "scope": "Training/reproduction of the four task-trained baseline checkpoints used in the real-EEG PAC readouts; source, actual provenance, full training histories and selected checkpoint optimizer state. No training or GPU inference launched.",
+  "conclusion": "Do not use score arithmetic or strict loading to certify reproduction quality. CBraMod native training paths pass the inspected checks; LaBraM CHB needs a prospective recipe correction. The other LaBraM path is a declared scratch adaptation. These findings do not identify the causal source of PAC-readout differences.",
+  "official_sources": {
+    "CBraMod_trainer": "https://github.com/wjq-learning/CBraMod/blob/b9e961003214326972c567eff390e75b0287e32a/finetune_trainer.py",
+    "LaBraM_README": "https://github.com/935963004/LaBraM/blob/c431221e6cfd23dbfa9950e0180682fb322b0548/README.md",
+    "LaBraM_paper": "https://proceedings.iclr.cc/paper_files/paper/2024/file/47393e8594c82ce8fd83adc672cf9872-Paper-Conference.pdf"
+  },
+  "labram_published_scope": "Table 5 is downstream fine-tuning (batch 512, layer decay 0.65 for Base). Appendix J reports scratch performance but no separate complete scratch hyperparameter table. Neither establishes a published CHB recipe.",
+  "records": [
+    {
+      "model": "CBraMod",
+      "dataset": "tuev",
+      "initialization": "scratch",
+      "seed": 0,
+      "checkpoint_sha256": "81beffca7085edb9402212cd09e8dde64bf094f425680181397166256cc57f0b",
+      "source_commit": "b9e961003214326972c567eff390e75b0287e32a",
+      "epochs_observed": 50,
+      "epochs_consecutive": true,
+      "recipe": {
+        "optimizer": "AdamW",
+        "backbone_lr": 0.0001,
+        "head_lr": 0.0005,
+        "batch_size": 64,
+        "weight_decay": 0.05,
+        "clip_norm": 1,
+        "dropout": 0.1,
+        "schedule": "native per-batch cosine over 50 epochs, min_lr 1e-6",
+        "loss": "CE with smoothing 0.1",
+        "checkpoint_selection": "validation kappa",
+        "AMP": false
+      },
+      "selected_epoch_one_based": 3,
+      "train_loss_first": 0.63694,
+      "train_loss_last_rounded": 0.4393,
+      "verdict": "No training implementation defect found in inspected author-native path; shared-cohort adaptation, not identical published experiment.",
+      "remaining_limits": [
+        "One seed; full optimization success is not established by completing the native recipe.",
+        "Shared cohort differs from original paper; published pretrained scores are not direct scratch reproduction targets."
+      ],
+      "rerun_required_by_this_audit": false,
+      "source_evidence": [
+        "145:/data1/zz5070/CFM4EEG-rebuild-20261021/training-native8/logs/tuev-cbramod-official-s0-v7-train.log"
+      ]
+    },
+    {
+      "model": "CBraMod",
+      "dataset": "chbmit",
+      "initialization": "scratch",
+      "seed": 0,
+      "checkpoint_sha256": "38432e138c4af34119d0d07d7694d51131c776341253dfbf7e7474e1338019eb",
+      "source_commit": "b9e961003214326972c567eff390e75b0287e32a",
+      "epochs_observed": 50,
+      "epochs_consecutive": true,
+      "recipe": {
+        "optimizer": "AdamW",
+        "backbone_lr": 0.0001,
+        "head_lr": 0.0005,
+        "batch_size": 64,
+        "weight_decay": 0.05,
+        "clip_norm": 1,
+        "dropout": 0.1,
+        "schedule": "native per-batch cosine over 50 epochs, min_lr 1e-6",
+        "loss": "BCEWithLogitsLoss",
+        "checkpoint_selection": "validation AUROC",
+        "AMP": false
+      },
+      "selected_epoch_one_based": 14,
+      "train_loss_first": 0.05591,
+      "train_loss_last_rounded": 0.0,
+      "verdict": "No training implementation defect found in inspected author-native path; shared-cohort adaptation, not identical published experiment.",
+      "remaining_limits": [
+        "One seed; full optimization success is not established by completing the native recipe.",
+        "Shared cohort differs from original paper; published pretrained scores are not direct scratch reproduction targets."
+      ],
+      "rerun_required_by_this_audit": false,
+      "source_evidence": [
+        "local:.local/workspace/maintenance/cbramod-chbmit-audit-20261104/report.md",
+        "local:.local/workspace/maintenance/cbramod-chbmit-audit-20261104/scratch-history.json"
+      ]
+    },
+    {
+      "model": "LaBraM",
+      "dataset": "tuev",
+      "initialization": "scratch",
+      "seed": 0,
+      "checkpoint_sha256": "3caeb07fda89dd503488d0f4bb286af2468144538e26ca88fd534f6dd3ff6edd",
+      "source_commit": "c431221e6cfd23dbfa9950e0180682fb322b0548",
+      "epochs_observed": 50,
+      "epochs_consecutive": true,
+      "recipe": {
+        "optimizer": "AdamW",
+        "lr": 0.0005,
+        "microbatch": 64,
+        "update_freq": 8,
+        "effective_batch": 512,
+        "layer_decay": 1.0,
+        "weight_decay": 0.05,
+        "warmup_epochs": 5,
+        "drop_path": 0.1,
+        "loss": "CE with smoothing 0.1",
+        "schedule": "native per-update cosine over 50 epochs",
+        "checkpoint_selection": "validation accuracy",
+        "AMP": "native FP16 with dynamic loss scaling"
+      },
+      "selected_epoch_one_based": 2,
+      "selected_checkpoint_expected_updates": 266,
+      "selected_checkpoint_actual_updates": 265,
+      "selected_checkpoint_skipped_updates": 1,
+      "full_run_updates_recorded": 6648,
+      "epoch_averages_with_nonfinite_grad_norm": 2,
+      "train_loss_first": 1.5689815792598223,
+      "train_loss_last": 0.43700356683448743,
+      "validation_peaks_zero_based": {
+        "val_accuracy": {
+          "epoch": 1,
+          "value": 0.9029508620133014
+        },
+        "val_balanced_accuracy": {
+          "epoch": 4,
+          "value": 0.6264944375634945
+        },
+        "val_cohen_kappa": {
+          "epoch": 8,
+          "value": 0.530197401517902
+        },
+        "val_f1_weighted": {
+          "epoch": 8,
+          "value": 0.9015588495645194
+        }
+      },
+      "verdict": "Completed real training; declared scratch adaptation, not identical published fine-tuning recipe.",
+      "issues": [
+        "Scratch layer_decay 1.0 differs from fine-tuning Table 5 value 0.65; original Appendix J does not specify a separate scratch recipe, so this difference is not established as a bug."
+      ],
+      "AMP_interpretation": "Nonfinite epoch-average grad_norm does not count failed epochs. Optimizer state confirms nearly all planned updates through the selected checkpoint; do not infer collapse from inf averages.",
+      "disposition": "Retain as declared scratch adaptation; no automatic rerun from this audit.",
+      "source_evidence": [
+        ".local/workspace/maintenance/baseline-training-audit-20261110/collected/labram-tuev/provenance.json",
+        ".local/workspace/maintenance/baseline-training-audit-20261110/collected/labram-tuev/log.txt",
+        ".local/workspace/maintenance/baseline-training-audit-20261110/collected/labram-tuev/native_completed.json",
+        ".local/workspace/maintenance/baseline-training-audit-20261110/collected/labram-tuev/result.json"
+      ]
+    },
+    {
+      "model": "LaBraM",
+      "dataset": "chbmit",
+      "initialization": "scratch",
+      "seed": 0,
+      "checkpoint_sha256": "386ff27381c03608362de030dad874357cdca87f39dd77c27a0760d82fd0a7f7",
+      "source_commit": "c431221e6cfd23dbfa9950e0180682fb322b0548",
+      "epochs_observed": 50,
+      "epochs_consecutive": true,
+      "recipe": {
+        "optimizer": "AdamW",
+        "lr": 0.0005,
+        "microbatch": 64,
+        "update_freq": 1,
+        "effective_batch": 64,
+        "layer_decay": 1.0,
+        "weight_decay": 0.05,
+        "warmup_epochs": 5,
+        "drop_path": 0.1,
+        "loss": "BCEWithLogitsLoss",
+        "schedule": "native per-update cosine over 50 epochs",
+        "checkpoint_selection": "validation accuracy",
+        "AMP": "native FP16 with dynamic loss scaling"
+      },
+      "selected_epoch_one_based": 37,
+      "selected_checkpoint_expected_updates": 182780,
+      "selected_checkpoint_actual_updates": 182709,
+      "selected_checkpoint_skipped_updates": 71,
+      "full_run_updates_recorded": null,
+      "epoch_averages_with_nonfinite_grad_norm": 45,
+      "train_loss_first": 0.1497415165013449,
+      "train_loss_last": 6.840640481086371e-05,
+      "validation_peaks_zero_based": {
+        "val_pr_auc": {
+          "epoch": 4,
+          "value": 0.40562110661682277
+        },
+        "val_roc_auc": {
+          "epoch": 33,
+          "value": 0.8956225634686698
+        },
+        "val_accuracy": {
+          "epoch": 36,
+          "value": 0.9978666919503176
+        },
+        "val_balanced_accuracy": {
+          "epoch": 37,
+          "value": 0.6831431650343888
+        }
+      },
+      "verdict": "Completed real training; CHB task adaptation needs a prospective recipe correction before certification.",
+      "issues": [
+        "Scratch layer_decay 1.0 differs from fine-tuning Table 5 value 0.65; original Appendix J does not specify a separate scratch recipe, so this difference is not established as a bug.",
+        "Effective batch 64 rather than published fine-tuning batch 512, with the same peak LR; unvalidated new-task adaptation.",
+        "Validation accuracy selected epoch 37 on a 99.7156% negative validation set; validation AP peaks at epoch 5. This is copied TUAB selection, not a published CHB recipe.",
+        "Final training accuracy is 0.999987 while validation AUROC drops from its peak 0.895623 to 0.735782: overfitting, not failure to train."
+      ],
+      "AMP_interpretation": "Nonfinite epoch-average grad_norm does not count failed epochs. Optimizer state confirms nearly all planned updates through the selected checkpoint; do not infer collapse from inf averages.",
+      "disposition": "Retain historical result; predeclare corrected effective batch/LR and an imbalance-appropriate validation rule before a new run. No replacement result inferred.",
+      "source_evidence": [
+        ".local/workspace/maintenance/baseline-training-audit-20261110/collected/labram-chbmit/provenance.json",
+        ".local/workspace/maintenance/baseline-training-audit-20261110/collected/labram-chbmit/log.txt",
+        ".local/workspace/maintenance/baseline-training-audit-20261110/collected/labram-chbmit/native_completed.json",
+        ".local/workspace/maintenance/baseline-training-audit-20261110/collected/labram-chbmit/result.json"
+      ]
+    }
+  ],
+  "other_baselines": "This audit does not certify BIOT/FFCL, EEGConformer, EEGPT, REVE or TFM formal training. Existing interface declarations are in docs/UPSTREAM.md; a smoke or accepted config is not a full-training audit. Historical project-generic trainers remain separate from author-native executions.",
+  "preserved": "No changes to model/trainer code, configs, recorded results, checkpoint bytes, manuscript or experiment workbook."
+}
