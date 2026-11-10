@@ -1,0 +1,473 @@
+{
+  "study": "real_eeg_pac_20261110",
+  "dataset": "chbmit",
+  "evidence_type": "real_eeg_pac_readout",
+  "metric": "per_dimension_clipped_R2_mean_over_six_channel_summaries",
+  "n_test": 17224,
+  "results": {
+    "cfft": {
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cfft-chbmit/result.json",
+      "checkpoint_sha256": "66dbc5919fbe02f6aa49457a2329390211d5576642a276dfb98dcbbef8dfabff",
+      "wall_time_sec": 4735.13548434712,
+      "endpoints": [
+        {
+          "label": "tokenizer/X001_delta_beta",
+          "scope": "tokenizer",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "tokenizer",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.18330019381249238,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 2.7366574106087633e-05
+          },
+          "test_r2": 0.2624030369273612,
+          "test_raw_r2_by_summary": [
+            0.3358762201152775,
+            0.3366401598156642,
+            0.2307918741820355,
+            -0.00032187135286032564,
+            0.3507682446593351,
+            0.320341722791855
+          ]
+        },
+        {
+          "label": "encoder_peak/X001_delta_beta",
+          "scope": "encoder_peak",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "layer_01",
+          "alpha": 10.0,
+          "alpha_index": 2,
+          "validation_r2": 0.2619667732231015,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.3293286950333825,
+          "test_raw_r2_by_summary": [
+            0.4190302686928231,
+            0.4282772746508928,
+            0.27304491445685364,
+            -0.08748197307243677,
+            0.45471964521867736,
+            0.4009000671810481
+          ]
+        },
+        {
+          "label": "tokenizer/X002_theta_gamma",
+          "scope": "tokenizer",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "tokenizer",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.18443047342868604,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 1.909838397136839e-05
+          },
+          "test_r2": 0.15839907335646405,
+          "test_raw_r2_by_summary": [
+            0.1954209852562736,
+            0.1146465370215406,
+            0.18824875610763703,
+            0.1574711005850522,
+            0.18436367190716474,
+            0.11024338926111621
+          ]
+        },
+        {
+          "label": "encoder_peak/X002_theta_gamma",
+          "scope": "encoder_peak",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "layer_02",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.29844919217209975,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.2819592753789892,
+          "test_raw_r2_by_summary": [
+            0.3373528489586457,
+            0.16465713395573855,
+            0.3569972931617794,
+            0.3596561293828082,
+            0.29958894329272123,
+            0.17350330352224175
+          ]
+        },
+        {
+          "label": "tokenizer/X003_alpha_gamma",
+          "scope": "tokenizer",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "tokenizer",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.002073429373469086,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 1.8812994743340934e-05
+          },
+          "test_r2": 0.0,
+          "test_raw_r2_by_summary": [
+            -0.6230380455198936,
+            -0.5738240267610832,
+            -0.4190732941251889,
+            -0.15647727035165082,
+            -0.7551307065291191,
+            -0.4279802298954867
+          ]
+        },
+        {
+          "label": "encoder_peak/X003_alpha_gamma",
+          "scope": "encoder_peak",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "layer_02",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.04451060711177015,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 1.5222302196027382e-05
+          },
+          "test_r2": 0.022345824503192762,
+          "test_raw_r2_by_summary": [
+            -0.14014067231222205,
+            -0.1830618742898733,
+            -0.033002917746291605,
+            0.13407494701915657,
+            -0.3430501691651633,
+            -0.08133649502166884
+          ]
+        }
+      ]
+    },
+    "cbramod": {
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cbramod-chbmit/result.json",
+      "checkpoint_sha256": "38432e138c4af34119d0d07d7694d51131c776341253dfbf7e7474e1338019eb",
+      "wall_time_sec": 4036.0102548114955,
+      "endpoints": [
+        {
+          "label": "tokenizer/X001_delta_beta",
+          "scope": "tokenizer",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "tokenizer",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.022752327764663294,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 8.04330134477708e-07
+          },
+          "test_r2": 0.016094879996697526,
+          "test_raw_r2_by_summary": [
+            -0.1491754306007469,
+            0.06499705245727139,
+            -0.2889264224022461,
+            -0.6539787203136205,
+            -0.08788976717428176,
+            0.031572227522913776
+          ]
+        },
+        {
+          "label": "encoder_peak/X001_delta_beta",
+          "scope": "encoder_peak",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "layer_12",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.03892937174350517,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.2279250082304457,
+          "test_raw_r2_by_summary": [
+            0.2756870216946212,
+            0.3334947607803854,
+            0.14358906182393139,
+            -0.14341731901133214,
+            0.3035274346414244,
+            0.3112517704423119
+          ]
+        },
+        {
+          "label": "tokenizer/X002_theta_gamma",
+          "scope": "tokenizer",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "tokenizer",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.08263636133497347,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.0,
+          "test_raw_r2_by_summary": [
+            -0.12171932516801354,
+            -0.06902345778477481,
+            -0.1275145847978001,
+            -0.1087867437599559,
+            -0.14161226113030656,
+            -0.05492910651560301
+          ]
+        },
+        {
+          "label": "encoder_peak/X002_theta_gamma",
+          "scope": "encoder_peak",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "layer_02",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.2096060759220216,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.11620760135892695,
+          "test_raw_r2_by_summary": [
+            0.14782428543992687,
+            0.08465156459101031,
+            0.1355030137824268,
+            0.10948234682002367,
+            0.13067848688461214,
+            0.08910591063556195
+          ]
+        },
+        {
+          "label": "tokenizer/X003_alpha_gamma",
+          "scope": "tokenizer",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.0,
+          "test_raw_r2_by_summary": [
+            -0.9534739619962977,
+            -0.5758652920244345,
+            -0.8361291514093658,
+            -0.6814910535314611,
+            -1.1396621688940098,
+            -0.4346954799153122
+          ]
+        },
+        {
+          "label": "encoder_peak/X003_alpha_gamma",
+          "scope": "encoder_peak",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "layer_01",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 8.77662034722467e-06
+          },
+          "test_r2": 0.0,
+          "test_raw_r2_by_summary": [
+            -0.6870786050141255,
+            -0.4188502831890615,
+            -0.5988624152545066,
+            -0.5314773678156848,
+            -0.8465264766081222,
+            -0.2984720576300861
+          ]
+        }
+      ]
+    },
+    "labram": {
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/labram-chbmit/result.json",
+      "checkpoint_sha256": "386ff27381c03608362de030dad874357cdca87f39dd77c27a0760d82fd0a7f7",
+      "wall_time_sec": 3297.0876384917647,
+      "endpoints": [
+        {
+          "label": "tokenizer/X001_delta_beta",
+          "scope": "tokenizer",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "tokenizer",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.1681627948863397,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.04688236663097569,
+          "test_raw_r2_by_summary": [
+            -0.07663807033495784,
+            0.1502061416474746,
+            -0.25839699913137504,
+            -0.5765912628167036,
+            -0.03687055510822068,
+            0.13108805813837954
+          ]
+        },
+        {
+          "label": "encoder_peak/X001_delta_beta",
+          "scope": "encoder_peak",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "layer_02",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.11963630600708074,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.07293108989841506,
+          "test_raw_r2_by_summary": [
+            0.020355859384267316,
+            0.194454938590927,
+            -0.1366027141896038,
+            -0.3991511067999751,
+            0.03890519978224505,
+            0.18387054163305094
+          ]
+        },
+        {
+          "label": "tokenizer/X002_theta_gamma",
+          "scope": "tokenizer",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "tokenizer",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.2561035724931129,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.08044413769245236,
+          "test_raw_r2_by_summary": [
+            0.10177440787285619,
+            0.07746420980208957,
+            0.07897209025030194,
+            0.05897025041598147,
+            0.08618310832528464,
+            0.07930075948820037
+          ]
+        },
+        {
+          "label": "encoder_peak/X002_theta_gamma",
+          "scope": "encoder_peak",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "layer_01",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.21823799008876507,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.10851686971258727,
+          "test_raw_r2_by_summary": [
+            0.13761451384427703,
+            0.0929561405705861,
+            0.11623590841911591,
+            0.08947336062132971,
+            0.11969361061750339,
+            0.09512768420271145
+          ]
+        },
+        {
+          "label": "tokenizer/X003_alpha_gamma",
+          "scope": "tokenizer",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.0,
+          "test_raw_r2_by_summary": [
+            -0.4446180074988839,
+            -0.5589720539757759,
+            -0.31531361924727497,
+            -0.19363787522196363,
+            -0.5649141753616003,
+            -0.3854768685687735
+          ]
+        },
+        {
+          "label": "encoder_peak/X003_alpha_gamma",
+          "scope": "encoder_peak",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "layer_01",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.0,
+          "test_raw_r2_by_summary": [
+            -0.4630379944671814,
+            -0.5780258601432089,
+            -0.32177177689541336,
+            -0.21161586428785317,
+            -0.5821327341692653,
+            -0.4005017449653445
+          ]
+        }
+      ]
+    }
+  },
+  "numeric_verification": {
+    "cfft": {
+      "status": "passed",
+      "n_test": 17224,
+      "max_R2_delta": 6.832872601059137e-10,
+      "method": "sklearn r2_score on float64 raw MI targets and saved predictions"
+    },
+    "cbramod": {
+      "status": "passed",
+      "n_test": 17224,
+      "max_R2_delta": 2.410166927147017e-10,
+      "method": "sklearn r2_score on float64 raw MI targets and saved predictions"
+    },
+    "labram": {
+      "status": "passed",
+      "n_test": 17224,
+      "max_R2_delta": 4.6142126230996894e-10,
+      "method": "sklearn r2_score on float64 raw MI targets and saved predictions"
+    }
+  },
+  "probe_archive": {
+    "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+    "private": true,
+    "commit": "8511aeb64c732dd289298fa16e77bcb1d7d3ef95",
+    "url": "https://huggingface.co/JoniZz/CFM4EEG-checkpoint-archive/commit/8511aeb64c732dd289298fa16e77bcb1d7d3ef95"
+  },
+  "status": "completed_and_prediction_scores_verified",
+  "cfft_checkpoint_scope": "Completed historical three-axis Quad-Range seed0, SHA66dbc5919fbe02f6aa49457a2329390211d5576642a276dfb98dcbbef8dfabff; TUEV comparison uses a different two-axis checkpoint.",
+  "interpretation_limits": "Fixed-checkpoint PAC linear readability, not rotation attribution or clinical SOTA. Zero scores are per-dimension negative R2 clipped at zero."
+}
