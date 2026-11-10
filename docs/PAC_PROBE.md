@@ -672,9 +672,9 @@ All EEG model weights remained frozen; only affine ridge readouts were fitted.
 
 ### ISRUC extension on Torch (2026-11-10)
 
-CfFT seed0 is submitted as job `22533039` on `l40s_public`, using the
+CfFT seed0 is submitted as job `22538064` on `l40s_public`, using the
 `torch_pr_63_general` account and site-selected `gpu48` QOS. It requests one
-L40S, 2 CPUs and 32G RAM. The job is pending; no ISRUC PAC score is reported yet.
+L40S, 2 CPUs and 8G RAM. The job is pending; no ISRUC PAC score is reported yet.
 The existing accepted ISRUC arrays and original two-axis measured checkpoint
 are reused, with the same Tort-MI targets and ridge readout as above.
 
