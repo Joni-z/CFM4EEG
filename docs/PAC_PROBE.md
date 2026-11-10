@@ -669,3 +669,21 @@ validation, following the cross-model protocol; encoder does not mean a fixed
 last layer. Raw scores, layer choices and independent prediction checks are in
 the [numeric record](../experiments/audits/pac-guidance-readout-20261110.json).
 All EEG model weights remained frozen; only affine ridge readouts were fitted.
+
+### ISRUC extension on Torch (2026-11-10)
+
+CfFT seed0 is submitted as job `22533039` on `l40s_public`, using the
+`torch_pr_63_general` account and site-selected `gpu48` QOS. It requests one
+L40S, 2 CPUs and 32G RAM. The job is pending; no ISRUC PAC score is reported yet.
+The existing accepted ISRUC arrays and original two-axis measured checkpoint
+are reused, with the same Tort-MI targets and ridge readout as above.
+
+The retained checkpoint loads strictly and all seven representation endpoints
+pass the CPU shape check. The scheduled job performs GPU smokes before its
+full evaluation. CBraMod and LaBraM's historical ISRUC directories contain
+result records but their trained checkpoints have not yet been located, so
+those two evaluations have not been submitted.
+
+See the [launch record](../experiments/audits/real-eeg-pac-isruc-20261110.json)
+and [Slurm script](../slurm/torch_pac_readout.slurm). The CfFT checkpoint is
+preserved in the existing private Hugging Face checkpoint archive.
