@@ -680,9 +680,10 @@ are reused, with the same Tort-MI targets and ridge readout as above.
 
 The retained checkpoint loads strictly and all seven representation endpoints
 pass the CPU shape check. The scheduled job performs GPU smokes before its
-full evaluation. CBraMod and LaBraM's historical ISRUC directories contain
-result records but their trained checkpoints have not yet been located, so
-those two evaluations have not been submitted.
+full evaluation. A live search of all 717 Hugging Face object mappings, four
+historical manifests and subsequent checkpoint mappings found no trained ISRUC
+weights for CBraMod or LaBraM. Their corresponding historical directories on
+145 and Torch contain result records only; those two evaluations remain unsubmitted.
 
 See the [launch record](../experiments/audits/real-eeg-pac-isruc-20261110.json)
 and [Slurm script](../slurm/torch_pac_readout.slurm). The CfFT checkpoint is

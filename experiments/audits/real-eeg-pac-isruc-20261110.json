@@ -108,12 +108,76 @@
   "other_requested_models": {
     "cbramod": {
       "status": "not_submitted",
-      "reason": "trained_ISRUC_checkpoint_not_located; historical result.json alone cannot be evaluated"
+      "reason": "No ISRUC-trained checkpoint in complete live HF object mappings, four historical manifests or later mappings; historical 145/Torch result directories contain only result.json."
     },
     "labram": {
       "status": "not_submitted",
-      "reason": "trained_ISRUC_checkpoint_not_located; historical result.json alone cannot be evaluated"
+      "reason": "No ISRUC-trained checkpoint in complete live HF object mappings, four historical manifests or later mappings; historical 145/Torch result directories contain only result.json."
     }
   },
-  "results": null
+  "results": null,
+  "checkpoint_search": {
+    "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+    "revision": "595ca5eac0f7dae359680e6d1c90ed22d1767b59",
+    "root_manifest_sha256": "7cf33d5ba4317faf9e8a98055ee1ed788b082346fb75e08a8c1f45389353ddc1",
+    "source_path_records": 1201,
+    "original_snapshot_objects": 715,
+    "live_object_mappings_checked": 717,
+    "objects_outside_original_manifest": [
+      "objects/1c/1cb82e40e083b9f10121ffba770eb48b043fef0f12f8d3323c63c0204bf4072c.bin",
+      "objects/bc/bcf7c8a9e9613766d1ee495530af1641af71344b9fba484b96bf85495f7b4df1.bin"
+    ],
+    "additional_mapping_files_checked": [
+      "evaluations/pac-guidance-readout-20261110/checkpoints.json",
+      "evaluations/pac-guidance-readout-20261110/scores.json",
+      "evaluations/pac-isruc-20261110/checkpoints.json",
+      "evaluations/real-eeg-pac-20261110/checkpoints.json"
+    ],
+    "branches": [
+      {
+        "name": "main",
+        "revision": "595ca5eac0f7dae359680e6d1c90ed22d1767b59"
+      }
+    ],
+    "tags": [],
+    "historical_manifest_checks": [
+      {
+        "revision": "87897484704cd90d9be11d85999a7f50dc4972bb",
+        "title": "Preserve checkpoint index and run metadata",
+        "source_paths": 1201,
+        "manifest_sha256": "7cf33d5ba4317faf9e8a98055ee1ed788b082346fb75e08a8c1f45389353ddc1",
+        "target_matches": []
+      },
+      {
+        "revision": "72001687baeb7927f4de60fc341daa0ac3a0e9c8",
+        "title": "Preserve checkpoint index and run metadata",
+        "source_paths": 1201,
+        "manifest_sha256": "7cf33d5ba4317faf9e8a98055ee1ed788b082346fb75e08a8c1f45389353ddc1",
+        "target_matches": []
+      },
+      {
+        "revision": "9f3eb76ca7c2dd6f9a7cb6d99a6b97b9377779e3",
+        "title": "Preserve checkpoint index and run metadata",
+        "source_paths": 1201,
+        "manifest_sha256": "7cf33d5ba4317faf9e8a98055ee1ed788b082346fb75e08a8c1f45389353ddc1",
+        "target_matches": []
+      },
+      {
+        "revision": "031ba2f917a91d3619c02a9f061706961d0e2d4a",
+        "title": "Preserve checkpoint index and run metadata",
+        "source_paths": 1201,
+        "manifest_sha256": "7cf33d5ba4317faf9e8a98055ee1ed788b082346fb75e08a8c1f45389353ddc1",
+        "target_matches": []
+      }
+    ],
+    "isruc_trained_matches": {
+      "cbramod": 0,
+      "labram": 0
+    },
+    "historical_directories_checked": [
+      "145:/data2/zz5070/CFM4EEG-a128-r1-20260916/runs/isruc-{cbramod,labram}_{scratch,pretrained}/seed0",
+      "torch:/scratch/zz5070/PACLock/runs/isruc-{cbramod,labram}_{scratch,pretrained}/seed0"
+    ],
+    "directory_observation": "result.json only; no trained checkpoint file"
+  }
 }
