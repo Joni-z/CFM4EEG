@@ -8,11 +8,15 @@ the unchanged original engine divides physical microvolts by100.
 from __future__ import annotations
 
 import argparse
+import difflib
 import hashlib
+import inspect
 import json
+import math
 import os
 from pathlib import Path
 import sys
+from types import ModuleType
 
 COMMIT = "c431221e6cfd23dbfa9950e0180682fb322b0548"
 SOURCE = {
@@ -50,6 +54,48 @@ def verify_shared_receipt(root, accepted, dataset, expected_manifest_sha256=None
             raise ValueError("Accepted shared file changed: " + name)
 
 
+def selection_metric(cfg: dict) -> str:
+    """Keep native accuracy except for the explicit corrected CHB recipe."""
+    metric = cfg.get("selection_metric", "accuracy")
+    if cfg["dataset"] == "CHBMIT":
+        if metric != "roc_auc" or cfg["batch_size"] * cfg["update_freq"] != 512:
+            raise ValueError("CHB requires validation roc_auc and effective batch512")
+    elif metric != "accuracy":
+        raise ValueError("Other LaBraM tasks retain native validation accuracy")
+    return metric
+
+
+def adapt_chb_selection(native: ModuleType) -> str:
+    """Patch only the pinned main's selection criterion, leaving vendor files intact."""
+    original = inspect.getsource(native.main)
+    changes = [
+        ('max_accuracy = 0.0', 'max_accuracy = -float("inf")', 1),
+        ('val_stats["accuracy"]', 'val_stats["roc_auc"]', 2),
+        ("print(f'Max accuracy val: {max_accuracy:.2f}%, max accuracy test: {max_accuracy_test:.2f}%')",
+         "print(f'Max validation AUROC: {max_accuracy:.6f}')", 1),
+    ]
+    patched = original
+    for before, after, count in changes:
+        if original.count(before) != count:
+            raise ValueError("Pinned LaBraM checkpoint-selection anchor changed")
+        patched = patched.replace(before, after)
+    exec(compile(patched, native.__file__, "exec"), native.__dict__)
+    return ''.join(difflib.unified_diff(original.splitlines(True), patched.splitlines(True),
+                                       fromfile="native/main", tofile="adapted/main"))
+
+
+def defer_test_evaluation(evaluate, metrics: list[str], metric: str):
+    """Select on validation only; keep its metric names and values unchanged."""
+    def deferred(loader, model, device, header="Test:", **kwargs):
+        if header.startswith("Test"):
+            return {key: 0. for key in metrics + ["loss"]}
+        scores = evaluate(loader, model, device, header=header, **kwargs)
+        if header.startswith("Val") and not math.isfinite(scores[metric]):
+            raise ValueError("Nonfinite validation selection metric: " + metric)
+        return scores
+    return deferred
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("config", type=Path)
@@ -61,11 +107,13 @@ def main():
     cfg = json.loads(a.config.read_text())
     if cfg["seed"] != 0 or not isinstance(cfg.get("pretrained"), bool):
         raise ValueError("An explicit scratch/pretrained seed0 setting is required")
+    metric = selection_metric(cfg)
     pretrained = cfg["pretrained"]
     iiic = cfg["dataset"] == "IIIC"
+    is_chb = cfg["dataset"] == "CHBMIT"
     if iiic and pretrained:
         raise ValueError("Only the reviewed scratch IIIC task is supported")
-    audited_export = pretrained or iiic or cfg["dataset"] == "TUEV_SHARED16"
+    audited_export = pretrained or iiic or is_chb or cfg["dataset"] == "TUEV_SHARED16"
     weights = Path(os.path.expandvars(os.path.expanduser(cfg["pretrained_path"]))) if pretrained else None
     if weights is not None and (not weights.is_file() or sha(weights) != cfg["pretrained_sha256"]):
         raise ValueError("Released pretrained checkpoint missing or hash mismatch")
@@ -96,6 +144,8 @@ def main():
     from torch.utils.data import Dataset, Subset, DataLoader
     import run_class_finetuning as native
     import utils
+    if is_chb:
+        (a.out / "upstream-selection.patch").write_text(adapt_chb_selection(native))
     if pretrained:
         # Torch>=2.6 defaults to tensor-only loading. The SHA-verified author
         # file also contains legacy NumPy/Namespace metadata, irrelevant to
@@ -130,7 +180,6 @@ def main():
     elif cfg["dataset"] in ("CHBMIT", "ADFD", "TUEV_SHARED16", "IIIC"):
         manifest = json.loads((root / "manifest.json").read_text())
         expected_manifest = accepted["manifest_sha256"]
-        is_chb = cfg["dataset"] == "CHBMIT"
         shared_tuev = cfg["dataset"] == "TUEV_SHARED16"
         ready = json.loads((root / "READY.json").read_text()) if is_chb else {"manifest_sha256": expected_manifest}
         if sha(root / "manifest.json") != expected_manifest or ready["manifest_sha256"] != expected_manifest:
@@ -188,7 +237,8 @@ def main():
                 # Include both classes in validation to exercise native binary metrics.
                 ids = [int(np.flatnonzero(va.y == label)[0]) for label in range(n_classes)]
                 va = Subset(va, ids * (96 // n_classes))
-                tr = Subset(tr, range(256))
+                # Four full CHB accumulation groups also exercise AMP recovery.
+                tr = Subset(tr, range(4 * cfg["batch_size"] * cfg["update_freq"] if is_chb else 256))
                 te = va
             else:
                 te = SharedCHB("test")
@@ -201,7 +251,7 @@ def main():
     argv = ["--dataset", "TUEV" if cfg["dataset"] in ("TUEV", "TUEV_SHARED16", "IIIC") else "TUAB",
             "--output_dir", str(a.out), "--model", "labram_base_patch200_200",
             "--seed", "0", "--batch_size", str(cfg["batch_size"]),
-            "--update_freq", "1" if a.smoke else str(cfg["update_freq"]),
+            "--update_freq", "1" if a.smoke and not is_chb else str(cfg["update_freq"]),
             "--epochs", "1" if a.smoke else str(cfg["epochs"]),
             "--warmup_epochs", "0" if a.smoke else str(cfg["warmup_epochs"]),
             "--lr", str(cfg["lr"]), "--min_lr", "1e-6",
@@ -213,6 +263,7 @@ def main():
         argv += ["--finetune", str(bridge)]
     sys.argv = ["run_class_finetuning.py"] + argv
     args, ds_init = native.get_args()
+    args.selection_metric = metric
     if args.resume or ds_init or bool(args.finetune) != pretrained:
         raise ValueError("Unexpected resume, initialization or DeepSpeed setting")
     captured = {}
@@ -267,17 +318,29 @@ def main():
             (a.out / "pretrained_load.json").write_text(json.dumps(audit, indent=2))
         utils.load_state_dict = checked_load
     if audited_export:
-        # Native selection is validation accuracy; held-out testing is deferred.
         original_evaluate = native.evaluate
+        # Metrics are filled by get_dataset inside native.main.
         def deferred_test(loader, model, device, header="Test:", **kwargs):
-            if header.startswith("Test"):
-                return {key: 0. for key in final_data["metrics"] + ["loss"]}
-            return original_evaluate(loader, model, device, header=header, **kwargs)
+            return defer_test_evaluation(original_evaluate, final_data["metrics"], metric)(
+                loader, model, device, header=header, **kwargs)
         native.evaluate = deferred_test
     (a.out / "provenance.json").write_text(json.dumps(dict(identity=identity, config=cfg,
         args=vars(args), recipe_scope=cfg["recipe_scope"], input_scope=cfg["input_scope"],
         smoke=a.smoke, test_payload_read=not a.smoke), indent=2))
     native.main(args, ds_init)
+    selection = {}
+    if audited_export:
+        history = [json.loads(line) for line in (a.out / "log.txt").read_text().splitlines()]
+        expected_epochs = 1 if a.smoke else cfg["epochs"]
+        if [row["epoch"] for row in history] != list(range(expected_epochs)):
+            raise RuntimeError("Native training did not complete the intended epoch budget")
+        chosen = history[-1] if a.smoke else max(history, key=lambda row: row["val_" + metric])
+        selection = dict(epochs_run=len(history), best_epoch=chosen["epoch"], epoch_indexing="zero_based",
+                         selection_metric=metric, best_val=chosen["val_" + metric],
+                         selection_rule="strict_validation_" + metric + "_max_first_tie", stopped_by="epochs",
+                         checkpoint_selection=("smoke_terminal" if a.smoke else
+                                               "validation_roc_auc" if is_chb else "native_validation_accuracy"),
+                         effective_batch=cfg["batch_size"] * (cfg["update_freq"] if is_chb or not a.smoke else 1))
     model = captured["model"]
     checkpoint = a.out / ("checkpoint-best.pth" if audited_export and not a.smoke else "checkpoint.pth")
     ckpt = torch.load(checkpoint, map_location="cpu", weights_only=False)
@@ -287,7 +350,7 @@ def main():
     if torch.equal(captured["head_before"], model.head.weight.detach().cpu()):
         raise RuntimeError("Native optimizer made no classifier update")
     proof = dict(status="passed", identity=identity, checkpoint_strict_reload=True,
-                 classifier_updated=True, finite_model=True, smoke=a.smoke)
+                 classifier_updated=True, finite_model=True, smoke=a.smoke, **selection)
     if audited_export:
         if captured["optimizer_updates"] < 1:
             raise RuntimeError("Native scaler skipped every optimizer update")
@@ -329,7 +392,7 @@ def main():
         (a.out / ("smoke_export.json" if a.smoke else "result.json")).write_text(json.dumps(dict(config=cfg, seed=0, metrics=scores,
             pretrained_load=json.loads((a.out/"pretrained_load.json").read_text()) if pretrained else None,
             evaluation_split="validation" if a.smoke else "test",
-            checkpoint_selection="smoke_terminal" if a.smoke else "native_validation_accuracy",
+            **selection,
             selected_checkpoint=str(checkpoint), selected_checkpoint_sha256=sha(checkpoint)), indent=2))
     (a.out / ("smoke_pass.json" if a.smoke else "native_completed.json")).write_text(json.dumps(proof, indent=2))
 

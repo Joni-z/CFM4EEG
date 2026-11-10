@@ -53,7 +53,7 @@
   "configs/baselines/cbramod/tuev-pretrained.yaml": "24af8a050872155b726486e4807aadf62690312bcd7039be28ccfcdbfdc7e222",
   "configs/baselines/eegpt/chbmit-pretrained.yaml": "ec74b6b3917b765f6a70bcec4b3d194056e21672c0e5cfce96083c0967196a3a",
   "configs/baselines/eegpt/tuev-native23-pretrained.yaml": "349864591d8d7aabeaeb506276c18d3919410eabd3d33a70bebbd02329fbd7cd",
-  "configs/baselines/labram/chbmit-pretrained.json": "f469839da095e520b2e245436749b7b4ecdf2277a4a64228a6994949864a1e2f",
+  "configs/baselines/labram/chbmit-pretrained.json": "bd0d1df11679f0b34a927b88a51a76ebe61d8294ce4235a7989e711e8764fae0",
   "configs/baselines/labram/tuev-native23-pretrained.json": "59488cbc7c70befa0664cc4a7ee05408fa0e68d5f86878b83ce0f6fa536b595f",
   "configs/baselines/eegpt/tuev-shared16-pretrained.yaml": "64508460e2d0ab2a7633ad1dc2828eda5e9449c87a5d87563f6a390a14936196",
   "configs/baselines/labram/tuev-shared16-pretrained.json": "3ebca9d17046f8c390d3b16833d6d9e4c090b98935c77d55e93ab8af8456e738",
