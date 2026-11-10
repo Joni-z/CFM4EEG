@@ -1,0 +1,23 @@
+{
+  "test_signals.npy": {
+    "path": "/data2/zz5070/CFM4EEG-rebuild-20261021/legacy-triaxial-validation-20261105/data/chbmit/test_signals.npy",
+    "bytes": 2225408128,
+    "sha256": "a8bb4dc2dbf85919aefe783ecc465654a7f0ee368ba573270cc7209371d0ed28",
+    "local_sha256": "a8bb4dc2dbf85919aefe783ecc465654a7f0ee368ba573270cc7209371d0ed28",
+    "matches": true
+  },
+  "train_signals.npy": {
+    "path": "/data2/zz5070/CFM4EEG-rebuild-20261021/legacy-triaxial-validation-20261105/data/chbmit/train_signals.npy",
+    "bytes": 40474240128,
+    "sha256": "338de14c63c161636bbaf732e6c84285717ad1668d55c48c98395053ac908012",
+    "local_sha256": "338de14c63c161636bbaf732e6c84285717ad1668d55c48c98395053ac908012",
+    "matches": true
+  },
+  "val_signals.npy": {
+    "path": "/data2/zz5070/CFM4EEG-rebuild-20261021/legacy-triaxial-validation-20261105/data/chbmit/val_signals.npy",
+    "bytes": 2711552128,
+    "sha256": "2eb1f28398ff16d957cc4e907ad9d17c5165d08d678be0a41e1738f9a3f7bc3d",
+    "local_sha256": "2eb1f28398ff16d957cc4e907ad9d17c5165d08d678be0a41e1738f9a3f7bc3d",
+    "matches": true
+  }
+}

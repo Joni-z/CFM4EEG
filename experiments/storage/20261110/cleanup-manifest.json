@@ -1,0 +1,1914 @@
+{
+  "created_at": "2026-11-10",
+  "root": "/Users/mr.z/CFM4EEG",
+  "authorization": "User authorized unused datasets and scratch/cache deletion on Mac mini.",
+  "candidates": [
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/adfd/test_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 167352128,
+      "allocated_bytes": 167354368,
+      "device": 16777234,
+      "inode": 16113881,
+      "mtime_ns": 1787231024000000000,
+      "links": 1,
+      "shape": [
+        1101,
+        19,
+        2000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/adfd/train_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 744040128,
+      "allocated_bytes": 744042496,
+      "device": 16777234,
+      "inode": 16113899,
+      "mtime_ns": 1787231018000000000,
+      "links": 1,
+      "shape": [
+        4895,
+        19,
+        2000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/adfd/val_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 143184128,
+      "allocated_bytes": 143187968,
+      "device": 16777234,
+      "inode": 16113944,
+      "mtime_ns": 1787231021000000000,
+      "links": 1,
+      "shape": [
+        942,
+        19,
+        2000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/caueeg/test_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 631408128,
+      "allocated_bytes": 631410688,
+      "device": 16777234,
+      "inode": 16229236,
+      "mtime_ns": 1787579108000000000,
+      "links": 1,
+      "shape": [
+        4154,
+        19,
+        2000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/caueeg/train_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 6841064128,
+      "allocated_bytes": 6841065472,
+      "device": 16777234,
+      "inode": 16229263,
+      "mtime_ns": 1787579094000000000,
+      "links": 1,
+      "shape": [
+        45007,
+        19,
+        2000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/caueeg/val_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 582920128,
+      "allocated_bytes": 582922240,
+      "device": 16777234,
+      "inode": 16232195,
+      "mtime_ns": 1787579101000000000,
+      "links": 1,
+      "shape": [
+        3835,
+        19,
+        2000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/chbmit/test_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 2225408128,
+      "allocated_bytes": 2225410048,
+      "device": 16777234,
+      "inode": 16152807,
+      "mtime_ns": 1785848403000000000,
+      "links": 1,
+      "shape": [
+        17386,
+        16,
+        2000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/chbmit/train_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 40474240128,
+      "allocated_bytes": 40474243072,
+      "device": 16777234,
+      "inode": 16152893,
+      "mtime_ns": 1785848384000000000,
+      "links": 1,
+      "shape": [
+        316205,
+        16,
+        2000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/chbmit/val_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 2711552128,
+      "allocated_bytes": 2711556096,
+      "device": 16777234,
+      "inode": 16187526,
+      "mtime_ns": 1785848395000000000,
+      "links": 1,
+      "shape": [
+        21184,
+        16,
+        2000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/isruc/test_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 1252800128,
+      "allocated_bytes": 1252802560,
+      "device": 16777234,
+      "inode": 16237896,
+      "mtime_ns": 1785901396000000000,
+      "links": 1,
+      "shape": [
+        435,
+        20,
+        6,
+        6000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/isruc/train_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 9996480128,
+      "allocated_bytes": 9996480512,
+      "device": 16777234,
+      "inode": 16237936,
+      "mtime_ns": 1785901394000000000,
+      "links": 1,
+      "shape": [
+        3471,
+        20,
+        6,
+        6000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/isruc/val_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 1347840128,
+      "allocated_bytes": 1347842048,
+      "device": 16777234,
+      "inode": 16240475,
+      "mtime_ns": 1785901395000000000,
+      "links": 1,
+      "shape": [
+        468,
+        20,
+        6,
+        6000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/siena/test_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 1666680128,
+      "allocated_bytes": 1666682880,
+      "device": 16777234,
+      "inode": 16212793,
+      "mtime_ns": 1787822105000000000,
+      "links": 1,
+      "shape": [
+        10965,
+        19,
+        2000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/siena/train_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 5239744128,
+      "allocated_bytes": 5239746560,
+      "device": 16777234,
+      "inode": 16213079,
+      "mtime_ns": 1787822013000000000,
+      "links": 1,
+      "shape": [
+        34472,
+        19,
+        2000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/siena/val_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 807424128,
+      "allocated_bytes": 807428096,
+      "device": 16777234,
+      "inode": 16223962,
+      "mtime_ns": 1787822043000000000,
+      "links": 1,
+      "shape": [
+        5312,
+        19,
+        2000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/sleepedf/test_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 897528128,
+      "allocated_bytes": 897531904,
+      "device": 16777234,
+      "inode": 16118192,
+      "mtime_ns": 1785841195000000000,
+      "links": 1,
+      "shape": [
+        37397,
+        2,
+        3000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/sleepedf/train_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 2938320128,
+      "allocated_bytes": 2938322944,
+      "device": 16777234,
+      "inode": 16118223,
+      "mtime_ns": 1785841192000000000,
+      "links": 1,
+      "shape": [
+        122430,
+        2,
+        3000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/sleepedf/val_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 855408128,
+      "allocated_bytes": 855408640,
+      "device": 16777234,
+      "inode": 16118299,
+      "mtime_ns": 1785841194000000000,
+      "links": 1,
+      "shape": [
+        35642,
+        2,
+        3000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/tuar/test_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 123904128,
+      "allocated_bytes": 123908096,
+      "device": 16777234,
+      "inode": 16210064,
+      "mtime_ns": 1786964626000000000,
+      "links": 1,
+      "shape": [
+        1936,
+        16,
+        1000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/tuar/train_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 1321600128,
+      "allocated_bytes": 1321603072,
+      "device": 16777234,
+      "inode": 16210079,
+      "mtime_ns": 1786964620000000000,
+      "links": 1,
+      "shape": [
+        20650,
+        16,
+        1000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/legacy/workspaces/PACLock-monitor/quad16-breadth/staging/tuar/val_signals.npy",
+      "category": "obsolete_dataset_signal_cache",
+      "bytes": 322944128,
+      "allocated_bytes": 322945024,
+      "device": 16777234,
+      "inode": 16210254,
+      "mtime_ns": 1786964623000000000,
+      "links": 1,
+      "shape": [
+        5046,
+        16,
+        1000
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/common-comparison/original_cfft-features.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 21233792,
+      "allocated_bytes": 21237760,
+      "device": 16777234,
+      "inode": 20261524,
+      "mtime_ns": 1793649076460285875,
+      "links": 1,
+      "shape": [
+        4608,
+        576
+      ],
+      "dtype": "float64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/common-comparison/pac_residual_3pct-features.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 21233792,
+      "allocated_bytes": 21237760,
+      "device": 16777234,
+      "inode": 20261527,
+      "mtime_ns": 1793649079867752681,
+      "links": 1,
+      "shape": [
+        4608,
+        576
+      ],
+      "dtype": "float64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/common-comparison/tfm_released_multi-features.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 21233792,
+      "allocated_bytes": 21237760,
+      "device": 16777234,
+      "inode": 20261531,
+      "mtime_ns": 1793649083247151346,
+      "links": 1,
+      "shape": [
+        4608,
+        576
+      ],
+      "dtype": "float64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/common-comparison/wavepatch-features.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 21233792,
+      "allocated_bytes": 21237760,
+      "device": 16777234,
+      "inode": 20261548,
+      "mtime_ns": 1793649086556147705,
+      "links": 1,
+      "shape": [
+        4608,
+        576
+      ],
+      "dtype": "float64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/common-comparison-fixed/original_cfft-features.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 21233792,
+      "allocated_bytes": 21237760,
+      "device": 16777234,
+      "inode": 20261905,
+      "mtime_ns": 1793649430779190190,
+      "links": 1,
+      "shape": [
+        4608,
+        576
+      ],
+      "dtype": "float64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/common-comparison-fixed/pac_residual_3pct-features.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 21233792,
+      "allocated_bytes": 21237760,
+      "device": 16777234,
+      "inode": 20261909,
+      "mtime_ns": 1793649434189540039,
+      "links": 1,
+      "shape": [
+        4608,
+        576
+      ],
+      "dtype": "float64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/common-comparison-fixed/tfm_released_multi-features.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 21233792,
+      "allocated_bytes": 21237760,
+      "device": 16777234,
+      "inode": 20261912,
+      "mtime_ns": 1793649437645211429,
+      "links": 1,
+      "shape": [
+        4608,
+        576
+      ],
+      "dtype": "float64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/common-comparison-fixed/wavepatch-features.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 21233792,
+      "allocated_bytes": 21237760,
+      "device": 16777234,
+      "inode": 20261917,
+      "mtime_ns": 1793649440871842863,
+      "links": 1,
+      "shape": [
+        4608,
+        576
+      ],
+      "dtype": "float64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/confirmation/base.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 754974848,
+      "allocated_bytes": 754978816,
+      "device": 16777234,
+      "inode": 20260022,
+      "mtime_ns": 1793648339369744988,
+      "links": 1,
+      "shape": [
+        4608,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/confirmation/coefficient.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 754974848,
+      "allocated_bytes": 754978816,
+      "device": 16777234,
+      "inode": 20260023,
+      "mtime_ns": 1793648339392159176,
+      "links": 1,
+      "shape": [
+        4608,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/confirmation/content.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 754974848,
+      "allocated_bytes": 754978816,
+      "device": 16777234,
+      "inode": 20260024,
+      "mtime_ns": 1793648339417355862,
+      "links": 1,
+      "shape": [
+        4608,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/confirmation/tangent.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 754974848,
+      "allocated_bytes": 754978816,
+      "device": 16777234,
+      "inode": 20260025,
+      "mtime_ns": 1793648339443126247,
+      "links": 1,
+      "shape": [
+        4608,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/context-common-comparison/original_cfft-features.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 21233792,
+      "allocated_bytes": 21237760,
+      "device": 16777234,
+      "inode": 20262163,
+      "mtime_ns": 1793649639071775066,
+      "links": 1,
+      "shape": [
+        4608,
+        576
+      ],
+      "dtype": "float64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/context-common-comparison/pac_context_slot-features.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 21233792,
+      "allocated_bytes": 21237760,
+      "device": 16777234,
+      "inode": 20262173,
+      "mtime_ns": 1793649644984517897,
+      "links": 1,
+      "shape": [
+        4608,
+        576
+      ],
+      "dtype": "float64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/context-common-comparison/tfm_released_multi-features.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 21233792,
+      "allocated_bytes": 21237760,
+      "device": 16777234,
+      "inode": 20262178,
+      "mtime_ns": 1793649649083480256,
+      "links": 1,
+      "shape": [
+        4608,
+        576
+      ],
+      "dtype": "float64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/context-common-comparison/wavepatch-features.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 21233792,
+      "allocated_bytes": 21237760,
+      "device": 16777234,
+      "inode": 20262185,
+      "mtime_ns": 1793649655291086470,
+      "links": 1,
+      "shape": [
+        4608,
+        576
+      ],
+      "dtype": "float64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/context-confirmation-base/base.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 754974848,
+      "allocated_bytes": 754978816,
+      "device": 16777234,
+      "inode": 20261952,
+      "mtime_ns": 1793649513698132473,
+      "links": 1,
+      "shape": [
+        4608,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/context-confirmation-base/coefficient.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 754974848,
+      "allocated_bytes": 754978816,
+      "device": 16777234,
+      "inode": 20261953,
+      "mtime_ns": 1793649513761354275,
+      "links": 1,
+      "shape": [
+        4608,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/development/base.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 587202688,
+      "allocated_bytes": 587206656,
+      "device": 16777234,
+      "inode": 20259431,
+      "mtime_ns": 1793648057944071251,
+      "links": 1,
+      "shape": [
+        3584,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/development/coefficient.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 587202688,
+      "allocated_bytes": 587206656,
+      "device": 16777234,
+      "inode": 20259432,
+      "mtime_ns": 1793648058140744187,
+      "links": 1,
+      "shape": [
+        3584,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/development/content.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 587202688,
+      "allocated_bytes": 587206656,
+      "device": 16777234,
+      "inode": 20259433,
+      "mtime_ns": 1793648058353218916,
+      "links": 1,
+      "shape": [
+        3584,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/development/tangent.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 587202688,
+      "allocated_bytes": 587206656,
+      "device": 16777234,
+      "inode": 20259434,
+      "mtime_ns": 1793648058564051462,
+      "links": 1,
+      "shape": [
+        3584,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/multi-pair/pair-3-24/base.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20261221,
+      "mtime_ns": 1793648999799885849,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/multi-pair/pair-3-24/coefficient.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20261222,
+      "mtime_ns": 1793648999835154667,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/multi-pair/pair-3-40/base.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20261318,
+      "mtime_ns": 1793649022238331411,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/multi-pair/pair-3-40/coefficient.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20261319,
+      "mtime_ns": 1793649022364936790,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/multi-pair/pair-4-32/base.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20261341,
+      "mtime_ns": 1793649044739571485,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/multi-pair/pair-4-32/coefficient.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20261342,
+      "mtime_ns": 1793649044886038966,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/multi-pair/pair-5-40/base.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20261369,
+      "mtime_ns": 1793649070884714260,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-token-20261103/multi-pair/pair-5-40/coefficient.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20261370,
+      "mtime_ns": 1793649070981080532,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed0/curve/identity.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411681,
+      "mtime_ns": 1793816983619014291,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed0/curve/measured.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411680,
+      "mtime_ns": 1793816983503352586,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed0/curve/moments.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 73400448,
+      "allocated_bytes": 73404416,
+      "device": 16777234,
+      "inode": 20411678,
+      "mtime_ns": 1793816980080496626,
+      "links": 1,
+      "shape": [
+        1792,
+        1,
+        20,
+        16,
+        16
+      ],
+      "dtype": "complex64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed0/curve/wrong_record.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411682,
+      "mtime_ns": 1793816983730123067,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed0/pairing/identity.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411701,
+      "mtime_ns": 1793816992555361044,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed0/pairing/measured.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411700,
+      "mtime_ns": 1793816992451048326,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed0/pairing/moments.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 73400448,
+      "allocated_bytes": 73404416,
+      "device": 16777234,
+      "inode": 20411699,
+      "mtime_ns": 1793816989085129211,
+      "links": 1,
+      "shape": [
+        1792,
+        1,
+        20,
+        16,
+        16
+      ],
+      "dtype": "complex64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed0/pairing/wrong_record.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411702,
+      "mtime_ns": 1793816992660158670,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed2/curve/identity.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411788,
+      "mtime_ns": 1793817030549696747,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed2/curve/measured.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411787,
+      "mtime_ns": 1793817030387043122,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed2/curve/moments.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 73400448,
+      "allocated_bytes": 73404416,
+      "device": 16777234,
+      "inode": 20411786,
+      "mtime_ns": 1793817026797069524,
+      "links": 1,
+      "shape": [
+        1792,
+        1,
+        20,
+        16,
+        16
+      ],
+      "dtype": "complex64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed2/curve/wrong_record.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411789,
+      "mtime_ns": 1793817030672087844,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed2/pairing/identity.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411824,
+      "mtime_ns": 1793817039666713630,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed2/pairing/measured.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411823,
+      "mtime_ns": 1793817039531680441,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed2/pairing/moments.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 73400448,
+      "allocated_bytes": 73404416,
+      "device": 16777234,
+      "inode": 20411822,
+      "mtime_ns": 1793817036076026127,
+      "links": 1,
+      "shape": [
+        1792,
+        1,
+        20,
+        16,
+        16
+      ],
+      "dtype": "complex64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/chbmit-seed2/pairing/wrong_record.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411825,
+      "mtime_ns": 1793817039782836368,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed0/curve/identity.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411624,
+      "mtime_ns": 1793816959818159496,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed0/curve/measured.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411623,
+      "mtime_ns": 1793816959637403201,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed0/curve/moments.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 73400448,
+      "allocated_bytes": 73404416,
+      "device": 16777234,
+      "inode": 20411621,
+      "mtime_ns": 1793816956081547729,
+      "links": 1,
+      "shape": [
+        1792,
+        1,
+        20,
+        16,
+        16
+      ],
+      "dtype": "complex64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed0/curve/wrong_record.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411625,
+      "mtime_ns": 1793816960005334940,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed0/pairing/identity.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411647,
+      "mtime_ns": 1793816968975152412,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed0/pairing/measured.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411646,
+      "mtime_ns": 1793816968834395230,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed0/pairing/moments.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 73400448,
+      "allocated_bytes": 73404416,
+      "device": 16777234,
+      "inode": 20411645,
+      "mtime_ns": 1793816965387313613,
+      "links": 1,
+      "shape": [
+        1792,
+        1,
+        20,
+        16,
+        16
+      ],
+      "dtype": "complex64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed0/pairing/wrong_record.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411648,
+      "mtime_ns": 1793816969115418975,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed2/curve/identity.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411729,
+      "mtime_ns": 1793817006853023839,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed2/curve/measured.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411728,
+      "mtime_ns": 1793817006719636083,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed2/curve/moments.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 73400448,
+      "allocated_bytes": 73404416,
+      "device": 16777234,
+      "inode": 20411727,
+      "mtime_ns": 1793817003354658870,
+      "links": 1,
+      "shape": [
+        1792,
+        1,
+        20,
+        16,
+        16
+      ],
+      "dtype": "complex64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed2/curve/wrong_record.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411730,
+      "mtime_ns": 1793817007007242723,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed2/pairing/identity.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411753,
+      "mtime_ns": 1793817015825196898,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed2/pairing/measured.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411752,
+      "mtime_ns": 1793817015679508421,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed2/pairing/moments.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 73400448,
+      "allocated_bytes": 73404416,
+      "device": 16777234,
+      "inode": 20411751,
+      "mtime_ns": 1793817012334249519,
+      "links": 1,
+      "shape": [
+        1792,
+        1,
+        20,
+        16,
+        16
+      ],
+      "dtype": "complex64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/results/tuev-seed2/pairing/wrong_record.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20411754,
+      "mtime_ns": 1793817015989872699,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/original-cfft-pac-readout-20261102/full-token/full-tokens.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 1310720128,
+      "allocated_bytes": 1310724096,
+      "device": 16777234,
+      "inode": 20250588,
+      "mtime_ns": 1793634620105732621,
+      "links": 1,
+      "shape": [
+        8000,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-c-downstream-20261104/def-screen/angle_only.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20350964,
+      "mtime_ns": 1793741922723184858,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-c-downstream-20261104/def-screen/envelope_only.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20350965,
+      "mtime_ns": 1793741922820036999,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-c-downstream-20261104/def-screen/original.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20350961,
+      "mtime_ns": 1793741922431393620,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-c-downstream-20261104/def-screen/strength_only.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20350963,
+      "mtime_ns": 1793741922626082720,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-c-downstream-20261104/def-screen/unrotated.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20350962,
+      "mtime_ns": 1793741922528417258,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-c-downstream-20261104/f-confirmation/coefficients.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 22118528,
+      "allocated_bytes": 22122496,
+      "device": 16777234,
+      "inode": 20351089,
+      "mtime_ns": 1793742008666517715,
+      "links": 1,
+      "shape": [
+        2304,
+        1,
+        20,
+        6,
+        5,
+        2
+      ],
+      "dtype": "complex64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-c-downstream-20261104/f-confirmation/envelope_only.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20351054,
+      "mtime_ns": 1793742026414623695,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-c-downstream-20261104/f-confirmation/original.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20351052,
+      "mtime_ns": 1793742026400090013,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-c-downstream-20261104/f-confirmation/unrotated.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20351053,
+      "mtime_ns": 1793742026407554393,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-c-downstream-20261104/f-confirmation/wrong_envelope_only.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20351055,
+      "mtime_ns": 1793742026429518454,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/confirmation/original-native.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20315657,
+      "mtime_ns": 1793700340997022025,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/confirmation/radial_binding_0.1-native.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20315658,
+      "mtime_ns": 1793700344417667336,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/confirmation/radial_binding_0.3-native.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20315659,
+      "mtime_ns": 1793700347723341787,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/confirmation/radial_binding_wrong_0.1-native.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20315660,
+      "mtime_ns": 1793700351010846945,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/diagnosis/identity.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20314646,
+      "mtime_ns": 1793699169145485245,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/diagnosis/local_moments.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 34406528,
+      "allocated_bytes": 34410496,
+      "device": 16777234,
+      "inode": 20314650,
+      "mtime_ns": 1793699173857705912,
+      "links": 1,
+      "shape": [
+        1792,
+        4800
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/diagnosis/original.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20314643,
+      "mtime_ns": 1793699164086654612,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/radial-calibrated/original-native.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20315491,
+      "mtime_ns": 1793700240055230691,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/radial-calibrated/radial_binding_0.1-native.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20315492,
+      "mtime_ns": 1793700242828721279,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/radial-calibrated/radial_binding_0.3-native.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20315493,
+      "mtime_ns": 1793700245572781590,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/radial-calibrated/radial_binding_wrong_0.1-native.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20315494,
+      "mtime_ns": 1793700248309197232,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/radial-screen/original-native.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20315307,
+      "mtime_ns": 1793699981047018797,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/radial-screen/radial_binding_0.1-native.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20315308,
+      "mtime_ns": 1793699983901206383,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/radial-screen/radial_binding_0.3-native.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20315309,
+      "mtime_ns": 1793699986735955072,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/radial-screen/radial_binding_wrong_0.1-native.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20315310,
+      "mtime_ns": 1793699989564231742,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/confirmation/coefficients.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 22118528,
+      "allocated_bytes": 22122496,
+      "device": 16777234,
+      "inode": 20348726,
+      "mtime_ns": 1793739590501034571,
+      "links": 1,
+      "shape": [
+        2304,
+        1,
+        20,
+        6,
+        5,
+        2
+      ],
+      "dtype": "complex64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/confirmation/direct.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20348717,
+      "mtime_ns": 1793739608157043018,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/confirmation/original.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20348715,
+      "mtime_ns": 1793739608145846822,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/confirmation/unrotated.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20348716,
+      "mtime_ns": 1793739608152251219,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/confirmation/wrong_direct.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20348718,
+      "mtime_ns": 1793739608285289757,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/development/aligned.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20348641,
+      "mtime_ns": 1793739531483127557,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/development/direct.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20348643,
+      "mtime_ns": 1793739531777187310,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/development/original.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20348639,
+      "mtime_ns": 1793739531234761573,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/development/strength.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20348642,
+      "mtime_ns": 1793739531651390240,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/development/unrotated.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 293601408,
+      "allocated_bytes": 293605376,
+      "device": 16777234,
+      "inode": 20348640,
+      "mtime_ns": 1793739531368807637,
+      "links": 1,
+      "shape": [
+        1792,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/frequency-check/coefficients.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 22118528,
+      "allocated_bytes": 22122496,
+      "device": 16777234,
+      "inode": 20348891,
+      "mtime_ns": 1793739798827143014,
+      "links": 1,
+      "shape": [
+        2304,
+        1,
+        20,
+        6,
+        5,
+        2
+      ],
+      "dtype": "complex64"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/frequency-check/direct.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20348883,
+      "mtime_ns": 1793739799323621485,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/frequency-check/original.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20348881,
+      "mtime_ns": 1793739799008120034,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    },
+    {
+      "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-singlepath-20261104/frequency-check/unrotated.npy",
+      "category": "reconstructible_feature_matrix",
+      "bytes": 377487488,
+      "allocated_bytes": 377491456,
+      "device": 16777234,
+      "inode": 20348882,
+      "mtime_ns": 1793739799159173867,
+      "links": 1,
+      "shape": [
+        2304,
+        40960
+      ],
+      "dtype": "float32"
+    }
+  ],
+  "allocated_bytes": 111354036224,
+  "preserved": "All checkpoint binaries, result/prediction artifacts, label arrays, source, paper files and main environment."
+}

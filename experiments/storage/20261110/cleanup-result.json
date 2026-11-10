@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-10",
+  "status": "PASS",
+  "removed_files": 123,
+  "removed_allocated_bytes": 111354036224,
+  "removed_logical_bytes": 111353579392,
+  "protected_files_sha256_verified": 21041,
+  "protected_file_failures": [],
+  "checkpoints_deleted": 0,
+  "result_or_prediction_files_deleted": 0,
+  "training_or_remote_files_changed": false,
+  "free_available_bytes_before": 13221740544,
+  "free_available_bytes_after": 124559593472,
+  "local_root": "/Users/mr.z/CFM4EEG",
+  "scope": "Unused local dataset payload copies and derived feature matrices only.",
+  "project_allocated_bytes_after": 11669213184
+}

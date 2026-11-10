@@ -44,3 +44,14 @@ historical paths; the move map locates their current local copies.
 Raw EEG, prediction arrays, checkpoint binaries and environments remain local
 or in their existing external archives. GitHub publishes the corresponding
 metadata and checkpoint locations, not these large artifacts.
+
+## Local cache cleanup, 2026-11-10
+
+The unused signal-array staging copies and older extracted feature matrices
+were removed from the Mac mini under explicit cleanup authorization. Labels,
+original dataset manifests, result files, saved predictions, checkpoints,
+source and manuscripts were retained. Old directory existence therefore does
+not imply that its large signal payload is still cached locally.
+
+See the [cleanup record](../experiments/storage/README.md) for exact paths,
+space reclaimed, preservation checks and remote-copy verification scope.
