@@ -638,3 +638,34 @@ prediction/label order and independent metric recomputation pass. FP32 inference
 at batch128 took679seconds. Checkpoint SHA starts `d8582906abcdab3f`; full weights,
 predictions and receipts are under `maintenance/chbmit-c-eval-legacy-20261104`.
 Both ongoing CHB-MIT training jobs and their selected checkpoints are unchanged.
+
+## Fixed reference for real-EEG PAC readouts (2026-11-10)
+
+Use one measured checkpoint per task for every PAC feature and both representation
+stages, including the cross-model comparison:
+
+- TUEV: the original baseline-comparison two-axis seed0 checkpoint, test kappa
+  0.693214, SHA256 `8da3e24c9eed68d67c8a4cc64ecdfc4cb1ab67cf6d9081cc9a285b79d101048f`.
+- CHB-MIT: the existing three-axis seed0 checkpoint, SHA256
+  `66dbc5919fbe02f6aa49457a2329390211d5576642a276dfb98dcbbef8dfabff`.
+
+The TUEV identity checkpoint has matching core settings but comes from a different
+training round. The historical measured checkpoint with kappa0.684601 remains in
+the archive; it does not supply any cells in this reference table. CHB retains the
+historical measured/identity pair, evaluated on the same natural-grid cohort.
+
+| Dataset | PAC | Token measured | Token identity | Encoder measured | Encoder identity |
+|---|---|---:|---:|---:|---:|
+| TUEV | delta-beta | 0.391 | 0.118 | 0.589 | 0.689 |
+| TUEV | theta-gamma | 0.209 | 0.035 | 0.378 | 0.291 |
+| TUEV | alpha-gamma | 0.211 | 0.062 | 0.414 | 0.405 |
+| CHB-MIT | delta-beta | 0.262 | 0.089 | 0.329 | 0.250 |
+| CHB-MIT | theta-gamma | 0.158 | 0.065 | 0.282 | 0.257 |
+| CHB-MIT | alpha-gamma | 0.000 | 0.000 | 0.022 | 0.020 |
+
+These are test R2 scores for Tort-MI readout, with negative per-summary R2 clipped
+to zero before averaging. Encoder layers and ridge strengths are selected on
+validation, following the cross-model protocol; encoder does not mean a fixed
+last layer. Raw scores, layer choices and independent prediction checks are in
+the [numeric record](../experiments/audits/pac-guidance-readout-20261110.json).
+All EEG model weights remained frozen; only affine ridge readouts were fitted.

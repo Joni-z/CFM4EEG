@@ -1,12 +1,12 @@
 {
   "study": "measured_identity_real_eeg_pac_20261110",
-  "status": "partial",
+  "status": "completed",
   "no_EEG_model_training": true,
   "ready": {
     "tuev-measured": true,
     "tuev-identity": true,
     "chbmit-measured": true,
-    "chbmit-identity": false
+    "chbmit-identity": true
   },
   "comparisons": {
     "tuev": {
@@ -15,122 +15,122 @@
         {
           "scope": "tokenizer",
           "feature": "X001_delta_beta",
-          "measured": 0.43708053248966866,
+          "measured": 0.39126727530615296,
           "identity": 0.11836013895570068,
-          "difference": 0.31872039353396797,
+          "difference": 0.2729071363504523,
           "measured_endpoint": "tokenizer",
           "identity_endpoint": "tokenizer",
           "measured_validation_r2": 0.0,
           "identity_validation_r2": 0.0,
           "raw_r2_difference_by_summary": [
-            0.38887689818234816,
-            0.10994267215615305,
-            0.4341084267685751,
-            0.44549670583397705,
-            0.3974000253946913,
-            0.13649763286806316
+            0.3651429794303356,
+            -0.001043480430666377,
+            0.4362695313378946,
+            0.43883121818119153,
+            0.3830801593349319,
+            0.015162410249026537
           ]
         },
         {
           "scope": "encoder_peak",
           "feature": "X001_delta_beta",
-          "measured": 0.5569689546493637,
+          "measured": 0.588582302171999,
           "identity": 0.6888148736265466,
-          "difference": -0.1318459189771829,
+          "difference": -0.10023257145454756,
           "measured_endpoint": "layer_06",
           "identity_endpoint": "layer_01",
-          "measured_validation_r2": 0.04073338944266012,
+          "measured_validation_r2": 0.014382292681940708,
           "identity_validation_r2": 0.0,
           "raw_r2_difference_by_summary": [
-            -0.182998330434621,
-            0.002876568763181764,
-            -0.19005132946534775,
-            -0.20622050784550738,
-            -0.16731827870277882,
-            -0.04736363617802419
+            -0.1420357283041198,
+            0.014190572040717386,
+            -0.1493403765164364,
+            -0.17524564174781854,
+            -0.12645896456861083,
+            -0.022505289631016834
           ]
         },
         {
           "scope": "tokenizer",
           "feature": "X002_theta_gamma",
-          "measured": 0.22620129241617956,
+          "measured": 0.2086333508362248,
           "identity": 0.034973167207626554,
-          "difference": 0.191228125208553,
+          "difference": 0.17366018362859825,
           "measured_endpoint": "tokenizer",
           "identity_endpoint": "tokenizer",
           "measured_validation_r2": 0.0,
           "identity_validation_r2": 0.0,
           "raw_r2_difference_by_summary": [
-            0.21747565344076347,
-            0.15422385012723883,
-            0.1789479665363094,
-            0.22184267116497625,
-            0.22846913536480007,
-            0.14640947461723008
+            0.20157463612952586,
+            0.13041742276615886,
+            0.17822954530616641,
+            0.19779806043529324,
+            0.21570240532185403,
+            0.11823903181259099
           ]
         },
         {
           "scope": "encoder_peak",
           "feature": "X002_theta_gamma",
-          "measured": 0.381973298027392,
+          "measured": 0.3778994002899123,
           "identity": 0.29147919606466854,
-          "difference": 0.09049410196272345,
+          "difference": 0.08642020422524377,
           "measured_endpoint": "layer_02",
           "identity_endpoint": "layer_02",
-          "measured_validation_r2": 0.0793863310961807,
+          "measured_validation_r2": 0.08887526065180451,
           "identity_validation_r2": 0.2794563472690636,
           "raw_r2_difference_by_summary": [
-            0.10902398279074421,
-            0.028162382134110597,
-            0.13825539241968232,
-            0.13522516704705467,
-            0.11025401471100815,
-            0.022043672673741077
+            0.09669817431062089,
+            0.04614273220164278,
+            0.12187258082535724,
+            0.11299095859982888,
+            0.10702947009102537,
+            0.03378730932298746
           ]
         },
         {
           "scope": "tokenizer",
           "feature": "X003_alpha_gamma",
-          "measured": 0.21099977980175466,
+          "measured": 0.21113626917901404,
           "identity": 0.06237142469319529,
-          "difference": 0.14862835510855937,
+          "difference": 0.14876484448581875,
           "measured_endpoint": "tokenizer",
           "identity_endpoint": "tokenizer",
-          "measured_validation_r2": 0.05162690786822791,
+          "measured_validation_r2": 0.03528373972837614,
           "identity_validation_r2": 0.06917750905326614,
           "raw_r2_difference_by_summary": [
-            0.13554476244605096,
-            -0.07399394610157317,
-            0.2799876418903058,
-            0.35934706078768774,
-            0.13536683445382347,
-            -0.07376241342354661
+            0.1292710396324689,
+            -0.05391520498463909,
+            0.27874799680131024,
+            0.3657869089641199,
+            0.13725929044352525,
+            -0.04767125198112354
           ]
         },
         {
           "scope": "encoder_peak",
           "feature": "X003_alpha_gamma",
-          "measured": 0.3788699736123166,
+          "measured": 0.4140679991701413,
           "identity": 0.4049899065414491,
-          "difference": -0.026119932929132506,
-          "measured_endpoint": "layer_03",
+          "difference": 0.009078092628692191,
+          "measured_endpoint": "layer_04",
           "identity_endpoint": "layer_04",
-          "measured_validation_r2": 0.1364069778182771,
+          "measured_validation_r2": 0.17524614339651645,
           "identity_validation_r2": 0.28234468169056653,
           "raw_r2_difference_by_summary": [
-            -0.042239697795518505,
-            -0.030634962580979863,
-            -0.027867666404727043,
-            0.014053852266397548,
-            -0.038422904060882335,
-            -0.03160821899908495
+            0.012761485776606185,
+            -0.009653169647090176,
+            0.0040428393139403385,
+            0.03363805350205373,
+            0.03293680948988165,
+            -0.019257462663238245
           ]
         }
       ],
       "numeric_verification": {
         "measured": {
           "status": "passed",
-          "max_R2_delta": 1.3679694044199664e-09,
+          "max_R2_delta": 2.555988976027379e-09,
           "test_rows": 29421
         },
         "identity": {
@@ -140,30 +140,164 @@
         }
       },
       "checkpoint_sha256": {
-        "measured": "e6529e504aeb76b541d9e9090914baf98ad625415591f8e913a0cfdbcca1a0bb",
+        "measured": "8da3e24c9eed68d67c8a4cc64ecdfc4cb1ab67cf6d9081cc9a285b79d101048f",
         "identity": "bcf7c8a9e9613766d1ee495530af1641af71344b9fba484b96bf85495f7b4df1"
       },
       "source_ref": {
-        "measured": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-guidance-readout-20261110/results/tuev-measured/result.json",
+        "measured": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cfft-tuev/result.json",
         "identity": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-guidance-readout-20261110/results/tuev-identity/result.json"
+      }
+    },
+    "chbmit": {
+      "test_rows": 17224,
+      "rows": [
+        {
+          "scope": "tokenizer",
+          "feature": "X001_delta_beta",
+          "measured": 0.2624030369273612,
+          "identity": 0.08897256555882545,
+          "difference": 0.1734304713685358,
+          "measured_endpoint": "tokenizer",
+          "identity_endpoint": "tokenizer",
+          "measured_validation_r2": 0.18330019381249238,
+          "identity_validation_r2": 0.0957009667902246,
+          "raw_r2_difference_by_summary": [
+            0.23447195934317788,
+            0.23929621741018914,
+            0.15455300273527073,
+            -0.06934682653699986,
+            0.26432994956826295,
+            0.21695665433845346
+          ]
+        },
+        {
+          "scope": "encoder_peak",
+          "feature": "X001_delta_beta",
+          "measured": 0.3293286950333825,
+          "identity": 0.25023568964025017,
+          "difference": 0.07909300539313235,
+          "measured_endpoint": "layer_01",
+          "identity_endpoint": "layer_01",
+          "measured_validation_r2": 0.2619667732231015,
+          "identity_validation_r2": 0.11792759635271371,
+          "raw_r2_difference_by_summary": [
+            0.12620075392183205,
+            0.02775680855396534,
+            0.1622302642650889,
+            0.14418332504757814,
+            0.13958715194878402,
+            0.018783053669123584
+          ]
+        },
+        {
+          "scope": "tokenizer",
+          "feature": "X002_theta_gamma",
+          "measured": 0.15839907335646405,
+          "identity": 0.06504834504192658,
+          "difference": 0.09335072831453747,
+          "measured_endpoint": "tokenizer",
+          "identity_endpoint": "tokenizer",
+          "measured_validation_r2": 0.18443047342868604,
+          "identity_validation_r2": 0.1800785972907132,
+          "raw_r2_difference_by_summary": [
+            0.11099579039496776,
+            0.0368471765223467,
+            0.13366780682176416,
+            0.13336092027701685,
+            0.10880054936890571,
+            0.036432126502223716
+          ]
+        },
+        {
+          "scope": "encoder_peak",
+          "feature": "X002_theta_gamma",
+          "measured": 0.2819592753789892,
+          "identity": 0.25729648865450533,
+          "difference": 0.024662786724483854,
+          "measured_endpoint": "layer_02",
+          "identity_endpoint": "layer_02",
+          "measured_validation_r2": 0.29844919217209975,
+          "identity_validation_r2": 0.38247455858082224,
+          "raw_r2_difference_by_summary": [
+            0.021177985363110108,
+            -0.003173571530061259,
+            0.043263126895318305,
+            0.0644919763023486,
+            0.024320149948337866,
+            -0.002102946632150826
+          ]
+        },
+        {
+          "scope": "tokenizer",
+          "feature": "X003_alpha_gamma",
+          "measured": 0.0,
+          "identity": 0.0,
+          "difference": 0.0,
+          "measured_endpoint": "tokenizer",
+          "identity_endpoint": "tokenizer",
+          "measured_validation_r2": 0.002073429373469086,
+          "identity_validation_r2": 0.0,
+          "raw_r2_difference_by_summary": [
+            0.1925495869529057,
+            0.3838163050141028,
+            -0.0018803826108633181,
+            0.002286144899432685,
+            0.33226132010962317,
+            0.22699970505701894
+          ]
+        },
+        {
+          "scope": "encoder_peak",
+          "feature": "X003_alpha_gamma",
+          "measured": 0.022345824503192762,
+          "identity": 0.01993981031030208,
+          "difference": 0.0024060141928906806,
+          "measured_endpoint": "layer_02",
+          "identity_endpoint": "layer_02",
+          "measured_validation_r2": 0.04451060711177015,
+          "identity_validation_r2": 0.28437633848525573,
+          "raw_r2_difference_by_summary": [
+            -0.03572942954717839,
+            0.016670198274262082,
+            -0.05455121697678522,
+            0.03598438438783769,
+            -0.14599214077208877,
+            0.0349527912526546
+          ]
+        }
+      ],
+      "numeric_verification": {
+        "measured": {
+          "status": "passed",
+          "max_R2_delta": 6.832872601059137e-10,
+          "test_rows": 17224
+        },
+        "identity": {
+          "status": "passed",
+          "max_R2_delta": 8.68056515557214e-10,
+          "test_rows": 17224
+        }
+      },
+      "checkpoint_sha256": {
+        "measured": "66dbc5919fbe02f6aa49457a2329390211d5576642a276dfb98dcbbef8dfabff",
+        "identity": "816d29b9e1aad503a2634bf053b6cd93896f2491ffc073f70b614495da58b88a"
+      },
+      "source_ref": {
+        "measured": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cfft-chbmit/result.json",
+        "identity": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-guidance-readout-20261110/results/chbmit-identity/result.json"
       }
     }
   },
+  "reference_policy": "Retain the existing baseline-comparison measured checkpoint for every PAC feature and endpoint. TUEV kappa0.693214; historical0.684601 measured output is retained as auxiliary evidence, not selected per PAC score.",
   "metric": "per-output R2 clipped at zero, averaged over six channel summaries; also retain raw R2",
   "limits": [
-    "One existing matched seed per task; no across-seed uncertainty or general-superiority claim.",
-    "TUEV uses the matched historical two-axis pair; CHB uses the historical three-axis pair.",
+    "One existing seed per task; no across-seed uncertainty or general-superiority claim.",
+    "TUEV compares the existing baseline-reference two-axis measured with a historical identity of matching core settings; different training rounds, not the original paired execution. CHB uses the historical three-axis pair.",
     "CHB fixed checkpoints trained on the historical enriched protocol are probed on the same corrected natural-grid cohort.",
     "Identity disables the complete guidance branch, not only an isolated rotation angle.",
     "Real EEG targets are computed Tort MI statistics, not a known physiological ground truth."
   ],
-  "checkpoint_publication": {
-    "repo": "JoniZz/CFM4EEG-checkpoint-archive",
-    "private": true,
-    "commit": "b7d8964020a371e0712cc66d9ce73db75461a2b6",
-    "url": "https://huggingface.co/JoniZz/CFM4EEG-checkpoint-archive/commit/b7d8964020a371e0712cc66d9ce73db75461a2b6",
-    "new_or_updated_files": 2
-  },
+  "snapshot_at": "2026-11-10T15:23:26.662095+08:00",
   "pair_checks": {
     "tuev": {
       "seed": 0,
@@ -175,15 +309,50 @@
         ]
       },
       "other_config_differences": {
+        "run_monitor": [
+          true,
+          null
+        ],
+        "require_rebuild_ready": [
+          false,
+          null
+        ],
+        "reproduction": [
+          {
+            "kind": "archived_reference_shared_cohort",
+            "reference": "final two-axis measured CfFT; unchanged tokenizer and encoder",
+            "comparison": "waveform patch control uses identical data, training and encoder architecture",
+            "data_gate": "immutable ACCEPTED shared16 arrays; TUEV is not a newly rebuilt EDF cohort"
+          },
+          null
+        ],
         "name": [
-          "tuev-range_twoaxis_measured_20260917",
+          "tuev-cfft_twoaxis_rebuild20261022",
           "tuev-range_twoaxis_identity_20260917"
+        ],
+        "save_checkpoint": [
+          true,
+          null
+        ],
+        "amp": [
+          false,
+          null
+        ],
+        "checkpoint_selection": [
+          "validation_best",
+          null
+        ],
+        "group": [
+          "tuev_tokenizer_control_20261022",
+          "range_twoaxis_20260917"
         ]
       },
       "training_protocol": "shared16 TUEV",
       "evaluation_protocol": "same accepted shared16 windows",
       "complete_guidance_branch_contrast": true,
-      "not_an_isolated_rotation_only_contrast": true
+      "not_an_isolated_rotation_only_contrast": true,
+      "comparison_scope": "Core-configuration matched seed0 across different training rounds; not a strict reproduction of the original jointly planned pair.",
+      "effective_core_settings": "Same architecture/parameter shapes, optimizer, loss, augmentation, seed0,batch32,20epochs,lr1e-4,wd0.05; old missing amp defaults to false and checkpoint selection is validation-best."
     },
     "chbmit": {
       "seed": 0,
@@ -214,9 +383,17 @@
       "not_an_isolated_rotation_only_contrast": true
     }
   },
-  "pending_jobs": [
-    "chbmit-identity"
-  ],
-  "snapshot_at": "2026-11-10T15:03:40.686954+08:00",
-  "completion_collection": "Automatic local collector verifies saved predictions and archives complete readouts; this tracked JSON is a dated partial snapshot."
+  "historical_pair_evidence": {
+    "retained": true,
+    "github_commit": "c3a22bf",
+    "path": "experiments/audits/pac-guidance-readout-20261110.json",
+    "private_archive_commit": "25d957bd6a43827d21ddf4c430927ee93f9f412d"
+  },
+  "checkpoint_archive_repo": "JoniZz/CFM4EEG-checkpoint-archive",
+  "probe_archive": {
+    "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+    "commit": "ec026ae6ccc64f2a6367bf9960312b562aec004b",
+    "url": "https://huggingface.co/JoniZz/CFM4EEG-checkpoint-archive/commit/ec026ae6ccc64f2a6367bf9960312b562aec004b",
+    "private": true
+  }
 }
