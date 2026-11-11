@@ -9,18 +9,18 @@
   "seed": 0,
   "variant": "original two-axis measured rotation, ISRUC seed0",
   "model_retraining": false,
-  "job_id": "22538064",
+  "job_id": "22651393",
   "host": "torch",
-  "account": "torch_pr_63_general",
+  "account": "torch_pr_637_tandon_priority",
   "qos": "gpu48",
-  "partition": "l40s_public",
+  "partition": "a100_tandon,l40s_public",
   "resources": {
     "gpus": 1,
     "cpus": 2,
     "memory": "8G",
     "walltime": "08:00:00"
   },
-  "submitted_utc": "2026-11-10T12:40:17.926503+00:00",
+  "submitted_utc": "2026-11-11T08:17:53.976958+00:00",
   "data_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/data/processed/isruc",
   "manifest_sha256": "bb08a6596a766d4ced275edeb9a6ce362703092198f2ad1967ee1ea2f53063d8",
   "checkpoint_sha256": "1cb82e40e083b9f10121ffba770eb48b043fef0f12f8d3323c63c0204bf4072c",
@@ -89,7 +89,7 @@
     "scripts/experiments/pac_real_eeg_probe.py": "25cbdfb3c2a15fbe4ebdcac4c5f59c175556263c6446fa5e628f76ff1ec6a3ef",
     "slurm/torch_pac_readout.slurm": "38876f283ccfd1eff2a3874f6096cd0d58f56d54432b97fe585dfd28e622a4c5"
   },
-  "source_ref": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/launch-memory8g.json",
+  "source_ref": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/launch-priority-20261111.json",
   "output_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/results/cfft-isruc",
   "checks": {
     "source_and_checkpoint_hashes": "passed",
@@ -194,8 +194,8 @@
     "launch_record": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/launch.json"
   },
   "submission_script": {
-    "path": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_8g.slurm",
-    "sha256": "cae2063e007f2892f527afdc570bee743b668e4214e522d9bb580cc4ee753e16"
+    "path": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_priority.slurm",
+    "sha256": "2c262c444567fe57144e1162381faec1a839b611855ce1b8a0efe23f91511569"
   },
   "queue_audit": {
     "observed_utc": "2026-11-10T12:35:22Z",
@@ -214,5 +214,23 @@
     "qos_max_GPUs_per_user": 16,
     "planned_state_definition": "https://slurm.schedmd.com/sinfo.html",
     "scope": "Node resource snapshot; actual scheduler reason remained None, so these observations do not establish a unique scheduling cause"
+  },
+  "priority_transition": {
+    "previous_job_id": "22538064",
+    "previous_account": "torch_pr_63_general",
+    "previous_partition": "l40s_public",
+    "previous_source_ref": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/launch-memory8g.json",
+    "previous_submitted_utc": "2026-11-10T12:40:17.926503+00:00",
+    "old_job_state": "CANCELLED_before_GPU_allocation",
+    "new_account_verified_on": "2026-11-11",
+    "in_place_update": "rejected_by_site",
+    "model_data_and_probe_changes": false
+  },
+  "scheduler_status": {
+    "verified_on": "2026-11-11",
+    "state": "PENDING",
+    "reason": "Priority",
+    "dependency": null,
+    "start_time": "Unknown"
   }
 }
