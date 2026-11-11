@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=isruc-pac-readout
 #SBATCH --account=torch_pr_637_tandon_priority
-#SBATCH --partition=a100_tandon,l40s_public
+#SBATCH --partition=l40s_public
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --gres=gpu:1

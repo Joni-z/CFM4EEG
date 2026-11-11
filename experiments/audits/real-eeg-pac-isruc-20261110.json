@@ -9,18 +9,18 @@
   "seed": 0,
   "variant": "original two-axis measured rotation, ISRUC seed0",
   "model_retraining": false,
-  "job_id": "22651393",
+  "job_id": "22651842",
   "host": "torch",
   "account": "torch_pr_637_tandon_priority",
   "qos": "gpu48",
-  "partition": "a100_tandon,l40s_public",
+  "partition": "l40s_public",
   "resources": {
     "gpus": 1,
     "cpus": 2,
     "memory": "8G",
     "walltime": "08:00:00"
   },
-  "submitted_utc": "2026-11-11T08:17:53.976958+00:00",
+  "submitted_utc": "2026-11-11T08:30:02.533841+00:00",
   "data_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/data/processed/isruc",
   "manifest_sha256": "bb08a6596a766d4ced275edeb9a6ce362703092198f2ad1967ee1ea2f53063d8",
   "checkpoint_sha256": "1cb82e40e083b9f10121ffba770eb48b043fef0f12f8d3323c63c0204bf4072c",
@@ -89,7 +89,7 @@
     "scripts/experiments/pac_real_eeg_probe.py": "25cbdfb3c2a15fbe4ebdcac4c5f59c175556263c6446fa5e628f76ff1ec6a3ef",
     "slurm/torch_pac_readout.slurm": "38876f283ccfd1eff2a3874f6096cd0d58f56d54432b97fe585dfd28e622a4c5"
   },
-  "source_ref": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/launch-priority-20261111.json",
+  "source_ref": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/launch-l40s-only-20261111.json",
   "output_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/results/cfft-isruc",
   "checks": {
     "source_and_checkpoint_hashes": "passed",
@@ -194,8 +194,8 @@
     "launch_record": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/launch.json"
   },
   "submission_script": {
-    "path": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_priority.slurm",
-    "sha256": "2c262c444567fe57144e1162381faec1a839b611855ce1b8a0efe23f91511569"
+    "path": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_l40s.slurm",
+    "sha256": "18a44656b2a2fe811a3abee9a01dad4a8d814d455ff5867cdf796f0c717ceafe"
   },
   "queue_audit": {
     "observed_utc": "2026-11-10T12:35:22Z",
@@ -232,5 +232,14 @@
     "reason": "Priority",
     "dependency": null,
     "start_time": "Unknown"
+  },
+  "l40s_only_transition": {
+    "previous_job_id": "22651393",
+    "previous_partition": "a100_tandon,l40s_public",
+    "previous_source_ref": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/launch-priority-20261111.json",
+    "previous_submitted_utc": "2026-11-11T08:17:53.976958+00:00",
+    "old_job_state": "CANCELLED_before_GPU_allocation",
+    "reason": "User explicitly restricts this evaluation to L40S",
+    "model_data_and_probe_changes": false
   }
 }
