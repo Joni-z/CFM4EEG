@@ -241,5 +241,18 @@
     "old_job_state": "CANCELLED_before_GPU_allocation",
     "reason": "User explicitly restricts this evaluation to L40S",
     "model_data_and_probe_changes": false
+  },
+  "future_submission_template": {
+    "path": "slurm/torch_pac_readout.slurm",
+    "sha256": "dfd820c73f881776d922644aba2d6abe17b88f1e9e34054f69ddbb6bada68027",
+    "account": "torch_pr_637_general",
+    "constraint": "l40s",
+    "manual_partition": null,
+    "reference": "https://services.rt.nyu.edu/docs/hpc/submitting_jobs/slurm_submitting_jobs/",
+    "test_only_admission": "passed",
+    "observed_pool": "l40s_public",
+    "real_job_submitted": false,
+    "existing_job_retained": "22651842",
+    "reason": "Existing valid job already queues in same L40S public pool; preserve its accrued wait time."
   }
 }

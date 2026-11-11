@@ -676,6 +676,11 @@ CfFT seed0 is submitted as job `22651842` on `l40s_public`, using the verified
 `torch_pr_637_tandon_priority` account and site-selected `gpu48` QOS. It requests
 one L40S, 2 CPUs and 8G RAM. The job is pending; no ISRUC PAC score is reported
 yet. The superseded pending submissions were cancelled before GPU allocation.
+For future L40S-only submissions, the template uses `torch_pr_637_general` with
+`--constraint=l40s` and no manually fixed partition, following the
+[Torch submission guide](https://services.rt.nyu.edu/docs/hpc/submitting_jobs/slurm_submitting_jobs/).
+Its admission check routes to the same L40S public pool. The already valid queued
+job is retained rather than submitted again solely to change the account label.
 The existing accepted ISRUC arrays and original two-axis measured checkpoint
 are reused, with the same Tort-MI targets and ridge readout as above.
 
