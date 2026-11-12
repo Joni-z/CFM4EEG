@@ -21,6 +21,12 @@ def sha256(path: str | Path) -> str:
 class FrozenReadout:
     def __init__(self, spec: dict, input_shape: tuple[int, int], device: str):
         self.kind, self.device = spec["kind"], device
+        scope = spec.get("readout_scope", "all")
+        if scope not in ("all", "tokenizer"):
+            raise ValueError("readout_scope must be all or tokenizer")
+        self.tokenizer_only = scope == "tokenizer"
+        if self.tokenizer_only and self.kind != "cfft":
+            raise ValueError("Tokenizer-only execution currently supports CfFT")
         checkpoint = Path(spec["checkpoint"])
         if sha256(checkpoint) != spec["checkpoint_sha256"]:
             raise ValueError("Checkpoint SHA256 mismatch")
@@ -30,8 +36,8 @@ class FrozenReadout:
         if self.kind == "cfft":
             from paclock_bench.models.build import build_model
             cfg = saved["config"]
-            if cfg["seed"] != 0 or cfg["model"] != "paclock":
-                raise ValueError("Expected the original seed0 CfFT checkpoint")
+            if cfg["seed"] != spec.get("seed", 0) or cfg["model"] != "paclock":
+                raise ValueError("CfFT checkpoint seed differs from the declared job seed")
             if cfg["model_kwargs"].get("tokenizer_mode") != "pac_interaction":
                 raise ValueError("This launch evaluates original measured-rotation CfFT")
             if cfg["dataset"] != spec["dataset"]:
@@ -40,7 +46,7 @@ class FrozenReadout:
             self.model = build_model({k: v for k, v in cfg.items() if k != "checkpoint"}, input_shape)
             self.model.load_state_dict(saved["model"], strict=True)
             stem = self.model.frontend
-            layers = self.model.encoder.blocks
+            layers = () if self.tokenizer_only else self.model.encoder.blocks
             root = Path(__file__).resolve().parents[1] / "models"
             self.source_hashes = {str(p.relative_to(root)): sha256(p) for p in root.rglob("*.py")}
         else:
@@ -91,7 +97,10 @@ class FrozenReadout:
     def __call__(self, stored: torch.Tensor, denominators=None):
         self.features.clear()
         if self.kind == "cfft":
-            self.model(stored.to(self.device))
+            if self.tokenizer_only:
+                self.model.frontend(stored.to(self.device))
+            else:
+                self.model(stored.to(self.device))
         else:
             x = stored
             if denominators is not None:

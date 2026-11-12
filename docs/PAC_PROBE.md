@@ -696,3 +696,27 @@ weights for CBraMod or LaBraM. Their corresponding historical directories on
 See the [launch record](../experiments/audits/real-eeg-pac-isruc-20261110.json)
 and [Slurm script](../slurm/torch_pac_readout.slurm). The CfFT checkpoint is
 preserved in the existing private Hugging Face checkpoint archive.
+
+## Matched two-axis tokenizer readout (2026-11-13)
+
+Four original TUEV seed-2 checkpoints are evaluated with the same real-EEG
+Tort-MI readout above. Their training configurations differ only in run name
+and `pac_token_mode`. Each row binds its clinical score and PAC readout to
+the same checkpoint.
+
+| Two-axis tokenizer | TUEV kappa | Delta-beta PAC R2 | Theta-gamma PAC R2 | Alpha-gamma PAC R2 |
+|---|---:|---:|---:|---:|
+| Measured rotation | 0.7134 | 0.4444 | 0.2568 | 0.2307 |
+| Own-phase | 0.6005 | 0.0576 | 0.0000 | 0.1493 |
+| Weights-only | 0.6618 | 0.3323 | 0.2199 | 0.1920 |
+| No rotation | 0.6991 | 0.1539 | 0.0586 | 0.1126 |
+
+All 29,421 accepted TUEV test windows are retained. Only frozen tokenizer
+outputs are read; the lightweight path matches the full-model frontend hook.
+The estimator, target cache, pooling, ridge grid and validation selection are
+unchanged. Independent prediction replay agrees within 1e-7 for every reported
+R2 and all six raw summary scores. Seven focused tests pass.
+
+Full scores, source/checkpoint hashes and resource limits are in the
+[numeric record](../experiments/audits/pac-token-readout-twoaxis-20261113.json).
+The earlier synthetic-curve assays remain separate records.

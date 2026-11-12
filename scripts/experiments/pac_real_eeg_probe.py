@@ -154,6 +154,13 @@ def run_model(job: dict, device: str, smoke: bool) -> None:
         first, second = model(x, scales), model(x, scales)
         for key in first:
             np.testing.assert_allclose(first[key], second[key], rtol=1e-7, atol=1e-9)
+        if model.tokenizer_only:
+            # The lightweight path must return the exact original frontend hook.
+            model.features.clear()
+            with torch.inference_mode():
+                model.model(x.to(device))
+            np.testing.assert_allclose(first["tokenizer"], model.features["tokenizer"],
+                                       rtol=1e-7, atol=1e-9)
         torch.cuda.synchronize()
         write_json(out / "smoke.json", dict(status="passed", strict_checkpoint_loading=True,
                    checkpoint_sha256=job["checkpoint_sha256"], data_identity=data,
@@ -232,8 +239,11 @@ def run_model(job: dict, device: str, smoke: bool) -> None:
                     for name, values in validation.items()}
             selected = []
             encoder_names = model.endpoints[1:]
+            scopes = [("tokenizer", ["tokenizer"])]
+            if encoder_names:
+                scopes.append(("encoder_peak", encoder_names))
             for feature, feature_name in enumerate(FEATURES):
-                for scope, names in (("tokenizer", ["tokenizer"]), ("encoder_peak", encoder_names)):
+                for scope, names in scopes:
                     choices = [(float(grid[n][a, 0, feature]), n, a) for n in names for a in range(len(ALPHAS))]
                     # Stable first maximum; test has not been passed through the model.
                     score, name, index = max(choices, key=lambda item: item[0])

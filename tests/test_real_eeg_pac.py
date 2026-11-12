@@ -86,3 +86,47 @@ def test_frozen_hooks_pool_hidden_axis_and_return_no_grad():
     x = torch.randn(2, 4, 3, 8)
     stub._hook('layer')(None, None, (x, torch.zeros(1)))
     np.testing.assert_allclose(stub.features['layer'], x.mean((1, 2)).double().numpy())
+
+
+def test_declared_seed2_tokenizer_readout_matches_full_forward(tmp_path, monkeypatch):
+    from paclock_bench.models import build
+    from paclock_bench.probing.real_eeg_models import FrozenReadout, sha256
+
+    class Model(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.frontend = torch.nn.Linear(10, 8)
+            self.encoder = torch.nn.Module()
+            self.encoder.blocks = torch.nn.ModuleList([torch.nn.Identity(), torch.nn.Identity()])
+
+        def forward(self, x):
+            x = self.frontend(x)
+            for block in self.encoder.blocks:
+                x = block(x)
+            return x
+
+    model = Model()
+    checkpoint = tmp_path / 'seed2.pt'
+    torch.save({'config': {'seed': 2, 'model': 'paclock', 'dataset': 'tuev',
+                          'model_kwargs': {'tokenizer_mode': 'pac_interaction'}},
+                'model': model.state_dict()}, checkpoint)
+    monkeypatch.setattr(build, 'build_model', lambda cfg, shape: Model())
+    job = dict(kind='cfft', dataset='tuev', seed=2, checkpoint=str(checkpoint),
+               checkpoint_sha256=sha256(checkpoint))
+    full = FrozenReadout(job, (4, 10), 'cpu')
+    token = FrozenReadout({**job, 'readout_scope': 'tokenizer'}, (4, 10), 'cpu')
+    x = torch.randn(3, 4, 10)
+    np.testing.assert_array_equal(full(x)['tokenizer'], token(x)['tokenizer'])
+    assert token.endpoints == ['tokenizer']
+    assert len(full.endpoints) == 3
+    assert not any(p.requires_grad for p in token.model.parameters())
+
+
+def test_readout_rejects_checkpoint_seed_mismatch(tmp_path, monkeypatch):
+    import pytest
+    from paclock_bench.probing.real_eeg_models import FrozenReadout, sha256
+    checkpoint = tmp_path / 'seed2.pt'
+    torch.save({'config': {'seed': 2, 'model': 'paclock'}, 'model': {}}, checkpoint)
+    with pytest.raises(ValueError, match='declared job seed'):
+        FrozenReadout(dict(kind='cfft', seed=0, checkpoint=str(checkpoint),
+                           checkpoint_sha256=sha256(checkpoint)), (4, 10), 'cpu')

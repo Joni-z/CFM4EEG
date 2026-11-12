@@ -1,0 +1,645 @@
+{
+  "study": "matched_twoaxis_token_PAC_readout_20261113",
+  "status": "completed",
+  "evidence_type": "real_eeg_pac_readout_controls",
+  "dataset": "tuev",
+  "seed": 2,
+  "neural_network_training": false,
+  "checkpoint_comparison": "Four original two-axis training configs differ only in pac_token_mode and run name. Each clinical and PAC score uses the same row-specific checkpoint.",
+  "metric": "Replicated Tang et al. Appendix A/C/D X001-X003 Tort-MI readout; three band pairs, six channel summaries; per-summary R2 clipped at zero then averaged. This is not synthetic PAC-curve recovery.",
+  "readout": "Frozen frontend before position encodings; mean over non-hidden axes; train-only scaling; validation-selected affine ridge alpha 0.1/1/10/100; tokenizer only.",
+  "sample_counts": {
+    "train": 68445,
+    "validation": 15487,
+    "test": 29421
+  },
+  "target_sha256": "edbbc2e37f8a50bb4f8fa21dfb81a8c714706d7a60c5a081cbdb998ee050dd59",
+  "numeric_verification": {
+    "status": "passed",
+    "max_absolute_R2_error": 2.678203436801141e-09,
+    "raw_summary_R2_checked": true,
+    "test_predictions_retained": true
+  },
+  "rows": {
+    "measured": {
+      "clinical_kappa": 0.7133501595311308,
+      "tokenizer_r2": {
+        "X001_delta_beta": 0.44435519122155737,
+        "X002_theta_gamma": 0.2568348232945932,
+        "X003_alpha_gamma": 0.23068107554182102
+      },
+      "raw_r2_by_summary": {
+        "X001_delta_beta": [
+          0.5266024590322602,
+          0.22863691724513002,
+          0.5451971631765642,
+          0.5451580500259154,
+          0.5171778206121163,
+          0.3033587372373583
+        ],
+        "X002_theta_gamma": [
+          0.2723595153676387,
+          0.2544569508709815,
+          0.2092370333979794,
+          0.27256261691748285,
+          0.2653393616845401,
+          0.2670534615289365
+        ],
+        "X003_alpha_gamma": [
+          0.26985472658556653,
+          -0.003210459228560003,
+          0.3797932445053597,
+          0.46812415602488056,
+          0.245493646431168,
+          0.020820679703951517
+        ]
+      },
+      "max_numeric_error": 2.678203436801141e-09,
+      "checkpoint_sha256": "1fb2b132f935d890373f38f47ee2b5e99c796b3d5d9b76773c74b94b3e8b1a3c",
+      "wall_seconds": 60.25538770109415,
+      "cuda_peak_GiB": 0.4401569366455078,
+      "selected_alphas": {
+        "X001_delta_beta": 0.1,
+        "X002_theta_gamma": 0.1,
+        "X003_alpha_gamma": 10.0
+      },
+      "clinical_result_source": "amd:/home1/yifanwang/CFM4EEG-twoaxis-20260917/runs/tuev-range_twoaxis_measured_20260917/seed2/result.json",
+      "original_checkpoint_path": "/home1/yifanwang/CFM4EEG-twoaxis-20260917/runs/tuev-range_twoaxis_measured_20260917/seed2/best.pt",
+      "selected_readouts": [
+        {
+          "label": "tokenizer/X001_delta_beta",
+          "scope": "tokenizer",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.4443551938997608,
+          "test_raw_r2_by_summary": [
+            0.5266024626868107,
+            0.22863691790157425,
+            0.5451971638297837,
+            0.5451580544500985,
+            0.5171778231579843,
+            0.3033587413723138
+          ]
+        },
+        {
+          "label": "tokenizer/X002_theta_gamma",
+          "scope": "tokenizer",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 1.1380159650631327e-05
+          },
+          "test_r2": 0.25683482312107303,
+          "test_raw_r2_by_summary": [
+            0.2723595119841351,
+            0.2544569512657662,
+            0.20923703551595618,
+            0.27256262102270723,
+            0.26533936145768977,
+            0.2670534574801836
+          ]
+        },
+        {
+          "label": "tokenizer/X003_alpha_gamma",
+          "scope": "tokenizer",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "tokenizer",
+          "alpha": 10.0,
+          "alpha_index": 2,
+          "validation_r2": 0.031174833681933023,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.23068107500499901,
+          "test_raw_r2_by_summary": [
+            0.26985472494287566,
+            -0.0032104584016121596,
+            0.37979324947476234,
+            0.4681241444426506,
+            0.2454936467071841,
+            0.020820684462521277
+          ]
+        }
+      ],
+      "source_hashes": {
+        "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "build.py": "4308f1f502d61a46c71025c5d910beedb7dd91bc3228dfd3f2364bc950f7b1ec",
+        "wave_patch.py": "1e5ee98b35cc0258e6d66bb04203f1507154f243f647d3fcee49dac5d3ad44bf",
+        "paclock/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "paclock/augment.py": "9f2f36226ada89a0f3da26cfeba37f138b60cece5204b95ca028b9ba9a751ae0",
+        "paclock/block.py": "b8fdaac110d93d6a47469c7a5235a664988a1a27e68a1527d3f06122bdb3d3ca",
+        "paclock/build.py": "8b5d13e392a0f3ad4e8116eaa2212160a37ea12ca8364ab829e02908c7fb2b3a",
+        "paclock/duplex_routing.py": "454ed538c0c74c72294b913f9bdac05695de2419865dfb8e0b001d1413d78c83",
+        "paclock/encoder.py": "bd5b4f3228e2a2ca306cae7f3cc7476018ef1315cb69c480ecaedc4ea793957f",
+        "paclock/head.py": "f1d06db827e5501881329619b4872890751d8c7bee47127cfb35d5c1eef971e2",
+        "paclock/montage.py": "7e495bc43ea70b89e704074b7b5910c143cf0f74b16d109a1bf44682927fa707",
+        "paclock/triaxial.py": "f4610c6e367a3ba64cac71f97f1a44549434980a72d5980893a04128e6baedfc",
+        "paclock/frontend/__init__.py": "7e1f3660b8aedda9e35e840f084e0195a8f85a2cf69bf9d7edc20faf9aa5bf83",
+        "paclock/frontend/analytic.py": "b2f63fd92abf360966ce458146ce43f6134c36dd00e54d3afd9e5f91076e6a12",
+        "paclock/frontend/cfc.py": "7d06b696a93df52536e5d0dcbed775f9fdda31aa4714ec253bec739bdbe9fb9f",
+        "paclock/frontend/conv.py": "091344599cb46b3b082698ec189da5a7246db7aa02c846753f01d963fbf755c5",
+        "paclock/frontend/copula.py": "14ffd03a84505a797d642245812825f02a12ce62662497d032af76422af98db1",
+        "paclock/frontend/factorized.py": "2ecb5551f17aca34151f9d1bc5a50db3f1867c6314d50eed653fa66d90efaa1a",
+        "paclock/frontend/measured.py": "fe029ec04b356d3e65c7afe7b4f5040c7c294b3486187813c989ce9d07d7c2c0",
+        "paclock/frontend/measurement.py": "a8e6a1a1942d6942e1162d91051a717cca5b3223c4abb930572fed1fb65771dd",
+        "paclock/frontend/measurement_curve.py": "b5a294084052fe2e3c81da748ea1a15f3fc4bf1a124ca7565bbb0ca35db228dc",
+        "paclock/frontend/measurement_uncertain.py": "78a9693a2d0addba14837fd78c4a0fa80bb03f185d881af4c3a6a7271e21218c",
+        "paclock/frontend/pac_calibration.py": "4b5ff98b9ca47ef5edc5c3ea5df7f4cb454a381555df6f81ffdf363a957cb569",
+        "paclock/frontend/sinc.py": "94ebd9ef7610854e9c799d6737af3e534c283b1623a9645ef745698c74cc3269",
+        "paclock/frontend/singlepath.py": "e73858e8233278ec0c7747ff9cc7cfbe317582380a549d466ee54e65a167f219",
+        "paclock/frontend/triaxial.py": "c6d2b0c9c0f4a995e060286c936bef7bbb324f32069d39f4190f835393eb4547",
+        "paclock/mixers/__init__.py": "2c8ab16c41ace748644defc31e6159c5ee0fc10651f73a373df84fd5482e2131",
+        "paclock/mixers/attention.py": "3dc6640c720e330c6e4dd5cd476587d172583c1c90c038ef5e6e6509cfe3be96",
+        "paclock/mixers/base.py": "8b428e51b9572a5611edccb9a633b0fa8251e6bd47f81739d77e7ee2d10a5569",
+        "paclock/mixers/cotar.py": "0e26c619232f8a978f9cc979e9b22e7ad2a69369be1e040149742cca58989af9",
+        "paclock/mixers/mi_operator.py": "e8142a529bc847ffe8a6a67a9add952fed66080099e58a6b513b41afba0834f4"
+      }
+    },
+    "own": {
+      "clinical_kappa": 0.600507626516096,
+      "tokenizer_r2": {
+        "X001_delta_beta": 0.057645521622283424,
+        "X002_theta_gamma": 0.0,
+        "X003_alpha_gamma": 0.1492679253434303
+      },
+      "raw_r2_by_summary": {
+        "X001_delta_beta": [
+          0.0581933427685597,
+          -0.08055936767474114,
+          0.10042280710219198,
+          0.1578557728519815,
+          0.02940120701096738,
+          -0.058633595505484415
+        ],
+        "X002_theta_gamma": [
+          -0.06510972130197845,
+          -0.06136693075860822,
+          -0.08376466613701972,
+          -0.05081849941083094,
+          -0.05502349254484362,
+          -0.07490469990091309
+        ],
+        "X003_alpha_gamma": [
+          0.16256882608280543,
+          -0.035951213485120315,
+          0.23686330076809015,
+          0.33609041867479816,
+          0.1600850065348881,
+          -0.019776679354813975
+        ]
+      },
+      "max_numeric_error": 1.1477906958212714e-09,
+      "checkpoint_sha256": "6c0d902eb189245006939e6a052e25aefabfe6c33b88f1ca9fd4243d6b6a9409",
+      "wall_seconds": 59.65670930035412,
+      "cuda_peak_GiB": 0.4401569366455078,
+      "selected_alphas": {
+        "X001_delta_beta": 0.1,
+        "X002_theta_gamma": 0.1,
+        "X003_alpha_gamma": 10.0
+      },
+      "clinical_result_source": "amd:/home1/yifanwang/CFM4EEG-twoaxis-20260917/runs/tuev-range_twoaxis_own_20260917/seed2/result.json",
+      "original_checkpoint_path": "/home1/yifanwang/CFM4EEG-twoaxis-20260917/runs/tuev-range_twoaxis_own_20260917/seed2/best.pt",
+      "selected_readouts": [
+        {
+          "label": "tokenizer/X001_delta_beta",
+          "scope": "tokenizer",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.05764552047449273,
+          "test_raw_r2_by_summary": [
+            0.058193338961097796,
+            -0.08055936691264143,
+            0.1004228002348998,
+            0.157855771308542,
+            0.02940121234241677,
+            -0.05863358655577233
+          ]
+        },
+        {
+          "label": "tokenizer/X002_theta_gamma",
+          "scope": "tokenizer",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 2.5689936249018164e-05
+          },
+          "test_r2": 0.0,
+          "test_raw_r2_by_summary": [
+            -0.06510972094721867,
+            -0.06136692983130132,
+            -0.08376466666779026,
+            -0.05081849928161941,
+            -0.05502349152481956,
+            -0.07490469920604248
+          ]
+        },
+        {
+          "label": "tokenizer/X003_alpha_gamma",
+          "scope": "tokenizer",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "tokenizer",
+          "alpha": 10.0,
+          "alpha_index": 2,
+          "validation_r2": 0.036400969227597536,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.14926792568127836,
+          "test_raw_r2_by_summary": [
+            0.16256882862440447,
+            -0.03595121114557376,
+            0.2368633068839766,
+            0.3360904150636267,
+            0.16008500351566246,
+            -0.019776678955964577
+          ]
+        }
+      ],
+      "source_hashes": {
+        "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "build.py": "4308f1f502d61a46c71025c5d910beedb7dd91bc3228dfd3f2364bc950f7b1ec",
+        "wave_patch.py": "1e5ee98b35cc0258e6d66bb04203f1507154f243f647d3fcee49dac5d3ad44bf",
+        "paclock/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "paclock/augment.py": "9f2f36226ada89a0f3da26cfeba37f138b60cece5204b95ca028b9ba9a751ae0",
+        "paclock/block.py": "b8fdaac110d93d6a47469c7a5235a664988a1a27e68a1527d3f06122bdb3d3ca",
+        "paclock/build.py": "8b5d13e392a0f3ad4e8116eaa2212160a37ea12ca8364ab829e02908c7fb2b3a",
+        "paclock/duplex_routing.py": "454ed538c0c74c72294b913f9bdac05695de2419865dfb8e0b001d1413d78c83",
+        "paclock/encoder.py": "bd5b4f3228e2a2ca306cae7f3cc7476018ef1315cb69c480ecaedc4ea793957f",
+        "paclock/head.py": "f1d06db827e5501881329619b4872890751d8c7bee47127cfb35d5c1eef971e2",
+        "paclock/montage.py": "7e495bc43ea70b89e704074b7b5910c143cf0f74b16d109a1bf44682927fa707",
+        "paclock/triaxial.py": "f4610c6e367a3ba64cac71f97f1a44549434980a72d5980893a04128e6baedfc",
+        "paclock/frontend/__init__.py": "7e1f3660b8aedda9e35e840f084e0195a8f85a2cf69bf9d7edc20faf9aa5bf83",
+        "paclock/frontend/analytic.py": "b2f63fd92abf360966ce458146ce43f6134c36dd00e54d3afd9e5f91076e6a12",
+        "paclock/frontend/cfc.py": "7d06b696a93df52536e5d0dcbed775f9fdda31aa4714ec253bec739bdbe9fb9f",
+        "paclock/frontend/conv.py": "091344599cb46b3b082698ec189da5a7246db7aa02c846753f01d963fbf755c5",
+        "paclock/frontend/copula.py": "14ffd03a84505a797d642245812825f02a12ce62662497d032af76422af98db1",
+        "paclock/frontend/factorized.py": "2ecb5551f17aca34151f9d1bc5a50db3f1867c6314d50eed653fa66d90efaa1a",
+        "paclock/frontend/measured.py": "fe029ec04b356d3e65c7afe7b4f5040c7c294b3486187813c989ce9d07d7c2c0",
+        "paclock/frontend/measurement.py": "a8e6a1a1942d6942e1162d91051a717cca5b3223c4abb930572fed1fb65771dd",
+        "paclock/frontend/measurement_curve.py": "b5a294084052fe2e3c81da748ea1a15f3fc4bf1a124ca7565bbb0ca35db228dc",
+        "paclock/frontend/measurement_uncertain.py": "78a9693a2d0addba14837fd78c4a0fa80bb03f185d881af4c3a6a7271e21218c",
+        "paclock/frontend/pac_calibration.py": "4b5ff98b9ca47ef5edc5c3ea5df7f4cb454a381555df6f81ffdf363a957cb569",
+        "paclock/frontend/sinc.py": "94ebd9ef7610854e9c799d6737af3e534c283b1623a9645ef745698c74cc3269",
+        "paclock/frontend/singlepath.py": "e73858e8233278ec0c7747ff9cc7cfbe317582380a549d466ee54e65a167f219",
+        "paclock/frontend/triaxial.py": "c6d2b0c9c0f4a995e060286c936bef7bbb324f32069d39f4190f835393eb4547",
+        "paclock/mixers/__init__.py": "2c8ab16c41ace748644defc31e6159c5ee0fc10651f73a373df84fd5482e2131",
+        "paclock/mixers/attention.py": "3dc6640c720e330c6e4dd5cd476587d172583c1c90c038ef5e6e6509cfe3be96",
+        "paclock/mixers/base.py": "8b428e51b9572a5611edccb9a633b0fa8251e6bd47f81739d77e7ee2d10a5569",
+        "paclock/mixers/cotar.py": "0e26c619232f8a978f9cc979e9b22e7ad2a69369be1e040149742cca58989af9",
+        "paclock/mixers/mi_operator.py": "e8142a529bc847ffe8a6a67a9add952fed66080099e58a6b513b41afba0834f4"
+      }
+    },
+    "weight": {
+      "clinical_kappa": 0.6617958685601772,
+      "tokenizer_r2": {
+        "X001_delta_beta": 0.33228920256778693,
+        "X002_theta_gamma": 0.2198785119960053,
+        "X003_alpha_gamma": 0.19200992452284874
+      },
+      "raw_r2_by_summary": {
+        "X001_delta_beta": [
+          0.39746251686856005,
+          0.14056166770569212,
+          0.41092618731791475,
+          0.47137557236421845,
+          0.37133471862126965,
+          0.2020745525290666
+        ],
+        "X002_theta_gamma": [
+          0.23515763995609862,
+          0.23445183131346603,
+          0.16938372940102464,
+          0.2168667247077093,
+          0.2280342860263752,
+          0.2353768605713581
+        ],
+        "X003_alpha_gamma": [
+          0.2280553561388573,
+          -0.013500063374269455,
+          0.3023860781989399,
+          0.39015926630360265,
+          0.22710906458020352,
+          0.0043497819154890704
+        ]
+      },
+      "max_numeric_error": 1.050697251425703e-09,
+      "checkpoint_sha256": "ab177b0da16356ae4741f33d3e9a4ce3bc972bea41ccaff1e9c6bcc8b6040901",
+      "wall_seconds": 59.73035978525877,
+      "cuda_peak_GiB": 0.4499225616455078,
+      "selected_alphas": {
+        "X001_delta_beta": 0.1,
+        "X002_theta_gamma": 0.1,
+        "X003_alpha_gamma": 100.0
+      },
+      "clinical_result_source": "amd:/home1/yifanwang/CFM4EEG-twoaxis-20260917/runs/tuev-range_twoaxis_weight_20260917/seed2/result.json",
+      "original_checkpoint_path": "/home1/yifanwang/CFM4EEG-twoaxis-20260917/runs/tuev-range_twoaxis_weight_20260917/seed2/best.pt",
+      "selected_readouts": [
+        {
+          "label": "tokenizer/X001_delta_beta",
+          "scope": "tokenizer",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 1.056632150405375e-06
+          },
+          "test_r2": 0.33228920318710514,
+          "test_raw_r2_by_summary": [
+            0.397462519061078,
+            0.14056166752370558,
+            0.41092618578030093,
+            0.47137557287002063,
+            0.37133471763093506,
+            0.20207455625659065
+          ]
+        },
+        {
+          "label": "tokenizer/X002_theta_gamma",
+          "scope": "tokenizer",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 6.16892218139135e-05
+          },
+          "test_r2": 0.21987851246613987,
+          "test_raw_r2_by_summary": [
+            0.23515764269779427,
+            0.23445183149137838,
+            0.16938373120554273,
+            0.21686672603273938,
+            0.22803428438187912,
+            0.23537685898750538
+          ]
+        },
+        {
+          "label": "tokenizer/X003_alpha_gamma",
+          "scope": "tokenizer",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "tokenizer",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.012963447219504431,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.19200992347215148,
+          "test_raw_r2_by_summary": [
+            0.2280553493929498,
+            -0.013500064522012911,
+            0.3023860761657642,
+            0.39015926575752424,
+            0.22710906485418336,
+            0.004349784662487144
+          ]
+        }
+      ],
+      "source_hashes": {
+        "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "build.py": "4308f1f502d61a46c71025c5d910beedb7dd91bc3228dfd3f2364bc950f7b1ec",
+        "wave_patch.py": "1e5ee98b35cc0258e6d66bb04203f1507154f243f647d3fcee49dac5d3ad44bf",
+        "paclock/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "paclock/augment.py": "9f2f36226ada89a0f3da26cfeba37f138b60cece5204b95ca028b9ba9a751ae0",
+        "paclock/block.py": "b8fdaac110d93d6a47469c7a5235a664988a1a27e68a1527d3f06122bdb3d3ca",
+        "paclock/build.py": "8b5d13e392a0f3ad4e8116eaa2212160a37ea12ca8364ab829e02908c7fb2b3a",
+        "paclock/duplex_routing.py": "454ed538c0c74c72294b913f9bdac05695de2419865dfb8e0b001d1413d78c83",
+        "paclock/encoder.py": "bd5b4f3228e2a2ca306cae7f3cc7476018ef1315cb69c480ecaedc4ea793957f",
+        "paclock/head.py": "f1d06db827e5501881329619b4872890751d8c7bee47127cfb35d5c1eef971e2",
+        "paclock/montage.py": "7e495bc43ea70b89e704074b7b5910c143cf0f74b16d109a1bf44682927fa707",
+        "paclock/triaxial.py": "f4610c6e367a3ba64cac71f97f1a44549434980a72d5980893a04128e6baedfc",
+        "paclock/frontend/__init__.py": "7e1f3660b8aedda9e35e840f084e0195a8f85a2cf69bf9d7edc20faf9aa5bf83",
+        "paclock/frontend/analytic.py": "b2f63fd92abf360966ce458146ce43f6134c36dd00e54d3afd9e5f91076e6a12",
+        "paclock/frontend/cfc.py": "7d06b696a93df52536e5d0dcbed775f9fdda31aa4714ec253bec739bdbe9fb9f",
+        "paclock/frontend/conv.py": "091344599cb46b3b082698ec189da5a7246db7aa02c846753f01d963fbf755c5",
+        "paclock/frontend/copula.py": "14ffd03a84505a797d642245812825f02a12ce62662497d032af76422af98db1",
+        "paclock/frontend/factorized.py": "2ecb5551f17aca34151f9d1bc5a50db3f1867c6314d50eed653fa66d90efaa1a",
+        "paclock/frontend/measured.py": "fe029ec04b356d3e65c7afe7b4f5040c7c294b3486187813c989ce9d07d7c2c0",
+        "paclock/frontend/measurement.py": "a8e6a1a1942d6942e1162d91051a717cca5b3223c4abb930572fed1fb65771dd",
+        "paclock/frontend/measurement_curve.py": "b5a294084052fe2e3c81da748ea1a15f3fc4bf1a124ca7565bbb0ca35db228dc",
+        "paclock/frontend/measurement_uncertain.py": "78a9693a2d0addba14837fd78c4a0fa80bb03f185d881af4c3a6a7271e21218c",
+        "paclock/frontend/pac_calibration.py": "4b5ff98b9ca47ef5edc5c3ea5df7f4cb454a381555df6f81ffdf363a957cb569",
+        "paclock/frontend/sinc.py": "94ebd9ef7610854e9c799d6737af3e534c283b1623a9645ef745698c74cc3269",
+        "paclock/frontend/singlepath.py": "e73858e8233278ec0c7747ff9cc7cfbe317582380a549d466ee54e65a167f219",
+        "paclock/frontend/triaxial.py": "c6d2b0c9c0f4a995e060286c936bef7bbb324f32069d39f4190f835393eb4547",
+        "paclock/mixers/__init__.py": "2c8ab16c41ace748644defc31e6159c5ee0fc10651f73a373df84fd5482e2131",
+        "paclock/mixers/attention.py": "3dc6640c720e330c6e4dd5cd476587d172583c1c90c038ef5e6e6509cfe3be96",
+        "paclock/mixers/base.py": "8b428e51b9572a5611edccb9a633b0fa8251e6bd47f81739d77e7ee2d10a5569",
+        "paclock/mixers/cotar.py": "0e26c619232f8a978f9cc979e9b22e7ad2a69369be1e040149742cca58989af9",
+        "paclock/mixers/mi_operator.py": "e8142a529bc847ffe8a6a67a9add952fed66080099e58a6b513b41afba0834f4"
+      }
+    },
+    "identity": {
+      "clinical_kappa": 0.6990766681591654,
+      "tokenizer_r2": {
+        "X001_delta_beta": 0.1538792783534715,
+        "X002_theta_gamma": 0.05863370015914715,
+        "X003_alpha_gamma": 0.11262437102334018
+      },
+      "raw_r2_by_summary": {
+        "X001_delta_beta": [
+          0.17066300378388466,
+          0.12265250833411312,
+          0.15433368184686114,
+          0.16423856234060374,
+          0.1583643690835176,
+          0.15302354473184887
+        ],
+        "X002_theta_gamma": [
+          0.05834060996264234,
+          0.07216952245526642,
+          0.032425080231297865,
+          0.05912376980276268,
+          0.046961927546638305,
+          0.08278129095627529
+        ],
+        "X003_alpha_gamma": [
+          0.15128652682775645,
+          0.030239412446732783,
+          0.15541336830913188,
+          0.14931669679982984,
+          0.15146494108462205,
+          0.03802528067196809
+        ]
+      },
+      "max_numeric_error": 7.531662515880555e-10,
+      "checkpoint_sha256": "79a451680753c0df88eb770ca8802690de3d2e955fb37cdabaa48d774a7772ba",
+      "wall_seconds": 59.694104289636016,
+      "cuda_peak_GiB": 0.4401569366455078,
+      "selected_alphas": {
+        "X001_delta_beta": 0.1,
+        "X002_theta_gamma": 0.1,
+        "X003_alpha_gamma": 0.1
+      },
+      "clinical_result_source": "amd:/home1/yifanwang/CFM4EEG-twoaxis-20260917/runs/tuev-range_twoaxis_identity_20260917/seed2/result.json",
+      "original_checkpoint_path": "/home1/yifanwang/CFM4EEG-twoaxis-20260917/runs/tuev-range_twoaxis_identity_20260917/seed2/best.pt",
+      "selected_readouts": [
+        {
+          "label": "tokenizer/X001_delta_beta",
+          "scope": "tokenizer",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 1.309996776101737e-05
+          },
+          "test_r2": 0.15387927760030526,
+          "test_raw_r2_by_summary": [
+            0.17066300285191938,
+            0.12265250774826464,
+            0.1543336809171304,
+            0.16423856128288605,
+            0.15836436668566645,
+            0.15302354611596458
+          ]
+        },
+        {
+          "label": "tokenizer/X002_theta_gamma",
+          "scope": "tokenizer",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 2.4376479416610142e-05
+          },
+          "test_r2": 0.05863370050376802,
+          "test_raw_r2_by_summary": [
+            0.05834060884052439,
+            0.07216952270007848,
+            0.03242508041174175,
+            0.05912377102296196,
+            0.04696192826404799,
+            0.08278129178325355
+          ]
+        },
+        {
+          "label": "tokenizer/X003_alpha_gamma",
+          "scope": "tokenizer",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.09204569026441874,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 4.47442393024707e-05
+          },
+          "test_r2": 0.11262437152435122,
+          "test_raw_r2_by_summary": [
+            0.1512865293963217,
+            0.030239412715563407,
+            0.15541336788627913,
+            0.1493166954772105,
+            0.1514649407471066,
+            0.03802528292362595
+          ]
+        }
+      ],
+      "source_hashes": {
+        "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "build.py": "4308f1f502d61a46c71025c5d910beedb7dd91bc3228dfd3f2364bc950f7b1ec",
+        "wave_patch.py": "1e5ee98b35cc0258e6d66bb04203f1507154f243f647d3fcee49dac5d3ad44bf",
+        "paclock/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "paclock/augment.py": "9f2f36226ada89a0f3da26cfeba37f138b60cece5204b95ca028b9ba9a751ae0",
+        "paclock/block.py": "b8fdaac110d93d6a47469c7a5235a664988a1a27e68a1527d3f06122bdb3d3ca",
+        "paclock/build.py": "8b5d13e392a0f3ad4e8116eaa2212160a37ea12ca8364ab829e02908c7fb2b3a",
+        "paclock/duplex_routing.py": "454ed538c0c74c72294b913f9bdac05695de2419865dfb8e0b001d1413d78c83",
+        "paclock/encoder.py": "bd5b4f3228e2a2ca306cae7f3cc7476018ef1315cb69c480ecaedc4ea793957f",
+        "paclock/head.py": "f1d06db827e5501881329619b4872890751d8c7bee47127cfb35d5c1eef971e2",
+        "paclock/montage.py": "7e495bc43ea70b89e704074b7b5910c143cf0f74b16d109a1bf44682927fa707",
+        "paclock/triaxial.py": "f4610c6e367a3ba64cac71f97f1a44549434980a72d5980893a04128e6baedfc",
+        "paclock/frontend/__init__.py": "7e1f3660b8aedda9e35e840f084e0195a8f85a2cf69bf9d7edc20faf9aa5bf83",
+        "paclock/frontend/analytic.py": "b2f63fd92abf360966ce458146ce43f6134c36dd00e54d3afd9e5f91076e6a12",
+        "paclock/frontend/cfc.py": "7d06b696a93df52536e5d0dcbed775f9fdda31aa4714ec253bec739bdbe9fb9f",
+        "paclock/frontend/conv.py": "091344599cb46b3b082698ec189da5a7246db7aa02c846753f01d963fbf755c5",
+        "paclock/frontend/copula.py": "14ffd03a84505a797d642245812825f02a12ce62662497d032af76422af98db1",
+        "paclock/frontend/factorized.py": "2ecb5551f17aca34151f9d1bc5a50db3f1867c6314d50eed653fa66d90efaa1a",
+        "paclock/frontend/measured.py": "fe029ec04b356d3e65c7afe7b4f5040c7c294b3486187813c989ce9d07d7c2c0",
+        "paclock/frontend/measurement.py": "a8e6a1a1942d6942e1162d91051a717cca5b3223c4abb930572fed1fb65771dd",
+        "paclock/frontend/measurement_curve.py": "b5a294084052fe2e3c81da748ea1a15f3fc4bf1a124ca7565bbb0ca35db228dc",
+        "paclock/frontend/measurement_uncertain.py": "78a9693a2d0addba14837fd78c4a0fa80bb03f185d881af4c3a6a7271e21218c",
+        "paclock/frontend/pac_calibration.py": "4b5ff98b9ca47ef5edc5c3ea5df7f4cb454a381555df6f81ffdf363a957cb569",
+        "paclock/frontend/sinc.py": "94ebd9ef7610854e9c799d6737af3e534c283b1623a9645ef745698c74cc3269",
+        "paclock/frontend/singlepath.py": "e73858e8233278ec0c7747ff9cc7cfbe317582380a549d466ee54e65a167f219",
+        "paclock/frontend/triaxial.py": "c6d2b0c9c0f4a995e060286c936bef7bbb324f32069d39f4190f835393eb4547",
+        "paclock/mixers/__init__.py": "2c8ab16c41ace748644defc31e6159c5ee0fc10651f73a373df84fd5482e2131",
+        "paclock/mixers/attention.py": "3dc6640c720e330c6e4dd5cd476587d172583c1c90c038ef5e6e6509cfe3be96",
+        "paclock/mixers/base.py": "8b428e51b9572a5611edccb9a633b0fa8251e6bd47f81739d77e7ee2d10a5569",
+        "paclock/mixers/cotar.py": "0e26c619232f8a978f9cc979e9b22e7ad2a69369be1e040149742cca58989af9",
+        "paclock/mixers/mi_operator.py": "e8142a529bc847ffe8a6a67a9add952fed66080099e58a6b513b41afba0834f4"
+      }
+    }
+  },
+  "runtime": {
+    "host": "145",
+    "GPU_by_arm": {
+      "measured": 4,
+      "own": 5,
+      "weight": 6,
+      "identity": 7
+    },
+    "GPU_0_3_used": false,
+    "GPU_allocator_ceiling_GiB": 6,
+    "host_memory_ceiling_GiB_per_worker": 3,
+    "CPU_quota_per_worker": 1,
+    "other_users_processes_stopped": false,
+    "strict_load_and_full_frontend_hook_parity_smoke": "passed in all four arms"
+  },
+  "source_hashes": {
+    "paclock_bench/probing/real_eeg.py": "5a6aad063549beef7a137e08590244164ac23b9f863ed896d6eb53a1a57f4341",
+    "paclock_bench/probing/real_eeg_models.py": "bef97d260aa438a71f8fbbf5eeba94f72acd67e6873800ff12fa4a46c02ded7a",
+    "scripts/experiments/pac_real_eeg_probe.py": "8ec408dfc5f5a36085668d9e92a6ce403b1152630dbf723565ffedf8a7ecea73"
+  },
+  "source_base_commit": "1375a3aa0efc44e4118c8c7adc3ef2c12a79447a",
+  "saved_outputs": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-twoaxis-recovery-20261113/real-results",
+  "local_receipts": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-slides-eval-20261113/collected/real-results",
+  "assay_scope": "Task-trained weights on accepted TUEV, adapting the paper metric; target statistics are not physiological PAC ground truth."
+}
