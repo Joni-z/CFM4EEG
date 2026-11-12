@@ -681,6 +681,11 @@ For future L40S-only submissions, the template uses `torch_pr_637_general` with
 [Torch submission guide](https://services.rt.nyu.edu/docs/hpc/submitting_jobs/slurm_submitting_jobs/).
 Its admission check routes to the same L40S public pool. The already valid queued
 job is retained rather than submitted again solely to change the account label.
+A live comparison on 12 November confirms that ODE uses the same priority
+account and QOS, but its OR GPU constraint admits A100-Tandon, H100-Tandon,
+L40S-public and H200-public pools. Its completed training jobs ran on H100;
+its current six-hour training requests are also pending. ISRUC remains
+L40S-only with an eight-hour limit. No additional queue replacement was made.
 The existing accepted ISRUC arrays and original two-axis measured checkpoint
 are reused, with the same Tort-MI targets and ridge readout as above.
 

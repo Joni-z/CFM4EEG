@@ -227,7 +227,8 @@
     "model_data_and_probe_changes": false
   },
   "scheduler_status": {
-    "verified_on": "2026-11-11",
+    "verified_on": "2026-11-12",
+    "verified_utc": "2026-11-12T09:58:47.313567+00:00",
     "state": "PENDING",
     "reason": "Priority",
     "dependency": null,
@@ -254,5 +255,87 @@
     "real_job_submitted": false,
     "existing_job_retained": "22651842",
     "reason": "Existing valid job already queues in same L40S public pool; preserve its accrued wait time."
+  },
+  "ode_scheduler_comparison_20261112": {
+    "observed_utc": "2026-11-12T09:58:47.313567+00:00",
+    "source": "Live scontrol show job and sacct, not template defaults alone",
+    "isruc_request": {
+      "JobId": "22651842",
+      "JobName": "isruc-pac-readout",
+      "Account": "torch_pr_637_tandon_priority",
+      "QOS": "gpu48",
+      "Priority": "12512",
+      "JobState": "PENDING",
+      "Reason": "Priority",
+      "Partition": "l40s_public",
+      "Features": "(null)",
+      "TimeLimit": "08:00:00",
+      "TimeMin": "N/A",
+      "NumCPUs": "2",
+      "ReqTRES": "cpu=2,mem=8G,node=1,billing=2,gres/gpu=1",
+      "SubmitTime": "2026-11-11T03:30:02",
+      "EligibleTime": "2026-11-11T03:30:05",
+      "StartTime": "Unknown",
+      "Dependency": "(null)",
+      "Command": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_l40s.slurm",
+      "WorkDir": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110"
+    },
+    "ode_requests": [
+      {
+        "JobId": "22822267",
+        "JobName": "celeba128-swiglu-s0",
+        "Account": "torch_pr_637_tandon_priority",
+        "QOS": "gpu48",
+        "Priority": "12504",
+        "JobState": "PENDING",
+        "Reason": "None",
+        "Partition": "a100_tandon,h100_tandon,l40s_public,h200_public",
+        "Features": "a100|h100|h200|l40s|rtx6000|b200",
+        "TimeLimit": "06:00:00",
+        "TimeMin": "N/A",
+        "NumCPUs": "6",
+        "ReqTRES": "cpu=6,mem=24G,node=1,billing=6,gres/gpu=1",
+        "SubmitTime": "2026-11-12T03:14:30",
+        "EligibleTime": "2026-11-12T03:14:30",
+        "StartTime": "Unknown",
+        "Dependency": "(null)",
+        "Command": "/scratch/zz5070/ODE_FFN/ODE-FFN/slurm/celeba.slurm",
+        "WorkDir": "/scratch/zz5070/ODE_FFN/ODE-FFN"
+      },
+      {
+        "JobId": "22822268",
+        "JobName": "celeba128-isru_d-s0",
+        "Account": "torch_pr_637_tandon_priority",
+        "QOS": "gpu48",
+        "Priority": "12504",
+        "JobState": "PENDING",
+        "Reason": "None",
+        "Partition": "a100_tandon,h100_tandon,l40s_public,h200_public",
+        "Features": "a100|h100|h200|l40s|rtx6000|b200",
+        "TimeLimit": "06:00:00",
+        "TimeMin": "N/A",
+        "NumCPUs": "6",
+        "ReqTRES": "cpu=6,mem=24G,node=1,billing=6,gres/gpu=1",
+        "SubmitTime": "2026-11-12T03:14:30",
+        "EligibleTime": "2026-11-12T03:14:30",
+        "StartTime": "Unknown",
+        "Dependency": "(null)",
+        "Command": "/scratch/zz5070/ODE_FFN/ODE-FFN/slurm/celeba.slurm",
+        "WorkDir": "/scratch/zz5070/ODE_FFN/ODE-FFN"
+      }
+    ],
+    "completed_ode_jobs": [
+      "22659500|celeba-isrud-k8-s0|torch_pr_637_tandon_priority|h100_tandon|COMPLETED|01:48:30|02:00:00|2026-11-11T06:09:46|gh006",
+      "22659501|celeba-swiglu-s0|torch_pr_637_tandon_priority|h100_tandon|COMPLETED|01:46:50|02:00:00|2026-11-11T06:09:46|gh007",
+      "22813320|celeba128-readiness|torch_pr_637_tandon_priority|h100_tandon|COMPLETED|00:03:02|00:15:00|2026-11-12T02:15:24|gh009"
+    ],
+    "findings": [
+      "Both projects currently use torch_pr_637_tandon_priority and site-selected gpu48; the current ISRUC job has no unresolved dependency.",
+      "ISRUC is restricted to l40s_public. ODE uses an OR GPU constraint without a manual partition; its effective eligible partitions are a100_tandon,h100_tandon,l40s_public,h200_public.",
+      "Completed ODE training jobs 22659500/22659501 ran on H100 Tandon with two-hour limits. Current ODE training jobs request six hours and remain pending.",
+      "ISRUC requests eight uninterrupted hours, two CPUs and 8G; current ODE jobs request six hours, six CPUs and 24G. Longer wall-time can reduce backfill opportunities, but the scheduler has not attributed this wait specifically to wall-time.",
+      "Changing only the account label or replacing the L40S partition name with an L40S constraint does not demonstrate access to an additional resource pool."
+    ],
+    "decision": "Retain ISRUC job 22651842 and its accrued wait; no source, checkpoint, job or GPU eligibility mutation. Broadening beyond L40S requires revising the user restriction."
   }
 }
