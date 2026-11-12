@@ -9,9 +9,9 @@
   "seed": 0,
   "variant": "original two-axis measured rotation, ISRUC seed0",
   "model_retraining": false,
-  "job_id": "22651842",
+  "job_id": "22833349",
   "host": "torch",
-  "account": "torch_pr_637_tandon_priority",
+  "account": "torch_pr_637_general",
   "qos": "gpu48",
   "partition": "l40s_public",
   "resources": {
@@ -20,7 +20,7 @@
     "memory": "8G",
     "walltime": "08:00:00"
   },
-  "submitted_utc": "2026-11-11T08:30:02.533841+00:00",
+  "submitted_utc": "2026-11-12T10:03:33.160663+00:00",
   "data_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/data/processed/isruc",
   "manifest_sha256": "bb08a6596a766d4ced275edeb9a6ce362703092198f2ad1967ee1ea2f53063d8",
   "checkpoint_sha256": "1cb82e40e083b9f10121ffba770eb48b043fef0f12f8d3323c63c0204bf4072c",
@@ -194,8 +194,8 @@
     "launch_record": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/launch.json"
   },
   "submission_script": {
-    "path": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_l40s.slurm",
-    "sha256": "18a44656b2a2fe811a3abee9a01dad4a8d814d455ff5867cdf796f0c717ceafe"
+    "path": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_general_l40s_20261112.slurm",
+    "sha256": "dfd820c73f881776d922644aba2d6abe17b88f1e9e34054f69ddbb6bada68027"
   },
   "queue_audit": {
     "observed_utc": "2026-11-10T12:35:22Z",
@@ -228,9 +228,9 @@
   },
   "scheduler_status": {
     "verified_on": "2026-11-12",
-    "verified_utc": "2026-11-12T09:58:47.313567+00:00",
+    "verified_utc": "2026-11-12T10:04:06.745704+00:00",
     "state": "PENDING",
-    "reason": "Priority",
+    "reason": "None",
     "dependency": null,
     "start_time": "Unknown"
   },
@@ -252,9 +252,10 @@
     "reference": "https://services.rt.nyu.edu/docs/hpc/submitting_jobs/slurm_submitting_jobs/",
     "test_only_admission": "passed",
     "observed_pool": "l40s_public",
-    "real_job_submitted": false,
-    "existing_job_retained": "22651842",
-    "reason": "Existing valid job already queues in same L40S public pool; preserve its accrued wait time."
+    "real_job_submitted": true,
+    "existing_job_retained": null,
+    "reason": "User confirms the L40S/general routing; replace the never-started priority-account job with the verified template.",
+    "active_job": "22833349"
   },
   "ode_scheduler_comparison_20261112": {
     "observed_utc": "2026-11-12T09:58:47.313567+00:00",
@@ -337,5 +338,32 @@
       "Changing only the account label or replacing the L40S partition name with an L40S constraint does not demonstrate access to an additional resource pool."
     ],
     "decision": "Retain ISRUC job 22651842 and its accrued wait; no source, checkpoint, job or GPU eligibility mutation. Broadening beyond L40S requires revising the user restriction."
+  },
+  "general_account_transition_20261112": {
+    "user_instruction": "Use the general account for L40S; reserve Tandon priority for its departmental GPU pools.",
+    "superseded_job": "22651842",
+    "superseded_account": "torch_pr_637_tandon_priority",
+    "superseded_submitted_utc": "2026-11-11T08:30:02.533841+00:00",
+    "superseded_submission_script": {
+      "path": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_l40s.slurm",
+      "sha256": "18a44656b2a2fe811a3abee9a01dad4a8d814d455ff5867cdf796f0c717ceafe"
+    },
+    "old_job_state": "CANCELLED",
+    "old_elapsed": "00:00:00",
+    "job_id": "22833349",
+    "verified_utc": "2026-11-12T10:04:06.745704+00:00",
+    "admission": "sbatch: Job 22833348 to start at 2026-11-16T00:49:33 a using 2 processors on nodes gl058 in partition l40s_public\n",
+    "command": [
+      "sbatch",
+      "--parsable",
+      "--dependency=afterany:22651842",
+      "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_general_l40s_20261112.slurm",
+      "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/source",
+      "/scratch/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python",
+      "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/jobs/cfft-isruc.json"
+    ],
+    "dependency": null,
+    "model_data_probe_changes": false,
+    "accounting": "22651842|CANCELLED by 4206200|00:00:00|torch_pr_637_tandon_priority|l40s_public\n22833349|PENDING|00:00:00|torch_pr_637_general|l40s_public"
   }
 }

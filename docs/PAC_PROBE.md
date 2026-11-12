@@ -672,20 +672,17 @@ All EEG model weights remained frozen; only affine ridge readouts were fitted.
 
 ### ISRUC extension on Torch (2026-11-10)
 
-CfFT seed0 is submitted as job `22651842` on `l40s_public`, using the verified
-`torch_pr_637_tandon_priority` account and site-selected `gpu48` QOS. It requests
-one L40S, 2 CPUs and 8G RAM. The job is pending; no ISRUC PAC score is reported
-yet. The superseded pending submissions were cancelled before GPU allocation.
-For future L40S-only submissions, the template uses `torch_pr_637_general` with
-`--constraint=l40s` and no manually fixed partition, following the
+CfFT seed0 is submitted as job `22833349` on `l40s_public`, using
+`torch_pr_637_general`, `--constraint=l40s`, and site-selected `gpu48` QOS.
+The template leaves partition selection to Slurm and requests one L40S,
+2 CPUs, 8G RAM and eight hours. The job is pending with no dependency;
+no ISRUC PAC score is reported yet. On 12 November, the user confirmed
+that L40S requests should use the general account. The previous
+priority-account job `22651842` was cancelled before running (zero elapsed).
+A live comparison with ODE showed broader GPU eligibility there; its completed
+training jobs ran on H100. The current PAC evaluation remains L40S-only.
+The account correction follows the
 [Torch submission guide](https://services.rt.nyu.edu/docs/hpc/submitting_jobs/slurm_submitting_jobs/).
-Its admission check routes to the same L40S public pool. The already valid queued
-job is retained rather than submitted again solely to change the account label.
-A live comparison on 12 November confirms that ODE uses the same priority
-account and QOS, but its OR GPU constraint admits A100-Tandon, H100-Tandon,
-L40S-public and H200-public pools. Its completed training jobs ran on H100;
-its current six-hour training requests are also pending. ISRUC remains
-L40S-only with an eight-hour limit. No additional queue replacement was made.
 The existing accepted ISRUC arrays and original two-axis measured checkpoint
 are reused, with the same Tort-MI targets and ridge readout as above.
 
