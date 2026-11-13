@@ -672,17 +672,19 @@ All EEG model weights remained frozen; only affine ridge readouts were fitted.
 
 ### ISRUC extension on Torch (2026-11-10)
 
-CfFT seed0 is submitted as job `22833349` on `l40s_public`, using
+CfFT seed0 is resubmitted as job `22990760` on `l40s_public`, using
 `torch_pr_637_general`, `--constraint=l40s`, and site-selected `gpu48` QOS.
-The template leaves partition selection to Slurm and requests one L40S,
-2 CPUs, 8G RAM and eight hours. The job is pending with no dependency;
-no ISRUC PAC score is reported yet. On 12 November, the user confirmed
-that L40S requests should use the general account. The previous
-priority-account job `22651842` was cancelled before running (zero elapsed).
-A live comparison with ODE showed broader GPU eligibility there; its completed
-training jobs ran on H100. The current PAC evaluation remains L40S-only.
-The account correction follows the
-[Torch submission guide](https://services.rt.nyu.edu/docs/hpc/submitting_jobs/slurm_submitting_jobs/).
+It requests one GPU, 2 CPUs, 8G RAM and eight hours; no ISRUC PAC score is
+available yet. Job `22833349` obtained L40S node `gl022` but failed after nine
+seconds because its project venv contained an incomplete shadow PyTorch package.
+The replacement uses the existing complete `pacformer` interpreter directly
+(PyTorch 2.8.0+cu126). Dependency imports, the evaluator entrypoint and strict
+checkpoint loading pass. GPU target/model smokes precede full evaluation in
+the same allocation. Frozen evaluator and model sources remain unchanged.
+
+The source paper's Figure 2 reports a median over each feature family. Its
+cross-frequency family includes three PAC and two AAC features; that family
+median is not a matching reference for our individual PAC readout scores.
 The existing accepted ISRUC arrays and original two-axis measured checkpoint
 are reused, with the same Tort-MI targets and ridge readout as above.
 

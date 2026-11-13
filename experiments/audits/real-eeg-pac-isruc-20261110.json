@@ -9,7 +9,7 @@
   "seed": 0,
   "variant": "original two-axis measured rotation, ISRUC seed0",
   "model_retraining": false,
-  "job_id": "22833349",
+  "job_id": "22990760",
   "host": "torch",
   "account": "torch_pr_637_general",
   "qos": "gpu48",
@@ -20,7 +20,7 @@
     "memory": "8G",
     "walltime": "08:00:00"
   },
-  "submitted_utc": "2026-11-12T10:03:33.160663+00:00",
+  "submitted_utc": "2026-11-13T12:28:55.163770+00:00",
   "data_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/data/processed/isruc",
   "manifest_sha256": "bb08a6596a766d4ced275edeb9a6ce362703092198f2ad1967ee1ea2f53063d8",
   "checkpoint_sha256": "1cb82e40e083b9f10121ffba770eb48b043fef0f12f8d3323c63c0204bf4072c",
@@ -194,7 +194,7 @@
     "launch_record": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/launch.json"
   },
   "submission_script": {
-    "path": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_general_l40s_20261112.slurm",
+    "path": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_general_l40s_20261113.slurm",
     "sha256": "dfd820c73f881776d922644aba2d6abe17b88f1e9e34054f69ddbb6bada68027"
   },
   "queue_audit": {
@@ -227,8 +227,8 @@
     "model_data_and_probe_changes": false
   },
   "scheduler_status": {
-    "verified_on": "2026-11-12",
-    "verified_utc": "2026-11-12T10:04:06.745704+00:00",
+    "verified_on": "2026-11-13",
+    "verified_utc": "2026-11-13T12:28:55.163770+00:00",
     "state": "PENDING",
     "reason": "None",
     "dependency": null,
@@ -254,8 +254,8 @@
     "observed_pool": "l40s_public",
     "real_job_submitted": true,
     "existing_job_retained": null,
-    "reason": "User confirms the L40S/general routing; replace the never-started priority-account job with the verified template.",
-    "active_job": "22833349"
+    "reason": "Use the general/L40S template with the verified complete pacformer interpreter; previous general-account attempt failed at import before evaluation.",
+    "active_job": "22990760"
   },
   "ode_scheduler_comparison_20261112": {
     "observed_utc": "2026-11-12T09:58:47.313567+00:00",
@@ -365,5 +365,47 @@
     "dependency": null,
     "model_data_probe_changes": false,
     "accounting": "22651842|CANCELLED by 4206200|00:00:00|torch_pr_637_tandon_priority|l40s_public\n22833349|PENDING|00:00:00|torch_pr_637_general|l40s_public"
+  },
+  "runtime_repair_20261113": {
+    "failed_job": "22833349",
+    "failed_job_accounting": "22833349|FAILED|00:00:09|1:0|torch_pr_637_general|l40s_public|2026-11-13T06:33:03|2026-11-13T06:33:12|gl022",
+    "failed_job_log_tail": "NVIDIA L40S, 46068 MiB\nTraceback (most recent call last):\n  File \"/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/source/scripts/experiments/pac_real_eeg_probe.py\", line 22, in <module>\n    import torch\n  File \"/scratch/zz5070/CFM4EEG-rebuild-20261021/venv/lib/python3.11/site-packages/torch/__init__.py\", line 496, in <module>\n    from torch._C import *  # noqa: F403\n    ^^^^^^^^^^^^^^^^^^^^^^\nImportError: libtorch_python.so: cannot open shared object file: No such file or directory\n",
+    "failed_job_results_present": false,
+    "diagnosis": "The project venv contains an incomplete torch2.14.1+cu130 package without torch/lib. It shadows the complete inherited pacformer torch2.8.0+cu126 installation.",
+    "repair": "Use the verified existing pacformer interpreter directly; frozen evaluation/model sources, input data and weights unchanged.",
+    "python": "/scratch/zz5070/miniconda3/envs/pacformer/bin/python",
+    "preflight": {
+      "returncode": 0,
+      "stdout": "{\"status\": \"PASS\", \"torch\": \"2.8.0+cu126\", \"torch_file\": \"/scratch/zz5070/miniconda3/envs/pacformer/lib/python3.11/site-packages/torch/__init__.py\", \"strict_checkpoint_load\": true, \"encoder_blocks\": 6}\n",
+      "stderr": ""
+    },
+    "new_job": "22990760",
+    "command": [
+      "sbatch",
+      "--parsable",
+      "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_general_l40s_20261113.slurm",
+      "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/source",
+      "/scratch/zz5070/miniconda3/envs/pacformer/bin/python",
+      "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/jobs/cfft-isruc.json"
+    ],
+    "admission": "sbatch: Job 22990754 to start at 2026-11-16T07:47:53 a using 2 processors on nodes gl017 in partition l40s_public\n",
+    "observed_utc": "2026-11-13T12:28:55.163770+00:00",
+    "separate_gpu_preflight": false,
+    "gpu_preflight": "Original wrapper performs target and model smokes within the new GPU allocation before full evaluation."
+  },
+  "paper_comparison": {
+    "source": "https://arxiv.org/html/2605.11410v2",
+    "checked_on": "2026-11-13",
+    "source_figure": "Figure2",
+    "figure_statistic": "Median probe R2 over each feature family, by model/task/layer",
+    "family_X": [
+      "X001 PAC delta-beta",
+      "X002 PAC theta-gamma",
+      "X003 PAC alpha-gamma",
+      "X004 AAC theta-gamma",
+      "X005 AAC delta-gamma"
+    ],
+    "our_outputs": "Three separately scored PAC features; tokenizer endpoint and validation-selected encoder layer",
+    "comparison_status": "No ISRUC scores yet; family-X median is not a PAC-only statistic and must not be compared as if it were a matching PAC score."
   }
 }
