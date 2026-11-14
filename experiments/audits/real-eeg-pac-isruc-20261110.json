@@ -2,7 +2,7 @@
   "study": "real_eeg_pac_20261110",
   "dataset": "isruc",
   "evidence_type": "real_eeg_pac_readout",
-  "status": "submitted_gpu_smoke_dependency",
+  "status": "completed",
   "protocol": "real_eeg_Tort18_ridge_v1",
   "source_paper": "https://arxiv.org/html/2605.11410v2",
   "model": "cfft",
@@ -115,7 +115,18 @@
       "reason": "No ISRUC-trained checkpoint in complete live HF object mappings, four historical manifests or later mappings; historical 145/Torch result directories contain only result.json."
     }
   },
-  "results": null,
+  "results": {
+    "tokenizer": {
+      "X001_delta_beta": 0.2283981972395811,
+      "X002_theta_gamma": 0.15338502303005244,
+      "X003_alpha_gamma": 0.13997161660658886
+    },
+    "encoder_peak": {
+      "X001_delta_beta": 0.21899165061666084,
+      "X002_theta_gamma": 0.23661364987979208,
+      "X003_alpha_gamma": 0.1828997384440708
+    }
+  },
   "checkpoint_search": {
     "repo": "JoniZz/CFM4EEG-checkpoint-archive",
     "revision": "595ca5eac0f7dae359680e6d1c90ed22d1767b59",
@@ -228,11 +239,11 @@
   },
   "scheduler_status": {
     "verified_on": "2026-11-14",
-    "verified_utc": "2026-11-14T04:35:54.848893+00:00",
-    "state": "PENDING",
-    "reason": "Dependency",
-    "dependency": "afterok:23084041",
-    "start_time": "Unknown"
+    "verified_utc": "2026-11-14T14:36:22.285502+00:00",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "dependency": null,
+    "accounting": "23084041|isruc-pac-check|COMPLETED|00:00:36|0:0|gl024\n23084042|isruc-pac-readout|COMPLETED|00:07:31|0:0|gl024"
   },
   "l40s_only_transition": {
     "previous_job_id": "22651393",
@@ -406,7 +417,14 @@
       "X005 AAC delta-gamma"
     ],
     "our_outputs": "Three separately scored PAC features; tokenizer endpoint and validation-selected encoder layer",
-    "comparison_status": "No ISRUC scores yet; family-X median is not a PAC-only statistic and must not be compared as if it were a matching PAC score."
+    "comparison_status": "Original Figure2 reports a five-feature family median. Our separately scored PAC R2 values are not a matched statistic; no superiority claim follows.",
+    "figure_estimates": {
+      "CBraMod_ISRUC_family_X_peak_R2": 0.45,
+      "LaBraM_ISRUC_family_X_peak_R2": 0.45
+    },
+    "estimate_status": "Approximate figure reading, rounded to two decimals; not original per-PAC numerical records.",
+    "estimate_source": "https://arxiv.org/pdf/2605.11410v2#page=6",
+    "published_individual_ISRUC_PAC_values": "Not found in the inspected main paper, appendix, or arXiv source files; Figure2 family X combines PAC and AAC."
   },
   "dataset_layout_repair_20261114": {
     "failed_job": "22990760",
@@ -528,5 +546,216 @@
         "Reason": "Dependency"
       }
     }
+  },
+  "completion": {
+    "source_ref": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/results/cfft-isruc-epochs/result.json",
+    "result_sha256": "e3c7082b1531d64511914983947c8b62185cbdcc0cf6f10baa9b9bb33e156f2b",
+    "wall_time_sec": 393.3432372249663,
+    "cuda_peak_GiB": 0.2601499557495117,
+    "target_rows": {
+      "train": 69420,
+      "val": 9360,
+      "test": 8700
+    },
+    "checkpoint_sha256": "1cb82e40e083b9f10121ffba770eb48b043fef0f12f8d3323c63c0204bf4072c",
+    "manifest_sha256": "bb08a6596a766d4ced275edeb9a6ce362703092198f2ad1967ee1ea2f53063d8",
+    "endpoints": [
+      {
+        "label": "tokenizer/X001_delta_beta",
+        "scope": "tokenizer",
+        "feature": "X001_delta_beta",
+        "feature_index": 0,
+        "endpoint": "tokenizer",
+        "alpha": 100.0,
+        "alpha_index": 3,
+        "validation_r2": 0.07212826459252819,
+        "validation_controls": {
+          "shuffled": 0.0,
+          "gaussian": 6.01100156693013e-05
+        },
+        "test_r2": 0.2283981972395811,
+        "test_raw_r2_by_summary": [
+          0.28133096926553725,
+          0.11819028870934234,
+          0.28088930083967,
+          0.27749703267019565,
+          0.2530613134309573,
+          0.15942027852178398
+        ]
+      },
+      {
+        "label": "encoder_peak/X001_delta_beta",
+        "scope": "encoder_peak",
+        "feature": "X001_delta_beta",
+        "feature_index": 0,
+        "endpoint": "layer_06",
+        "alpha": 100.0,
+        "alpha_index": 3,
+        "validation_r2": 0.1132186734966303,
+        "validation_controls": {
+          "shuffled": 0.0,
+          "gaussian": 0.0
+        },
+        "test_r2": 0.21899165061666084,
+        "test_raw_r2_by_summary": [
+          0.2448687237730549,
+          0.03247790905560022,
+          0.3484395765133863,
+          0.4020161477130072,
+          0.21682764684175015,
+          0.06931989980316644
+        ]
+      },
+      {
+        "label": "tokenizer/X002_theta_gamma",
+        "scope": "tokenizer",
+        "feature": "X002_theta_gamma",
+        "feature_index": 1,
+        "endpoint": "tokenizer",
+        "alpha": 100.0,
+        "alpha_index": 3,
+        "validation_r2": 0.04881918511968114,
+        "validation_controls": {
+          "shuffled": 0.0,
+          "gaussian": 8.901214118563668e-05
+        },
+        "test_r2": 0.15338502303005244,
+        "test_raw_r2_by_summary": [
+          0.19130555517898784,
+          0.09460926044941076,
+          0.1788113254076763,
+          0.1637375972855991,
+          0.17572395657542106,
+          0.11612244328321963
+        ]
+      },
+      {
+        "label": "encoder_peak/X002_theta_gamma",
+        "scope": "encoder_peak",
+        "feature": "X002_theta_gamma",
+        "feature_index": 1,
+        "endpoint": "layer_03",
+        "alpha": 10.0,
+        "alpha_index": 2,
+        "validation_r2": 0.12187534837796173,
+        "validation_controls": {
+          "shuffled": 0.0,
+          "gaussian": 0.0
+        },
+        "test_r2": 0.23661364987979208,
+        "test_raw_r2_by_summary": [
+          0.2867987209321816,
+          0.13169860823006552,
+          0.28923253658858605,
+          0.2823347899754738,
+          0.2667928809113952,
+          0.16282436264105038
+        ]
+      },
+      {
+        "label": "tokenizer/X003_alpha_gamma",
+        "scope": "tokenizer",
+        "feature": "X003_alpha_gamma",
+        "feature_index": 2,
+        "endpoint": "tokenizer",
+        "alpha": 1.0,
+        "alpha_index": 1,
+        "validation_r2": 0.1238672332592255,
+        "validation_controls": {
+          "shuffled": 0.0,
+          "gaussian": 2.4442222769593958e-05
+        },
+        "test_r2": 0.13997161660658886,
+        "test_raw_r2_by_summary": [
+          0.16427487630170856,
+          0.10158017831709454,
+          0.15558374902251226,
+          0.14699108034957165,
+          0.14891131079651843,
+          0.1224885048521277
+        ]
+      },
+      {
+        "label": "encoder_peak/X003_alpha_gamma",
+        "scope": "encoder_peak",
+        "feature": "X003_alpha_gamma",
+        "feature_index": 2,
+        "endpoint": "layer_06",
+        "alpha": 10.0,
+        "alpha_index": 2,
+        "validation_r2": 0.2379320881591117,
+        "validation_controls": {
+          "shuffled": 0.0,
+          "gaussian": 3.234676025413533e-05
+        },
+        "test_r2": 0.1828997384440708,
+        "test_raw_r2_by_summary": [
+          0.2071385342006492,
+          0.09322072064335651,
+          0.23934515432855175,
+          0.2541207217270559,
+          0.17819535779870876,
+          0.1253779419661024
+        ]
+      }
+    ],
+    "independent_verification": {
+      "status": "PASS",
+      "test_rows": 8700,
+      "selection_split": "val",
+      "six_scores": [
+        {
+          "label": "tokenizer/X001_delta_beta",
+          "reported_r2": 0.2283981972395811,
+          "recomputed_r2": 0.2283981976252065,
+          "absolute_difference": 3.8562539272923857e-10,
+          "selected_layer": "tokenizer",
+          "ridge_alpha": 100.0
+        },
+        {
+          "label": "encoder_peak/X001_delta_beta",
+          "reported_r2": 0.21899165061666084,
+          "recomputed_r2": 0.21899165093538553,
+          "absolute_difference": 3.187246855329562e-10,
+          "selected_layer": "layer_06",
+          "ridge_alpha": 100.0
+        },
+        {
+          "label": "tokenizer/X002_theta_gamma",
+          "reported_r2": 0.15338502303005244,
+          "recomputed_r2": 0.15338502289852182,
+          "absolute_difference": 1.315306197291477e-10,
+          "selected_layer": "tokenizer",
+          "ridge_alpha": 100.0
+        },
+        {
+          "label": "encoder_peak/X002_theta_gamma",
+          "reported_r2": 0.23661364987979208,
+          "recomputed_r2": 0.23661364970278131,
+          "absolute_difference": 1.7701076715503916e-10,
+          "selected_layer": "layer_03",
+          "ridge_alpha": 10.0
+        },
+        {
+          "label": "tokenizer/X003_alpha_gamma",
+          "reported_r2": 0.13997161660658886,
+          "recomputed_r2": 0.13997161686890516,
+          "absolute_difference": 2.6231630756434754e-10,
+          "selected_layer": "tokenizer",
+          "ridge_alpha": 1.0
+        },
+        {
+          "label": "encoder_peak/X003_alpha_gamma",
+          "reported_r2": 0.1828997384440708,
+          "recomputed_r2": 0.1828997386010982,
+          "absolute_difference": 1.5702741884560112e-10,
+          "selected_layer": "layer_06",
+          "ridge_alpha": 10.0
+        }
+      ],
+      "max_absolute_difference": 3.8562539272923857e-10,
+      "checkpoint_sha256": "1cb82e40e083b9f10121ffba770eb48b043fef0f12f8d3323c63c0204bf4072c"
+    },
+    "clinical_model_retrained": false
   }
 }

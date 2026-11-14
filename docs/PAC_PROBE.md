@@ -672,28 +672,34 @@ All EEG model weights remained frozen; only affine ridge readouts were fitted.
 
 ### ISRUC extension on Torch (2026-11-10)
 
-CfFT seed0 has a short real-data GPU check `23084041`, followed by full
-readout `23084042` with an `afterok` dependency. Both use
-`torch_pr_637_general` and one L40S. The full job requests 2 CPUs, 8G RAM and
-eight hours. No ISRUC PAC score is available yet.
+CfFT seed0 completed on L40S node `gl024`: real-data GPU check `23084041`
+passed in 36 seconds, then full readout `23084042` completed in 7m31s with
+exit code 0. No EEG model was retrained. The existing `pacformer` interpreter
+and the explicitly flattened sleep epochs were used.
 
-The accepted arrays store `[sequence,20,6,6000]`. Explicit sequence flattening
-reads individual 30-second epochs in the original training order, yielding
-69,420 / 9,360 / 8,700 train/validation/test rows. Exact cross-sequence reads
-and checkpoint loading pass on the real files; nine unit tests pass. The
-PAC estimator and frozen model remain unchanged. Only the streaming reader
-is patched in a separate execution release; previous releases are preserved.
+| ISRUC PAC feature | Tokenizer test R² | Encoder test R² | Validation-selected encoder layer |
+|---|---:|---:|---|
+| delta→beta | .228 | .219 | 6 |
+| theta→gamma | .153 | .237 | 3 |
+| alpha→gamma | .140 | .183 | 6 |
 
-Earlier attempts failed before producing scores: `22833349` at PyTorch import,
-then `22990760` at the undeclared sequence layout. The complete existing
-`pacformer` interpreter (PyTorch 2.8.0+cu126) and declared epoch reading are
-now used together. GPU target/model checks must pass before full evaluation.
+These are clipped per-output R² averages over six channel summaries, not
+classification accuracy. All six values independently recompute from saved
+test predictions, with maximum absolute difference below 4e-10. Layers and
+ridge strengths were selected on validation. Full-precision scores and checks
+are in the linked audit; the readout rows are recorded separately in studies.csv.
 
-The source paper's Figure 2 reports a median over each feature family. Its
-cross-frequency family includes three PAC and two AAC features; that family
-median is not a matching reference for our individual PAC readout scores.
-The existing accepted ISRUC arrays and original two-axis measured checkpoint
-are reused, with the same Tort-MI targets and ridge readout as above.
+The arrays store `[sequence,20,6,6000]`. Reading them as individual epochs in
+training order gives 69,420 / 9,360 / 8,700 train/validation/test rows. Nine tests
+and exact real-data sequence-boundary checks pass. The PAC estimator, model,
+checkpoint and accepted arrays remain unchanged. Earlier failed attempts and
+execution releases are preserved in the launch record.
+
+The source paper's Figure 2 reports a median over three PAC and two AAC
+features. Its ISRUC cross-frequency family peaks are approximately .45 for
+both CBraMod and LaBraM (figure estimates). These mixed-family values are not
+matched per-PAC references for the three CfFT scores above; this experiment
+does not establish superiority over the source-paper models.
 
 The retained checkpoint loads strictly and all seven representation endpoints
 pass the CPU shape check. The scheduled job performs GPU smokes before its
