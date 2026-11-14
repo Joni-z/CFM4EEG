@@ -672,15 +672,22 @@ All EEG model weights remained frozen; only affine ridge readouts were fitted.
 
 ### ISRUC extension on Torch (2026-11-10)
 
-CfFT seed0 is resubmitted as job `22990760` on `l40s_public`, using
-`torch_pr_637_general`, `--constraint=l40s`, and site-selected `gpu48` QOS.
-It requests one GPU, 2 CPUs, 8G RAM and eight hours; no ISRUC PAC score is
-available yet. Job `22833349` obtained L40S node `gl022` but failed after nine
-seconds because its project venv contained an incomplete shadow PyTorch package.
-The replacement uses the existing complete `pacformer` interpreter directly
-(PyTorch 2.8.0+cu126). Dependency imports, the evaluator entrypoint and strict
-checkpoint loading pass. GPU target/model smokes precede full evaluation in
-the same allocation. Frozen evaluator and model sources remain unchanged.
+CfFT seed0 has a short real-data GPU check `23084041`, followed by full
+readout `23084042` with an `afterok` dependency. Both use
+`torch_pr_637_general` and one L40S. The full job requests 2 CPUs, 8G RAM and
+eight hours. No ISRUC PAC score is available yet.
+
+The accepted arrays store `[sequence,20,6,6000]`. Explicit sequence flattening
+reads individual 30-second epochs in the original training order, yielding
+69,420 / 9,360 / 8,700 train/validation/test rows. Exact cross-sequence reads
+and checkpoint loading pass on the real files; nine unit tests pass. The
+PAC estimator and frozen model remain unchanged. Only the streaming reader
+is patched in a separate execution release; previous releases are preserved.
+
+Earlier attempts failed before producing scores: `22833349` at PyTorch import,
+then `22990760` at the undeclared sequence layout. The complete existing
+`pacformer` interpreter (PyTorch 2.8.0+cu126) and declared epoch reading are
+now used together. GPU target/model checks must pass before full evaluation.
 
 The source paper's Figure 2 reports a median over each feature family. Its
 cross-frequency family includes three PAC and two AAC features; that family

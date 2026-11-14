@@ -52,7 +52,7 @@ def headroom(out: Path, device: str) -> dict:
 
 class Rows:
     """Sequential NPY reads, without mapping tens of GiB into process RSS."""
-    def __init__(self, path: Path):
+    def __init__(self, path: Path, *, flatten_sequences: bool = False):
         self.stream = path.open("rb")
         version = np.lib.format.read_magic(self.stream)
         reader = { (1, 0): np.lib.format.read_array_header_1_0,
@@ -60,6 +60,10 @@ class Rows:
         if reader is None:
             raise ValueError("Unsupported NPY header")
         self.shape, fortran, self.dtype = reader(self.stream)
+        # Sleep arrays store contiguous [sequence, epoch, channel, time] rows.
+        # Match WindowDataset's epoch order without rewriting the source file.
+        if flatten_sequences and len(self.shape) == 4:
+            self.shape = (self.shape[0] * self.shape[1], *self.shape[2:])
         if fortran or self.dtype != np.dtype("float32") or len(self.shape) != 3:
             raise ValueError("Expected contiguous float32 [N,C,T] data")
         self.offset = self.stream.tell()
@@ -108,7 +112,8 @@ def targets(job: dict, device: str, smoke: bool) -> None:
         return
     counts, quality = {}, {}
     for split in (("train",) if smoke else ("train", "val", "test")):
-        rows = Rows(Path(job["data_root"]) / f"{split}_signals.npy")
+        rows = Rows(Path(job["data_root"]) / f"{split}_signals.npy",
+                    flatten_sequences=job.get("flatten_sequences", False))
         n = min(8, rows.shape[0]) if smoke else rows.shape[0]
         y = np.empty((n, 18), dtype=np.float32)
         qc = dict(empty_phase_bins=0, degenerate_channel_pairs=0)
@@ -146,7 +151,8 @@ def run_model(job: dict, device: str, smoke: bool) -> None:
         raise FileExistsError("Preserving completed probe " + str(out))
     data = dataset_identity(job)
     root = Path(job["data_root"])
-    rows = Rows(root / "train_signals.npy")
+    rows = Rows(root / "train_signals.npy",
+                flatten_sequences=job.get("flatten_sequences", False))
     model = FrozenReadout(job, tuple(rows.shape[1:]), device)
     if smoke:
         x = torch.from_numpy(rows.read(0, min(2, rows.shape[0])))
@@ -193,7 +199,8 @@ def run_model(job: dict, device: str, smoke: bool) -> None:
     selected = None
     saved_predictions = None
     for split in ("train", "val", "test"):
-        rows = Rows(root / f"{split}_signals.npy")
+        rows = Rows(root / f"{split}_signals.npy",
+                    flatten_sequences=job.get("flatten_sequences", False))
         if rows.shape[0] != len(raw[split]):
             raise ValueError("PAC target row count mismatch")
         denominators = np.load(root / f"{split}_q95_denominators.npy", mmap_mode="r") if job["dataset"] == "chbmit" else None

@@ -10,6 +10,36 @@ from paclock_bench.probing.real_eeg import (
 )
 
 
+def test_sleep_streaming_rows_keep_epoch_order_across_sequences(tmp_path):
+    import pytest
+    from scripts.experiments.pac_real_eeg_probe import Rows
+
+    stored = np.arange(3 * 20 * 2 * 10, dtype=np.float32).reshape(3, 20, 2, 10)
+    path = tmp_path / 'sleep.npy'
+    np.save(path, stored)
+    with pytest.raises(ValueError, match='contiguous float32'):
+        Rows(path)
+    rows = Rows(path, flatten_sequences=True)
+    expected = stored.reshape(60, 2, 10)
+    assert rows.shape == expected.shape
+    for start, stop in [(0, 2), (19, 23), (38, 42), (58, 60)]:
+        np.testing.assert_array_equal(rows.read(start, stop), expected[start:stop])
+    rows.close()
+
+
+def test_ordinary_streaming_rows_are_unchanged(tmp_path):
+    from scripts.experiments.pac_real_eeg_probe import Rows
+
+    expected = np.arange(7 * 3 * 11, dtype=np.float32).reshape(7, 3, 11)
+    path = tmp_path / 'epochs.npy'
+    np.save(path, expected)
+    for flatten in (False, True):
+        rows = Rows(path, flatten_sequences=flatten)
+        assert rows.shape == expected.shape
+        np.testing.assert_array_equal(rows.read(1, 6), expected[1:6])
+        rows.close()
+
+
 def reference(signal):
     freq = np.fft.fftfreq(len(signal), 1 / 200)
     bands = [hilbert(np.fft.ifft(np.fft.fft(signal) *

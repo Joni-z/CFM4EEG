@@ -2,14 +2,14 @@
   "study": "real_eeg_pac_20261110",
   "dataset": "isruc",
   "evidence_type": "real_eeg_pac_readout",
-  "status": "submitted_pending",
+  "status": "submitted_gpu_smoke_dependency",
   "protocol": "real_eeg_Tort18_ridge_v1",
   "source_paper": "https://arxiv.org/html/2605.11410v2",
   "model": "cfft",
   "seed": 0,
   "variant": "original two-axis measured rotation, ISRUC seed0",
   "model_retraining": false,
-  "job_id": "22990760",
+  "job_id": "23084042",
   "host": "torch",
   "account": "torch_pr_637_general",
   "qos": "gpu48",
@@ -20,7 +20,7 @@
     "memory": "8G",
     "walltime": "08:00:00"
   },
-  "submitted_utc": "2026-11-13T12:28:55.163770+00:00",
+  "submitted_utc": "2026-11-14T04:34:22.758696+00:00",
   "data_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/data/processed/isruc",
   "manifest_sha256": "bb08a6596a766d4ced275edeb9a6ce362703092198f2ad1967ee1ea2f53063d8",
   "checkpoint_sha256": "1cb82e40e083b9f10121ffba770eb48b043fef0f12f8d3323c63c0204bf4072c",
@@ -86,11 +86,11 @@
     "paclock_bench/models/paclock/mixers/__init__.py": "2c8ab16c41ace748644defc31e6159c5ee0fc10651f73a373df84fd5482e2131",
     "paclock_bench/models/paclock/mixers/base.py": "8b428e51b9572a5611edccb9a633b0fa8251e6bd47f81739d77e7ee2d10a5569",
     "paclock_bench/models/paclock/mixers/cotar.py": "0e26c619232f8a978f9cc979e9b22e7ad2a69369be1e040149742cca58989af9",
-    "scripts/experiments/pac_real_eeg_probe.py": "25cbdfb3c2a15fbe4ebdcac4c5f59c175556263c6446fa5e628f76ff1ec6a3ef",
+    "scripts/experiments/pac_real_eeg_probe.py": "9c681cd7a8001f3cb124ab3f80acae9e93ab01b9f5ca814da6bdbdb23f0ee8d5",
     "slurm/torch_pac_readout.slurm": "38876f283ccfd1eff2a3874f6096cd0d58f56d54432b97fe585dfd28e622a4c5"
   },
-  "source_ref": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/launch-l40s-only-20261111.json",
-  "output_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/results/cfft-isruc",
+  "source_ref": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/source-epochs-20261114",
+  "output_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/results/cfft-isruc-epochs",
   "checks": {
     "source_and_checkpoint_hashes": "passed",
     "slurm_test_only": "passed",
@@ -194,7 +194,7 @@
     "launch_record": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/launch.json"
   },
   "submission_script": {
-    "path": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_general_l40s_20261113.slurm",
+    "path": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_general_l40s_20261114.slurm",
     "sha256": "dfd820c73f881776d922644aba2d6abe17b88f1e9e34054f69ddbb6bada68027"
   },
   "queue_audit": {
@@ -227,11 +227,11 @@
     "model_data_and_probe_changes": false
   },
   "scheduler_status": {
-    "verified_on": "2026-11-13",
-    "verified_utc": "2026-11-13T12:28:55.163770+00:00",
+    "verified_on": "2026-11-14",
+    "verified_utc": "2026-11-14T04:35:54.848893+00:00",
     "state": "PENDING",
-    "reason": "None",
-    "dependency": null,
+    "reason": "Dependency",
+    "dependency": "afterok:23084041",
     "start_time": "Unknown"
   },
   "l40s_only_transition": {
@@ -254,8 +254,8 @@
     "observed_pool": "l40s_public",
     "real_job_submitted": true,
     "existing_job_retained": null,
-    "reason": "Use the general/L40S template with the verified complete pacformer interpreter; previous general-account attempt failed at import before evaluation.",
-    "active_job": "22990760"
+    "reason": "Use the verified interpreter and explicit epoch sequence reading; full evaluation requires the real-data GPU check to pass.",
+    "active_job": "23084042"
   },
   "ode_scheduler_comparison_20261112": {
     "observed_utc": "2026-11-12T09:58:47.313567+00:00",
@@ -407,5 +407,126 @@
     ],
     "our_outputs": "Three separately scored PAC features; tokenizer endpoint and validation-selected encoder layer",
     "comparison_status": "No ISRUC scores yet; family-X median is not a PAC-only statistic and must not be compared as if it were a matching PAC score."
+  },
+  "dataset_layout_repair_20261114": {
+    "failed_job": "22990760",
+    "failed_job_accounting": "22990760|FAILED|00:00:19|1:0|2026-11-13T11:13:09|2026-11-13T11:13:28|gl020",
+    "failed_job_log_tail": "NVIDIA L40S, 46068 MiB\nTraceback (most recent call last):\n  File \"/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/source/scripts/experiments/pac_real_eeg_probe.py\", line 297, in <module>\n    main()\n  File \"/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/source/scripts/experiments/pac_real_eeg_probe.py\", line 287, in main\n    targets(job, \"cuda:0\", args.smoke)\n  File \"/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/source/scripts/experiments/pac_real_eeg_probe.py\", line 111, in targets\n    rows = Rows(Path(job[\"data_root\"]) / f\"{split}_signals.npy\")\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/source/scripts/experiments/pac_real_eeg_probe.py\", line 64, in __init__\n    raise ValueError(\"Expected contiguous float32 [N,C,T] data\")\nValueError: Expected contiguous float32 [N,C,T] data\n",
+    "diagnosis": "ISRUC stores [sequence,20,channel,time]; the reader previously accepted only [epoch,channel,time].",
+    "repair": "Explicit flatten_sequences=true reads contiguous epochs in the same order as the original training WindowDataset, without rewriting arrays.",
+    "previous_source_ref": "torch:/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/launch-l40s-only-20261111.json",
+    "previous_output_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/results/cfft-isruc",
+    "new_source_ref": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/source-epochs-20261114",
+    "new_output_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/results/cfft-isruc-epochs",
+    "new_targets_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/targets/isruc-epochs",
+    "job_spec_path": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/jobs/cfft-isruc-epochs-20261114.json",
+    "preflight": {
+      "status": "PASS",
+      "splits": {
+        "train": {
+          "stored_shape": [
+            3471,
+            20,
+            6,
+            6000
+          ],
+          "epoch_shape": [
+            69420,
+            6,
+            6000
+          ],
+          "cross_sequence_read": "PASS"
+        },
+        "val": {
+          "stored_shape": [
+            468,
+            20,
+            6,
+            6000
+          ],
+          "epoch_shape": [
+            9360,
+            6,
+            6000
+          ],
+          "cross_sequence_read": "PASS"
+        },
+        "test": {
+          "stored_shape": [
+            435,
+            20,
+            6,
+            6000
+          ],
+          "epoch_shape": [
+            8700,
+            6,
+            6000
+          ],
+          "cross_sequence_read": "PASS"
+        }
+      },
+      "strict_checkpoint_load": true,
+      "training_flattens_sequences": true,
+      "endpoints": [
+        "tokenizer",
+        "layer_01",
+        "layer_02",
+        "layer_03",
+        "layer_04",
+        "layer_05",
+        "layer_06"
+      ]
+    },
+    "unit_tests": {
+      "command": ".local/workspace/venv/bin/python -m pytest tests/test_real_eeg_pac.py -q",
+      "passed": 9
+    },
+    "changed_execution_files": [
+      "scripts/experiments/pac_real_eeg_probe.py"
+    ],
+    "execution_script_sha256": "9c681cd7a8001f3cb124ab3f80acae9e93ab01b9f5ca814da6bdbdb23f0ee8d5",
+    "old_source_preserved": true,
+    "smoke_job": "23084041",
+    "full_job": "23084042",
+    "full_dependency": "afterok:23084041",
+    "observed_utc": "2026-11-14T04:34:22.758696+00:00",
+    "clinical_retraining": false,
+    "target_estimator_or_model_changes": false,
+    "full_command": [
+      "sbatch",
+      "--parsable",
+      "--dependency=afterok:23084041",
+      "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/torch_pac_readout_general_l40s_20261114.slurm",
+      "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/source-epochs-20261114",
+      "/scratch/zz5070/miniconda3/envs/pacformer/bin/python",
+      "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/jobs/cfft-isruc-epochs-20261114.json"
+    ],
+    "scheduler_verification": {
+      "observed_utc": "2026-11-14T04:35:54.848893+00:00",
+      "sacct": "23084041|isruc-pac-check|PENDING|00:00:00|0:0|None assigned\n23084042|isruc-pac-readout|PENDING|00:00:00|0:0|None assigned\n",
+      "23084041": {
+        "JobId": "23084041",
+        "Account": "torch_pr_637_general",
+        "Partition": "l40s_public",
+        "Features": "l40s",
+        "ReqTRES": "cpu=2,mem=8G,node=1,billing=2,gres/gpu=1",
+        "TimeLimit": "00:15:00",
+        "Dependency": "(null)",
+        "JobState": "PENDING",
+        "Reason": "None"
+      },
+      "23084042": {
+        "JobId": "23084042",
+        "Account": "torch_pr_637_general",
+        "Partition": "l40s_public",
+        "Features": "l40s",
+        "ReqTRES": "cpu=2,mem=8G,node=1,billing=2,gres/gpu=1",
+        "TimeLimit": "08:00:00",
+        "Dependency": "afterok:23084041(unfulfilled)",
+        "JobState": "PENDING",
+        "Reason": "Dependency"
+      }
+    }
   }
 }
