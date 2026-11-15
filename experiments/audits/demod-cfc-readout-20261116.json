@@ -1,9 +1,9 @@
 {
   "study": "demod_cfc_readout_20261116",
   "model": "Demod-WE",
-  "status": "running",
-  "completed_cells": 10,
-  "pending_cells": 10,
+  "status": "completed",
+  "completed_cells": 20,
+  "pending_cells": 0,
   "neural_training": false,
   "configuration": "paper-boundseed2;16bands,width128,6-layerthree-axis,W+E,noPACrotation",
   "readout_protocol": "identical accepted datasets,fullXtarget caches,globalmean,ridge grid,validation selection and per-summaryR2clipping as cfc-released-40-20261115; tokenizer fixed endpoint,encoder per-feature validation-selected layer",
@@ -777,6 +777,580 @@
         "largest_r2_difference": 1.927054626982283e-09
       },
       "wall_time_sec": 339.62630460597575
+    },
+    {
+      "dataset": "chbmit",
+      "job": {
+        "kind": "cfft",
+        "dataset": "chbmit",
+        "seed": 2,
+        "initialization": "project_scratch",
+        "checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/legacy-triaxial-validation-20261105/checkpoint-archive/20261105-before-gpu02-stop/chbmit-legacy-triaxial-identity-20261105/seed2/best.pt",
+        "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+        "archive": {
+          "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+          "object_path": "objects/8b/8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f.bin",
+          "source_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/legacy-triaxial-validation-20261105/checkpoint-archive/20261105-before-gpu02-stop/chbmit-legacy-triaxial-identity-20261105/seed2/best.pt"
+        },
+        "data_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/data/processed/chbmit",
+        "targets_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/targets/chbmit-X",
+        "manifest_sha256": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+        "out": "/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit",
+        "vendor": "/data2/zz5070/CFM4EEG-rebuild-20261021/vendor/cfft",
+        "batch_size": 32,
+        "num_classes": 1,
+        "source_sha256": {},
+        "variant": "demodulation paper-bound W+E seed2;16bands,width128,depth6,three-axis,noPACrotation",
+        "protocol": "same fixed data/targets/ridge/mean pooling as released40comparison; retain tokenizer and validation-selected encoder endpoints; no EEG training",
+        "feature_family": "X",
+        "gamma_high": 45.0,
+        "model_label": "Demod-WE"
+      },
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json",
+      "data_identity": {
+        "manifest_sha256": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+        "accepted_sha256": "863e397120eb3894f0332a3ebaf40ffdd225e157ab52e190f12a351f4c6ac124",
+        "accepted_file_hashes": {
+          "test_labels.npy": "ae8af62e7bc513afeb0832bc32884ea70a08fdbc6f9db8c070eb2da49ed7fd6b",
+          "test_provenance.jsonl": "a8da42962473d16490ea421abd364c1aaa771be4c6989b2619722bba1fa13c12",
+          "test_q95_denominators.npy": "d31e5c3619c4eade789eba2ed26039e1780f37552f8e40ccc576df64d0dbf0e0",
+          "test_signals.npy": "d3565bca8f95ef1e83fc5f6e1c1665b253e6cd377356e253e540c7407a0c2fbc",
+          "train_labels.npy": "5d2ca941b45080afaab94e05c3bf31bea54e98e35e112bbcc2b01f9d998a55d8",
+          "train_provenance.jsonl": "267bade03974c5ebdd71c37529a057b5bc75250c9c23123b6b43051640da94ef",
+          "train_q95_denominators.npy": "3741e51b87a524864acbabcc9db8a3876f825502ef0c78886b847240d555c1ba",
+          "train_signals.npy": "b753ab5e06606cffc232400ac40fe00f2f0de1938b5cd061cb2ec6f6141c4223",
+          "val_labels.npy": "74a5b8d5c468d105545912af9c5632e588d58f4f9ef828c4bfb3d559e428de7e",
+          "val_provenance.jsonl": "b8544de8a89979d84b8bcefc0cf64fdec934b71c063320360db79291a20fe114",
+          "val_q95_denominators.npy": "afaf22198823e446e002c16c67ea9b8516dabf71507a223f0f619a6905c49702",
+          "val_signals.npy": "d78f8265759456ed13586b1c5168118c43e8f4b591f15f0633f6f29ea5961ec4",
+          "manifest.json": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+          "BUILD.json": "5c4280df5e40bd945844aa69820ecdb814795af3ba617fca57ee2d89f174a26f",
+          "READY.json": "2f1a729c8fa8c13d4f075a839084dbd9334fae3768b2525c459c16cf6586c4c4"
+        }
+      },
+      "endpoints": [
+        {
+          "label": "tokenizer/X001_delta_beta",
+          "scope": "tokenizer",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "tokenizer",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.09221477547570062,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 2.414693297706864e-05
+          },
+          "test_r2": 0.10401844107200303,
+          "test_raw_r2_by_summary": [
+            0.11772839934588641,
+            0.1058874070117245,
+            0.09464377215426734,
+            0.09201232991815722,
+            0.10145765560564546,
+            0.11238108239633726
+          ]
+        },
+        {
+          "label": "encoder_peak/X001_delta_beta",
+          "scope": "encoder_peak",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "layer_02",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.15918722309147446,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 9.312125170653681e-06
+          },
+          "test_r2": 0.15833236822188057,
+          "test_raw_r2_by_summary": [
+            0.17291180835493203,
+            0.28782429683938004,
+            0.012505304376999593,
+            -0.35460483066473447,
+            0.2176543594422744,
+            0.25909844031769735
+          ]
+        },
+        {
+          "label": "tokenizer/X002_theta_gamma",
+          "scope": "tokenizer",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "tokenizer",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.18088244843014167,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 2.358263162379378e-06
+          },
+          "test_r2": 0.07368898013100926,
+          "test_raw_r2_by_summary": [
+            0.0952701569399571,
+            0.0822946309275564,
+            0.06750645402131783,
+            0.03235552885983384,
+            0.0864678384360309,
+            0.07823927160135946
+          ]
+        },
+        {
+          "label": "encoder_peak/X002_theta_gamma",
+          "scope": "encoder_peak",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "layer_02",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.29749637264143053,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 2.9709300750746515e-05
+          },
+          "test_r2": 0.17575875511695702,
+          "test_raw_r2_by_summary": [
+            0.22241081814522956,
+            0.12099500275088548,
+            0.20641116618347732,
+            0.1849751804293931,
+            0.1939343188178616,
+            0.12582604437489497
+          ]
+        },
+        {
+          "label": "tokenizer/X003_alpha_gamma",
+          "scope": "tokenizer",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.0,
+          "test_raw_r2_by_summary": [
+            -0.9795239703295957,
+            -1.2586746443295334,
+            -0.4516174052172628,
+            -0.14219442943754945,
+            -1.298557260958502,
+            -0.8629267104331118
+          ]
+        },
+        {
+          "label": "encoder_peak/X003_alpha_gamma",
+          "scope": "encoder_peak",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "layer_02",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.14427236015171127,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.036763608956897155,
+          "test_raw_r2_by_summary": [
+            -0.039612481433012325,
+            -0.1571060376754958,
+            0.06148960422083427,
+            0.15909204952054867,
+            -0.16415203536420586,
+            -0.08750140990574606
+          ]
+        },
+        {
+          "label": "tokenizer/X004_aac_theta_gamma",
+          "scope": "tokenizer",
+          "feature": "X004_aac_theta_gamma",
+          "feature_index": 3,
+          "endpoint": "tokenizer",
+          "alpha": 1.0,
+          "alpha_index": 1,
+          "validation_r2": 0.14471273082618727,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 3.7396066771925676e-06
+          },
+          "test_r2": 0.040415650882764796,
+          "test_raw_r2_by_summary": [
+            0.020053389244037434,
+            0.07187769357184726,
+            -0.0037139505733283507,
+            -0.08968928525978326,
+            0.06516699035432683,
+            0.08539583212637725
+          ]
+        },
+        {
+          "label": "encoder_peak/X004_aac_theta_gamma",
+          "scope": "encoder_peak",
+          "feature": "X004_aac_theta_gamma",
+          "feature_index": 3,
+          "endpoint": "layer_02",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.2839747639684243,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 5.085008113137057e-06
+          },
+          "test_r2": 0.23178536482089337,
+          "test_raw_r2_by_summary": [
+            0.27848177963401366,
+            0.20592465927267578,
+            0.22958290582860963,
+            0.11324752396424853,
+            0.3081876398387824,
+            0.2552876803870301
+          ]
+        },
+        {
+          "label": "tokenizer/X005_aac_delta_gamma",
+          "scope": "tokenizer",
+          "feature": "X005_aac_delta_gamma",
+          "feature_index": 4,
+          "endpoint": "tokenizer",
+          "alpha": 1.0,
+          "alpha_index": 1,
+          "validation_r2": 0.14976161662745516,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 1.2587265238025077e-05
+          },
+          "test_r2": 0.02185422489884716,
+          "test_raw_r2_by_summary": [
+            -0.03799324019722605,
+            0.06393036071614233,
+            -0.04976173151934349,
+            -0.09888944302754754,
+            0.01036822347200006,
+            0.056826765204940566
+          ]
+        },
+        {
+          "label": "encoder_peak/X005_aac_delta_gamma",
+          "scope": "encoder_peak",
+          "feature": "X005_aac_delta_gamma",
+          "feature_index": 4,
+          "endpoint": "layer_02",
+          "alpha": 10.0,
+          "alpha_index": 2,
+          "validation_r2": 0.3727557283243277,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 4.298191252638528e-06
+          },
+          "test_r2": 0.18596208873225248,
+          "test_raw_r2_by_summary": [
+            0.18687804826655297,
+            0.24007123169653033,
+            0.1484033747544793,
+            0.06006181936298238,
+            0.23583932663118956,
+            0.2445187316817803
+          ]
+        }
+      ],
+      "independent_check": {
+        "status": "PASS",
+        "result_sha256": "5151c7ac0ebb4de6f08cde0358f1e3a3b94dae0015ed180eefc4f57520e1ce4d",
+        "predictions_sha256": "780616d15362fc79db860d4cbcca44c4d3ef38107921b0b99ec77965c752891f",
+        "test_targets_sha256": "ef4a5a33ff2ef30a7bfdb43c32b3b9ec093dc3c441fb6a1415bae70e48134de6",
+        "test_rows": 17224,
+        "all_endpoint_checks": [
+          {
+            "label": "tokenizer/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.10401844123268163,
+            "stored_r2": 0.10401844107200303,
+            "absolute_difference": 1.6067859542889806e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.1583323688657378,
+            "stored_r2": 0.15833236822188057,
+            "absolute_difference": 6.438572175415658e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.22404685385594947,
+            "stored_r2": 0.22404685444100525,
+            "absolute_difference": 5.850557815989532e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.1583323688657378,
+            "stored_r2": 0.15833236822188057,
+            "absolute_difference": 6.438572175415658e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.1505433288147708,
+            "stored_r2": 0.15054332828377706,
+            "absolute_difference": 5.309937489705874e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.13152487023383674,
+            "stored_r2": 0.13152487078582878,
+            "absolute_difference": 5.519920354135621e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.1451159418241609,
+            "stored_r2": 0.1451159416032581,
+            "absolute_difference": 2.2090279605535557e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.09914169475601982,
+            "stored_r2": 0.09914169442687283,
+            "absolute_difference": 3.291469874433517e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.07368898023246029,
+            "stored_r2": 0.07368898013100926,
+            "absolute_difference": 1.0145102813385876e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.17575875532109753,
+            "stored_r2": 0.17575875511695702,
+            "absolute_difference": 2.0414051005168687e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.15406114945716035,
+            "stored_r2": 0.15406115010341218,
+            "absolute_difference": 6.462518298278042e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.17575875532109753,
+            "stored_r2": 0.17575875511695702,
+            "absolute_difference": 2.0414051005168687e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.12758058885549367,
+            "stored_r2": 0.1275805889859131,
+            "absolute_difference": 1.30419425259376e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.0610215042715748,
+            "stored_r2": 0.06102150392189761,
+            "absolute_difference": 3.4967718998135666e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.11751088849236678,
+            "stored_r2": 0.11751088859009434,
+            "absolute_difference": 9.77275621538709e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.11984469914576895,
+            "stored_r2": 0.119844699405385,
+            "absolute_difference": 2.5961605087942985e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.03676360934711237,
+            "stored_r2": 0.036763608956897155,
+            "absolute_difference": 3.9021521430759876e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.03676360934711237,
+            "stored_r2": 0.036763608956897155,
+            "absolute_difference": 3.9021521430759876e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.00290205747073304,
+            "stored_r2": 0.0029020574792045415,
+            "absolute_difference": 8.471501278251026e-12,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.040415650553822347,
+            "stored_r2": 0.040415650882764796,
+            "absolute_difference": 3.289424496677462e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.23178536514604567,
+            "stored_r2": 0.23178536482089337,
+            "absolute_difference": 3.251522939784479e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.2465660967119676,
+            "stored_r2": 0.24656609681678832,
+            "absolute_difference": 1.0482070766926199e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.23178536514604567,
+            "stored_r2": 0.23178536482089337,
+            "absolute_difference": 3.251522939784479e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.23471715265316603,
+            "stored_r2": 0.23471715238041976,
+            "absolute_difference": 2.7274627001361296e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.21400792589997888,
+            "stored_r2": 0.21400792630650115,
+            "absolute_difference": 4.065222602989138e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.19266048194569263,
+            "stored_r2": 0.19266048201216165,
+            "absolute_difference": 6.64690247287325e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.15041472088841482,
+            "stored_r2": 0.15041472058809705,
+            "absolute_difference": 3.00317770651759e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.021854224890212198,
+            "stored_r2": 0.02185422489884716,
+            "absolute_difference": 8.634960801945368e-12,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.18596208816875523,
+            "stored_r2": 0.18596208873225248,
+            "absolute_difference": 5.63497248862177e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.15805285314908515,
+            "stored_r2": 0.15805285282153478,
+            "absolute_difference": 3.2755037571163825e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.18596208816875523,
+            "stored_r2": 0.18596208873225248,
+            "absolute_difference": 5.63497248862177e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.17212975700687894,
+            "stored_r2": 0.17212975731071137,
+            "absolute_difference": 3.038324314363905e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.13725671915426876,
+            "stored_r2": 0.13725671937647002,
+            "absolute_difference": 2.2220125739380592e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.11056015679880872,
+            "stored_r2": 0.1105601566030569,
+            "absolute_difference": 1.9575181753328508e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.09596015641431499,
+            "stored_r2": 0.09596015625264846,
+            "absolute_difference": 1.6166652738736076e-10,
+            "validation_only_selection_replayed": true
+          }
+        ],
+        "largest_r2_difference": 6.462518298278042e-10
+      },
+      "wall_time_sec": 2216.622962117195
     }
   ],
   "rows": [
@@ -916,10 +1490,10 @@
       "seed": 2,
       "scope": "tokenizer",
       "feature": "X001_delta_beta",
-      "r2": "",
-      "status": "running",
-      "endpoint": "",
-      "alpha": "",
+      "r2": 0.10401844107200303,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 100.0,
       "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
       "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
     },
@@ -929,10 +1503,10 @@
       "seed": 2,
       "scope": "tokenizer",
       "feature": "X002_theta_gamma",
-      "r2": "",
-      "status": "running",
-      "endpoint": "",
-      "alpha": "",
+      "r2": 0.07368898013100926,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 100.0,
       "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
       "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
     },
@@ -942,10 +1516,10 @@
       "seed": 2,
       "scope": "tokenizer",
       "feature": "X003_alpha_gamma",
-      "r2": "",
-      "status": "running",
-      "endpoint": "",
-      "alpha": "",
+      "r2": 0.0,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 0.1,
       "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
       "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
     },
@@ -955,10 +1529,10 @@
       "seed": 2,
       "scope": "tokenizer",
       "feature": "X004_aac_theta_gamma",
-      "r2": "",
-      "status": "running",
-      "endpoint": "",
-      "alpha": "",
+      "r2": 0.040415650882764796,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 1.0,
       "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
       "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
     },
@@ -968,10 +1542,10 @@
       "seed": 2,
       "scope": "tokenizer",
       "feature": "X005_aac_delta_gamma",
-      "r2": "",
-      "status": "running",
-      "endpoint": "",
-      "alpha": "",
+      "r2": 0.02185422489884716,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 1.0,
       "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
       "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
     },
@@ -981,10 +1555,10 @@
       "seed": 2,
       "scope": "encoder_peak",
       "feature": "X001_delta_beta",
-      "r2": "",
-      "status": "running",
-      "endpoint": "",
-      "alpha": "",
+      "r2": 0.15833236822188057,
+      "status": "completed_verified",
+      "endpoint": "layer_02",
+      "alpha": 100.0,
       "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
       "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
     },
@@ -994,10 +1568,10 @@
       "seed": 2,
       "scope": "encoder_peak",
       "feature": "X002_theta_gamma",
-      "r2": "",
-      "status": "running",
-      "endpoint": "",
-      "alpha": "",
+      "r2": 0.17575875511695702,
+      "status": "completed_verified",
+      "endpoint": "layer_02",
+      "alpha": 100.0,
       "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
       "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
     },
@@ -1007,10 +1581,10 @@
       "seed": 2,
       "scope": "encoder_peak",
       "feature": "X003_alpha_gamma",
-      "r2": "",
-      "status": "running",
-      "endpoint": "",
-      "alpha": "",
+      "r2": 0.036763608956897155,
+      "status": "completed_verified",
+      "endpoint": "layer_02",
+      "alpha": 100.0,
       "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
       "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
     },
@@ -1020,10 +1594,10 @@
       "seed": 2,
       "scope": "encoder_peak",
       "feature": "X004_aac_theta_gamma",
-      "r2": "",
-      "status": "running",
-      "endpoint": "",
-      "alpha": "",
+      "r2": 0.23178536482089337,
+      "status": "completed_verified",
+      "endpoint": "layer_02",
+      "alpha": 100.0,
       "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
       "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
     },
@@ -1033,12 +1607,22 @@
       "seed": 2,
       "scope": "encoder_peak",
       "feature": "X005_aac_delta_gamma",
-      "r2": "",
-      "status": "running",
-      "endpoint": "",
-      "alpha": "",
+      "r2": 0.18596208873225248,
+      "status": "completed_verified",
+      "endpoint": "layer_02",
+      "alpha": 10.0,
       "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
       "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
     }
-  ]
+  ],
+  "readout_archive": {
+    "status": "verified",
+    "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+    "private": true,
+    "revision": "d1ea36b9eec8cede6d01735e957d8cd1c1cf506e",
+    "path": "readouts/demod-cfc-readout-20261116/completed-metadata.tar.gz",
+    "sha256": "5630eeb1fa27642ac9ca26348da2903cc46c4c4b51f7a3c5ea5e378286e2fce3",
+    "bytes": 23086831
+  },
+  "execution_state": "both frozen evaluations completed normally"
 }

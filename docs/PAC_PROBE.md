@@ -190,6 +190,10 @@ model forward pass or probe fit was needed.
 
 ## Demodulation W+E reference readout (2026-11-16)
 
+The [combined comparison](../experiments/audits/cfc-stage-comparison-20261116.md)
+places both completed Demod-WE datasets alongside the four earlier models.
+
+
 The [Demod-WE readout](../experiments/audits/demod-cfc-readout-20261116.csv)
 uses the demodulation manuscript's fixed seed-2 W+E checkpoints: 16 bands,
 width 128, six three-axis blocks, and no PAC rotation. It reuses the preceding
