@@ -867,9 +867,196 @@
       }
     },
     "chbmit": {
-      "status": "checkpoint_not_found",
-      "search": "HF checkpoint mappings and historical145/Torch full-TFM directories",
-      "observation": "Historical full-TFM result.json exists but no trained weight found; TFM+BIOT host weights are a different model and are not substituted"
+      "status": "readout_running_interim_checkpoint",
+      "finding": "Recovered on145 after following an active-training exclusion in the initial HF manifest; previous checkpoint_not_found disposition was incomplete.",
+      "seed": 0,
+      "source_run": "/data2/zz5070/CFM4EEG-rebuild-20261021/tfm-single-chbmit-20261026/runs/chbmit-tfm_single_rebuild20261021/seed0",
+      "checkpoint_records": [
+        {
+          "name": "best_model.ckpt",
+          "source": "/data2/zz5070/CFM4EEG-rebuild-20261021/tfm-single-chbmit-20261026/runs/chbmit-tfm_single_rebuild20261021/seed0/best_model.ckpt",
+          "frozen_copy": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/reproduced-chbmit/best_model.ckpt",
+          "size": 15910323,
+          "mtime_ns": 1793050105382261266,
+          "sha256": "96f51f7826bdb37be70d02a8cd2adc894f5cf55153424f1ecca6542fa5a68f43",
+          "object_path": "objects/96/96f51f7826bdb37be70d02a8cd2adc894f5cf55153424f1ecca6542fa5a68f43.bin"
+        },
+        {
+          "name": "last.ckpt",
+          "source": "/data2/zz5070/CFM4EEG-rebuild-20261021/tfm-single-chbmit-20261026/runs/chbmit-tfm_single_rebuild20261021/seed0/last.ckpt",
+          "frozen_copy": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/reproduced-chbmit/last.ckpt",
+          "size": 15910323,
+          "mtime_ns": 1793060570873528957,
+          "sha256": "0dc4edc9b150ecbdeb789307e37ae6ccc8fe50d6e035ad3adca2e062a580fa23",
+          "object_path": "objects/0d/0dc4edc9b150ecbdeb789307e37ae6ccc8fe50d6e035ad3adca2e062a580fa23.bin"
+        },
+        {
+          "name": "tfm_tokenizer_last.pth",
+          "source": "/data2/zz5070/CFM4EEG-rebuild-20261021/tfm-single-chbmit-20261026/ckpt/rebuild_20261021/chbmit/tokenizer_train_only/tfm_tokenizer_last.pth",
+          "frozen_copy": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/reproduced-chbmit/tfm_tokenizer_last.pth",
+          "size": 6879160,
+          "mtime_ns": 1793038587167836696,
+          "sha256": "ba32e2f5db1dbcc6991935ecef5d69e7b1098345764c8fc1ebf924c882de243c",
+          "object_path": "objects/ba/ba32e2f5db1dbcc6991935ecef5d69e7b1098345764c8fc1ebf924c882de243c.bin"
+        },
+        {
+          "name": "tfm_encoder_mtp.pth",
+          "source": "/data2/zz5070/CFM4EEG-rebuild-20261021/tfm-single-chbmit-20261026/ckpt/rebuild_20261021/chbmit/mtp_train_only/tfm_encoder_mtp.pth",
+          "frozen_copy": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/reproduced-chbmit/tfm_encoder_mtp.pth",
+          "size": 5308090,
+          "mtime_ns": 1793048666698186373,
+          "sha256": "a7db889eda651f015d68a12742a8b3ef9c028d2df6842b4fed0d769f73bc237c",
+          "object_path": "objects/a7/a7db889eda651f015d68a12742a8b3ef9c028d2df6842b4fed0d769f73bc237c.bin"
+        }
+      ],
+      "training_state": {
+        "tokenizer_completed_epochs": 100,
+        "masked_token_pretraining_completed_epochs": 50,
+        "finetune_planned_epochs": 50,
+        "last_saved_epoch_zero_based": 41,
+        "last_saved_global_step": 25956,
+        "best_epoch_zero_based": 4,
+        "best_global_step": 3090,
+        "best_selection_metric": "val_roc_auc",
+        "clinical_final_test": "not available; finetune interrupted",
+        "best_validation_score_approx": 0.9412
+      },
+      "job": {
+        "kind": "tfm",
+        "dataset": "chbmit",
+        "initialization": "project_reproduced_single_dataset_interim",
+        "checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/reproduced-chbmit/encoder.pth",
+        "checkpoint_sha256": "37dee2dcd0590ed142d497fd05b2b6dd1c6f73927d8067b4fda78dff95fdd9e2",
+        "tokenizer_checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/reproduced-chbmit/tokenizer.pth",
+        "tokenizer_checkpoint_sha256": "fdadbf00ad17661653c2ff3b4d94e2638e3fb65ce1935035caeaf5d35c6f0077",
+        "vendor": "/data2/zz5070/CFM4EEG-rebuild-20261021/vendor/tfm",
+        "source_sha256": {
+          "datasets/data_loaders.py": "45dd4608445a4ef6b66c093772e84e671ddf8bb9a487f4f9cc553977e30a6984",
+          "datasets_processing/CHB-MIT/process_1.py": "92077a5b72401427853476d0c8e1da9c3d01f8604e59399c772f367dda2aef76",
+          "datasets_processing/CHB-MIT/process_2.py": "61be7b670598150b6e28f8b51b221b33e14cf1f6aab14170b9ddc70b85b0cf31",
+          "datasets_processing/EarEEG/process.py": "b489b1c895287ba43cd8d85efa4dbbf0007eff640c80d373807561e863bd46d7",
+          "datasets_processing/TUAB/process.py": "9dbc7a378085ad8fb1c99884aaf4688b8ee415c8c7989ae5e10b23b8f36a4970",
+          "datasets_processing/TUEV/process.py": "8e1296d8dc277d3ee558904c88e7990cd5f0007bf5ceca6532c6e2cc44b6fb51",
+          "downstream_transformer_finetuning.py": "cd5e58cba5b8747450b13722ecf26a52fa9c1adc363950da9e6fe72fe8758236",
+          "downstream_transformer_masked_token_prediction_pretraining.py": "17407c99181a93a5ed950cf58a4d0c663bcca472068a3b9f5e5aec6f91f4cf40",
+          "models/tfm_token.py": "b8661ed82e9fec0cccdc503441bfa217edab679d6e3298f75bafbe749130d7ce",
+          "push_to_hub.py": "7e55d145c16fe222c06a1f415ab0f8819af64442e9c9f41d90b47d016dd259ad",
+          "tfm_tokenizer_inference.py": "3c268d4f6212a9f0546fe8752bc83e20261bdd9e70aaf4c0c4ff79f5077c8b09",
+          "tfm_tokenizer_token_learning.py": "3e43235fdd3119469f0c43eaaff2bd55d3af19a7de9b881f4b563b13bd581ca0",
+          "utils/utils.py": "ee2dd8a85cdb44166394957ae824af7ad7ba2234325eafc061b83359918c8cfe"
+        },
+        "num_classes": 1,
+        "data_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/data/processed/chbmit",
+        "manifest_sha256": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+        "targets_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/targets/chbmit",
+        "batch_size": 16,
+        "out": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/reproduced-chbmit/readout",
+        "archive": {
+          "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+          "source_checkpoint_sha256": "96f51f7826bdb37be70d02a8cd2adc894f5cf55153424f1ecca6542fa5a68f43",
+          "source_object": "objects/96/96f51f7826bdb37be70d02a8cd2adc894f5cf55153424f1ecca6542fa5a68f43.bin",
+          "extracted_prefixes": {
+            "tokenizer": "state_dict.vqvae.",
+            "encoder": "state_dict.tfm_token."
+          }
+        },
+        "protocol": "real_eeg_Tort18_ridge_v1; same accepted arrays and labels as CfFT/CBraMod/LaBraM; gamma30-45Hz; author q95 input; frozen paired released single-dataset weights",
+        "training_seed": 0,
+        "tokenizer_loading": "Strict complete tokenize inference graph; reconstruction decoders are unused; legacy positional tensors accepted only if identically zero. No missing inference weights allowed.",
+        "seed": 0,
+        "stored_q95": true,
+        "training_completion": "Tokenizer100epochs and MTP50epochs complete; finetune interrupted after42/50epochs; validation-selected best checkpoint epoch4(zero-based),step3090, val_AUROC0.9412. No final clinical test or completed finetune claim."
+      },
+      "launch": "2026-11-15T14:11:25.652858+00:00",
+      "source_data_contract": {
+        "data_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/data/processed/chbmit",
+        "manifest_sha256": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+        "sample_rate": 200,
+        "stored_normalization": "q95",
+        "stored_units": null,
+        "loader": "biot",
+        "train_drop_last": false
+      },
+      "frozen_adapter_sha256": "bc1fd6b25f693caf2a03b63d20ebc6cc3e68e5b1f3d6804d91042f17c1aa575a",
+      "checkpoint_archive": {
+        "status": "PASS",
+        "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+        "revision": "38521fbb98edda3e5686e9647a5450dc1af6cfd3",
+        "objects": [
+          {
+            "path": "objects/96/96f51f7826bdb37be70d02a8cd2adc894f5cf55153424f1ecca6542fa5a68f43.bin",
+            "size": 15910323
+          },
+          {
+            "path": "objects/0d/0dc4edc9b150ecbdeb789307e37ae6ccc8fe50d6e035ad3adca2e062a580fa23.bin",
+            "size": 15910323
+          },
+          {
+            "path": "objects/ba/ba32e2f5db1dbcc6991935ecef5d69e7b1098345764c8fc1ebf924c882de243c.bin",
+            "size": 6879160
+          },
+          {
+            "path": "objects/a7/a7db889eda651f015d68a12742a8b3ef9c028d2df6842b4fed0d769f73bc237c.bin",
+            "size": 5308090
+          }
+        ],
+        "records": [
+          {
+            "name": "best_model.ckpt",
+            "source": "/data2/zz5070/CFM4EEG-rebuild-20261021/tfm-single-chbmit-20261026/runs/chbmit-tfm_single_rebuild20261021/seed0/best_model.ckpt",
+            "frozen_copy": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/reproduced-chbmit/best_model.ckpt",
+            "size": 15910323,
+            "mtime_ns": 1793050105382261266,
+            "sha256": "96f51f7826bdb37be70d02a8cd2adc894f5cf55153424f1ecca6542fa5a68f43",
+            "object_path": "objects/96/96f51f7826bdb37be70d02a8cd2adc894f5cf55153424f1ecca6542fa5a68f43.bin"
+          },
+          {
+            "name": "last.ckpt",
+            "source": "/data2/zz5070/CFM4EEG-rebuild-20261021/tfm-single-chbmit-20261026/runs/chbmit-tfm_single_rebuild20261021/seed0/last.ckpt",
+            "frozen_copy": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/reproduced-chbmit/last.ckpt",
+            "size": 15910323,
+            "mtime_ns": 1793060570873528957,
+            "sha256": "0dc4edc9b150ecbdeb789307e37ae6ccc8fe50d6e035ad3adca2e062a580fa23",
+            "object_path": "objects/0d/0dc4edc9b150ecbdeb789307e37ae6ccc8fe50d6e035ad3adca2e062a580fa23.bin"
+          },
+          {
+            "name": "tfm_tokenizer_last.pth",
+            "source": "/data2/zz5070/CFM4EEG-rebuild-20261021/tfm-single-chbmit-20261026/ckpt/rebuild_20261021/chbmit/tokenizer_train_only/tfm_tokenizer_last.pth",
+            "frozen_copy": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/reproduced-chbmit/tfm_tokenizer_last.pth",
+            "size": 6879160,
+            "mtime_ns": 1793038587167836696,
+            "sha256": "ba32e2f5db1dbcc6991935ecef5d69e7b1098345764c8fc1ebf924c882de243c",
+            "object_path": "objects/ba/ba32e2f5db1dbcc6991935ecef5d69e7b1098345764c8fc1ebf924c882de243c.bin"
+          },
+          {
+            "name": "tfm_encoder_mtp.pth",
+            "source": "/data2/zz5070/CFM4EEG-rebuild-20261021/tfm-single-chbmit-20261026/ckpt/rebuild_20261021/chbmit/mtp_train_only/tfm_encoder_mtp.pth",
+            "frozen_copy": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/reproduced-chbmit/tfm_encoder_mtp.pth",
+            "size": 5308090,
+            "mtime_ns": 1793048666698186373,
+            "sha256": "a7db889eda651f015d68a12742a8b3ef9c028d2df6842b4fed0d769f73bc237c",
+            "object_path": "objects/a7/a7db889eda651f015d68a12742a8b3ef9c028d2df6842b4fed0d769f73bc237c.bin"
+          }
+        ]
+      },
+      "checkpoint_discovery": "Initial2026-10-26HF archive excluded active CHB training; the run later produced these weights, but the frozen inventory did not include them.",
+      "ledger_preservation": {
+        "runs.csv": {
+          "before": 2684,
+          "after": 2684,
+          "all_previous_rows_unchanged": true
+        },
+        "studies.csv": {
+          "before": 298,
+          "after": 298,
+          "all_previous_rows_unchanged": true
+        },
+        "checkpoints.csv": {
+          "before": 1949,
+          "after": 1953,
+          "all_previous_rows_unchanged": true
+        }
+      }
     }
   }
 }

@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-11-15T21:47:59.839773+08:00",
+  "updated_at": "2026-11-15T22:15:37.024911+08:00",
   "historical_unique_results": 2681,
   "clinical_records": 2684,
   "model_versions": 268,
   "study_and_trial_records": 298,
   "trial_rows": 218,
-  "checkpoint_locations": 1949,
+  "checkpoint_locations": 1953,
   "conflict_rows": 154,
   "conflict_groups": 93,
   "by_status": {
@@ -36,7 +36,7 @@
     "tusz": 211,
     "tusz_type": 6
   },
-  "input_files": 500,
+  "input_files": 502,
   "input_hashes": {
     "/Users/mr.z/CFM4EEG/.local/legacy/experiments/raw-results-deduplicated.jsonl": "2b88344367d241d6d75306acb7bba7d3db28d133ef925142a43535f5d5b1b717",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/original-cfft-pac-readout-20261102/full-token/scores.json": "870f761d780350819f5d6814381a8125a98b8f5970209c1ecb5be823551a33f3",
@@ -121,6 +121,7 @@
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/tfm-real-pac-20261115/reproduced/completed/independent-check.json": "0811b29f794333ced85e2ee8ae35a4687fc9bb4a41264dbe3da516fa9e0fc3c0",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/tfm-real-pac-20261115/reproduced/completed/results/tuev-reproduced/result.json": "7d4dc2b654c606dd6242763f79d44e1b702a1bf84766b275cc9e3b389d8b4295",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/tfm-real-pac-20261115/reproduced/completed/results/tuev-reproduced/selection.json": "1db1670574361db71b61aecf923fab2c9abb681f7420981c2449880cfbdecea9",
+    "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/tfm-real-pac-20261115/reproduced-chbmit/provenance.json": "06d49de2fbc573ebd23c329428716a76dc965c04f053541cca4a61e2e4cddf57",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/hf-checkpoint-archive-20261026/parallel-tail/selection.json": "839ca60f958a8df965bdae7d8e636a26725c87c3a6a9f98a1ace745e1fc3a5b0",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/hf-checkpoint-archive-20261026/parallel-round2/selection.json": "bb42dad658f0927d4aa15dfe2cd5a3855c2cb59ed49e94c768892273cdc465c5",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/hf-checkpoint-archive-20261026/metadata/run-metadata/145/data1/zz5070/CFM4EEG-rebuild-20261021/eegpt-tuev23/seed0-train/provenance.json": "25382d43952cb509e4b58c4ed06c5f4f19949a239e4d6688a906d7b3317eeeec",
@@ -535,6 +536,7 @@
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/experiment-ledger-20261105/collected/145-records-20261106T103003Z-demodulation.jsonl": "8e27021ae936a4fdf316eeb16f66d94830ca0fd1dcb8390a39e0ecedf2062d51",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/experiment-ledger-20261105/collected/145-records-20261107T151838Z-demodulation.jsonl": "68d379b8e7c496c6f44d0019409cf45e09b935efcef39c50a0000d83025aa07d",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/experiment-ledger-20261105/collected/145-records-20261108T062145Z-eonly-natural-grid.jsonl": "33e61a88c60d08b285e4b10981b3579bec60b8ea48e5d1ad5ef0d5dee392a831",
+    "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/experiment-ledger-20261105/collected/145-records-20261115-tfm-chbmit-checkpoints.jsonl": "c129aab15e31c1b4a335808a9f593539a58437cd0984eb4bf7c738a1416b50a6",
     "/Users/mr.z/CFM4EEG/experiments/receipts/chbmit/cbramod-pretrained/result.json": "9ed434c493870f5fc8dec698912344e387b93b0d36a5af42d7d1049a646e9096",
     "/Users/mr.z/CFM4EEG/experiments/receipts/chbmit/cbramod-scratch/result.json": "7d33b995cdeb5f79cc273682eb90915d990dbea47ad62074444fd0333dd4e19a",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/hf-checkpoint-archive-20261026/archive-manifest.json": "7cf33d5ba4317faf9e8a98055ee1ed788b082346fb75e08a8c1f45389353ddc1"

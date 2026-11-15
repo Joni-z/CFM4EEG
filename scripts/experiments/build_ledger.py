@@ -489,7 +489,8 @@ def main():
             if isinstance(item,dict) and item.get('checkpoint') and item.get('sha256'):
                 key=(s['host'],item['checkpoint'])
                 checkpoints[key]=dict(host=key[0],checkpoint_ref=key[1],sha256=item['sha256'],
-                                      bytes=item.get('size'),storage='checked_run_archive',
+                                      bytes=item.get('size'),storage=item.get('storage','checked_run_archive'),
+                                      object_ref=item.get('object_ref',''),
                                       source_ref=s['host']+':'+s['path'],current_existence='archive_receipt')
     conflicts=[]
     grouped=defaultdict(list)

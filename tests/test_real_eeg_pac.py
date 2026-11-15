@@ -333,3 +333,7 @@ def test_tfm_uses_integer_codes_and_complete_residual_states(tmp_path, monkeypat
     physical = stored.numpy() * 100.0
     expected = physical / (np.quantile(np.abs(physical), .95, axis=-1, keepdims=True) + 1e-8)
     np.testing.assert_array_equal(tokenizer.seen_waveform.numpy(), expected.astype('float32').reshape(32, 400))
+    model.tfm_dataset = 'chbmit'
+    model.tfm_stored_q95 = True
+    model(stored, denominators)
+    np.testing.assert_array_equal(tokenizer.seen_waveform.numpy(), stored.numpy().reshape(32, 400))

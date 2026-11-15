@@ -88,6 +88,9 @@ class FrozenReadout:
                 if input_shape[0] != 16:
                     raise ValueError("Released TFM classifier expects its native 16-channel montage")
                 self.tfm_dataset = spec["dataset"]
+                self.tfm_stored_q95 = spec.get("stored_q95", False)
+                if self.tfm_stored_q95 and self.tfm_dataset != "chbmit":
+                    raise ValueError("Stored-q95 TFM bridge requires declared CHB-MIT units")
             else:
                 raise ValueError("Unknown model: " + self.kind)
         del saved
@@ -146,8 +149,8 @@ class FrozenReadout:
             else:
                 raise ValueError("This TFM launch supports only declared TUEV/CHB-MIT units")
             # Author datasets/data_loaders.py: per-channel linear q95 + 1e-8.
-            normalized = physical / (np.quantile(np.abs(physical), .95, axis=-1,
-                                                 method="linear", keepdims=True) + 1e-8)
+            normalized = stored.numpy() if self.tfm_stored_q95 else physical / (
+                np.quantile(np.abs(physical), .95, axis=-1, method="linear", keepdims=True) + 1e-8)
             x = torch.as_tensor(normalized, dtype=torch.float32, device=self.device)
             n, channels, length = x.shape
             spectrum = get_stft_torch(x).reshape(n * channels, 100, -1)

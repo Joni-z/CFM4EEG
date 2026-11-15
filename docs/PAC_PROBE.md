@@ -684,10 +684,14 @@ test logits replay within3.34e-6. All six PAC readouts pass independent replay.
 | Tokenizer | 0.458 | 0.397 | 0.309 |
 | Encoder | 0.503 | 0.338 | 0.308 |
 
-A full-TFM CHB-MIT reproduced checkpoint has not been located in the HF index
-or inspected145/Torch run directories. Those historical directories retain
-results only. TFM+BIOT host checkpoints and author releases are separate
-models/initializations and do not replace this missing weight.
+CHB-MIT reproduced weights were recovered from the later single-dataset run
+on145, which the initial HF snapshot had excluded while training was active.
+Tokenizer100epoch and encoder MTP50epoch stages completed. Fine-tuning stopped
+after42of50epochs; its validation-best checkpoint is epoch4/step3090. This
+checkpoint contains both tokenizer and encoder state. Its frozen PAC readout
+is running; it is an interim checkpoint, not a completed clinical test result.
+The recovered best/last checkpoints and both completed pretraining exports are
+backed up in HF with verified SHA256 identities.
 
 Source and numerical checks are in the
 [numeric record](../experiments/audits/real-eeg-pac-tfm-20261115.json).
