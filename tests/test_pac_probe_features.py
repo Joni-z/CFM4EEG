@@ -135,3 +135,51 @@ def test_actual_tfm_random_fixture_strict_restore_and_quantized_endpoint(tmp_pat
     vectors = tokens.reshape(2, 9, 2, 64).reshape(-1, 64)
     distances = torch.cdist(vectors, restored.quantizer.embedding.weight)
     assert bool((distances.min(1).values < 1e-6).all())
+
+
+def test_tfm_released_inference_loading_rejects_missing_or_nonzero_state(tmp_path, monkeypatch):
+    from paclock_bench.probing import features
+    import json
+    vendor = tmp_path / 'vendor'
+    (vendor / 'models').mkdir(parents=True)
+    (vendor / 'utils').mkdir()
+    source = '''import torch
+from torch import nn
+class Tokenizer(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.content = nn.Linear(2, 2)
+        self.trans_decoder = nn.Linear(2, 2)
+        self.decoder = nn.Sequential(nn.Linear(2, 2), nn.Linear(2, 3))
+def get_tfm_tokenizer_2x2x8(**kwargs):
+    return Tokenizer()
+'''
+    (vendor / 'models/tfm_token.py').write_text(source)
+    (vendor / 'utils/utils.py').write_text('')
+    pin = json.loads((features.ROOT / 'upstream/sources.json').read_text())['tfm']['commit']
+    def git(command):
+        if command[-2:] == ['rev-parse', 'HEAD']:
+            return pin.encode()
+        key = command[-1].split(':', 1)[1]
+        return b'MIT' if key == 'LICENSE' else (vendor / key).read_bytes()
+    monkeypatch.setattr(features.subprocess, 'check_output', git)
+    state = {'content.weight': torch.eye(2), 'content.bias': torch.ones(2),
+             'trans_decoder.weight': torch.eye(2), 'trans_decoder.bias': torch.ones(2),
+             'decoder.weight': torch.zeros(3, 2), 'decoder.bias': torch.zeros(3),
+             'freq_pos_embed': torch.zeros(1, 20, 64)}
+    path = tmp_path / 'released.pth'
+    torch.save(state, path)
+    model, metadata = load_tfm_tokenizer(vendor, path, inference_only=True)
+    torch.testing.assert_close(model.content(torch.ones(1, 2)), torch.full((1, 2), 2.))
+    assert metadata['checkpoint_loading'] == 'strict_inference_graph'
+    assert not hasattr(model, 'decoder') and not hasattr(model, 'trans_decoder')
+    assert metadata['omitted_checkpoint_keys']['freq_pos_embed'] == 'identically_zero_legacy_position'
+    broken = dict(state)
+    del broken['content.weight']
+    torch.save(broken, path)
+    with pytest.raises(RuntimeError, match='content.weight'):
+        load_tfm_tokenizer(vendor, path, inference_only=True)
+    state['freq_pos_embed'][0, 0, 0] = 1
+    torch.save(state, path)
+    with pytest.raises(ValueError, match='nonzero legacy'):
+        load_tfm_tokenizer(vendor, path, inference_only=True)

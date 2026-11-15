@@ -7,6 +7,7 @@ from pathlib import Path
 import sys
 from types import SimpleNamespace
 
+import numpy as np
 import torch
 
 
@@ -74,15 +75,40 @@ class FrozenReadout:
                     init_values=.1, qkv_bias=False)
                 self.model.load_state_dict(saved["model"], strict=True)
                 stem, layers = self.model.patch_embed, self.model.blocks
+            elif self.kind == "tfm":
+                from paclock_bench.probing.features import load_tfm_tokenizer
+                tokenizer_path = Path(spec["tokenizer_checkpoint"])
+                if sha256(tokenizer_path) != spec["tokenizer_checkpoint_sha256"]:
+                    raise ValueError("TFM tokenizer checkpoint SHA256 mismatch")
+                self.tokenizer, _ = load_tfm_tokenizer(vendor, tokenizer_path, inference_only=True)
+                native = importlib.import_module("models.tfm_token")
+                self.model = native.get_tfm_token_classifier_64x4(
+                    n_classes=spec["num_classes"], code_book_size=8192, emb_size=64)
+                self.model.load_state_dict(saved, strict=True)
+                if input_shape[0] != 16:
+                    raise ValueError("Released TFM classifier expects its native 16-channel montage")
+                self.tfm_dataset = spec["dataset"]
             else:
                 raise ValueError("Unknown model: " + self.kind)
         del saved
         self.model.eval().requires_grad_(False).to(device)
         self.features = {}
-        self.endpoints = ["tokenizer"] + [f"layer_{i+1:02d}" for i in range(len(layers))]
-        self.handles = [stem.register_forward_hook(self._hook("tokenizer"))]
-        self.handles += [layer.register_forward_hook(self._hook(name))
-                         for layer, name in zip(layers, self.endpoints[1:])]
+        if self.kind == "tfm":
+            self.tokenizer.eval().requires_grad_(False).to(device)
+            executor = self.model.LAT.layers
+            if type(executor).__name__ != "SequentialSequence" or len(executor.layers) != 4:
+                raise ValueError("Expected author's four-layer non-reversible TFM encoder")
+            self.endpoints = ["tokenizer"] + [f"layer_{i+1:02d}" for i in range(4)]
+            # The package returns attention/FF deltas inside each residual block.
+            # The next block's input is the complete preceding block's output.
+            self.handles = [executor.layers[i+1][0].register_forward_pre_hook(
+                            self._input_hook(self.endpoints[i+1])) for i in range(3)]
+            self.handles.append(self.model.LAT.register_forward_hook(self._hook("layer_04")))
+        else:
+            self.endpoints = ["tokenizer"] + [f"layer_{i+1:02d}" for i in range(len(layers))]
+            self.handles = [stem.register_forward_hook(self._hook("tokenizer"))]
+            self.handles += [layer.register_forward_hook(self._hook(name))
+                             for layer, name in zip(layers, self.endpoints[1:])]
 
     def _hook(self, name: str):
         def capture(_module, _inputs, output):
@@ -93,6 +119,12 @@ class FrozenReadout:
             self.features[name] = output.mean(tuple(range(1, output.ndim - 1))).double().cpu().numpy()
         return capture
 
+    def _input_hook(self, name: str):
+        capture = self._hook(name)
+        def before(module, inputs):
+            capture(module, None, inputs[0])
+        return before
+
     @torch.inference_mode()
     def __call__(self, stored: torch.Tensor, denominators=None):
         self.features.clear()
@@ -101,6 +133,29 @@ class FrozenReadout:
                 self.model.frontend(stored.to(self.device))
             else:
                 self.model(stored.to(self.device))
+        elif self.kind == "tfm":
+            from paclock_bench.probing.features import get_stft_torch
+            physical = stored.double().numpy()
+            if self.tfm_dataset == "chbmit":
+                if denominators is None:
+                    raise ValueError("CHB-MIT TFM input requires its physical-unit sidecar")
+                physical = physical * denominators
+            elif self.tfm_dataset == "tuev":
+                physical = physical * 100
+            else:
+                raise ValueError("This TFM launch supports only declared TUEV/CHB-MIT units")
+            # Author datasets/data_loaders.py: per-channel linear q95 + 1e-8.
+            normalized = physical / (np.quantile(np.abs(physical), .95, axis=-1,
+                                                 method="linear", keepdims=True) + 1e-8)
+            x = torch.as_tensor(normalized, dtype=torch.float32, device=self.device)
+            n, channels, length = x.shape
+            spectrum = get_stft_torch(x).reshape(n * channels, 100, -1)
+            quantized, codes, _ = self.tokenizer.tokenize(spectrum, x.reshape(n * channels, length))
+            if quantized.ndim != 3 or quantized.shape[0] != n * channels:
+                raise ValueError("Unexpected native TFM quantized-embedding shape")
+            tokens = quantized.reshape(n, channels, -1, quantized.shape[-1])
+            self.features["tokenizer"] = tokens.mean((1, 2)).double().cpu().numpy()
+            self.model(codes.reshape(n, channels, -1), num_ch=channels)
         else:
             x = stored
             if denominators is not None:

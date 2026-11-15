@@ -248,3 +248,83 @@ def test_readout_rejects_checkpoint_seed_mismatch(tmp_path, monkeypatch):
     with pytest.raises(ValueError, match='declared job seed'):
         FrozenReadout(dict(kind='cfft', seed=0, checkpoint=str(checkpoint),
                            checkpoint_sha256=sha256(checkpoint)), (4, 10), 'cpu')
+
+
+def test_tfm_uses_integer_codes_and_complete_residual_states(tmp_path, monkeypatch):
+    import sys
+    from types import SimpleNamespace
+    from paclock_bench.probing import features
+    from paclock_bench.probing.real_eeg_models import FrozenReadout, sha256
+
+    class Delta(torch.nn.Module):
+        def __init__(self, value):
+            super().__init__()
+            self.value = value
+
+        def forward(self, x):
+            return torch.full_like(x, self.value)
+
+    class SequentialSequence(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.layers = torch.nn.ModuleList([
+                torch.nn.ModuleList([Delta(i + 1), Delta(2 * i + 1)]) for i in range(4)])
+
+        def forward(self, x):
+            self.trace = []
+            for f, g in self.layers:
+                x = x + f(x)
+                x = x + g(x)
+                self.trace.append(x.detach().clone())
+            return x
+
+    class LAT(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.layers = SequentialSequence()
+
+        def forward(self, x):
+            return self.layers(x)
+
+    class Encoder(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.embedding = torch.nn.Embedding(8193, 4)
+            self.LAT = LAT()
+
+        def forward(self, codes, num_ch):
+            assert codes.dtype == torch.long and codes.shape[1] == num_ch == 16
+            self.seen_codes = codes.clone()
+            return self.LAT(self.embedding(codes).flatten(1, 2))
+
+    class Tokenizer(torch.nn.Module):
+        def tokenize(self, spectrum, waveform):
+            self.seen_waveform = waveform.clone()
+            codes = torch.arange(2).repeat(len(waveform), 1)
+            self.quantized = torch.arange(len(waveform) * 2 * 4).reshape(-1, 2, 4).float()
+            return self.quantized, codes, self.quantized
+
+    encoder, tokenizer = Encoder(), Tokenizer()
+    enc_path, tok_path = tmp_path / 'encoder.pt', tmp_path / 'tokenizer.pt'
+    torch.save(encoder.state_dict(), enc_path)
+    torch.save(tokenizer.state_dict(), tok_path)
+    monkeypatch.setattr(features, 'load_tfm_tokenizer', lambda *_args, **_kwargs: (tokenizer, {}))
+    monkeypatch.setitem(sys.modules, 'models.tfm_token',
+                        SimpleNamespace(get_tfm_token_classifier_64x4=lambda **_kwargs: Encoder()))
+    spec = dict(kind='tfm', dataset='chbmit', vendor=str(tmp_path), source_sha256={},
+                checkpoint=str(enc_path), checkpoint_sha256=sha256(enc_path),
+                tokenizer_checkpoint=str(tok_path), tokenizer_checkpoint_sha256=sha256(tok_path),
+                num_classes=2)
+    model = FrozenReadout(spec, (16, 400), 'cpu')
+    stored = torch.randn(2, 16, 400)
+    denominators = np.linspace(1, 10, 32).reshape(2, 16, 1)
+    result = model(stored, denominators)
+    physical = stored.double().numpy() * denominators
+    expected = physical / (np.quantile(np.abs(physical), .95, axis=-1, keepdims=True) + 1e-8)
+    np.testing.assert_array_equal(tokenizer.seen_waveform.numpy(), expected.astype('float32').reshape(32, 400))
+    np.testing.assert_array_equal(result['tokenizer'],
+                                 tokenizer.quantized.reshape(2, 16, 2, 4).mean((1, 2)).numpy())
+    for i, latent in enumerate(model.model.LAT.layers.trace, 1):
+        np.testing.assert_array_equal(result[f'layer_{i:02d}'], latent.mean(1).numpy())
+    assert list(result) == ['tokenizer', 'layer_01', 'layer_02', 'layer_03', 'layer_04']
+    assert not any(p.requires_grad for p in model.model.parameters())

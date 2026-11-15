@@ -759,8 +759,8 @@
     "clinical_model_retrained": false
   },
   "family_x_extension_20261115": {
-    "status": "prepared_awaiting_torch_authentication",
-    "job_id": null,
+    "status": "submitted_pending_allocation",
+    "job_id": "23228812",
     "checkpoint_sha256": "1cb82e40e083b9f10121ffba770eb48b043fef0f12f8d3323c63c0204bf4072c",
     "data_manifest_sha256": "bb08a6596a766d4ced275edeb9a6ce362703092198f2ad1967ee1ea2f53063d8",
     "EEG_model_training": false,
@@ -821,14 +821,18 @@
     },
     "runtime_python": "/scratch/zz5070/miniconda3/envs/pacformer/bin/python",
     "compute_budget_basis": "Prior identical-checkpoint GPU readout completed in7m31s;30min includes checks and five-feature extraction.",
-    "pending_preflight": "Strict checkpoint load and actual ISRUC shape/order checks, then GPU Tort/AAC CPU-agreement and frozen-model smoke before full scoring",
-    "blocker": "Current SSH connection reaches Torch but authentication fails; no active ControlMaster on Mac mini or MBP. User asked to complete ignite torch login.",
+    "pending_preflight": "GPU Tort/AAC agreement and frozen-model smoke are in the submitted job before full scoring",
+    "blocker": null,
     "alternative_host_check": "145 reachable, GPUs idle, but inspected ISRUC data roots are absent/empty; no raw-data transfer or alternate-cohort substitution performed.",
     "reference_comparison": {
       "CBraMod_ISRUC_family_X_peak_approx": 0.45,
       "LaBraM_ISRUC_family_X_peak_approx": 0.45,
       "reference_status": "Source-paper Figure2 estimates, not raw per-layer numerical records"
     },
-    "earlier_PAC45_scores_preserved": true
+    "earlier_PAC45_scores_preserved": true,
+    "submitted_utc": "2026-11-15T11:21:58.702362+00:00",
+    "cpu_preflight": "passed: existing runtime torch import, strict checkpoint load, accepted 4D split counts and flattened epoch ordering, five-feature target schema and gamma35Hz",
+    "output_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/pac-isruc-20261110/results/cfft-isruc-family-x-20261115",
+    "latest_queue_reason": "QOSMaxGRESPerUser"
   }
 }

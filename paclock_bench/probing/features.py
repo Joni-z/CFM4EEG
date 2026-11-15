@@ -104,7 +104,7 @@ def project_tokens(model, signals: torch.Tensor, kind: str = "cfft") -> torch.Te
     return tokens.permute(0, 2, 1, 3).flatten(2)
 
 
-def load_tfm_tokenizer(vendor_root, checkpoint_path):
+def load_tfm_tokenizer(vendor_root, checkpoint_path, *, inference_only: bool = False):
     """Import the pinned author's factory and strictly load tokenizer-only weights."""
     vendor_root, checkpoint_path = Path(vendor_root).resolve(), Path(checkpoint_path)
     if not checkpoint_path.is_file():
@@ -130,13 +130,26 @@ def load_tfm_tokenizer(vendor_root, checkpoint_path):
     spec.loader.exec_module(module)
     model = module.get_tfm_tokenizer_2x2x8(code_book_size=8192, emb_size=64)
     state = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    omitted = {}
+    if inference_only:
+        # Released weights use an older reconstruction head. tokenize() never
+        # calls either decoder; restore its complete inference graph strictly.
+        del model.trans_decoder, model.decoder
+        for key in list(state):
+            if key.startswith(("trans_decoder.", "decoder.")):
+                omitted[key] = "reconstruction_only"
+            elif key in ("freq_pos_embed", "temporal_pos_embed", "temporal_pos_embed_decoding"):
+                if torch.count_nonzero(state[key]).item():
+                    raise ValueError("Cannot omit a nonzero legacy TFM positional tensor: " + key)
+                omitted[key] = "identically_zero_legacy_position"
+        state = {key: value for key, value in state.items() if key not in omitted}
     model.load_state_dict(state, strict=True)
     metadata = dict(vendor_root=str(vendor_root), source_url=pin["url"], source_commit=commit,
                     source_sha256=sources, license=license_text,
                     license_sha256=hashlib.sha256(license_text.encode()).hexdigest(),
                     checkpoint_path=str(checkpoint_path.resolve()),
-                    checkpoint_sha256=_sha(checkpoint_path), checkpoint_loading="strict",
-                    endpoint="tokenize.quant_out", input_normalization="per_channel_q95",
+                    checkpoint_sha256=_sha(checkpoint_path), checkpoint_loading="strict_inference_graph" if inference_only else "strict",
+                    omitted_checkpoint_keys=omitted, endpoint="tokenize.quant_out", input_normalization="per_channel_q95",
                     sample_rate=200, stft_window=200, stft_hop=100, stft_center=False)
     return _freeze(model), metadata
 

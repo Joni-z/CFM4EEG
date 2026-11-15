@@ -670,6 +670,28 @@ last layer. Raw scores, layer choices and independent prediction checks are in
 the [numeric record](../experiments/audits/pac-guidance-readout-20261110.json).
 All EEG model weights remained frozen; only affine ridge readouts were fitted.
 
+### TFM released-checkpoint extension (2026-11-15)
+
+Paired author-released single-dataset tokenizer and encoder weights are frozen.
+The accepted TUEV/CHB-MIT arrays, cached Tort18 PAC targets, mean pooling, ridge
+grid and validation-only selection are the same as the existing real-EEG readouts.
+
+| Dataset | Endpoint | Delta-beta PAC R2 | Theta-gamma PAC R2 | Alpha-gamma PAC R2 |
+|---|---|---:|---:|---:|
+| TUEV | Tokenizer | 0.421 | 0.292 | 0.333 |
+| TUEV | Encoder | 0.537 | 0.333 | 0.342 |
+| CHB-MIT | Tokenizer | 0.159 | 0.159 | 0.000 |
+| CHB-MIT | Encoder | 0.215 | 0.167 | 0.000 |
+
+TFM tokens are 64-dimensional quantized vectors; its encoder receives native
+integer codes and exposes complete residual states from four layers. Its
+per-channel q95 input normalization and STFT remain unchanged. The released
+reconstruction decoder is excluded because tokenize() never calls it; all
+inference weights load strictly. Legacy positional tensors are accepted only
+when identically zero. Checkpoint hashes, source hashes, selected layers and
+independent prediction replay are in the
+[numeric record](../experiments/audits/real-eeg-pac-tfm-20261115.json).
+
 ### ISRUC extension on Torch (2026-11-10)
 
 CfFT seed0 completed on L40S node `gl024`: real-data GPU check `23084041`
@@ -758,9 +780,9 @@ correlations, zero inputs, common-layer selection and an end-to-end five-feature
 fixture. Default 30–45 Hz PAC targets are bitwise identical to the prior
 implementation. All frozen model source hashes match the completed ISRUC run.
 
-The source/job bundle is prepared but **not submitted**: Torch SSH currently
-requires renewed authentication. The planned request is one L40S under
-`torch_pr_637_general`, 2 CPUs, 8G RAM and 30 minutes, with real-data checks
-before full scoring. No neural-network training is performed; only frozen
+The source/job bundle was submitted as Torch job **23228812**: one L40S under
+`torch_pr_637_general`, 2 CPUs, 8G RAM and 30 minutes. Existing-runtime imports,
+strict checkpoint loading and actual-data shape/order checks passed on CPU.
+GPU checks run inside the job before full scoring. No neural-network training is performed; only frozen
 representations and affine ridge probes are evaluated. Progress is recorded in
 the existing ISRUC audit.
