@@ -3458,5 +3458,439 @@
     "sha256": "ea6fc115145d53a569837d93dc7608fc8e9dc97ebdf57bc5ff22946db6dc18ba",
     "bytes": 32276615,
     "scope": "frozen linear probes, source, job metadata and independent score checks; original EEG checkpoints unchanged"
+  },
+  "tokenizer_pac_readout": {
+    "status": "completed",
+    "cells": 24,
+    "source": "reused saved endpoints from exactly the checkpoint/data/probe runs of the encoder comparison",
+    "new_neural_training": false,
+    "new_feature_extraction": false,
+    "new_probe_fitting": false,
+    "scope": "tokenizer output before encoder",
+    "pooling": "mean over non-hidden axes; native hidden width unchanged; no random projection",
+    "metric": "same three TortPAC features, six channel summaries, clipping, data partitions and ridge grid as the encoder comparison; validation selects ridge alpha only, no layer selection at tokenizer endpoint",
+    "csv": "experiments/audits/cfc-tokenizer-pac-20261116.csv",
+    "checks": [
+      {
+        "dataset": "tuev",
+        "model": "tfm",
+        "checkpoint_sha256": "4e25cdb5a11a130c2490ba09bdc4734a6d4ce790a31aa8a3186b53704bb88a79",
+        "encoder_scores_match_previous_40_cell_comparison": true,
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/results/tuev-v2/result.json",
+        "existing_numeric_verification": {
+          "status": "PASS",
+          "test_rows": 29421
+        }
+      },
+      {
+        "dataset": "tuev",
+        "model": "cbramod",
+        "checkpoint_sha256": "0792cb808c14e6b7a2bb2ce1dff379bc47bc54c49a779825bdfeb33bf8157178",
+        "encoder_scores_match_previous_40_cell_comparison": true,
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/cbramod-tuev/result.json",
+        "existing_numeric_verification": {
+          "status": "PASS",
+          "result_sha256": "d1a372840e52507fc6d73e17254b957786f7387b564f55f57287930113c25781",
+          "predictions_sha256": "f258c662b21de4cda31a3cfa9c836178e9c4bfb7161ebc82ed827628ee350023",
+          "test_targets_sha256": "94e3ec06cf2d16881917a505457f449b6cf3d1a42cbef18f986ed3971720ef0b",
+          "test_rows": 29421,
+          "largest_r2_difference": 3.229042144781147e-09
+        }
+      },
+      {
+        "dataset": "tuev",
+        "model": "labram",
+        "checkpoint_sha256": "7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c",
+        "encoder_scores_match_previous_40_cell_comparison": true,
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/labram-tuev/result.json",
+        "existing_numeric_verification": {
+          "status": "PASS",
+          "result_sha256": "6dbbb2bd7e5c3aacc4f4a7f0fc3a377a4f59522bed7b3d9022de048c794a88cf",
+          "predictions_sha256": "01139c4cf2bf33385f30d2034c190ac5553635d23abac2cd1f0098dd69283f6c",
+          "test_targets_sha256": "94e3ec06cf2d16881917a505457f449b6cf3d1a42cbef18f986ed3971720ef0b",
+          "test_rows": 29421,
+          "largest_r2_difference": 2.4058776082469535e-09
+        }
+      },
+      {
+        "dataset": "tuev",
+        "model": "cfft",
+        "checkpoint_sha256": "8da3e24c9eed68d67c8a4cc64ecdfc4cb1ab67cf6d9081cc9a285b79d101048f",
+        "encoder_scores_match_previous_40_cell_comparison": true,
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cfft-tuev/result.json",
+        "existing_numeric_verification": {
+          "status": "passed",
+          "max_R2_delta": 2.555988976027379e-09,
+          "test_rows": 29421
+        }
+      },
+      {
+        "dataset": "chbmit",
+        "model": "tfm",
+        "checkpoint_sha256": "21bf6ba5bda9b7acf78e3748af39064721c8e5753d4e36094e3ed6bdc92e48d4",
+        "encoder_scores_match_previous_40_cell_comparison": true,
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/results/chbmit-v3/result.json",
+        "existing_numeric_verification": {
+          "status": "PASS",
+          "test_rows": 17224
+        }
+      },
+      {
+        "dataset": "chbmit",
+        "model": "cbramod",
+        "checkpoint_sha256": "0792cb808c14e6b7a2bb2ce1dff379bc47bc54c49a779825bdfeb33bf8157178",
+        "encoder_scores_match_previous_40_cell_comparison": true,
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/cbramod-chbmit/result.json",
+        "existing_numeric_verification": {
+          "status": "PASS",
+          "result_sha256": "e6615a44535af81ddd22c63c27539cab8ad3a5d675a4abed09cc8c8bd0245d27",
+          "predictions_sha256": "bcba3d616b72cc65936510adb4127273e33ee27dba3a7400aa8e4f61d5d523ad",
+          "test_targets_sha256": "ef4a5a33ff2ef30a7bfdb43c32b3b9ec093dc3c441fb6a1415bae70e48134de6",
+          "test_rows": 17224,
+          "largest_r2_difference": 7.726807249586187e-10
+        }
+      },
+      {
+        "dataset": "chbmit",
+        "model": "labram",
+        "checkpoint_sha256": "7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c",
+        "encoder_scores_match_previous_40_cell_comparison": true,
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/labram-chbmit/result.json",
+        "existing_numeric_verification": {
+          "status": "PASS",
+          "result_sha256": "72cc86663f542cb3665eba2fe8401ee9d64a9e995f3089c474e260adaa7b5114",
+          "predictions_sha256": "9c4ce24943361deea0789b7e9919b7481569ea847ff8e4da4607d13e4efffe7b",
+          "test_targets_sha256": "ef4a5a33ff2ef30a7bfdb43c32b3b9ec093dc3c441fb6a1415bae70e48134de6",
+          "test_rows": 17224,
+          "largest_r2_difference": 1.0108124892660442e-09
+        }
+      },
+      {
+        "dataset": "chbmit",
+        "model": "cfft",
+        "checkpoint_sha256": "66dbc5919fbe02f6aa49457a2329390211d5576642a276dfb98dcbbef8dfabff",
+        "encoder_scores_match_previous_40_cell_comparison": true,
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cfft-chbmit/result.json",
+        "existing_numeric_verification": {
+          "status": "passed",
+          "max_R2_delta": 6.832872601059137e-10,
+          "test_rows": 17224
+        }
+      }
+    ],
+    "rows": [
+      {
+        "dataset": "tuev",
+        "model": "tfm",
+        "feature": "X001_delta_beta",
+        "readout_scope": "tokenizer",
+        "r2": 0.42098394102014547,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 0.1,
+        "initialization": "author_released_task",
+        "checkpoint_sha256": "4e25cdb5a11a130c2490ba09bdc4734a6d4ce790a31aa8a3186b53704bb88a79",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/results/tuev-v2/result.json#tokenizer/X001_delta_beta"
+      },
+      {
+        "dataset": "tuev",
+        "model": "tfm",
+        "feature": "X002_theta_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.29155076627635856,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 100.0,
+        "initialization": "author_released_task",
+        "checkpoint_sha256": "4e25cdb5a11a130c2490ba09bdc4734a6d4ce790a31aa8a3186b53704bb88a79",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/results/tuev-v2/result.json#tokenizer/X002_theta_gamma"
+      },
+      {
+        "dataset": "tuev",
+        "model": "tfm",
+        "feature": "X003_alpha_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.33323204941762347,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 100.0,
+        "initialization": "author_released_task",
+        "checkpoint_sha256": "4e25cdb5a11a130c2490ba09bdc4734a6d4ce790a31aa8a3186b53704bb88a79",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/results/tuev-v2/result.json#tokenizer/X003_alpha_gamma"
+      },
+      {
+        "dataset": "tuev",
+        "model": "cbramod",
+        "feature": "X001_delta_beta",
+        "readout_scope": "tokenizer",
+        "r2": 0.1511347789791421,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 0.1,
+        "initialization": "author_released",
+        "checkpoint_sha256": "0792cb808c14e6b7a2bb2ce1dff379bc47bc54c49a779825bdfeb33bf8157178",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/cbramod-tuev/result.json#tokenizer/X001_delta_beta"
+      },
+      {
+        "dataset": "tuev",
+        "model": "cbramod",
+        "feature": "X002_theta_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.0,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 0.1,
+        "initialization": "author_released",
+        "checkpoint_sha256": "0792cb808c14e6b7a2bb2ce1dff379bc47bc54c49a779825bdfeb33bf8157178",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/cbramod-tuev/result.json#tokenizer/X002_theta_gamma"
+      },
+      {
+        "dataset": "tuev",
+        "model": "cbramod",
+        "feature": "X003_alpha_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.12213909833322377,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 100.0,
+        "initialization": "author_released",
+        "checkpoint_sha256": "0792cb808c14e6b7a2bb2ce1dff379bc47bc54c49a779825bdfeb33bf8157178",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/cbramod-tuev/result.json#tokenizer/X003_alpha_gamma"
+      },
+      {
+        "dataset": "tuev",
+        "model": "labram",
+        "feature": "X001_delta_beta",
+        "readout_scope": "tokenizer",
+        "r2": 0.08344881755468482,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 0.1,
+        "initialization": "author_released",
+        "checkpoint_sha256": "7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/labram-tuev/result.json#tokenizer/X001_delta_beta"
+      },
+      {
+        "dataset": "tuev",
+        "model": "labram",
+        "feature": "X002_theta_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.004952026480308125,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 0.1,
+        "initialization": "author_released",
+        "checkpoint_sha256": "7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/labram-tuev/result.json#tokenizer/X002_theta_gamma"
+      },
+      {
+        "dataset": "tuev",
+        "model": "labram",
+        "feature": "X003_alpha_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.027265733125533025,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 0.1,
+        "initialization": "author_released",
+        "checkpoint_sha256": "7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/labram-tuev/result.json#tokenizer/X003_alpha_gamma"
+      },
+      {
+        "dataset": "tuev",
+        "model": "cfft",
+        "feature": "X001_delta_beta",
+        "readout_scope": "tokenizer",
+        "r2": 0.39126727530615296,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": "",
+        "initialization": "project_scratch",
+        "checkpoint_sha256": "8da3e24c9eed68d67c8a4cc64ecdfc4cb1ab67cf6d9081cc9a285b79d101048f",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cfft-tuev/result.json#tokenizer/X001_delta_beta"
+      },
+      {
+        "dataset": "tuev",
+        "model": "cfft",
+        "feature": "X002_theta_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.2086333508362248,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": "",
+        "initialization": "project_scratch",
+        "checkpoint_sha256": "8da3e24c9eed68d67c8a4cc64ecdfc4cb1ab67cf6d9081cc9a285b79d101048f",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cfft-tuev/result.json#tokenizer/X002_theta_gamma"
+      },
+      {
+        "dataset": "tuev",
+        "model": "cfft",
+        "feature": "X003_alpha_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.21113626917901404,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": "",
+        "initialization": "project_scratch",
+        "checkpoint_sha256": "8da3e24c9eed68d67c8a4cc64ecdfc4cb1ab67cf6d9081cc9a285b79d101048f",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cfft-tuev/result.json#tokenizer/X003_alpha_gamma"
+      },
+      {
+        "dataset": "chbmit",
+        "model": "tfm",
+        "feature": "X001_delta_beta",
+        "readout_scope": "tokenizer",
+        "r2": 0.1585315226878115,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 100.0,
+        "initialization": "author_released_task",
+        "checkpoint_sha256": "21bf6ba5bda9b7acf78e3748af39064721c8e5753d4e36094e3ed6bdc92e48d4",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/results/chbmit-v3/result.json#tokenizer/X001_delta_beta"
+      },
+      {
+        "dataset": "chbmit",
+        "model": "tfm",
+        "feature": "X002_theta_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.1591126283811393,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 0.1,
+        "initialization": "author_released_task",
+        "checkpoint_sha256": "21bf6ba5bda9b7acf78e3748af39064721c8e5753d4e36094e3ed6bdc92e48d4",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/results/chbmit-v3/result.json#tokenizer/X002_theta_gamma"
+      },
+      {
+        "dataset": "chbmit",
+        "model": "tfm",
+        "feature": "X003_alpha_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.0,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 0.1,
+        "initialization": "author_released_task",
+        "checkpoint_sha256": "21bf6ba5bda9b7acf78e3748af39064721c8e5753d4e36094e3ed6bdc92e48d4",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/results/chbmit-v3/result.json#tokenizer/X003_alpha_gamma"
+      },
+      {
+        "dataset": "chbmit",
+        "model": "cbramod",
+        "feature": "X001_delta_beta",
+        "readout_scope": "tokenizer",
+        "r2": 0.10838239629762707,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 100.0,
+        "initialization": "author_released",
+        "checkpoint_sha256": "0792cb808c14e6b7a2bb2ce1dff379bc47bc54c49a779825bdfeb33bf8157178",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/cbramod-chbmit/result.json#tokenizer/X001_delta_beta"
+      },
+      {
+        "dataset": "chbmit",
+        "model": "cbramod",
+        "feature": "X002_theta_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.036656099160744506,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 100.0,
+        "initialization": "author_released",
+        "checkpoint_sha256": "0792cb808c14e6b7a2bb2ce1dff379bc47bc54c49a779825bdfeb33bf8157178",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/cbramod-chbmit/result.json#tokenizer/X002_theta_gamma"
+      },
+      {
+        "dataset": "chbmit",
+        "model": "cbramod",
+        "feature": "X003_alpha_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.0,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 10.0,
+        "initialization": "author_released",
+        "checkpoint_sha256": "0792cb808c14e6b7a2bb2ce1dff379bc47bc54c49a779825bdfeb33bf8157178",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/cbramod-chbmit/result.json#tokenizer/X003_alpha_gamma"
+      },
+      {
+        "dataset": "chbmit",
+        "model": "labram",
+        "feature": "X001_delta_beta",
+        "readout_scope": "tokenizer",
+        "r2": 0.09729375437015735,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 100.0,
+        "initialization": "author_released",
+        "checkpoint_sha256": "7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/labram-chbmit/result.json#tokenizer/X001_delta_beta"
+      },
+      {
+        "dataset": "chbmit",
+        "model": "labram",
+        "feature": "X002_theta_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.034195698421652466,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 10.0,
+        "initialization": "author_released",
+        "checkpoint_sha256": "7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/labram-chbmit/result.json#tokenizer/X002_theta_gamma"
+      },
+      {
+        "dataset": "chbmit",
+        "model": "labram",
+        "feature": "X003_alpha_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.0,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": 100.0,
+        "initialization": "author_released",
+        "checkpoint_sha256": "7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/labram-chbmit/result.json#tokenizer/X003_alpha_gamma"
+      },
+      {
+        "dataset": "chbmit",
+        "model": "cfft",
+        "feature": "X001_delta_beta",
+        "readout_scope": "tokenizer",
+        "r2": 0.2624030369273612,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": "",
+        "initialization": "project_scratch",
+        "checkpoint_sha256": "66dbc5919fbe02f6aa49457a2329390211d5576642a276dfb98dcbbef8dfabff",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cfft-chbmit/result.json#tokenizer/X001_delta_beta"
+      },
+      {
+        "dataset": "chbmit",
+        "model": "cfft",
+        "feature": "X002_theta_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.15839907335646405,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": "",
+        "initialization": "project_scratch",
+        "checkpoint_sha256": "66dbc5919fbe02f6aa49457a2329390211d5576642a276dfb98dcbbef8dfabff",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cfft-chbmit/result.json#tokenizer/X002_theta_gamma"
+      },
+      {
+        "dataset": "chbmit",
+        "model": "cfft",
+        "feature": "X003_alpha_gamma",
+        "readout_scope": "tokenizer",
+        "r2": 0.0,
+        "status": "completed_reused",
+        "endpoint": "tokenizer",
+        "alpha": "",
+        "initialization": "project_scratch",
+        "checkpoint_sha256": "66dbc5919fbe02f6aa49457a2329390211d5576642a276dfb98dcbbef8dfabff",
+        "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-real-eeg-20261110/results/cfft-chbmit/result.json#tokenizer/X003_alpha_gamma"
+      }
+    ]
   }
 }

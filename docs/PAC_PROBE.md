@@ -182,6 +182,12 @@ readouts can be reused. `X` still evaluates all five features. Each reported
 `encoder_peak` uses its own validation-selected layer and ridge strength;
 these individual scores are distinct from the source paper's family median.
 
+The [tokenizer PAC table](../experiments/audits/cfc-tokenizer-pac-20261116.csv)
+reuses the same frozen runs before the encoder: 24 scores, three PAC features
+only. It retains the native hidden width after mean pooling over the other
+axes, with validation selecting ridge strength at this fixed endpoint. No new
+model forward pass or probe fit was needed.
+
 ## Target and comparison
 
 The generator supplies the normalized phase-conditioned mean amplitude curve,
