@@ -679,17 +679,19 @@ only. The full Lightning checkpoint supplies both tokenizer and encoder state,
 including tokenizer EMA buffers at the selected checkpoint. First16clinical
 test logits replay within3.34e-6. All six PAC readouts pass independent replay.
 
-| Endpoint | Delta-beta PAC R2 | Theta-gamma PAC R2 | Alpha-gamma PAC R2 |
-|---|---:|---:|---:|
-| Tokenizer | 0.458 | 0.397 | 0.309 |
-| Encoder | 0.503 | 0.338 | 0.308 |
+| Dataset | Endpoint | Delta-beta PAC R2 | Theta-gamma PAC R2 | Alpha-gamma PAC R2 |
+|---|---|---:|---:|---:|
+| TUEV | Tokenizer | 0.458 | 0.397 | 0.309 |
+| TUEV | Encoder | 0.503 | 0.338 | 0.308 |
+| CHB-MIT (interim) | Tokenizer | 0.176 | 0.179 | 0.000 |
+| CHB-MIT (interim) | Encoder | 0.189 | 0.241 | 0.008 |
 
 CHB-MIT reproduced weights were recovered from the later single-dataset run
 on145, which the initial HF snapshot had excluded while training was active.
 Tokenizer100epoch and encoder MTP50epoch stages completed. Fine-tuning stopped
 after42of50epochs; its validation-best checkpoint is epoch4/step3090. This
 checkpoint contains both tokenizer and encoder state. Its frozen PAC readout
-is running; it is an interim checkpoint, not a completed clinical test result.
+is complete; it is an interim checkpoint, not a completed clinical test result.
 The recovered best/last checkpoints and both completed pretraining exports are
 backed up in HF with verified SHA256 identities.
 

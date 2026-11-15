@@ -867,7 +867,7 @@
       }
     },
     "chbmit": {
-      "status": "readout_running_interim_checkpoint",
+      "status": "completed_readout_interim_checkpoint",
       "finding": "Recovered on145 after following an active-training exclusion in the initial HF manifest; previous checkpoint_not_found disposition was incomplete.",
       "seed": 0,
       "source_run": "/data2/zz5070/CFM4EEG-rebuild-20261021/tfm-single-chbmit-20261026/runs/chbmit-tfm_single_rebuild20261021/seed0",
@@ -1053,6 +1053,222 @@
         },
         "checkpoints.csv": {
           "before": 1949,
+          "after": 1953,
+          "all_previous_rows_unchanged": true
+        }
+      },
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/reproduced-chbmit/readout/result.json",
+      "endpoints": [
+        {
+          "label": "tokenizer/X001_delta_beta",
+          "scope": "tokenizer",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "tokenizer",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.08309239874288415,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 1.417695421646048e-05
+          },
+          "test_r2": 0.17624373003350044,
+          "test_raw_r2_by_summary": [
+            0.20238467225713241,
+            0.2982135878063863,
+            0.054705459048074334,
+            -0.21875953683209404,
+            0.21810074322281747,
+            0.28405791786659207
+          ]
+        },
+        {
+          "label": "encoder_peak/X001_delta_beta",
+          "scope": "encoder_peak",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "layer_01",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.18200893847636315,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.18924903154369135,
+          "test_raw_r2_by_summary": [
+            0.18718098096267433,
+            0.3703035649747891,
+            -0.047846651837499365,
+            -0.532244783862563,
+            0.2350260072996042,
+            0.3429836360250804
+          ]
+        },
+        {
+          "label": "tokenizer/X002_theta_gamma",
+          "scope": "tokenizer",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "tokenizer",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.3559638294114153,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 1.8485064030386116e-05
+          },
+          "test_r2": 0.17939214720061689,
+          "test_raw_r2_by_summary": [
+            0.21933020272289905,
+            0.15349832750260006,
+            0.19313637526593885,
+            0.1714663444835991,
+            0.18382852320867427,
+            0.15509311001998982
+          ]
+        },
+        {
+          "label": "encoder_peak/X002_theta_gamma",
+          "scope": "encoder_peak",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "layer_01",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.3813696653893266,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.24109101383800755,
+          "test_raw_r2_by_summary": [
+            0.29140823703064334,
+            0.18332158649864472,
+            0.2764708194393687,
+            0.2543489762972685,
+            0.2514662508625155,
+            0.18953021289960437
+          ]
+        },
+        {
+          "label": "tokenizer/X003_alpha_gamma",
+          "scope": "tokenizer",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "tokenizer",
+          "alpha": 10.0,
+          "alpha_index": 2,
+          "validation_r2": 0.053903151369265344,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 3.895221581397731e-05
+          },
+          "test_r2": 0.0,
+          "test_raw_r2_by_summary": [
+            -0.2924836371979198,
+            -0.2300611430355206,
+            -0.21970468262678544,
+            -0.03599267779567361,
+            -0.4828271120543144,
+            -0.13809879686507887
+          ]
+        },
+        {
+          "label": "encoder_peak/X003_alpha_gamma",
+          "scope": "encoder_peak",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "layer_01",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.032123782443549555,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 3.238378971737177e-05
+          },
+          "test_r2": 0.007946826271385469,
+          "test_raw_r2_by_summary": [
+            -0.25161730772754387,
+            -0.28132626783055903,
+            -0.1448537087278896,
+            0.047680957628312814,
+            -0.5282783317888984,
+            -0.1414157620456753
+          ]
+        }
+      ],
+      "independent_check": {
+        "status": "PASS",
+        "test_rows": 17224,
+        "checks": [
+          {
+            "label": "tokenizer/X001_delta_beta",
+            "reported": 0.17624373003350044,
+            "recomputed": 0.17624372975224412,
+            "absolute_difference": 2.812563237863941e-10
+          },
+          {
+            "label": "encoder_peak/X001_delta_beta",
+            "reported": 0.18924903154369135,
+            "recomputed": 0.18924903116532835,
+            "absolute_difference": 3.783630075915312e-10
+          },
+          {
+            "label": "tokenizer/X002_theta_gamma",
+            "reported": 0.17939214720061689,
+            "recomputed": 0.1793921463374363,
+            "absolute_difference": 8.63180582566514e-10
+          },
+          {
+            "label": "encoder_peak/X002_theta_gamma",
+            "reported": 0.24109101383800755,
+            "recomputed": 0.2410910138255629,
+            "absolute_difference": 1.2444656416477073e-11
+          },
+          {
+            "label": "tokenizer/X003_alpha_gamma",
+            "reported": 0.0,
+            "recomputed": 0.0,
+            "absolute_difference": 0.0
+          },
+          {
+            "label": "encoder_peak/X003_alpha_gamma",
+            "reported": 0.007946826271385469,
+            "recomputed": 0.007946826326030165,
+            "absolute_difference": 5.464469675364736e-11
+          }
+        ],
+        "max_absolute_difference": 8.63180582566514e-10
+      },
+      "wall_time_sec": 551.8550273869187,
+      "cuda_peak_GiB": 0.31990957260131836,
+      "readout_archive": {
+        "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+        "revision": "913286995c01ed022ef0f9215e1d840830a74e66",
+        "files": [
+          "source-correction.json",
+          "project-reproduced/chbmit/readout/independent-check.json",
+          "project-reproduced/chbmit/readout/result.json",
+          "project-reproduced/chbmit/readout/smoke.json",
+          "project-reproduced/chbmit/readout/test_predictions.npz",
+          "project-reproduced/chbmit/readout/probes.npz",
+          "project-reproduced/chbmit/readout/selection.json"
+        ]
+      },
+      "readout_ledger_preservation": {
+        "runs.csv": {
+          "before": 2684,
+          "after": 2684,
+          "all_previous_rows_unchanged": true
+        },
+        "studies.csv": {
+          "before": 298,
+          "after": 304,
+          "all_previous_rows_unchanged": true
+        },
+        "checkpoints.csv": {
+          "before": 1953,
           "after": 1953,
           "all_previous_rows_unchanged": true
         }
