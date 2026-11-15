@@ -1,4 +1,4 @@
-"""Frozen real-EEG PAC readout; no clinical optimization or activation cache.
+"""Frozen real-EEG PAC/AAC readout; no clinical optimization or activation cache.
 
 One job JSON binds data, checkpoint SHA, author source hashes and output path.
 Run with --targets to create the shared FFT/Tort labels, or --smoke to verify
@@ -22,7 +22,8 @@ import numpy as np
 import torch
 
 from paclock_bench.probing.real_eeg import (
-    ALPHAS, FEATURES, SUMMARIES, R2Moments, RidgeMoments, pac_targets, robust_scale,
+    ALPHAS, FEATURES, CFC_FEATURES, SUMMARIES, R2Moments, RidgeMoments,
+    pac_targets, cfc_targets, robust_scale, select_readouts, summarize_family,
 )
 from paclock_bench.probing.real_eeg_models import FrozenReadout, sha256
 
@@ -101,12 +102,17 @@ def dataset_identity(job: dict) -> dict:
 
 
 def targets(job: dict, device: str, smoke: bool) -> None:
+    family_x = job.get("feature_family", "PAC") == "X"
+    features, measure = (CFC_FEATURES, cfc_targets) if family_x else (FEATURES, pac_targets)
+    gamma_high = job.get("gamma_high", 45.)
     out = Path(job["targets_root"])
     out.mkdir(parents=True, exist_ok=True)
     identity = dataset_identity(job)
     if not smoke and (out / "complete.json").exists():
         saved = json.loads((out / "complete.json").read_text())
-        if saved["data_identity"] != identity:
+        if (saved["data_identity"] != identity or tuple(saved["features"]) != features or
+                saved.get("gamma_high", 45.) != gamma_high or
+                saved["code_sha256"] != sha256(ROOT / "paclock_bench/probing/real_eeg.py")):
             raise ValueError("Existing PAC labels refer to another data identity")
         print("verified existing PAC label identity", flush=True)
         return
@@ -115,19 +121,21 @@ def targets(job: dict, device: str, smoke: bool) -> None:
         rows = Rows(Path(job["data_root"]) / f"{split}_signals.npy",
                     flatten_sequences=job.get("flatten_sequences", False))
         n = min(8, rows.shape[0]) if smoke else rows.shape[0]
-        y = np.empty((n, 18), dtype=np.float32)
+        y = np.empty((n, len(features) * 6), dtype=np.float32)
         qc = dict(empty_phase_bins=0, degenerate_channel_pairs=0)
+        if family_x:
+            qc["degenerate_aac_channel_pairs"] = 0
         for start in range(0, n, 32):
             if start % 3200 == 0:
                 headroom(out, device)
             stop = min(start + 32, n)
             x = torch.from_numpy(rows.read(start, stop)).to(device)
-            value, diagnostic = pac_targets(x)
-            y[start:stop] = value.cpu().numpy().reshape(-1, 18)
+            value, diagnostic = measure(x, gamma_high=gamma_high)
+            y[start:stop] = value.cpu().numpy().reshape(-1, len(features) * 6)
             for key in qc:
                 qc[key] += diagnostic[key]
             if smoke:
-                reference, _ = pac_targets(x.cpu())
+                reference, _ = measure(x.cpu(), gamma_high=gamma_high)
                 np.testing.assert_allclose(value.cpu().numpy(), reference.numpy(), rtol=1e-8, atol=1e-10)
             if start % 3200 == 0:
                 write_json(out / ("smoke_progress.json" if smoke else "progress.json"),
@@ -137,14 +145,18 @@ def targets(job: dict, device: str, smoke: bool) -> None:
             np.save(out / f"{split}_targets.npy", y)
         counts[split], quality[split] = n, qc
     write_json(out / ("smoke.json" if smoke else "complete.json"),
-               dict(status="passed" if smoke else "completed", features=FEATURES, summaries=SUMMARIES,
+               dict(status="passed" if smoke else "completed", features=features, summaries=SUMMARIES,
                     rows=counts, quality=quality, data_identity=identity,
-                    feature_definition="Tang et al. Appendix A X001-X003, C.3; 18 phase bins; six summaries",
+                    gamma_high=gamma_high,
+                    feature_definition="Tang et al. Appendix A/C.3; Tort18 PAC; signed Pearson AAC; six summaries",
                     code_sha256=sha256(ROOT / "paclock_bench/probing/real_eeg.py"),
                     target_hashes={} if smoke else {s: sha256(out / f"{s}_targets.npy") for s in counts}))
 
 
 def run_model(job: dict, device: str, smoke: bool) -> None:
+    family_x = job.get("feature_family", "PAC") == "X"
+    features = CFC_FEATURES if family_x else FEATURES
+    n_features = len(features)
     out = Path(job["out"])
     out.mkdir(parents=True, exist_ok=True)
     if not smoke and (out / "result.json").exists():
@@ -160,7 +172,7 @@ def run_model(job: dict, device: str, smoke: bool) -> None:
         first, second = model(x, scales), model(x, scales)
         for key in first:
             np.testing.assert_allclose(first[key], second[key], rtol=1e-7, atol=1e-9)
-        if model.tokenizer_only:
+        if getattr(model, "tokenizer_only", False):
             # The lightweight path must return the exact original frontend hook.
             model.features.clear()
             with torch.inference_mode():
@@ -183,7 +195,9 @@ def run_model(job: dict, device: str, smoke: bool) -> None:
         write_json(out / "progress.json", dict(status="waiting_for_shared_PAC_targets"))
         time.sleep(10)
     receipt = json.loads((target_root / "complete.json").read_text())
-    if receipt["data_identity"] != data or receipt["code_sha256"] != sha256(ROOT / "paclock_bench/probing/real_eeg.py"):
+    if (receipt["data_identity"] != data or tuple(receipt["features"]) != features or
+            receipt.get("gamma_high", 45.) != job.get("gamma_high", 45.) or
+            receipt["code_sha256"] != sha256(ROOT / "paclock_bench/probing/real_eeg.py")):
         raise ValueError("PAC labels have different data or estimator provenance")
     raw = {s: np.load(target_root / f"{s}_targets.npy").astype(np.float64) for s in ("train", "val", "test")}
     if any(sha256(target_root / f"{s}_targets.npy") != receipt["target_hashes"][s] for s in raw):
@@ -219,7 +233,7 @@ def run_model(job: dict, device: str, smoke: bool) -> None:
                     moments[name].update(h, y)
                 elif split == "val":
                     if name not in validation:
-                        validation[name] = [R2Moments(54) for _ in ALPHAS]
+                        validation[name] = [R2Moments(n_features * 6 * 3) for _ in ALPHAS]
                     for score, (coef, intercept) in zip(validation[name], fits[name]):
                         score.update(y, h @ coef + intercept)
                 else:
@@ -242,24 +256,10 @@ def run_model(job: dict, device: str, smoke: bool) -> None:
             fits = {name: [m.fit(alpha) for alpha in ALPHAS] for name, m in moments.items()}
             del moments
         if split == "val":
-            grid = {name: np.stack([r.groups().reshape(3, 3) for r in values])
+            grid = {name: np.stack([r.groups().reshape(3, n_features) for r in values])
                     for name, values in validation.items()}
-            selected = []
             encoder_names = model.endpoints[1:]
-            scopes = [("tokenizer", ["tokenizer"])]
-            if encoder_names:
-                scopes.append(("encoder_peak", encoder_names))
-            for feature, feature_name in enumerate(FEATURES):
-                for scope, names in scopes:
-                    choices = [(float(grid[n][a, 0, feature]), n, a) for n in names for a in range(len(ALPHAS))]
-                    # Stable first maximum; test has not been passed through the model.
-                    score, name, index = max(choices, key=lambda item: item[0])
-                    controls = {c: float(grid[name][:, i, feature].max())
-                                for i, c in ((1, "shuffled"), (2, "gaussian"))}
-                    entry = dict(label=scope + "/" + feature_name, scope=scope, feature=feature_name,
-                        feature_index=feature, endpoint=name, alpha=ALPHAS[index], alpha_index=index,
-                        validation_r2=score, validation_controls=controls)
-                    selected.append(entry)
+            selected = select_readouts(grid, features, encoder_names, layer_profiles=family_x)
             write_json(out / "selection.json", dict(selection_split="val", selected=selected,
                        alphas=ALPHAS, validation_grid={k: v.tolist() for k, v in grid.items()}))
             test = {entry["label"]: R2Moments(6) for entry in selected}
@@ -278,7 +278,9 @@ def run_model(job: dict, device: str, smoke: bool) -> None:
         dataset=job["dataset"], model=job["kind"], checkpoint_sha256=job["checkpoint_sha256"],
         checkpoint_archive=job.get("archive"), source_hashes=model.source_hashes,
         job=job, data_identity=data, source_paper="https://arxiv.org/html/2605.11410v2",
-        scope="PAC encoding only; task-specific scratch-trained weights, adapted datasets; no erasure",
+        scope="CFC encoding only; task-specific scratch-trained weights, adapted datasets; no erasure",
+        features=features,
+        family_summary=summarize_family(selected, features) if family_x else None,
         endpoints=selected, wall_time_sec=time.monotonic() - start_time,
         cuda_peak_GiB=torch.cuda.max_memory_allocated() / 2**30))
 
@@ -290,6 +292,8 @@ def main() -> None:
     parser.add_argument("--smoke", action="store_true")
     args = parser.parse_args()
     job = json.loads(args.job.read_text())
+    if job.get("feature_family", "PAC") not in ("PAC", "X"):
+        raise ValueError("feature_family must be PAC or X")
     torch.set_num_threads(1)
     torch.set_num_interop_threads(1)
     if not torch.cuda.is_available():

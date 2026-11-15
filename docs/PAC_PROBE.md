@@ -735,3 +735,32 @@ R2 and all six raw summary scores. Seven focused tests pass.
 Full scores, source/checkpoint hashes and resource limits are in the
 [numeric record](../experiments/audits/pac-token-readout-twoaxis-20261113.json).
 The earlier synthetic-curve assays remain separate records.
+
+### ISRUC five-feature family-X extension (2026-11-15)
+
+The prepared frozen evaluation adds X004 (AAC theta–gamma) and X005
+(AAC delta–gamma) to the three PAC targets, following Appendix A.
+AAC is the signed Pearson correlation of FFT-bandpass amplitude envelopes.
+Appendix C.3 explicitly caps ISRUC gamma at 35 Hz; this separate run uses
+30–35 Hz for both PAC and AAC. The earlier 30–45 Hz PAC results above remain
+recorded as originally evaluated. The EEG model and checkpoint are unchanged.
+
+At each encoder layer, validation selects a ridge strength for each of the
+five features. Each feature score averages its six channel-summary R² values
+after clipping negative values to zero. The family score is the median of
+those five scores at that common layer. Validation selects the reported
+encoder layer by its family median. The full layer profile and a separately
+labelled descriptive test peak are retained; individual features' peak layers
+are not mixed into the common-layer statistic.
+
+Thirteen tests pass, including independent SciPy AAC checks, negative
+correlations, zero inputs, common-layer selection and an end-to-end five-feature
+fixture. Default 30–45 Hz PAC targets are bitwise identical to the prior
+implementation. All frozen model source hashes match the completed ISRUC run.
+
+The source/job bundle is prepared but **not submitted**: Torch SSH currently
+requires renewed authentication. The planned request is one L40S under
+`torch_pr_637_general`, 2 CPUs, 8G RAM and 30 minutes, with real-data checks
+before full scoring. No neural-network training is performed; only frozen
+representations and affine ridge probes are evaluated. Progress is recorded in
+the existing ISRUC audit.

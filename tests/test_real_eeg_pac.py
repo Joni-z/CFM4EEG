@@ -6,7 +6,8 @@ from sklearn.metrics import r2_score
 from sklearn.preprocessing import StandardScaler
 
 from paclock_bench.probing.real_eeg import (
-    BANDS, PAIRS, R2Moments, RidgeMoments, pac_targets, robust_scale,
+    BANDS, PAIRS, CFC_FEATURES, R2Moments, RidgeMoments, pac_targets,
+    cfc_targets, robust_scale, select_readouts, summarize_family,
 )
 
 
@@ -76,6 +77,93 @@ def test_known_amplitude_modulation_and_zero_inputs():
     zero, qc = pac_targets(torch.zeros(2, 3, 1000))
     assert torch.isfinite(zero).all() and not zero.any()
     assert qc['degenerate_channel_pairs'] == 18
+
+
+def test_family_x_aac_matches_independent_scipy_and_preserves_pac():
+    rng = np.random.default_rng(105)
+    x = rng.normal(size=(3, 4, 1000))
+    freq = np.fft.fftfreq(x.shape[-1], 1 / 200)
+    for gamma_high in (35., 45.):
+        actual, _ = cfc_targets(torch.from_numpy(x), gamma_high=gamma_high)
+        pac, _ = pac_targets(torch.from_numpy(x), gamma_high=gamma_high)
+        assert torch.equal(actual[:, :3], pac)
+        envelopes = {}
+        for i, (low, high) in enumerate((*BANDS[:-1], (30., gamma_high))):
+            band = np.fft.ifft(np.fft.fft(x, axis=-1) *
+                              ((np.abs(freq) >= low) & (np.abs(freq) < high)), axis=-1).real
+            envelopes[i] = np.abs(hilbert(band, axis=-1))
+        per_channel = np.array([[[np.corrcoef(envelopes[i][n, c], envelopes[j][n, c])[0, 1]
+                                  for i, j in ((1, 4), (0, 4))]
+                                 for c in range(x.shape[1])] for n in range(len(x))])
+        expected = np.stack((per_channel.mean(1), per_channel.std(1),
+                            np.median(per_channel, 1), np.quantile(per_channel, .25, 1),
+                            np.quantile(per_channel, .75, 1), per_channel.max(1)), -1)
+        np.testing.assert_allclose(actual[:, 3:].numpy(), expected, atol=1e-10)
+
+
+def test_aac_keeps_negative_correlations_and_handles_zero_inputs():
+    t = np.arange(2000) / 200
+    envelope = .8 * np.cos(2 * np.pi * .5 * t)
+    theta = (1 + envelope) * np.cos(2 * np.pi * 6 * t)
+    opposite = theta + (1 - envelope) * np.cos(2 * np.pi * 32.5 * t)
+    together = theta + (1 + envelope) * np.cos(2 * np.pi * 32.5 * t)
+    x = torch.tensor(np.stack((opposite, together))[:, None])
+    result, _ = cfc_targets(x, gamma_high=35.)
+    np.testing.assert_allclose(result[:, 3, 0], [-1, 1], atol=1e-10)
+    scaled, _ = cfc_targets(x * 17.2, gamma_high=35.)
+    np.testing.assert_allclose(result[:, 3], scaled[:, 3], atol=1e-10)
+    zero, quality = cfc_targets(torch.zeros(2, 3, 1000), gamma_high=35.)
+    assert not zero.any() and torch.isfinite(zero).all()
+    assert quality['degenerate_aac_channel_pairs'] == 12
+
+
+def test_family_median_uses_one_layer_and_validation_selection():
+    grid = {name: np.zeros((4, 3, 5)) for name in ['tokenizer', 'layer_01', 'layer_02']}
+    grid['layer_01'][0, 0] = [.8, .2, .8, .2, .8]
+    grid['layer_02'][1, 0] = [.2, .7, .2, .7, .2]
+    selected = select_readouts(grid, CFC_FEATURES, ['layer_01', 'layer_02'], layer_profiles=True)
+    test = {'tokenizer': [.05, .15, .25, .35, .45],
+            'layer_01': [.1, .9, .2, .8, .3], 'layer_02': [.9, .1, .8, .2, .7]}
+    for e in selected:
+        e['test_r2'] = test[e['endpoint']][e['feature_index']]
+    family = summarize_family(selected, CFC_FEATURES)
+    assert family['validation_selected_encoder']['endpoint'] == 'layer_01'
+    assert family['validation_selected_encoder']['test_median_r2'] == .3
+    assert family['descriptive_test_peak']['endpoint'] == 'layer_02'
+    assert family['descriptive_test_peak']['test_median_r2'] == .7
+    assert family['tokenizer']['test_median_r2'] == .25
+
+
+def test_five_feature_readout_pipeline_has_no_three_feature_dimensions(tmp_path, monkeypatch):
+    import json
+    from scripts.experiments import pac_real_eeg_probe as runner
+
+    class FrozenFixture:
+        def __init__(self, *_args):
+            self.endpoints = ['tokenizer', 'layer_01', 'layer_02']
+            self.source_hashes = {}
+
+        def __call__(self, x, _scales):
+            content = x.numpy().mean(-1).astype(np.float64)
+            return {name: content for name in self.endpoints}
+
+    rng = np.random.default_rng(7)
+    for split, count in [('train', 12), ('val', 8), ('test', 8)]:
+        np.save(tmp_path / f'{split}_signals.npy', rng.normal(size=(count, 3, 1000)).astype('float32'))
+    job = dict(kind='cfft', dataset='isruc', data_root=str(tmp_path),
+               targets_root=str(tmp_path / 'targets'), out=str(tmp_path / 'readout'),
+               checkpoint_sha256='0' * 64, feature_family='X', gamma_high=35., batch_size=4)
+    monkeypatch.setattr(runner, 'dataset_identity', lambda _job: {'fixture': True})
+    monkeypatch.setattr(runner, 'headroom', lambda *_args: {})
+    monkeypatch.setattr(runner, 'FrozenReadout', FrozenFixture)
+    monkeypatch.setattr(torch.cuda, 'max_memory_allocated', lambda: 0)
+    runner.targets(job, 'cpu', False)
+    runner.run_model(job, 'cpu', False)
+    result = json.loads((tmp_path / 'readout/result.json').read_text())
+    assert np.load(tmp_path / 'targets/test_targets.npy').shape == (8, 30)
+    assert len(result['endpoints']) == 20
+    assert result['features'] == list(CFC_FEATURES)
+    assert len(result['family_summary']['encoder_layer_profile']) == 2
 
 
 def test_streaming_standardized_ridge_matches_sklearn():

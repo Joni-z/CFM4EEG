@@ -757,5 +757,78 @@
       "checkpoint_sha256": "1cb82e40e083b9f10121ffba770eb48b043fef0f12f8d3323c63c0204bf4072c"
     },
     "clinical_model_retrained": false
+  },
+  "family_x_extension_20261115": {
+    "status": "prepared_awaiting_torch_authentication",
+    "job_id": null,
+    "checkpoint_sha256": "1cb82e40e083b9f10121ffba770eb48b043fef0f12f8d3323c63c0204bf4072c",
+    "data_manifest_sha256": "bb08a6596a766d4ced275edeb9a6ce362703092198f2ad1967ee1ea2f53063d8",
+    "EEG_model_training": false,
+    "features": [
+      "X001_delta_beta",
+      "X002_theta_gamma",
+      "X003_alpha_gamma",
+      "X004_aac_theta_gamma",
+      "X005_aac_delta_gamma"
+    ],
+    "gamma_band_Hz": [
+      30,
+      35
+    ],
+    "source_reference": "https://arxiv.org/html/2605.11410v2",
+    "gamma_reference": "Appendix C.3 caps gamma at35Hz for ISRUC",
+    "channel_aggregation": [
+      "mean",
+      "population_std",
+      "median",
+      "q25",
+      "q75",
+      "max"
+    ],
+    "ridge_alphas": [
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "feature_score": "Mean of six per-output test R2 values after clipping each at zero",
+    "family_score": "Median of five feature scores at one common layer",
+    "selection": "Validation selects ridge strength separately per feature/layer, then selects encoder layer by validation family median; test-layer maximum is recorded separately as descriptive only",
+    "model_sources_identical_to_completed_PAC_run": true,
+    "source_files": {
+      "paclock_bench/probing/real_eeg.py": "c24b71959dca6c57348b7f32e82b4a42a85ee4838e1f228fa81ebfae62ef015e",
+      "scripts/experiments/pac_real_eeg_probe.py": "75ecad9b0e6f9b0a869bb3fdbef830c9bbe48915011880ad0b838fcf58a918f1"
+    },
+    "source_bundle_sha256": "72126a3195688b9cd8d10b9ba3d084a12b9e85133f4d655bb5ba732f9ad69851",
+    "unit_tests": {
+      "command": ".local/workspace/venv/bin/python -m pytest tests/test_real_eeg_pac.py -q",
+      "passed": 13
+    },
+    "legacy_PAC45_preservation": {
+      "status": "PASS",
+      "legacy_gamma_high": 45,
+      "bitwise_equal": true,
+      "max_absolute_difference": 0.0,
+      "source_sha256": "5a6aad063549beef7a137e08590244164ac23b9f863ed896d6eb53a1a57f4341"
+    },
+    "resources": {
+      "account": "torch_pr_637_general",
+      "constraint": "l40s",
+      "gpus": 1,
+      "cpus": 2,
+      "memory": "8G",
+      "time": "00:30:00"
+    },
+    "runtime_python": "/scratch/zz5070/miniconda3/envs/pacformer/bin/python",
+    "compute_budget_basis": "Prior identical-checkpoint GPU readout completed in7m31s;30min includes checks and five-feature extraction.",
+    "pending_preflight": "Strict checkpoint load and actual ISRUC shape/order checks, then GPU Tort/AAC CPU-agreement and frozen-model smoke before full scoring",
+    "blocker": "Current SSH connection reaches Torch but authentication fails; no active ControlMaster on Mac mini or MBP. User asked to complete ignite torch login.",
+    "alternative_host_check": "145 reachable, GPUs idle, but inspected ISRUC data roots are absent/empty; no raw-data transfer or alternate-cohort substitution performed.",
+    "reference_comparison": {
+      "CBraMod_ISRUC_family_X_peak_approx": 0.45,
+      "LaBraM_ISRUC_family_X_peak_approx": 0.45,
+      "reference_status": "Source-paper Figure2 estimates, not raw per-layer numerical records"
+    },
+    "earlier_PAC45_scores_preserved": true
   }
 }
