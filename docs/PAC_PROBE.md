@@ -670,9 +670,33 @@ last layer. Raw scores, layer choices and independent prediction checks are in
 the [numeric record](../experiments/audits/pac-guidance-readout-20261110.json).
 All EEG model weights remained frozen; only affine ridge readouts were fitted.
 
+### TFM reproduced-checkpoint readout (2026-11-15)
+
+The matched TUEV comparison uses our seed0 single-dataset reproduction: clinical
+kappa0.599408, validation-best epoch3/step536 from the completed50epoch fine-tune.
+Tokenizer pretraining and encoder masked-token pretraining used training data
+only. The full Lightning checkpoint supplies both tokenizer and encoder state,
+including tokenizer EMA buffers at the selected checkpoint. First16clinical
+test logits replay within3.34e-6. All six PAC readouts pass independent replay.
+
+| Endpoint | Delta-beta PAC R2 | Theta-gamma PAC R2 | Alpha-gamma PAC R2 |
+|---|---:|---:|---:|
+| Tokenizer | 0.458 | 0.397 | 0.309 |
+| Encoder | 0.503 | 0.338 | 0.308 |
+
+A full-TFM CHB-MIT reproduced checkpoint has not been located in the HF index
+or inspected145/Torch run directories. Those historical directories retain
+results only. TFM+BIOT host checkpoints and author releases are separate
+models/initializations and do not replace this missing weight.
+
+Source and numerical checks are in the
+[numeric record](../experiments/audits/real-eeg-pac-tfm-20261115.json).
+
 ### TFM released-checkpoint extension (2026-11-15)
 
-Paired author-released single-dataset tokenizer and encoder weights are frozen.
+These scores use author-released single-dataset weights, not our reproduced
+TFM checkpoints. They are external-reference readouts and do not supply the
+matched reproduction comparison. Paired tokenizer and encoder weights are frozen.
 The accepted TUEV/CHB-MIT arrays, cached Tort18 PAC targets, mean pooling, ridge
 grid and validation-only selection are the same as the existing real-EEG readouts.
 

@@ -569,5 +569,307 @@
       "after": 292,
       "old_rows_unchanged": true
     }
+  },
+  "comparison_eligibility": "project_reproduced contains our matched reproduction readout. Top-level results retain author-release external reference only and must not be presented as our reproduced baseline.",
+  "project_reproduced": {
+    "tuev": {
+      "status": "completed",
+      "seed": 0,
+      "source_checkpoint": {
+        "source_sha256": "7a522adabb99fa65c3486af82c01621346222cdba6796c7680e9eafdea27ebd0",
+        "source_archive": "JoniZz/CFM4EEG-checkpoint-archive/objects/7a/7a522adabb99fa65c3486af82c01621346222cdba6796c7680e9eafdea27ebd0.bin",
+        "epoch": 3,
+        "global_step": 536,
+        "parts": {
+          "tokenizer.pth": {
+            "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/tfm-real-pac-20261115/reproduced/tokenizer.pth",
+            "sha256": "ca1a073a4d1b6bbca7c768ed6b9381a961ec482a5309204138a1c147b4d742cc",
+            "keys": 191
+          },
+          "encoder.pth": {
+            "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/tfm-real-pac-20261115/reproduced/encoder.pth",
+            "sha256": "9037c660fe623d703a28dc134a501873726835acbb73f7c170abef5122656b0f",
+            "keys": 59
+          }
+        }
+      },
+      "clinical_reference_kappa": 0.5994077853350418,
+      "clinical_recipe": "train-only tokenizer pretraining, train-only masked-token encoder pretraining,50epoch supervised fine-tuning with validation-kappa checkpoint selection; AdamW lr0.001,weight_decay1e-5,batch512,label_smoothing0.1",
+      "source_run": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/tfm-single-tuev-20261026/runs/tuev-tfm_single_rebuild20261021/seed0",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/results/tuev-reproduced/result.json",
+      "endpoints": [
+        {
+          "label": "tokenizer/X001_delta_beta",
+          "scope": "tokenizer",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 3.0503786077903012e-05
+          },
+          "test_r2": 0.45806226280486123,
+          "test_raw_r2_by_summary": [
+            0.5184917553099838,
+            0.3938262953098963,
+            0.4646007610650911,
+            0.4151488126426979,
+            0.5118972426910172,
+            0.4444087098104812
+          ]
+        },
+        {
+          "label": "encoder_peak/X001_delta_beta",
+          "scope": "encoder_peak",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "layer_01",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.012112085660968497,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.5028332349453142,
+          "test_raw_r2_by_summary": [
+            0.5606105919772357,
+            0.42710673696883183,
+            0.5291737296807135,
+            0.4766499773303019,
+            0.5537593624753162,
+            0.469699011239486
+          ]
+        },
+        {
+          "label": "tokenizer/X002_theta_gamma",
+          "scope": "tokenizer",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "tokenizer",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.01937881424469608,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.39717474087360466,
+          "test_raw_r2_by_summary": [
+            0.4126616975087115,
+            0.464662267591162,
+            0.32522338175830956,
+            0.3231160660182849,
+            0.3842513399968648,
+            0.4731336923682956
+          ]
+        },
+        {
+          "label": "encoder_peak/X002_theta_gamma",
+          "scope": "encoder_peak",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "layer_01",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.027182651347561815,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.33762650123712107,
+          "test_raw_r2_by_summary": [
+            0.34577764019757107,
+            0.4031646798596882,
+            0.2642947917954056,
+            0.2719983829699012,
+            0.31919764035795106,
+            0.4213258722422093
+          ]
+        },
+        {
+          "label": "tokenizer/X003_alpha_gamma",
+          "scope": "tokenizer",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "tokenizer",
+          "alpha": 10.0,
+          "alpha_index": 2,
+          "validation_r2": 0.13562548333955324,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.3093254615333619,
+          "test_raw_r2_by_summary": [
+            0.41590157905667646,
+            0.11608724520989344,
+            0.4001354200850281,
+            0.3672110088416525,
+            0.427446536394681,
+            0.1291709796122401
+          ]
+        },
+        {
+          "label": "encoder_peak/X003_alpha_gamma",
+          "scope": "encoder_peak",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "layer_01",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.11482751305299542,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 5.820312777164253e-06
+          },
+          "test_r2": 0.30791777625638606,
+          "test_raw_r2_by_summary": [
+            0.4061786320288603,
+            0.12406392417903722,
+            0.399253762985994,
+            0.36952050411590087,
+            0.4033794328688821,
+            0.14511040135964193
+          ]
+        }
+      ],
+      "job": {
+        "kind": "tfm",
+        "dataset": "tuev",
+        "initialization": "project_reproduced_single_dataset",
+        "checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/encoder.pth",
+        "checkpoint_sha256": "9037c660fe623d703a28dc134a501873726835acbb73f7c170abef5122656b0f",
+        "tokenizer_checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/tokenizer.pth",
+        "tokenizer_checkpoint_sha256": "ca1a073a4d1b6bbca7c768ed6b9381a961ec482a5309204138a1c147b4d742cc",
+        "vendor": "/data2/zz5070/CFM4EEG-rebuild-20261021/vendor/tfm",
+        "source_sha256": {
+          "datasets/data_loaders.py": "45dd4608445a4ef6b66c093772e84e671ddf8bb9a487f4f9cc553977e30a6984",
+          "datasets_processing/CHB-MIT/process_1.py": "92077a5b72401427853476d0c8e1da9c3d01f8604e59399c772f367dda2aef76",
+          "datasets_processing/CHB-MIT/process_2.py": "61be7b670598150b6e28f8b51b221b33e14cf1f6aab14170b9ddc70b85b0cf31",
+          "datasets_processing/EarEEG/process.py": "b489b1c895287ba43cd8d85efa4dbbf0007eff640c80d373807561e863bd46d7",
+          "datasets_processing/TUAB/process.py": "9dbc7a378085ad8fb1c99884aaf4688b8ee415c8c7989ae5e10b23b8f36a4970",
+          "datasets_processing/TUEV/process.py": "8e1296d8dc277d3ee558904c88e7990cd5f0007bf5ceca6532c6e2cc44b6fb51",
+          "downstream_transformer_finetuning.py": "cd5e58cba5b8747450b13722ecf26a52fa9c1adc363950da9e6fe72fe8758236",
+          "downstream_transformer_masked_token_prediction_pretraining.py": "17407c99181a93a5ed950cf58a4d0c663bcca472068a3b9f5e5aec6f91f4cf40",
+          "models/tfm_token.py": "b8661ed82e9fec0cccdc503441bfa217edab679d6e3298f75bafbe749130d7ce",
+          "push_to_hub.py": "7e55d145c16fe222c06a1f415ab0f8819af64442e9c9f41d90b47d016dd259ad",
+          "tfm_tokenizer_inference.py": "3c268d4f6212a9f0546fe8752bc83e20261bdd9e70aaf4c0c4ff79f5077c8b09",
+          "tfm_tokenizer_token_learning.py": "3e43235fdd3119469f0c43eaaff2bd55d3af19a7de9b881f4b563b13bd581ca0",
+          "utils/utils.py": "ee2dd8a85cdb44166394957ae824af7ad7ba2234325eafc061b83359918c8cfe"
+        },
+        "num_classes": 6,
+        "data_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/data/processed/tuev",
+        "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+        "targets_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/targets/tuev",
+        "batch_size": 16,
+        "out": "/data2/zz5070/CFM4EEG-rebuild-20261021/pac-tfm-readout-20261115/results/tuev-reproduced",
+        "archive": {
+          "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+          "source_object": "objects/7a/7a522adabb99fa65c3486af82c01621346222cdba6796c7680e9eafdea27ebd0.bin",
+          "source_checkpoint_sha256": "7a522adabb99fa65c3486af82c01621346222cdba6796c7680e9eafdea27ebd0",
+          "extracted_prefixes": {
+            "tokenizer": "state_dict.vqvae.",
+            "encoder": "state_dict.tfm_token."
+          }
+        },
+        "protocol": "real_eeg_Tort18_ridge_v1; same accepted arrays and labels as CfFT/CBraMod/LaBraM; gamma30-45Hz; author q95 input; frozen paired released single-dataset weights",
+        "training_seed": 0,
+        "tokenizer_loading": "Strict complete tokenize inference graph; reconstruction decoders are unused; legacy positional tensors accepted only if identically zero. No missing inference weights allowed.",
+        "seed": 0,
+        "clinical_reference": {
+          "cohen_kappa": 0.5994077853350418,
+          "seed": 0,
+          "selected_epoch": 3,
+          "selected_step": 536
+        }
+      },
+      "independent_check": {
+        "status": "PASS",
+        "test_rows": 29421,
+        "checks": [
+          {
+            "label": "tokenizer/X001_delta_beta",
+            "reported": 0.45806226280486123,
+            "recomputed": 0.45806226281525103,
+            "absolute_difference": 1.0389800131349602e-11
+          },
+          {
+            "label": "encoder_peak/X001_delta_beta",
+            "reported": 0.5028332349453142,
+            "recomputed": 0.5028332348893585,
+            "absolute_difference": 5.595568453031774e-11
+          },
+          {
+            "label": "tokenizer/X002_theta_gamma",
+            "reported": 0.39717474087360466,
+            "recomputed": 0.39717474037952266,
+            "absolute_difference": 4.940819975374211e-10
+          },
+          {
+            "label": "encoder_peak/X002_theta_gamma",
+            "reported": 0.33762650123712107,
+            "recomputed": 0.33762650147187667,
+            "absolute_difference": 2.3475560384511596e-10
+          },
+          {
+            "label": "tokenizer/X003_alpha_gamma",
+            "reported": 0.3093254615333619,
+            "recomputed": 0.30932546188927373,
+            "absolute_difference": 3.5591185554295635e-10
+          },
+          {
+            "label": "encoder_peak/X003_alpha_gamma",
+            "reported": 0.30791777625638606,
+            "recomputed": 0.30791777522557184,
+            "absolute_difference": 1.0308142117665398e-09
+          }
+        ],
+        "max_absolute_difference": 1.0308142117665398e-09
+      },
+      "clinical_logits_replay": {
+        "status": "PASS",
+        "rows": 16,
+        "max_abs_diff": 3.337860107421875e-06,
+        "source_checkpoint_sha256": "7a522adabb99fa65c3486af82c01621346222cdba6796c7680e9eafdea27ebd0"
+      },
+      "wall_time_sec": 111.66111863590777,
+      "result_archive": {
+        "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+        "revision": "f99327055bd33847dffefd461c5620b370dc081b",
+        "files": [
+          "source-correction.json",
+          "project-reproduced/tuev/checkpoint.json",
+          "project-reproduced/tuev/independent-check.json",
+          "project-reproduced/tuev/result.json",
+          "project-reproduced/tuev/smoke.json",
+          "project-reproduced/tuev/clinical-logits-replay.json",
+          "project-reproduced/tuev/test_predictions.npz",
+          "project-reproduced/tuev/probes.npz",
+          "project-reproduced/tuev/selection.json"
+        ]
+      },
+      "frozen_readout_adapter_sha256": "924e0b09b7a3f70a3b97712e97df70bd3bca0c9f4b252a0b398ea93558783d00",
+      "ledger_preservation": {
+        "runs.csv": {
+          "before": 2684,
+          "after": 2684,
+          "existing_rows_unchanged": true
+        },
+        "studies.csv": {
+          "before": 292,
+          "after": 298,
+          "existing_rows_unchanged": true
+        }
+      }
+    },
+    "chbmit": {
+      "status": "checkpoint_not_found",
+      "search": "HF checkpoint mappings and historical145/Torch full-TFM directories",
+      "observation": "Historical full-TFM result.json exists but no trained weight found; TFM+BIOT host weights are a different model and are not substituted"
+    }
   }
 }

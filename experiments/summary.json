@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-11-15T19:59:07.810895+08:00",
+  "updated_at": "2026-11-15T21:47:59.839773+08:00",
   "historical_unique_results": 2681,
   "clinical_records": 2684,
   "model_versions": 268,
-  "study_and_trial_records": 292,
-  "trial_rows": 212,
+  "study_and_trial_records": 298,
+  "trial_rows": 218,
   "checkpoint_locations": 1949,
   "conflict_rows": 154,
   "conflict_groups": 93,
@@ -36,7 +36,7 @@
     "tusz": 211,
     "tusz_type": 6
   },
-  "input_files": 496,
+  "input_files": 500,
   "input_hashes": {
     "/Users/mr.z/CFM4EEG/.local/legacy/experiments/raw-results-deduplicated.jsonl": "2b88344367d241d6d75306acb7bba7d3db28d133ef925142a43535f5d5b1b717",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/original-cfft-pac-readout-20261102/full-token/scores.json": "870f761d780350819f5d6814381a8125a98b8f5970209c1ecb5be823551a33f3",
@@ -117,6 +117,10 @@
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/tfm-real-pac-20261115/completed/chbmit/independent-check.json": "5059b290b079588a0da9fef144bfdc4d81c470e0faff16e0b77e68441e370055",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/tfm-real-pac-20261115/completed/chbmit/results/chbmit-v3/result.json": "333a3a2ef9391575dbbd98c5e190b7fa1973b0d985247c2848ee1c5c2c22af2c",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/tfm-real-pac-20261115/completed/chbmit/results/chbmit-v3/selection.json": "cb82d59dc0479d0a5f7328a2ad40b255ce2ca62b3aa602613c093b4c46af033b",
+    "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/tfm-real-pac-20261115/reproduced/results.tsv": "9168f03aec0aba303749ca4ce21cd4616bd56212b9dc1d65413f23a3fba53b19",
+    "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/tfm-real-pac-20261115/reproduced/completed/independent-check.json": "0811b29f794333ced85e2ee8ae35a4687fc9bb4a41264dbe3da516fa9e0fc3c0",
+    "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/tfm-real-pac-20261115/reproduced/completed/results/tuev-reproduced/result.json": "7d4dc2b654c606dd6242763f79d44e1b702a1bf84766b275cc9e3b389d8b4295",
+    "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/tfm-real-pac-20261115/reproduced/completed/results/tuev-reproduced/selection.json": "1db1670574361db71b61aecf923fab2c9abb681f7420981c2449880cfbdecea9",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/hf-checkpoint-archive-20261026/parallel-tail/selection.json": "839ca60f958a8df965bdae7d8e636a26725c87c3a6a9f98a1ace745e1fc3a5b0",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/hf-checkpoint-archive-20261026/parallel-round2/selection.json": "bb42dad658f0927d4aa15dfe2cd5a3855c2cb59ed49e94c768892273cdc465c5",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/hf-checkpoint-archive-20261026/metadata/run-metadata/145/data1/zz5070/CFM4EEG-rebuild-20261021/eegpt-tuev23/seed0-train/provenance.json": "25382d43952cb509e4b58c4ed06c5f4f19949a239e4d6688a906d7b3317eeeec",

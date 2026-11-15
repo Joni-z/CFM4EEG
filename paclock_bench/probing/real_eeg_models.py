@@ -141,7 +141,8 @@ class FrozenReadout:
                     raise ValueError("CHB-MIT TFM input requires its physical-unit sidecar")
                 physical = physical * denominators
             elif self.tfm_dataset == "tuev":
-                physical = physical * 100
+                # Match BIOTWindowDataset: float32 multiply before NumPy q95.
+                physical = stored.numpy() * 100.0
             else:
                 raise ValueError("This TFM launch supports only declared TUEV/CHB-MIT units")
             # Author datasets/data_loaders.py: per-channel linear q95 + 1e-8.

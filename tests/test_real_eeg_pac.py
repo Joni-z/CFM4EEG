@@ -328,3 +328,8 @@ def test_tfm_uses_integer_codes_and_complete_residual_states(tmp_path, monkeypat
         np.testing.assert_array_equal(result[f'layer_{i:02d}'], latent.mean(1).numpy())
     assert list(result) == ['tokenizer', 'layer_01', 'layer_02', 'layer_03', 'layer_04']
     assert not any(p.requires_grad for p in model.model.parameters())
+    model.tfm_dataset = 'tuev'
+    model(stored)
+    physical = stored.numpy() * 100.0
+    expected = physical / (np.quantile(np.abs(physical), .95, axis=-1, keepdims=True) + 1e-8)
+    np.testing.assert_array_equal(tokenizer.seen_waveform.numpy(), expected.astype('float32').reshape(32, 400))
