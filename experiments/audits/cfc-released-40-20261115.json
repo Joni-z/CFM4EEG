@@ -1,9 +1,9 @@
 {
   "study": "cfc_released_40_20261115",
-  "status": "in_progress",
+  "status": "completed",
   "requested_cells": 40,
   "reused_completed_cells": 12,
-  "pending_cells": 2,
+  "pending_cells": 0,
   "neural_training": false,
   "metrics": [
     "X001_delta_beta",
@@ -19,10 +19,7 @@
     45
   ],
   "execution_root": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115",
-  "current_gpus": [
-    6,
-    7
-  ],
+  "current_gpus": [],
   "checkpoint_bindings": [
     {
       "dataset": "chbmit",
@@ -309,8 +306,8 @@
     }
   },
   "execution_note": "Initial GPU0-3 attempt terminated before results; resumed only on requested4-7pool, using6/7. Prior CBraMod/LaBraM project scratch readouts excluded from author-released comparison.",
-  "verified_new_cells": 26,
-  "completed_cells": 38,
+  "verified_new_cells": 28,
+  "completed_cells": 40,
   "new_results": [
     {
       "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/cbramod-chbmit/result.json",
@@ -1601,6 +1598,153 @@
       },
       "wall_time_sec": 77.89641137979925,
       "cuda_peak_GiB": 0.2087244987487793
+    },
+    {
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/cfft-chbmit/result.json",
+      "checkpoint_sha256": "66dbc5919fbe02f6aa49457a2329390211d5576642a276dfb98dcbbef8dfabff",
+      "initialization": "project_scratch",
+      "data_identity": {
+        "manifest_sha256": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+        "accepted_sha256": "863e397120eb3894f0332a3ebaf40ffdd225e157ab52e190f12a351f4c6ac124",
+        "accepted_file_hashes": {
+          "test_labels.npy": "ae8af62e7bc513afeb0832bc32884ea70a08fdbc6f9db8c070eb2da49ed7fd6b",
+          "test_provenance.jsonl": "a8da42962473d16490ea421abd364c1aaa771be4c6989b2619722bba1fa13c12",
+          "test_q95_denominators.npy": "d31e5c3619c4eade789eba2ed26039e1780f37552f8e40ccc576df64d0dbf0e0",
+          "test_signals.npy": "d3565bca8f95ef1e83fc5f6e1c1665b253e6cd377356e253e540c7407a0c2fbc",
+          "train_labels.npy": "5d2ca941b45080afaab94e05c3bf31bea54e98e35e112bbcc2b01f9d998a55d8",
+          "train_provenance.jsonl": "267bade03974c5ebdd71c37529a057b5bc75250c9c23123b6b43051640da94ef",
+          "train_q95_denominators.npy": "3741e51b87a524864acbabcc9db8a3876f825502ef0c78886b847240d555c1ba",
+          "train_signals.npy": "b753ab5e06606cffc232400ac40fe00f2f0de1938b5cd061cb2ec6f6141c4223",
+          "val_labels.npy": "74a5b8d5c468d105545912af9c5632e588d58f4f9ef828c4bfb3d559e428de7e",
+          "val_provenance.jsonl": "b8544de8a89979d84b8bcefc0cf64fdec934b71c063320360db79291a20fe114",
+          "val_q95_denominators.npy": "afaf22198823e446e002c16c67ea9b8516dabf71507a223f0f619a6905c49702",
+          "val_signals.npy": "d78f8265759456ed13586b1c5168118c43e8f4b591f15f0633f6f29ea5961ec4",
+          "manifest.json": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+          "BUILD.json": "5c4280df5e40bd945844aa69820ecdb814795af3ba617fca57ee2d89f174a26f",
+          "READY.json": "2f1a729c8fa8c13d4f075a839084dbd9334fae3768b2525c459c16cf6586c4c4"
+        }
+      },
+      "source_hashes": {
+        "build.py": "4308f1f502d61a46c71025c5d910beedb7dd91bc3228dfd3f2364bc950f7b1ec",
+        "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "wave_patch.py": "1e5ee98b35cc0258e6d66bb04203f1507154f243f647d3fcee49dac5d3ad44bf",
+        "paclock/build.py": "8b5d13e392a0f3ad4e8116eaa2212160a37ea12ca8364ab829e02908c7fb2b3a",
+        "paclock/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "paclock/augment.py": "9f2f36226ada89a0f3da26cfeba37f138b60cece5204b95ca028b9ba9a751ae0",
+        "paclock/encoder.py": "bd5b4f3228e2a2ca306cae7f3cc7476018ef1315cb69c480ecaedc4ea793957f",
+        "paclock/triaxial.py": "f4610c6e367a3ba64cac71f97f1a44549434980a72d5980893a04128e6baedfc",
+        "paclock/montage.py": "7e495bc43ea70b89e704074b7b5910c143cf0f74b16d109a1bf44682927fa707",
+        "paclock/head.py": "f1d06db827e5501881329619b4872890751d8c7bee47127cfb35d5c1eef971e2",
+        "paclock/block.py": "b8fdaac110d93d6a47469c7a5235a664988a1a27e68a1527d3f06122bdb3d3ca",
+        "paclock/duplex_routing.py": "454ed538c0c74c72294b913f9bdac05695de2419865dfb8e0b001d1413d78c83",
+        "paclock/frontend/cfc.py": "7d06b696a93df52536e5d0dcbed775f9fdda31aa4714ec253bec739bdbe9fb9f",
+        "paclock/frontend/pac_calibration.py": "4b5ff98b9ca47ef5edc5c3ea5df7f4cb454a381555df6f81ffdf363a957cb569",
+        "paclock/frontend/measurement_uncertain.py": "78a9693a2d0addba14837fd78c4a0fa80bb03f185d881af4c3a6a7271e21218c",
+        "paclock/frontend/measurement.py": "a8e6a1a1942d6942e1162d91051a717cca5b3223c4abb930572fed1fb65771dd",
+        "paclock/frontend/__init__.py": "7e1f3660b8aedda9e35e840f084e0195a8f85a2cf69bf9d7edc20faf9aa5bf83",
+        "paclock/frontend/singlepath.py": "e73858e8233278ec0c7747ff9cc7cfbe317582380a549d466ee54e65a167f219",
+        "paclock/frontend/measurement_curve.py": "b5a294084052fe2e3c81da748ea1a15f3fc4bf1a124ca7565bbb0ca35db228dc",
+        "paclock/frontend/triaxial.py": "c6d2b0c9c0f4a995e060286c936bef7bbb324f32069d39f4190f835393eb4547",
+        "paclock/frontend/sinc.py": "94ebd9ef7610854e9c799d6737af3e534c283b1623a9645ef745698c74cc3269",
+        "paclock/frontend/conv.py": "091344599cb46b3b082698ec189da5a7246db7aa02c846753f01d963fbf755c5",
+        "paclock/frontend/analytic.py": "b2f63fd92abf360966ce458146ce43f6134c36dd00e54d3afd9e5f91076e6a12",
+        "paclock/frontend/factorized.py": "2ecb5551f17aca34151f9d1bc5a50db3f1867c6314d50eed653fa66d90efaa1a",
+        "paclock/frontend/copula.py": "14ffd03a84505a797d642245812825f02a12ce62662497d032af76422af98db1",
+        "paclock/frontend/measured.py": "fe029ec04b356d3e65c7afe7b4f5040c7c294b3486187813c989ce9d07d7c2c0",
+        "paclock/mixers/attention.py": "3dc6640c720e330c6e4dd5cd476587d172583c1c90c038ef5e6e6509cfe3be96",
+        "paclock/mixers/mi_operator.py": "e8142a529bc847ffe8a6a67a9add952fed66080099e58a6b513b41afba0834f4",
+        "paclock/mixers/__init__.py": "2c8ab16c41ace748644defc31e6159c5ee0fc10651f73a373df84fd5482e2131",
+        "paclock/mixers/base.py": "8b428e51b9572a5611edccb9a633b0fa8251e6bd47f81739d77e7ee2d10a5569",
+        "paclock/mixers/cotar.py": "0e26c619232f8a978f9cc979e9b22e7ad2a69369be1e040149742cca58989af9"
+      },
+      "encoder_peak": [
+        {
+          "label": "encoder_peak/X004_aac_theta_gamma",
+          "scope": "encoder_peak",
+          "feature": "X004_aac_theta_gamma",
+          "feature_index": 0,
+          "endpoint": "layer_02",
+          "alpha": 10.0,
+          "alpha_index": 2,
+          "validation_r2": 0.27615204845573077,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 6.8827588058558336e-06
+          },
+          "test_r2": 0.23045762190664199,
+          "test_raw_r2_by_summary": [
+            0.27737903867833,
+            0.21383830256293035,
+            0.21737413221495205,
+            0.08892260941669738,
+            0.3157663062272217,
+            0.2694653423397204
+          ]
+        },
+        {
+          "label": "encoder_peak/X005_aac_delta_gamma",
+          "scope": "encoder_peak",
+          "feature": "X005_aac_delta_gamma",
+          "feature_index": 1,
+          "endpoint": "layer_05",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.320695236235176,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 2.5446025845717497e-05
+          },
+          "test_r2": 0.14277714148420909,
+          "test_raw_r2_by_summary": [
+            0.12137353518830685,
+            0.2363156671741813,
+            0.08359310639157924,
+            -0.011160588703099661,
+            0.19032950779966906,
+            0.22505103235151802
+          ]
+        }
+      ],
+      "independent_check": {
+        "status": "PASS",
+        "result_sha256": "68064b3f5d9f8db4139970b51562b409e3d17d9f8c0694f226938f034cbfe040",
+        "predictions_sha256": "8a29a00fd9c828f3a341b763f87c315e4858ca7bb869a881ae97beb868cc3bbe",
+        "test_targets_sha256": "98f02b07a436df9cadfc833f1464c3340fb8d9dca30d21f4f0e30fed9ad9ea47",
+        "test_rows": 17224,
+        "all_endpoint_checks": [
+          {
+            "label": "tokenizer/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.1710943034774116,
+            "stored_r2": 0.1710943029305871,
+            "absolute_difference": 5.468245023454443e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.23045762221734792,
+            "stored_r2": 0.23045762190664199,
+            "absolute_difference": 3.107059332041473e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.05414598777605254,
+            "stored_r2": 0.0541459879010485,
+            "absolute_difference": 1.249959580285065e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.1427771413200672,
+            "stored_r2": 0.14277714148420909,
+            "absolute_difference": 1.6414189452085282e-10,
+            "validation_only_selection_replayed": true
+          }
+        ],
+        "largest_r2_difference": 5.468245023454443e-10
+      },
+      "wall_time_sec": 2466.8636496402323,
+      "cuda_peak_GiB": 1.757054328918457
     },
     {
       "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/results/cfft-tuev/result.json",
@@ -3298,5 +3442,21 @@
     "new_unit": "cfc40-tfm-tuev-gpu7-20261115",
     "readout_source_and_job_configuration": "unchanged",
     "signals_sent": 0
+  },
+  "execution_state": "all eight frozen readouts completed normally; no training; no remaining evaluation process in this batch",
+  "metadata_archive": {
+    "path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/cfc-released-40-20261115/completed-metadata.tar.gz",
+    "sha256": "ea6fc115145d53a569837d93dc7608fc8e9dc97ebdf57bc5ff22946db6dc18ba",
+    "bytes": 32276615
+  },
+  "huggingface_archive": {
+    "status": "verified",
+    "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+    "private": true,
+    "revision": "7315073b20a3e04be121c5ef8592935ffc07d644",
+    "path": "readouts/cfc-released-40-20261115/completed-metadata.tar.gz",
+    "sha256": "ea6fc115145d53a569837d93dc7608fc8e9dc97ebdf57bc5ff22946db6dc18ba",
+    "bytes": 32276615,
+    "scope": "frozen linear probes, source, job metadata and independent score checks; original EEG checkpoints unchanged"
   }
 }

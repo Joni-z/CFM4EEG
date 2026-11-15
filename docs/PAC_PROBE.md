@@ -171,7 +171,9 @@ uses author-released CBraMod and LaBraM pretraining backbones, paired TFM
 single-dataset releases, and fixed project scratch-trained CfFT checkpoints on
 TUEV and CHB-MIT. The [audit](../experiments/audits/cfc-released-40-20261115.json)
 binds all eight checkpoint/dataset pairs and distinguishes reused values from
-pending evaluations. Earlier task-trained CBraMod/LaBraM probes remain separate.
+new verified readouts. All 40 encoder-feature scores are complete: 12 matching
+PAC scores were reused and 28 scores were newly evaluated. Earlier task-trained
+CBraMod/LaBraM probes remain separate.
 
 `initialization: author_released` loads the native CBraMod backbone or LaBraM
 pretraining student strictly and evaluates it unmasked. `feature_family: AAC`
