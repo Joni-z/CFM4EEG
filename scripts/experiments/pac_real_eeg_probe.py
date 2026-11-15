@@ -22,8 +22,8 @@ import numpy as np
 import torch
 
 from paclock_bench.probing.real_eeg import (
-    ALPHAS, FEATURES, CFC_FEATURES, SUMMARIES, R2Moments, RidgeMoments,
-    pac_targets, cfc_targets, robust_scale, select_readouts, summarize_family,
+    ALPHAS, FEATURES, CFC_FEATURES, AAC_FEATURES, SUMMARIES, R2Moments, RidgeMoments,
+    pac_targets, cfc_targets, aac_targets, robust_scale, select_readouts, summarize_family,
 )
 from paclock_bench.probing.real_eeg_models import FrozenReadout, sha256
 
@@ -101,9 +101,13 @@ def dataset_identity(job: dict) -> dict:
                 accepted_file_hashes={k: v["sha256"] for k, v in accepted["files"].items()})
 
 
+def feature_spec(job: dict):
+    return {"PAC": (FEATURES, pac_targets), "X": (CFC_FEATURES, cfc_targets),
+            "AAC": (AAC_FEATURES, aac_targets)}[job.get("feature_family", "PAC")]
+
+
 def targets(job: dict, device: str, smoke: bool) -> None:
-    family_x = job.get("feature_family", "PAC") == "X"
-    features, measure = (CFC_FEATURES, cfc_targets) if family_x else (FEATURES, pac_targets)
+    features, measure = feature_spec(job)
     gamma_high = job.get("gamma_high", 45.)
     out = Path(job["targets_root"])
     out.mkdir(parents=True, exist_ok=True)
@@ -122,8 +126,8 @@ def targets(job: dict, device: str, smoke: bool) -> None:
                     flatten_sequences=job.get("flatten_sequences", False))
         n = min(8, rows.shape[0]) if smoke else rows.shape[0]
         y = np.empty((n, len(features) * 6), dtype=np.float32)
-        qc = dict(empty_phase_bins=0, degenerate_channel_pairs=0)
-        if family_x:
+        qc = {} if job.get("feature_family") == "AAC" else dict(empty_phase_bins=0, degenerate_channel_pairs=0)
+        if job.get("feature_family") in ("X", "AAC"):
             qc["degenerate_aac_channel_pairs"] = 0
         for start in range(0, n, 32):
             if start % 3200 == 0:
@@ -155,7 +159,7 @@ def targets(job: dict, device: str, smoke: bool) -> None:
 
 def run_model(job: dict, device: str, smoke: bool) -> None:
     family_x = job.get("feature_family", "PAC") == "X"
-    features = CFC_FEATURES if family_x else FEATURES
+    features, _ = feature_spec(job)
     n_features = len(features)
     out = Path(job["out"])
     out.mkdir(parents=True, exist_ok=True)
@@ -278,7 +282,7 @@ def run_model(job: dict, device: str, smoke: bool) -> None:
         dataset=job["dataset"], model=job["kind"], checkpoint_sha256=job["checkpoint_sha256"],
         checkpoint_archive=job.get("archive"), source_hashes=model.source_hashes,
         job=job, data_identity=data, source_paper="https://arxiv.org/html/2605.11410v2",
-        scope="CFC encoding only; task-specific scratch-trained weights, adapted datasets; no erasure",
+        scope="CFC encoding only; checkpoint initialization recorded in job; adapted datasets; no erasure",
         features=features,
         family_summary=summarize_family(selected, features) if family_x else None,
         endpoints=selected, wall_time_sec=time.monotonic() - start_time,
@@ -292,8 +296,7 @@ def main() -> None:
     parser.add_argument("--smoke", action="store_true")
     args = parser.parse_args()
     job = json.loads(args.job.read_text())
-    if job.get("feature_family", "PAC") not in ("PAC", "X"):
-        raise ValueError("feature_family must be PAC or X")
+    feature_spec(job)
     torch.set_num_threads(1)
     torch.set_num_interop_threads(1)
     if not torch.cuda.is_available():

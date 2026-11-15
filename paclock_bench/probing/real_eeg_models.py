@@ -22,6 +22,7 @@ def sha256(path: str | Path) -> str:
 class FrozenReadout:
     def __init__(self, spec: dict, input_shape: tuple[int, int], device: str):
         self.kind, self.device = spec["kind"], device
+        self.released = spec.get("initialization") == "author_released"
         scope = spec.get("readout_scope", "all")
         if scope not in ("all", "tokenizer"):
             raise ValueError("readout_scope must be all or tokenizer")
@@ -59,21 +60,37 @@ class FrozenReadout:
                 self.source_hashes[relative] = actual
             sys.path.insert(0, str(vendor))
             if self.kind == "cbramod":
-                module = importlib.import_module("models.model_for_" + ("chb" if spec["dataset"] == "chbmit" else "tuev"))
-                params = SimpleNamespace(use_pretrained_weights=False, classifier="all_patch_reps",
-                                         dropout=.1, num_of_classes=6, cuda=0)
-                self.model = module.Model(params)
+                if self.released:
+                    self.model = importlib.import_module("models.cbramod").CBraMod()
+                    backbone = self.model
+                else:
+                    module = importlib.import_module("models.model_for_" + ("chb" if spec["dataset"] == "chbmit" else "tuev"))
+                    params = SimpleNamespace(use_pretrained_weights=False, classifier="all_patch_reps",
+                                             dropout=.1, num_of_classes=6, cuda=0)
+                    self.model = module.Model(params)
+                    backbone = self.model.backbone
                 state = saved.get("model", saved)
                 self.model.load_state_dict(state, strict=True)
-                stem, layers = self.model.backbone.patch_embedding, self.model.backbone.encoder.layers
+                stem, layers = backbone.patch_embedding, backbone.encoder.layers
             elif self.kind == "labram":
-                native = importlib.import_module("modeling_finetune")
-                self.model = native.labram_base_patch200_200(
-                    num_classes=spec["num_classes"], drop_rate=0., drop_path_rate=.1,
-                    attn_drop_rate=0., drop_block_rate=None, use_mean_pooling=True,
-                    init_scale=.001, use_rel_pos_bias=False, use_abs_pos_emb=True,
-                    init_values=.1, qkv_bias=False)
-                self.model.load_state_dict(saved["model"], strict=True)
+                if self.released:
+                    native = importlib.import_module("modeling_pretrain")
+                    self.model = native.labram_base_patch200_1600_8k_vocab(
+                        init_values=.1, use_rel_pos_bias=False, use_abs_pos_emb=True).student
+                    state = {k.removeprefix("student."): v for k, v in saved["model"].items()
+                             if k.startswith("student.")}
+                    # The complete released student, including its norm and
+                    # mask token, loads strictly. Outer reconstruction/alignment
+                    # heads do not participate in an unmasked encoder readout.
+                    self.model.load_state_dict(state, strict=True)
+                else:
+                    native = importlib.import_module("modeling_finetune")
+                    self.model = native.labram_base_patch200_200(
+                        num_classes=spec["num_classes"], drop_rate=0., drop_path_rate=.1,
+                        attn_drop_rate=0., drop_block_rate=None, use_mean_pooling=True,
+                        init_scale=.001, use_rel_pos_bias=False, use_abs_pos_emb=True,
+                        init_values=.1, qkv_bias=False)
+                    self.model.load_state_dict(saved["model"], strict=True)
                 stem, layers = self.model.patch_embed, self.model.blocks
             elif self.kind == "tfm":
                 from paclock_bench.probing.features import load_tfm_tokenizer
@@ -89,6 +106,7 @@ class FrozenReadout:
                     raise ValueError("Released TFM classifier expects its native 16-channel montage")
                 self.tfm_dataset = spec["dataset"]
                 self.tfm_stored_q95 = spec.get("stored_q95", False)
+                self.tfm_legacy_physical_q95 = spec.get("tfm_legacy_physical_q95", False)
                 if self.tfm_stored_q95 and self.tfm_dataset != "chbmit":
                     raise ValueError("Stored-q95 TFM bridge requires declared CHB-MIT units")
             else:
@@ -145,7 +163,7 @@ class FrozenReadout:
                 physical = physical * denominators
             elif self.tfm_dataset == "tuev":
                 # Match BIOTWindowDataset: float32 multiply before NumPy q95.
-                physical = stored.numpy() * 100.0
+                physical = physical * 100 if self.tfm_legacy_physical_q95 else stored.numpy() * 100.0
             else:
                 raise ValueError("This TFM launch supports only declared TUEV/CHB-MIT units")
             # Author datasets/data_loaders.py: per-channel linear q95 + 1e-8.
@@ -176,7 +194,9 @@ class FrozenReadout:
                 x = (stored.double() * 100).float() / 100
             x = x.to(self.device).reshape(len(x), x.shape[1], -1, 200)
             if self.kind == "cbramod":
-                self.model.backbone(x)
+                (self.model if self.released else self.model.backbone)(x)
+            elif self.kind == "labram" and self.released:
+                self.model(x, input_chans=list(range(x.shape[1] + 1)), return_all_patch_tokens=True)
             else:
                 self.model.forward_features(x, input_chans=list(range(x.shape[1] + 1)))
         if list(self.features) != self.endpoints:

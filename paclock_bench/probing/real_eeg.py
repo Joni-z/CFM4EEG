@@ -15,6 +15,7 @@ PAIRS = ((0, 3), (1, 4), (2, 4))
 FEATURES = ("X001_delta_beta", "X002_theta_gamma", "X003_alpha_gamma")
 AAC_PAIRS = ((1, 4), (0, 4))
 CFC_FEATURES = FEATURES + ("X004_aac_theta_gamma", "X005_aac_delta_gamma")
+AAC_FEATURES = CFC_FEATURES[3:]
 SUMMARIES = ("mean", "std", "median", "q25", "q75", "max")
 ALPHAS = (.1, 1., 10., 100.)
 
@@ -69,6 +70,18 @@ def cfc_targets(signals: torch.Tensor, sample_rate: int = 200, *,
                 gamma_high: float = 45.) -> tuple[torch.Tensor, dict]:
     """Appendix A family X: three Tort PAC and two signed envelope correlations."""
     pac, quality = pac_targets(signals, sample_rate, gamma_high=gamma_high)
+    aac, aac_quality = aac_targets(signals, sample_rate, gamma_high=gamma_high)
+    return torch.cat((pac, aac), dim=1), {**quality, **aac_quality}
+
+
+@torch.inference_mode()
+def aac_targets(signals: torch.Tensor, sample_rate: int = 200, *,
+                gamma_high: float = 45.) -> tuple[torch.Tensor, dict]:
+    """AAC-only targets let completed PAC readouts remain frozen and reusable."""
+    if signals.ndim != 3 or not torch.isfinite(signals).all():
+        raise ValueError("Expected finite [N,C,T] EEG")
+    if not 30 < gamma_high <= 45:
+        raise ValueError("Gamma upper edge must lie in (30,45] Hz")
     x = signals.to(torch.float64)
     freq = torch.fft.fftfreq(x.shape[-1], 1 / sample_rate, device=x.device)
     spectrum = torch.fft.fft(x, dim=-1)
@@ -87,8 +100,7 @@ def cfc_targets(signals: torch.Tensor, sample_rate: int = 200, *,
         results.append(torch.stack((corr.mean(1), corr.std(1, correction=0), quantiles[1],
                                     quantiles[0], quantiles[2], corr.max(1).values), -1))
         degenerate += int((~valid).sum())
-    return torch.cat((pac, torch.stack(results, 1)), dim=1), {
-        **quality, "degenerate_aac_channel_pairs": degenerate}
+    return torch.stack(results, 1), {"degenerate_aac_channel_pairs": degenerate}
 
 
 def select_readouts(grid: dict, features: tuple, encoder_names: list,

@@ -13,6 +13,8 @@
 - Keep changes small and traceable to original implementations. Never rewrite
   a frozen execution release or replace recorded experiment results during
   repository maintenance.
+- On 145, do not terminate any job. Do not submit or modify jobs on GPUs 0–3;
+  use only GPUs 4–7 with sufficient free memory, preserving existing workloads.
 
 ## Canonical project location
 

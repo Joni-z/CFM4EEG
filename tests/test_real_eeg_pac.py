@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 import torch
 from scipy.signal import hilbert
 from sklearn.linear_model import Ridge
@@ -7,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 
 from paclock_bench.probing.real_eeg import (
     BANDS, PAIRS, CFC_FEATURES, R2Moments, RidgeMoments, pac_targets,
-    cfc_targets, robust_scale, select_readouts, summarize_family,
+    cfc_targets, aac_targets, AAC_FEATURES, robust_scale, select_readouts, summarize_family,
 )
 
 
@@ -86,7 +87,9 @@ def test_family_x_aac_matches_independent_scipy_and_preserves_pac():
     for gamma_high in (35., 45.):
         actual, _ = cfc_targets(torch.from_numpy(x), gamma_high=gamma_high)
         pac, _ = pac_targets(torch.from_numpy(x), gamma_high=gamma_high)
+        aac, _ = aac_targets(torch.from_numpy(x), gamma_high=gamma_high)
         assert torch.equal(actual[:, :3], pac)
+        assert torch.equal(actual[:, 3:], aac)
         envelopes = {}
         for i, (low, high) in enumerate((*BANDS[:-1], (30., gamma_high))):
             band = np.fft.ifft(np.fft.fft(x, axis=-1) *
@@ -134,7 +137,8 @@ def test_family_median_uses_one_layer_and_validation_selection():
     assert family['tokenizer']['test_median_r2'] == .25
 
 
-def test_five_feature_readout_pipeline_has_no_three_feature_dimensions(tmp_path, monkeypatch):
+@pytest.mark.parametrize("family", ["X", "AAC"])
+def test_variable_feature_readout_pipeline_keeps_dimensions(tmp_path, monkeypatch, family):
     import json
     from scripts.experiments import pac_real_eeg_probe as runner
 
@@ -152,7 +156,7 @@ def test_five_feature_readout_pipeline_has_no_three_feature_dimensions(tmp_path,
         np.save(tmp_path / f'{split}_signals.npy', rng.normal(size=(count, 3, 1000)).astype('float32'))
     job = dict(kind='cfft', dataset='isruc', data_root=str(tmp_path),
                targets_root=str(tmp_path / 'targets'), out=str(tmp_path / 'readout'),
-               checkpoint_sha256='0' * 64, feature_family='X', gamma_high=35., batch_size=4)
+               checkpoint_sha256='0' * 64, feature_family=family, gamma_high=35., batch_size=4)
     monkeypatch.setattr(runner, 'dataset_identity', lambda _job: {'fixture': True})
     monkeypatch.setattr(runner, 'headroom', lambda *_args: {})
     monkeypatch.setattr(runner, 'FrozenReadout', FrozenFixture)
@@ -160,10 +164,27 @@ def test_five_feature_readout_pipeline_has_no_three_feature_dimensions(tmp_path,
     runner.targets(job, 'cpu', False)
     runner.run_model(job, 'cpu', False)
     result = json.loads((tmp_path / 'readout/result.json').read_text())
-    assert np.load(tmp_path / 'targets/test_targets.npy').shape == (8, 30)
-    assert len(result['endpoints']) == 20
-    assert result['features'] == list(CFC_FEATURES)
-    assert len(result['family_summary']['encoder_layer_profile']) == 2
+    features = CFC_FEATURES if family == 'X' else AAC_FEATURES
+    assert np.load(tmp_path / 'targets/test_targets.npy').shape == (8, len(features) * 6)
+    assert len(result['endpoints']) == (20 if family == 'X' else 4)
+    assert result['features'] == list(features)
+    if family == 'X':
+        assert len(result['family_summary']['encoder_layer_profile']) == 2
+    else:
+        assert result['family_summary'] is None
+
+
+def test_aac_cli_reaches_device_preflight(tmp_path, monkeypatch):
+    import json
+    import sys
+    from scripts.experiments import pac_real_eeg_probe as runner
+
+    job = tmp_path / 'aac.json'
+    job.write_text(json.dumps({'feature_family': 'AAC'}))
+    monkeypatch.setattr(sys, 'argv', ['pac_real_eeg_probe', str(job)])
+    monkeypatch.setattr(torch.cuda, 'is_available', lambda: False)
+    with pytest.raises(RuntimeError, match='visible CUDA GPU'):
+        runner.main()
 
 
 def test_streaming_standardized_ridge_matches_sklearn():
@@ -333,7 +354,63 @@ def test_tfm_uses_integer_codes_and_complete_residual_states(tmp_path, monkeypat
     physical = stored.numpy() * 100.0
     expected = physical / (np.quantile(np.abs(physical), .95, axis=-1, keepdims=True) + 1e-8)
     np.testing.assert_array_equal(tokenizer.seen_waveform.numpy(), expected.astype('float32').reshape(32, 400))
+    model.tfm_legacy_physical_q95 = True
+    model(stored)
+    physical = stored.double().numpy() * 100
+    expected = physical / (np.quantile(np.abs(physical), .95, axis=-1, keepdims=True) + 1e-8)
+    np.testing.assert_array_equal(tokenizer.seen_waveform.numpy(), expected.astype('float32').reshape(32, 400))
     model.tfm_dataset = 'chbmit'
     model.tfm_stored_q95 = True
     model(stored, denominators)
     np.testing.assert_array_equal(tokenizer.seen_waveform.numpy(), stored.numpy().reshape(32, 400))
+
+
+@pytest.mark.parametrize('kind', ['cbramod', 'labram'])
+def test_released_backbone_loads_all_published_encoder_weights(tmp_path, monkeypatch, kind):
+    import sys
+    from types import SimpleNamespace
+    from paclock_bench.probing.real_eeg_models import FrozenReadout, sha256
+
+    class Backbone(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            if kind == 'cbramod':
+                self.patch_embedding = torch.nn.Linear(200, 4)
+                self.encoder = torch.nn.Module()
+                self.encoder.layers = torch.nn.ModuleList([torch.nn.Identity(), torch.nn.Identity()])
+            else:
+                self.patch_embed = torch.nn.Linear(200, 4)
+                self.blocks = torch.nn.ModuleList([torch.nn.Identity(), torch.nn.Identity()])
+
+        def forward(self, x, input_chans=None, return_all_patch_tokens=False):
+            if kind == 'cbramod':
+                x = self.patch_embedding(x)
+                for block in self.encoder.layers:
+                    x = block(x)
+            else:
+                assert return_all_patch_tokens and input_chans == list(range(17))
+                x = self.patch_embed(x).flatten(1, 2)
+                for block in self.blocks:
+                    x = block(x)
+            return x
+
+    trained = Backbone()
+    if kind == 'cbramod':
+        saved = trained.state_dict()
+        monkeypatch.setitem(sys.modules, 'models.cbramod', SimpleNamespace(CBraMod=Backbone))
+    else:
+        saved = {'model': {'student.'+k: v for k, v in trained.state_dict().items()}}
+        saved['model']['projection_head.weight'] = torch.randn(4, 4)
+        monkeypatch.setitem(sys.modules, 'modeling_pretrain', SimpleNamespace(
+            labram_base_patch200_1600_8k_vocab=lambda **kwargs: SimpleNamespace(student=Backbone())))
+    path = tmp_path / 'released.pth'
+    torch.save(saved, path)
+    spec = dict(kind=kind, initialization='author_released', dataset='tuev', vendor=str(tmp_path),
+                source_sha256={}, checkpoint=str(path), checkpoint_sha256=sha256(path))
+    model = FrozenReadout(spec, (16, 400), 'cpu')
+    for key, value in trained.state_dict().items():
+        torch.testing.assert_close(model.model.state_dict()[key], value)
+    output = model(torch.randn(2, 16, 400))
+    assert list(output) == ['tokenizer', 'layer_01', 'layer_02']
+    assert all(v.shape == (2, 4) for v in output.values())
+    assert not any(p.requires_grad for p in model.model.parameters())

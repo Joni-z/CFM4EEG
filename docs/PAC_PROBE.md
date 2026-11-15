@@ -164,6 +164,22 @@ path, original source path and SHA256; restored local files must match before
 loading. Probe weights are separate artifacts, never replacements for EEG
 model checkpoints.
 
+## Released-weight PAC/AAC comparison (2026-11-15)
+
+The [40-cell comparison](../experiments/audits/cfc-released-40-20261115.csv)
+uses author-released CBraMod and LaBraM pretraining backbones, paired TFM
+single-dataset releases, and fixed project scratch-trained CfFT checkpoints on
+TUEV and CHB-MIT. The [audit](../experiments/audits/cfc-released-40-20261115.json)
+binds all eight checkpoint/dataset pairs and distinguishes reused values from
+pending evaluations. Earlier task-trained CBraMod/LaBraM probes remain separate.
+
+`initialization: author_released` loads the native CBraMod backbone or LaBraM
+pretraining student strictly and evaluates it unmasked. `feature_family: AAC`
+computes only the two signed envelope correlations, so completed matching PAC
+readouts can be reused. `X` still evaluates all five features. Each reported
+`encoder_peak` uses its own validation-selected layer and ridge strength;
+these individual scores are distinct from the source paper's family median.
+
 ## Target and comparison
 
 The generator supplies the normalized phase-conditioned mean amplitude curve,
