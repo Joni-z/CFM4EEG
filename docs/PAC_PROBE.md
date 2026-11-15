@@ -188,6 +188,17 @@ only. It retains the native hidden width after mean pooling over the other
 axes, with validation selecting ridge strength at this fixed endpoint. No new
 model forward pass or probe fit was needed.
 
+## Demodulation W+E reference readout (2026-11-16)
+
+The [Demod-WE readout](../experiments/audits/demod-cfc-readout-20261116.csv)
+uses the demodulation manuscript's fixed seed-2 W+E checkpoints: 16 bands,
+width 128, six three-axis blocks, and no PAC rotation. It reuses the preceding
+comparison's accepted data, five CFC targets and global-mean ridge protocol,
+reporting both tokenizer and encoder endpoints. The [audit](../experiments/audits/demod-cfc-readout-20261116.json)
+pins the paper records, checkpoint hashes, execution and private HF backups.
+The CHB-MIT readout uses the accepted natural-grid cohort; this is a frozen
+representation evaluation and does not replace the manuscript's clinical rows.
+
 ## Target and comparison
 
 The generator supplies the normalized phase-conditioned mean amplitude curve,

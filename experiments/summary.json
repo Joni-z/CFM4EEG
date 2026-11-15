@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-11-16T01:02:51.708549+08:00",
+  "updated_at": "2026-11-16T02:00:31.174973+08:00",
   "historical_unique_results": 2681,
   "clinical_records": 2684,
   "model_versions": 268,
-  "study_and_trial_records": 357,
-  "trial_rows": 276,
+  "study_and_trial_records": 367,
+  "trial_rows": 286,
   "checkpoint_locations": 1953,
   "conflict_rows": 154,
   "conflict_groups": 93,
@@ -36,7 +36,7 @@
     "tusz": 211,
     "tusz_type": 6
   },
-  "input_files": 539,
+  "input_files": 541,
   "input_hashes": {
     "/Users/mr.z/CFM4EEG/.local/legacy/experiments/raw-results-deduplicated.jsonl": "2b88344367d241d6d75306acb7bba7d3db28d133ef925142a43535f5d5b1b717",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/original-cfft-pac-readout-20261102/full-token/scores.json": "870f761d780350819f5d6814381a8125a98b8f5970209c1ecb5be823551a33f3",
@@ -73,6 +73,7 @@
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/autoresearch-pac-20261028/artifacts/011-final-code-confirmation/summary.json": "b082fdf1f6b961f7bf1ac95b47b7d4cd7779bea48a56c5acf76fa41680345c3f",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/lenovo-copula-tuev-20261025/completed/result.json": "3af56154923919b4bf5fa2f4d00c1d079ae005aaf21328c27810c2771fd8a627",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/lenovo-copula-tuev-20261025/completed/progress.json": "5bdc64c5c114e8b0d96b888530c45e3bc8e863c7ec733a91bd15ec645a4a6c59",
+    "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/demod-cfc-readout-20261116/results.tsv": "5e9779d5fb981f6b6e0bc48c0aed36a9dd0a7740ad3e939f030b790d3b9a7239",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/smoke-tuev/scores.json": "a52853cc51d14a7c346a09c449e146ae25a0a1fd1a4fd62c6c66de05af652e8d",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/evaluations/chbmit-identity-s2-snapshot-20261105/result.json": "981b1e327c5fae8bd83c09904a998afbeedf5b47e272688178a9319142e282f4",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/legacy-triaxial-validation-20261105/evaluations/chbmit-identity-s2-snapshot-20261105/independent-check.json": "b78ccb44662fd1f31ebdb1cd61fae85f1eca749c8ef15b2607b2e8814ffa91a6",
@@ -574,6 +575,7 @@
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/experiment-ledger-20261105/collected/145-records-20261107T151838Z-demodulation.jsonl": "68d379b8e7c496c6f44d0019409cf45e09b935efcef39c50a0000d83025aa07d",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/experiment-ledger-20261105/collected/145-records-20261108T062145Z-eonly-natural-grid.jsonl": "33e61a88c60d08b285e4b10981b3579bec60b8ea48e5d1ad5ef0d5dee392a831",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/experiment-ledger-20261105/collected/145-records-20261115-tfm-chbmit-checkpoints.jsonl": "c129aab15e31c1b4a335808a9f593539a58437cd0984eb4bf7c738a1416b50a6",
+    "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/experiment-ledger-20261105/collected/145-records-20261116-demod-readout.jsonl": "328643bad5fb6217d73f1d4cfbd88d9e31709cbdf5ffe18c587a4b90c0d21dd9",
     "/Users/mr.z/CFM4EEG/experiments/receipts/chbmit/cbramod-pretrained/result.json": "9ed434c493870f5fc8dec698912344e387b93b0d36a5af42d7d1049a646e9096",
     "/Users/mr.z/CFM4EEG/experiments/receipts/chbmit/cbramod-scratch/result.json": "7d33b995cdeb5f79cc273682eb90915d990dbea47ad62074444fd0333dd4e19a",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/hf-checkpoint-archive-20261026/archive-manifest.json": "7cf33d5ba4317faf9e8a98055ee1ed788b082346fb75e08a8c1f45389353ddc1"

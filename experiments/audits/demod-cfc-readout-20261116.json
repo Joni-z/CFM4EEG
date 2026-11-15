@@ -1,0 +1,1044 @@
+{
+  "study": "demod_cfc_readout_20261116",
+  "model": "Demod-WE",
+  "status": "running",
+  "completed_cells": 10,
+  "pending_cells": 10,
+  "neural_training": false,
+  "configuration": "paper-boundseed2;16bands,width128,6-layerthree-axis,W+E,noPACrotation",
+  "readout_protocol": "identical accepted datasets,fullXtarget caches,globalmean,ridge grid,validation selection and per-summaryR2clipping as cfc-released-40-20261115; tokenizer fixed endpoint,encoder per-feature validation-selected layer",
+  "evaluation_cohorts": {
+    "tuev": "shared16_29421",
+    "chbmit": "acceptednatural_grid_17224; historicaltrainingcheckpoint unchanged"
+  },
+  "source_binding": {
+    "status": "verified",
+    "source": "/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2",
+    "source_archive_sha256": "f318737322835e72cf3a7375eab6b4b0b2b5dedfd29e0e7cebfd0459260943ab",
+    "checkpoints": [
+      {
+        "checkpoint_sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d",
+        "config": {
+          "name": "tuev-legacy-triaxial-identity-20261105",
+          "group": "legacy_triaxial_attribution",
+          "dataset": "tuev",
+          "data_root": "$LEGACY_VALIDATION_DATA/tuev",
+          "model": "paclock",
+          "optimizer": "adamw",
+          "lr": 0.0001,
+          "weight_decay": 0.05,
+          "scheduler": "cosine",
+          "grad_clip": 1.0,
+          "num_workers": 8,
+          "device": "cuda",
+          "num_classes": 6,
+          "epochs": 20,
+          "batch_size": 32,
+          "eval_every_steps": 0,
+          "patience": 20,
+          "loss": "cross_entropy",
+          "label_smoothing": 0.1,
+          "sample_rate": 200,
+          "model_kwargs": {
+            "filter_range": [
+              0.5,
+              75.0
+            ],
+            "arch": "triaxial",
+            "d_model": 128,
+            "depth": 6,
+            "n_bands": 16,
+            "n_heads": 4,
+            "dropout": 0.35,
+            "kernel_size": 201,
+            "patch_len": 50,
+            "augmentations": [
+              "flip0.5",
+              "jitter0.05",
+              "mask0.2",
+              "channel0.2",
+              "frequency0.2"
+            ],
+            "freq_mixer": "attention",
+            "band_pe": "index",
+            "tokenizer_mode": "pac_interaction",
+            "pac_token_mode": "identity",
+            "interaction_mode": "rotation",
+            "spatial_pe": "xyz",
+            "pac_patch_len": 50,
+            "waveform_modulation": "quadrature"
+          },
+          "seed": 2,
+          "max_hours": 7.0
+        },
+        "model_tensor_count": 163,
+        "status": "PASS",
+        "dataset": "tuev",
+        "paper_result_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/legacy-triaxial-validation-20261105/checkpoint-archive/20261105-before-gpu02-stop/tuev-legacy-triaxial-identity-20261105/seed2/result.json",
+        "paper_result_sha256": "ba04c61f42e6ec9d007805584427ea0e3c8de68cb29cdc3528e74a7ea47e58bb"
+      },
+      {
+        "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+        "config": {
+          "name": "chbmit-legacy-triaxial-identity-20261105",
+          "group": "legacy_triaxial_attribution",
+          "dataset": "chbmit",
+          "data_root": "$LEGACY_VALIDATION_DATA/chbmit",
+          "model": "paclock",
+          "optimizer": "adamw",
+          "lr": 0.0001,
+          "weight_decay": 0.05,
+          "scheduler": "cosine",
+          "grad_clip": 1.0,
+          "num_workers": 8,
+          "device": "cuda",
+          "num_classes": 2,
+          "epochs": 20,
+          "batch_size": 32,
+          "eval_every_steps": 200,
+          "patience": 20,
+          "loss": "focal",
+          "focal_alpha": 0.25,
+          "focal_gamma": 2.0,
+          "sample_rate": 200,
+          "model_kwargs": {
+            "arch": "triaxial",
+            "d_model": 128,
+            "depth": 6,
+            "n_bands": 16,
+            "n_heads": 4,
+            "dropout": 0.35,
+            "kernel_size": 201,
+            "patch_len": 50,
+            "augmentations": [
+              "flip0.5",
+              "jitter0.05",
+              "mask0.2",
+              "channel0.2",
+              "frequency0.2"
+            ],
+            "freq_mixer": "attention",
+            "band_pe": "index",
+            "tokenizer_mode": "pac_interaction",
+            "pac_token_mode": "identity",
+            "interaction_mode": "rotation",
+            "spatial_pe": "xyz",
+            "pac_patch_len": 50,
+            "waveform_modulation": "quadrature",
+            "filter_range": [
+              0.5,
+              75.0
+            ]
+          },
+          "seed": 2,
+          "max_hours": 22.0,
+          "budget_projection_epochs": 6
+        },
+        "model_tensor_count": 163,
+        "status": "PASS",
+        "dataset": "chbmit",
+        "paper_result_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/legacy-triaxial-validation-20261105/runs/chbmit-legacy-triaxial-identity-20261105/seed2/result.json",
+        "paper_result_sha256": "91033d01c999b536fa24305434fd65083e4f3076b7cf902efceed7f5557939f4"
+      }
+    ],
+    "probe_data_note": "accepted shared16 TUEV and natural-grid CHB-MIT, unchanged from the40cell readout; no clinical rescore"
+  },
+  "launch": {
+    "time": 1794764943.283179,
+    "workers": [
+      {
+        "dataset": "tuev",
+        "gpu": 7,
+        "unit": "demod-cfc-tuev-20261116",
+        "commands": [
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/profile-batch-v2.py /data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/jobs/tuev.json",
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2/scripts/experiments/pac_real_eeg_probe.py /data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/jobs/tuev.json --smoke",
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2/scripts/experiments/pac_real_eeg_probe.py /data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/jobs/tuev.json"
+        ],
+        "log": "/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/logs/tuev.log",
+        "checkpoint_sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d"
+      },
+      {
+        "dataset": "chbmit",
+        "gpu": 6,
+        "unit": "demod-cfc-chbmit-20261116",
+        "commands": [
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/profile-batch-v2.py /data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/jobs/chbmit.json",
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2/scripts/experiments/pac_real_eeg_probe.py /data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/jobs/chbmit.json --smoke",
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2/scripts/experiments/pac_real_eeg_probe.py /data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/jobs/chbmit.json"
+        ],
+        "log": "/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/logs/chbmit.log",
+        "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f"
+      }
+    ],
+    "limits": {
+      "CPU_per_worker": 1,
+      "host_memory_per_worker_GiB": 3,
+      "GPU_allocator_cap_per_worker_GiB": 6
+    },
+    "source": "/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2",
+    "all_existing_processes_preserved": true
+  },
+  "checkpoint_archive": {
+    "status": "verified",
+    "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+    "private": true,
+    "revision": "8aeff117e4a0d5b6c3c931824994b23f05413b97",
+    "files": [
+      {
+        "dataset": "tuev",
+        "source_host": "145",
+        "source_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/legacy-triaxial-validation-20261105/checkpoint-archive/20261105-before-gpu02-stop/tuev-legacy-triaxial-identity-20261105/seed2/best.pt",
+        "local_path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/demod-cfc-readout-20261116/weights/demod-tuev.pt",
+        "sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d",
+        "size": 6536413,
+        "object_path": "objects/19/19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d.bin",
+        "seed": 2,
+        "model": "Demod-WE",
+        "architecture": "16bands,width128,6layerthree-axis,W+E,noPACrotation"
+      },
+      {
+        "dataset": "chbmit",
+        "source_host": "145",
+        "source_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/legacy-triaxial-validation-20261105/checkpoint-archive/20261105-before-gpu02-stop/chbmit-legacy-triaxial-identity-20261105/seed2/best.pt",
+        "local_path": "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/demod-cfc-readout-20261116/weights/demod-chbmit.pt",
+        "sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+        "size": 6534429,
+        "object_path": "objects/8b/8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f.bin",
+        "seed": 2,
+        "model": "Demod-WE",
+        "architecture": "16bands,width128,6layerthree-axis,W+E,noPACrotation"
+      }
+    ]
+  },
+  "results": [
+    {
+      "dataset": "tuev",
+      "job": {
+        "kind": "cfft",
+        "dataset": "tuev",
+        "seed": 2,
+        "initialization": "project_scratch",
+        "checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/legacy-triaxial-validation-20261105/checkpoint-archive/20261105-before-gpu02-stop/tuev-legacy-triaxial-identity-20261105/seed2/best.pt",
+        "checkpoint_sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d",
+        "archive": {
+          "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+          "object_path": "objects/19/19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d.bin",
+          "source_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/legacy-triaxial-validation-20261105/checkpoint-archive/20261105-before-gpu02-stop/tuev-legacy-triaxial-identity-20261105/seed2/best.pt"
+        },
+        "data_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/data/processed/tuev",
+        "targets_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/targets/tuev-X",
+        "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+        "out": "/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/tuev",
+        "vendor": "/data2/zz5070/CFM4EEG-rebuild-20261021/vendor/cfft",
+        "batch_size": 32,
+        "num_classes": 6,
+        "source_sha256": {},
+        "variant": "demodulation paper-bound W+E seed2;16bands,width128,depth6,three-axis,noPACrotation",
+        "protocol": "same fixed data/targets/ridge/mean pooling as released40comparison; retain tokenizer and validation-selected encoder endpoints; no EEG training",
+        "feature_family": "X",
+        "gamma_high": 45.0,
+        "model_label": "Demod-WE"
+      },
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/tuev/result.json",
+      "data_identity": {
+        "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+        "accepted_sha256": "820a25a6a84526b5f147c43f7637d78788f432bcca356194547d424925bcd45b",
+        "accepted_file_hashes": {
+          "manifest.json": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+          "train_signals.npy": "4241f596d5986087778268f375acc31d9411b53c0df1dc53329d72eb758d8a1b",
+          "train_labels.npy": "bf739cc5b6871625fc476abb57cdfb4520336fea941df54c9e6c7fbc95fd14b6",
+          "val_signals.npy": "e57196748963ba4b28f500c6cb01ef0e53fe7c30c38ac05a667ca21b94798c99",
+          "val_labels.npy": "e34d2c9c2bb8a08c4fc0c1b778d7ed96b6c872b3583a542d992ef200e51ec999",
+          "test_signals.npy": "c9e11284acda24934fe29d8546cf1768c633896f1db10c3b2ff37d706ba71fdb",
+          "test_labels.npy": "6bc8f46e2b244a71cb218f43803c9012f346702314c3a34555e28391a5532b4d"
+        }
+      },
+      "endpoints": [
+        {
+          "label": "tokenizer/X001_delta_beta",
+          "scope": "tokenizer",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.15027968833856373,
+          "test_raw_r2_by_summary": [
+            0.16371604941941442,
+            0.13594296466847067,
+            0.14422830239326512,
+            0.14145215030374125,
+            0.15422076928234874,
+            0.16211789396414222
+          ]
+        },
+        {
+          "label": "encoder_peak/X001_delta_beta",
+          "scope": "encoder_peak",
+          "feature": "X001_delta_beta",
+          "feature_index": 0,
+          "endpoint": "layer_01",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.7094200506723226,
+          "test_raw_r2_by_summary": [
+            0.7894166598707634,
+            0.5622421483724676,
+            0.7697796499920253,
+            0.7462944953744313,
+            0.7629799340319858,
+            0.625807416392263
+          ]
+        },
+        {
+          "label": "tokenizer/X002_theta_gamma",
+          "scope": "tokenizer",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.0,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 1.0861826647963943e-05
+          },
+          "test_r2": 0.05540563511731078,
+          "test_raw_r2_by_summary": [
+            0.05527312447628174,
+            0.07059727221678003,
+            0.029641860173420076,
+            0.05226129123548129,
+            0.04434885834983959,
+            0.08031140425206196
+          ]
+        },
+        {
+          "label": "encoder_peak/X002_theta_gamma",
+          "scope": "encoder_peak",
+          "feature": "X002_theta_gamma",
+          "feature_index": 1,
+          "endpoint": "layer_03",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.311100310326674,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.26239453324481915,
+          "test_raw_r2_by_summary": [
+            0.25674803679904523,
+            0.3498783393319176,
+            0.14854367059328755,
+            0.2095049858928928,
+            0.2243095978524945,
+            0.38538256899927736
+          ]
+        },
+        {
+          "label": "tokenizer/X003_alpha_gamma",
+          "scope": "tokenizer",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.08247325580084454,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 1.2404759335227222e-05
+          },
+          "test_r2": 0.09975946393638045,
+          "test_raw_r2_by_summary": [
+            0.13467010882665387,
+            0.03056142188078781,
+            0.13565413728807196,
+            0.12350544145349318,
+            0.1359503917964625,
+            0.03821528237281335
+          ]
+        },
+        {
+          "label": "encoder_peak/X003_alpha_gamma",
+          "scope": "encoder_peak",
+          "feature": "X003_alpha_gamma",
+          "feature_index": 2,
+          "endpoint": "layer_03",
+          "alpha": 100.0,
+          "alpha_index": 3,
+          "validation_r2": 0.29606167607415906,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.3822199398011925,
+          "test_raw_r2_by_summary": [
+            0.4952002700947963,
+            0.1910492909468573,
+            0.465904028151356,
+            0.48535029927397255,
+            0.4361085566892926,
+            0.21970719365087976
+          ]
+        },
+        {
+          "label": "tokenizer/X004_aac_theta_gamma",
+          "scope": "tokenizer",
+          "feature": "X004_aac_theta_gamma",
+          "feature_index": 3,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.010528087624851449,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 9.798111849275888e-07
+          },
+          "test_r2": 0.12647513245380163,
+          "test_raw_r2_by_summary": [
+            0.15842038859018281,
+            -0.0031587082712190018,
+            0.1451877946355543,
+            0.10889642645699926,
+            0.17411524292826774,
+            0.17223094211180567
+          ]
+        },
+        {
+          "label": "encoder_peak/X004_aac_theta_gamma",
+          "scope": "encoder_peak",
+          "feature": "X004_aac_theta_gamma",
+          "feature_index": 3,
+          "endpoint": "layer_06",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.27289334163849155,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.6131827265518324,
+          "test_raw_r2_by_summary": [
+            0.7759567481177332,
+            0.1139264143225488,
+            0.7469180379996508,
+            0.7256071434904016,
+            0.7335973751810655,
+            0.5830906401995946
+          ]
+        },
+        {
+          "label": "tokenizer/X005_aac_delta_gamma",
+          "scope": "tokenizer",
+          "feature": "X005_aac_delta_gamma",
+          "feature_index": 4,
+          "endpoint": "tokenizer",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.09211808944815675,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 1.567830162230166e-05
+          },
+          "test_r2": 0.1120321249225877,
+          "test_raw_r2_by_summary": [
+            0.14993942784213599,
+            -0.014383710949413153,
+            0.14343428540845737,
+            0.12995847939057414,
+            0.1486305088065687,
+            0.10023004808779001
+          ]
+        },
+        {
+          "label": "encoder_peak/X005_aac_delta_gamma",
+          "scope": "encoder_peak",
+          "feature": "X005_aac_delta_gamma",
+          "feature_index": 4,
+          "endpoint": "layer_05",
+          "alpha": 0.1,
+          "alpha_index": 0,
+          "validation_r2": 0.3504608710853247,
+          "validation_controls": {
+            "shuffled": 0.0,
+            "gaussian": 0.0
+          },
+          "test_r2": 0.5594160721222621,
+          "test_raw_r2_by_summary": [
+            0.7150997779276169,
+            0.12366600126472349,
+            0.6844528512897307,
+            0.6524931928520011,
+            0.6531784277476378,
+            0.5276061816518626
+          ]
+        }
+      ],
+      "independent_check": {
+        "status": "PASS",
+        "result_sha256": "640ab914a528a27e896c22480c66cf7d61f684a88809e50b7482dd679ce574a0",
+        "predictions_sha256": "b13eb0ef00b322083cc2602c8f75a85b056055579d298a401d36c700d5e1c2e7",
+        "test_targets_sha256": "94e3ec06cf2d16881917a505457f449b6cf3d1a42cbef18f986ed3971720ef0b",
+        "test_rows": 29421,
+        "all_endpoint_checks": [
+          {
+            "label": "tokenizer/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.15027968745487788,
+            "stored_r2": 0.15027968833856373,
+            "absolute_difference": 8.836858467198283e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.7094200509782952,
+            "stored_r2": 0.7094200506723226,
+            "absolute_difference": 3.059725806053848e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.7094200509782952,
+            "stored_r2": 0.7094200506723226,
+            "absolute_difference": 3.059725806053848e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.634315893722007,
+            "stored_r2": 0.6343158938867555,
+            "absolute_difference": 1.6474843711478115e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.6454207786247038,
+            "stored_r2": 0.6454207790898749,
+            "absolute_difference": 4.6517112384236725e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.6254453910349204,
+            "stored_r2": 0.625445391592414,
+            "absolute_difference": 5.57493606834214e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.6456970019413557,
+            "stored_r2": 0.6456970023323585,
+            "absolute_difference": 3.9100278570458613e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.5967694287898172,
+            "stored_r2": 0.5967694288807621,
+            "absolute_difference": 9.094491826289186e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.05540563528146155,
+            "stored_r2": 0.05540563511731078,
+            "absolute_difference": 1.6415076936615591e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.2623945334115269,
+            "stored_r2": 0.26239453324481915,
+            "absolute_difference": 1.6670775870863963e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.38173874874012387,
+            "stored_r2": 0.3817387486605783,
+            "absolute_difference": 7.95455923352506e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.11418535539729396,
+            "stored_r2": 0.11418535573944999,
+            "absolute_difference": 3.4215602573439696e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.2623945334115269,
+            "stored_r2": 0.26239453324481915,
+            "absolute_difference": 1.6670775870863963e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.33724350739178904,
+            "stored_r2": 0.3372435065394071,
+            "absolute_difference": 8.523819428063462e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.32278183640552843,
+            "stored_r2": 0.32278183587962417,
+            "absolute_difference": 5.259042645811007e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.37568841644402085,
+            "stored_r2": 0.3756884155809745,
+            "absolute_difference": 8.630463566028368e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.09975946496356101,
+            "stored_r2": 0.09975946393638045,
+            "absolute_difference": 1.027180562829244e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.38221993869087073,
+            "stored_r2": 0.3822199398011925,
+            "absolute_difference": 1.110321778963197e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.37460980330080096,
+            "stored_r2": 0.37460980328885635,
+            "absolute_difference": 1.1944611966185903e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.29237346369596795,
+            "stored_r2": 0.2923734640509123,
+            "absolute_difference": 3.5494435168814675e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.38221993869087073,
+            "stored_r2": 0.3822199398011925,
+            "absolute_difference": 1.110321778963197e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.4199351999138447,
+            "stored_r2": 0.4199351996138622,
+            "absolute_difference": 2.999824832983222e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.4259498232536259,
+            "stored_r2": 0.42594982470693493,
+            "absolute_difference": 1.4533090286761308e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.43110963416957765,
+            "stored_r2": 0.4311096347671454,
+            "absolute_difference": 5.975677730418738e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.1264751332865991,
+            "stored_r2": 0.12647513245380163,
+            "absolute_difference": 8.327974698740803e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.6131827256045519,
+            "stored_r2": 0.6131827265518324,
+            "absolute_difference": 9.472804762822307e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.6087827813932581,
+            "stored_r2": 0.6087827813060072,
+            "absolute_difference": 8.725098421535904e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.5787548099583151,
+            "stored_r2": 0.5787548098801683,
+            "absolute_difference": 7.814682234652537e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.5764667734095594,
+            "stored_r2": 0.5764667753366141,
+            "absolute_difference": 1.927054626982283e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.6172778231247468,
+            "stored_r2": 0.617277822663001,
+            "absolute_difference": 4.6174575274449126e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.6532283483360332,
+            "stored_r2": 0.6532283479426552,
+            "absolute_difference": 3.933779968434692e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.6131827256045519,
+            "stored_r2": 0.6131827265518324,
+            "absolute_difference": 9.472804762822307e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.11203212471456327,
+            "stored_r2": 0.1120321249225877,
+            "absolute_difference": 2.0802443101430868e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.5594160721960412,
+            "stored_r2": 0.5594160721222621,
+            "absolute_difference": 7.377909394534754e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.4143677092562688,
+            "stored_r2": 0.4143677078828793,
+            "absolute_difference": 1.3733895132261864e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.3257681789180674,
+            "stored_r2": 0.32576817915861983,
+            "absolute_difference": 2.405524113235913e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.4784286580957182,
+            "stored_r2": 0.4784286578838648,
+            "absolute_difference": 2.1185342369278715e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.5393683739454346,
+            "stored_r2": 0.5393683755877039,
+            "absolute_difference": 1.6422693205342398e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.5594160721960412,
+            "stored_r2": 0.5594160721222621,
+            "absolute_difference": 7.377909394534754e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.5140509830848995,
+            "stored_r2": 0.5140509837515701,
+            "absolute_difference": 6.666706076075002e-10,
+            "validation_only_selection_replayed": true
+          }
+        ],
+        "largest_r2_difference": 1.927054626982283e-09
+      },
+      "wall_time_sec": 339.62630460597575
+    }
+  ],
+  "rows": [
+    {
+      "dataset": "tuev",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "tokenizer",
+      "feature": "X001_delta_beta",
+      "r2": 0.15027968833856373,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 0.1,
+      "checkpoint_sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "tokenizer",
+      "feature": "X002_theta_gamma",
+      "r2": 0.05540563511731078,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 0.1,
+      "checkpoint_sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "tokenizer",
+      "feature": "X003_alpha_gamma",
+      "r2": 0.09975946393638045,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 0.1,
+      "checkpoint_sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "tokenizer",
+      "feature": "X004_aac_theta_gamma",
+      "r2": 0.12647513245380163,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 0.1,
+      "checkpoint_sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "tokenizer",
+      "feature": "X005_aac_delta_gamma",
+      "r2": 0.1120321249225877,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 0.1,
+      "checkpoint_sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "encoder_peak",
+      "feature": "X001_delta_beta",
+      "r2": 0.7094200506723226,
+      "status": "completed_verified",
+      "endpoint": "layer_01",
+      "alpha": 0.1,
+      "checkpoint_sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "encoder_peak",
+      "feature": "X002_theta_gamma",
+      "r2": 0.26239453324481915,
+      "status": "completed_verified",
+      "endpoint": "layer_03",
+      "alpha": 100.0,
+      "checkpoint_sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "encoder_peak",
+      "feature": "X003_alpha_gamma",
+      "r2": 0.3822199398011925,
+      "status": "completed_verified",
+      "endpoint": "layer_03",
+      "alpha": 100.0,
+      "checkpoint_sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "encoder_peak",
+      "feature": "X004_aac_theta_gamma",
+      "r2": 0.6131827265518324,
+      "status": "completed_verified",
+      "endpoint": "layer_06",
+      "alpha": 0.1,
+      "checkpoint_sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "encoder_peak",
+      "feature": "X005_aac_delta_gamma",
+      "r2": 0.5594160721222621,
+      "status": "completed_verified",
+      "endpoint": "layer_05",
+      "alpha": 0.1,
+      "checkpoint_sha256": "19ea0d5b1f72dbb0ed01d6adef7887cad41c648820e6c62585d7732aa838de7d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/tuev/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "tokenizer",
+      "feature": "X001_delta_beta",
+      "r2": "",
+      "status": "running",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "tokenizer",
+      "feature": "X002_theta_gamma",
+      "r2": "",
+      "status": "running",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "tokenizer",
+      "feature": "X003_alpha_gamma",
+      "r2": "",
+      "status": "running",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "tokenizer",
+      "feature": "X004_aac_theta_gamma",
+      "r2": "",
+      "status": "running",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "tokenizer",
+      "feature": "X005_aac_delta_gamma",
+      "r2": "",
+      "status": "running",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "encoder_peak",
+      "feature": "X001_delta_beta",
+      "r2": "",
+      "status": "running",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "encoder_peak",
+      "feature": "X002_theta_gamma",
+      "r2": "",
+      "status": "running",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "encoder_peak",
+      "feature": "X003_alpha_gamma",
+      "r2": "",
+      "status": "running",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "encoder_peak",
+      "feature": "X004_aac_theta_gamma",
+      "r2": "",
+      "status": "running",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "Demod-WE",
+      "seed": 2,
+      "scope": "encoder_peak",
+      "feature": "X005_aac_delta_gamma",
+      "r2": "",
+      "status": "running",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "8bc51f9e14c13e45c28ebf1c37004ce256b94942ea35cabfda592f279d79e31f",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/demod-cfc-readout-20261116/results/chbmit/result.json"
+    }
+  ]
+}
