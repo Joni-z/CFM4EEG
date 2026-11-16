@@ -25,3 +25,5 @@ TFM/CBraMod/LaBraM use released checkpoints; CfFT uses the fixed project scratch
 | Demod-WE | 0.104 → 0.158 | 0.074 → 0.176 | 0.000 → **0.037** | 0.232 | 0.186 |
 
 Sources: [encoder comparison](cfc-released-40-20261115.csv), [tokenizer PAC comparison](cfc-tokenizer-pac-20261116.csv), [Demod-WE readout](demod-cfc-readout-20261116.csv).
+
+The additional [official-pretrained, task-fine-tuned CBraMod/LaBraM readouts](finetuned-cfc-readout-20261116.md) are recorded separately; those checkpoints have target-task fine-tuning, unlike the general released-weight rows above.

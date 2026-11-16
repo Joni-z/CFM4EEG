@@ -1,0 +1,1806 @@
+{
+  "study": "finetuned_cfc_readout_20261116",
+  "status": "running",
+  "completed_cells": 20,
+  "pending_cells": 20,
+  "neural_training": false,
+  "readout_protocol": "Identical accepted shared16 arrays, five X-targets, global mean pooling, frozen backbone, ridge grid .1/1/10/100; train-only scaling and validation-only alpha/layer selection; negative per-summary R2 clipped then averaged. Tokenizer fixed endpoint; encoder per-feature validation-selected layer.",
+  "source_binding": {
+    "status": "verified",
+    "source": "/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2",
+    "source_archive_sha256": "f318737322835e72cf3a7375eab6b4b0b2b5dedfd29e0e7cebfd0459260943ab",
+    "checkpoints": [
+      {
+        "key": "cbramod-tuev",
+        "checkpoint_sha256": "9c8b1c17fc5057d6aa23f2375027068acc191afe916bb4ac6fb529359086192d",
+        "original_checkpoint_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/pretrained-20261025/runs/tuev-cbramod-pretrained-s0/epoch1_acc_0.59597_kappa_0.67688_f1_0.83045.pth",
+        "pretrained_sha256": "0792cb808c14e6b7a2bb2ce1dff379bc47bc54c49a779825bdfeb33bf8157178",
+        "adaptation": "Author task head and native input bridge; shared16 accepted cohort."
+      },
+      {
+        "key": "cbramod-chbmit",
+        "checkpoint_sha256": "ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5",
+        "original_checkpoint_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/pretrained-20261025/runs/chbmit-cbramod-pretrained-s0/epoch5_acc_0.65515_pr_0.16945_roc_0.76395.pth",
+        "pretrained_sha256": "0792cb808c14e6b7a2bb2ce1dff379bc47bc54c49a779825bdfeb33bf8157178",
+        "adaptation": "Author task head and native input bridge; shared16 accepted cohort."
+      },
+      {
+        "key": "labram-chbmit",
+        "checkpoint_sha256": "030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6",
+        "original_checkpoint_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/pretrained-20261025/runs/chbmit-labram-pretrained-s0/checkpoint-best.pth",
+        "pretrained_sha256": "7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c",
+        "adaptation": "Accepted corrected CHB16bipolar arrays; q95 inverse viafloat64sidecar restores physicaluV; nativeengine divides100. Sixteen named bipolar channels use distinct fresh native spatial slots1..16, not pretrained monopolar identities; CLS/time/remaining shared backbone weights pretrained. Original bipolar lookup121..136 exceeds released129-row pos_embed and cannot be used directly."
+      },
+      {
+        "key": "labram-tuev",
+        "checkpoint_sha256": "1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6",
+        "original_checkpoint_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/pretrained-20261025/runs/tuev-labram-shared16-pretrained-s0/checkpoint-best.pth",
+        "pretrained_sha256": "7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c",
+        "adaptation": "Accepted current shared16 TUEV cohort68445/15487/29421;16bipolar channels200Hz1000samples,storedphysicaluV/100. Bridge returnsphysicaluV,unchangednativeengine /100. Fresh16task-specific spatialslots1..16 preserve bipolar identities without claiming monopolar embeddings. Sharedcohortandtestwindows match the common baseline table."
+      }
+    ],
+    "metadata_sha256": "827e39e350e11a63f3ab14ab568df46fff2e696590dc6c1ea47a7995ff546465",
+    "all_neural_weights_frozen": true
+  },
+  "launch": {
+    "time": 1794803797.928191,
+    "workers": [
+      {
+        "key": "cbramod-tuev",
+        "gpu": 6,
+        "unit": "cfc-ft-cbramod-tuev-20261116",
+        "commands": [
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/profile-batch-v2.py /data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/jobs/cbramod-tuev.json",
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2/scripts/experiments/pac_real_eeg_probe.py /data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/jobs/cbramod-tuev.json --smoke",
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2/scripts/experiments/pac_real_eeg_probe.py /data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/jobs/cbramod-tuev.json"
+        ],
+        "log": "/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/logs/cbramod-tuev.log",
+        "checkpoint_sha256": "9c8b1c17fc5057d6aa23f2375027068acc191afe916bb4ac6fb529359086192d"
+      },
+      {
+        "key": "labram-tuev",
+        "gpu": 7,
+        "unit": "cfc-ft-labram-tuev-20261116",
+        "commands": [
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/profile-batch-v2.py /data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/jobs/labram-tuev.json",
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2/scripts/experiments/pac_real_eeg_probe.py /data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/jobs/labram-tuev.json --smoke",
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2/scripts/experiments/pac_real_eeg_probe.py /data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/jobs/labram-tuev.json"
+        ],
+        "log": "/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/logs/labram-tuev.log",
+        "checkpoint_sha256": "1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6"
+      },
+      {
+        "key": "cbramod-chbmit",
+        "gpu": 6,
+        "unit": "cfc-ft-cbramod-chbmit-20261116",
+        "commands": [
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/profile-batch-v2.py /data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/jobs/cbramod-chbmit.json",
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2/scripts/experiments/pac_real_eeg_probe.py /data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/jobs/cbramod-chbmit.json --smoke",
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2/scripts/experiments/pac_real_eeg_probe.py /data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/jobs/cbramod-chbmit.json"
+        ],
+        "log": "/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/logs/cbramod-chbmit.log",
+        "checkpoint_sha256": "ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5"
+      },
+      {
+        "key": "labram-chbmit",
+        "gpu": 7,
+        "unit": "cfc-ft-labram-chbmit-20261116",
+        "commands": [
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/profile-batch-v2.py /data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/jobs/labram-chbmit.json",
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2/scripts/experiments/pac_real_eeg_probe.py /data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/jobs/labram-chbmit.json --smoke",
+          "/data2/zz5070/CFM4EEG-rebuild-20261021/venv/bin/python /data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2/scripts/experiments/pac_real_eeg_probe.py /data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/jobs/labram-chbmit.json"
+        ],
+        "log": "/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/logs/labram-chbmit.log",
+        "checkpoint_sha256": "030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6"
+      }
+    ],
+    "limits": {
+      "CPU_per_worker": 1,
+      "host_memory_per_worker_GiB": 3,
+      "GPU_allocator_cap_per_worker_GiB": 6
+    },
+    "source": "/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/source-v2",
+    "all_existing_processes_preserved": true
+  },
+  "preflight": {
+    "cbramod-chbmit": {
+      "returncode": 0,
+      "stdout": "{\"status\": \"PASS\", \"checkpoint_sha256\": \"ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5\", \"strict_complete_state\": true, \"endpoints\": [\"tokenizer\", \"layer_01\", \"layer_02\", \"layer_03\", \"layer_04\", \"layer_05\", \"layer_06\", \"layer_07\", \"layer_08\", \"layer_09\", \"layer_10\", \"layer_11\", \"layer_12\"], \"all_parameters_frozen\": true, \"deterministic\": true}\n",
+      "stderr": ""
+    },
+    "cbramod-tuev": {
+      "returncode": 0,
+      "stdout": "{\"status\": \"PASS\", \"checkpoint_sha256\": \"9c8b1c17fc5057d6aa23f2375027068acc191afe916bb4ac6fb529359086192d\", \"strict_complete_state\": true, \"endpoints\": [\"tokenizer\", \"layer_01\", \"layer_02\", \"layer_03\", \"layer_04\", \"layer_05\", \"layer_06\", \"layer_07\", \"layer_08\", \"layer_09\", \"layer_10\", \"layer_11\", \"layer_12\"], \"all_parameters_frozen\": true, \"deterministic\": true}\n",
+      "stderr": ""
+    },
+    "labram-chbmit": {
+      "returncode": 0,
+      "stdout": "{\"status\": \"PASS\", \"checkpoint_sha256\": \"030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6\", \"strict_complete_state\": true, \"endpoints\": [\"tokenizer\", \"layer_01\", \"layer_02\", \"layer_03\", \"layer_04\", \"layer_05\", \"layer_06\", \"layer_07\", \"layer_08\", \"layer_09\", \"layer_10\", \"layer_11\", \"layer_12\"], \"all_parameters_frozen\": true, \"deterministic\": true}\n",
+      "stderr": ""
+    },
+    "labram-tuev": {
+      "returncode": 0,
+      "stdout": "{\"status\": \"PASS\", \"checkpoint_sha256\": \"1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6\", \"strict_complete_state\": true, \"endpoints\": [\"tokenizer\", \"layer_01\", \"layer_02\", \"layer_03\", \"layer_04\", \"layer_05\", \"layer_06\", \"layer_07\", \"layer_08\", \"layer_09\", \"layer_10\", \"layer_11\", \"layer_12\"], \"all_parameters_frozen\": true, \"deterministic\": true}\n",
+      "stderr": ""
+    }
+  },
+  "verified_results": [
+    {
+      "key": "labram-tuev",
+      "job": {
+        "kind": "labram",
+        "dataset": "tuev",
+        "seed": 0,
+        "initialization": "author_pretrained_finetuned",
+        "checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/hf-restored/tuev-labram-shared16-pretrained-s0.pth",
+        "checkpoint_sha256": "1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6",
+        "archive": {
+          "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+          "revision": "d1ea36b9eec8cede6d01735e957d8cd1c1cf506e",
+          "object_path": "objects/12/1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6.bin",
+          "source_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/pretrained-20261025/runs/tuev-labram-shared16-pretrained-s0/checkpoint-best.pth"
+        },
+        "data_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/data/processed/tuev",
+        "targets_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/targets/tuev-X",
+        "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+        "out": "/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-tuev",
+        "vendor": "/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/vendor/labram",
+        "batch_size": 32,
+        "num_classes": 6,
+        "source_sha256": {
+          "modeling_pretrain.py": "c5a013c9a220b14697556e12195a8bfb5ba29a79031fadffc545bea8bd463b6a",
+          "modeling_finetune.py": "7b3514c9a661ebd417a2dd9834a9f2fab0a2e518c8212c73ebebaaa165c29d88"
+        },
+        "variant": "Original official pretraining weights then target-task fine-tuning; selected original seed0 checkpoint.",
+        "protocol": "Unchanged global mean pooling, frozen neural weights, five X-targets, train-only ridge standardization and validation-only alpha/layer selection; preserve tokenizer+encoder endpoints.",
+        "feature_family": "X",
+        "gamma_high": 45.0,
+        "model_label": "labram-pretrained-finetuned",
+        "training_provenance": {
+          "original_checkpoint_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/pretrained-20261025/runs/tuev-labram-shared16-pretrained-s0/checkpoint-best.pth",
+          "pretrained_sha256": "7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c",
+          "metadata_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/live-metadata.json",
+          "adaptation": "Accepted current shared16 TUEV cohort68445/15487/29421;16bipolar channels200Hz1000samples,storedphysicaluV/100. Bridge returnsphysicaluV,unchangednativeengine /100. Fresh16task-specific spatialslots1..16 preserve bipolar identities without claiming monopolar embeddings. Sharedcohortandtestwindows match the common baseline table."
+        }
+      },
+      "data_identity": {
+        "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+        "accepted_sha256": "820a25a6a84526b5f147c43f7637d78788f432bcca356194547d424925bcd45b",
+        "accepted_file_hashes": {
+          "manifest.json": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+          "train_signals.npy": "4241f596d5986087778268f375acc31d9411b53c0df1dc53329d72eb758d8a1b",
+          "train_labels.npy": "bf739cc5b6871625fc476abb57cdfb4520336fea941df54c9e6c7fbc95fd14b6",
+          "val_signals.npy": "e57196748963ba4b28f500c6cb01ef0e53fe7c30c38ac05a667ca21b94798c99",
+          "val_labels.npy": "e34d2c9c2bb8a08c4fc0c1b778d7ed96b6c872b3583a542d992ef200e51ec999",
+          "test_signals.npy": "c9e11284acda24934fe29d8546cf1768c633896f1db10c3b2ff37d706ba71fdb",
+          "test_labels.npy": "6bc8f46e2b244a71cb218f43803c9012f346702314c3a34555e28391a5532b4d"
+        }
+      },
+      "wall_time_sec": 75.75548237375915,
+      "independent_check": {
+        "status": "PASS",
+        "result_sha256": "2ab8dd892314b43c6e3507293d64033789d8b7cfa328dea332cf36da7fcf8528",
+        "predictions_sha256": "08457910127c96c17b3504dc47dd3d5d590aa6241e5618fe185697b4b68e34ab",
+        "test_targets_sha256": "94e3ec06cf2d16881917a505457f449b6cf3d1a42cbef18f986ed3971720ef0b",
+        "test_rows": 29421,
+        "all_endpoint_checks": [
+          {
+            "label": "tokenizer/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.08668073071492165,
+            "stored_r2": 0.08668072984752943,
+            "absolute_difference": 8.673922136104295e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.3122494545273715,
+            "stored_r2": 0.31224945471694004,
+            "absolute_difference": 1.8956852754214992e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.3122494545273715,
+            "stored_r2": 0.31224945471694004,
+            "absolute_difference": 1.8956852754214992e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.28201741977980804,
+            "stored_r2": 0.282017419513217,
+            "absolute_difference": 2.665910270316374e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.3181404579759856,
+            "stored_r2": 0.31814045783368544,
+            "absolute_difference": 1.4230017164607034e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.31545810749635234,
+            "stored_r2": 0.31545810834520677,
+            "absolute_difference": 8.488544311902047e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.35993292441183167,
+            "stored_r2": 0.3599329246748244,
+            "absolute_difference": 2.6299273869767603e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.3859053757656586,
+            "stored_r2": 0.38590537530301044,
+            "absolute_difference": 4.626481420189066e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_07/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.4023416979727228,
+            "stored_r2": 0.40234169766181843,
+            "absolute_difference": 3.1090435781422343e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_08/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.47706581810948373,
+            "stored_r2": 0.4770658174136196,
+            "absolute_difference": 6.958641440846236e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_09/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.441697231463142,
+            "stored_r2": 0.4416972322627652,
+            "absolute_difference": 7.996232009865878e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_10/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.3704230982373962,
+            "stored_r2": 0.3704230983782233,
+            "absolute_difference": 1.4082707222584645e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_11/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.3998384933789669,
+            "stored_r2": 0.399838494257214,
+            "absolute_difference": 8.782471416779458e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_12/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.32367693484488574,
+            "stored_r2": 0.32367693601925357,
+            "absolute_difference": 1.174367825207412e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.011219242943411756,
+            "stored_r2": 0.01121924283758946,
+            "absolute_difference": 1.0582229537092758e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.2062403595071074,
+            "stored_r2": 0.20624036038986507,
+            "absolute_difference": 8.827576725156661e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.22130928365415156,
+            "stored_r2": 0.22130928346039602,
+            "absolute_difference": 1.937555393904944e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.18665450179508758,
+            "stored_r2": 0.18665450216245527,
+            "absolute_difference": 3.67367691822551e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.16734193199725353,
+            "stored_r2": 0.16734193186562898,
+            "absolute_difference": 1.31624544597031e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.22085616904035243,
+            "stored_r2": 0.22085616852940435,
+            "absolute_difference": 5.109480893938922e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.28119743886799337,
+            "stored_r2": 0.28119743884326326,
+            "absolute_difference": 2.47301068512229e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.2364135093285221,
+            "stored_r2": 0.23641350886556203,
+            "absolute_difference": 4.62960059177675e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_07/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.1786299253770918,
+            "stored_r2": 0.17862992550781231,
+            "absolute_difference": 1.3072051774365434e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_08/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.26231269848102473,
+            "stored_r2": 0.26231269869331003,
+            "absolute_difference": 2.1228530044936633e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_09/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.3413397069829629,
+            "stored_r2": 0.3413397067430027,
+            "absolute_difference": 2.3996021836225623e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_10/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.32652868487169956,
+            "stored_r2": 0.3265286828030792,
+            "absolute_difference": 2.068620386097564e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_11/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.27348760271550615,
+            "stored_r2": 0.2734876023986889,
+            "absolute_difference": 3.168172391099233e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_12/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.2062403595071074,
+            "stored_r2": 0.20624036038986507,
+            "absolute_difference": 8.827576725156661e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.025164735088185303,
+            "stored_r2": 0.025164735124732756,
+            "absolute_difference": 3.654745256431724e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.22612040502679806,
+            "stored_r2": 0.22612040439866102,
+            "absolute_difference": 6.281370423799615e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.21937293411815162,
+            "stored_r2": 0.21937293372521757,
+            "absolute_difference": 3.929340464114972e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.224265760853921,
+            "stored_r2": 0.22426576092374118,
+            "absolute_difference": 6.982017741741231e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.18842621566635645,
+            "stored_r2": 0.18842621642655824,
+            "absolute_difference": 7.602017904062564e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.1965664206836798,
+            "stored_r2": 0.19656642169664015,
+            "absolute_difference": 1.0129603544850596e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.25586322061335603,
+            "stored_r2": 0.25586322132377654,
+            "absolute_difference": 7.10420500205089e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.2535879823070017,
+            "stored_r2": 0.2535879817935192,
+            "absolute_difference": 5.134824787589309e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_07/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.22612040502679806,
+            "stored_r2": 0.22612040439866102,
+            "absolute_difference": 6.281370423799615e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_08/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.3114153505653719,
+            "stored_r2": 0.3114153512224461,
+            "absolute_difference": 6.57074228360699e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_09/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.2996763797499504,
+            "stored_r2": 0.2996763808463752,
+            "absolute_difference": 1.0964248398082077e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_10/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.2776710922367975,
+            "stored_r2": 0.2776710919315622,
+            "absolute_difference": 3.052352814947312e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_11/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.25682640739161927,
+            "stored_r2": 0.2568264081267686,
+            "absolute_difference": 7.351493302998335e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_12/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.17423531733618472,
+            "stored_r2": 0.1742353184361952,
+            "absolute_difference": 1.1000104715996883e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.08054773861365433,
+            "stored_r2": 0.08054773947612427,
+            "absolute_difference": 8.624699426862392e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.43084325367423393,
+            "stored_r2": 0.43084325379195004,
+            "absolute_difference": 1.1771611463373688e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.3401701158648938,
+            "stored_r2": 0.34017011611903136,
+            "absolute_difference": 2.5413754434211455e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.34144534896987394,
+            "stored_r2": 0.34144534936227267,
+            "absolute_difference": 3.9239872462459857e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.34280360735581183,
+            "stored_r2": 0.3428036082085137,
+            "absolute_difference": 8.527018535708919e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.3614988200890341,
+            "stored_r2": 0.3614988203526323,
+            "absolute_difference": 2.6359819882415536e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.3979838631786472,
+            "stored_r2": 0.39798386251014944,
+            "absolute_difference": 6.68497757150277e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.4358506461988878,
+            "stored_r2": 0.43585064719442496,
+            "absolute_difference": 9.955371527148316e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_07/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.4649667846099355,
+            "stored_r2": 0.4649667832382258,
+            "absolute_difference": 1.3717096902787773e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_08/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.4890415400000498,
+            "stored_r2": 0.48904154199335537,
+            "absolute_difference": 1.9933055761534035e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_09/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.47914445839818964,
+            "stored_r2": 0.4791444573490798,
+            "absolute_difference": 1.0491098545450939e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_10/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.4086667376071706,
+            "stored_r2": 0.40866673789111063,
+            "absolute_difference": 2.8394003814824487e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_11/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.43084325367423393,
+            "stored_r2": 0.43084325379195004,
+            "absolute_difference": 1.1771611463373688e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_12/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.30396104320963174,
+            "stored_r2": 0.3039610428115193,
+            "absolute_difference": 3.981124319096807e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.00606257005904635,
+            "stored_r2": 0.0060625693571900174,
+            "absolute_difference": 7.018563326008365e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.3826885168989831,
+            "stored_r2": 0.382688517530515,
+            "absolute_difference": 6.315319378558115e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.19383921632134513,
+            "stored_r2": 0.1938392169027466,
+            "absolute_difference": 5.814014825133995e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.25145179152347596,
+            "stored_r2": 0.25145179137593976,
+            "absolute_difference": 1.475362054748075e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.20263083723740438,
+            "stored_r2": 0.20263083730762002,
+            "absolute_difference": 7.021563885878379e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.2077138303772643,
+            "stored_r2": 0.20771382854566736,
+            "absolute_difference": 1.831596929680046e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.32330193362567855,
+            "stored_r2": 0.3233019326663605,
+            "absolute_difference": 9.59318069426729e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.3731867166586631,
+            "stored_r2": 0.37318671641551565,
+            "absolute_difference": 2.4314744662135013e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_07/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.3826885168989831,
+            "stored_r2": 0.382688517530515,
+            "absolute_difference": 6.315319378558115e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_08/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.39717904365909457,
+            "stored_r2": 0.3971790437310865,
+            "absolute_difference": 7.19919124314572e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_09/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.3647234343849172,
+            "stored_r2": 0.3647234353491417,
+            "absolute_difference": 9.642244780394549e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_10/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.3207620619576411,
+            "stored_r2": 0.32076206055105033,
+            "absolute_difference": 1.406590788288753e-09,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_11/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.3638850544085222,
+            "stored_r2": 0.363885053736735,
+            "absolute_difference": 6.717871814387877e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_12/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.2230076793923604,
+            "stored_r2": 0.22300768095958176,
+            "absolute_difference": 1.5672213526940482e-09,
+            "validation_only_selection_replayed": true
+          }
+        ],
+        "largest_r2_difference": 2.068620386097564e-09
+      }
+    },
+    {
+      "key": "labram-chbmit",
+      "job": {
+        "kind": "labram",
+        "dataset": "chbmit",
+        "seed": 0,
+        "initialization": "author_pretrained_finetuned",
+        "checkpoint": "/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/hf-restored/chbmit-labram-pretrained-s0.pth",
+        "checkpoint_sha256": "030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6",
+        "archive": {
+          "repo": "JoniZz/CFM4EEG-checkpoint-archive",
+          "revision": "d1ea36b9eec8cede6d01735e957d8cd1c1cf506e",
+          "object_path": "objects/03/030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6.bin",
+          "source_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/pretrained-20261025/runs/chbmit-labram-pretrained-s0/checkpoint-best.pth"
+        },
+        "data_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/data/processed/chbmit",
+        "targets_root": "/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/targets/chbmit-X",
+        "manifest_sha256": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+        "out": "/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-chbmit",
+        "vendor": "/data2/zz5070/CFM4EEG-rebuild-20261021/cfc-released-40-20261115/vendor/labram",
+        "batch_size": 32,
+        "num_classes": 1,
+        "source_sha256": {
+          "modeling_pretrain.py": "c5a013c9a220b14697556e12195a8bfb5ba29a79031fadffc545bea8bd463b6a",
+          "modeling_finetune.py": "7b3514c9a661ebd417a2dd9834a9f2fab0a2e518c8212c73ebebaaa165c29d88"
+        },
+        "variant": "Original official pretraining weights then target-task fine-tuning; selected original seed0 checkpoint.",
+        "protocol": "Unchanged global mean pooling, frozen neural weights, five X-targets, train-only ridge standardization and validation-only alpha/layer selection; preserve tokenizer+encoder endpoints.",
+        "feature_family": "X",
+        "gamma_high": 45.0,
+        "model_label": "labram-pretrained-finetuned",
+        "training_provenance": {
+          "original_checkpoint_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/pretrained-20261025/runs/chbmit-labram-pretrained-s0/checkpoint-best.pth",
+          "pretrained_sha256": "7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c",
+          "metadata_path": "/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/live-metadata.json",
+          "adaptation": "Accepted corrected CHB16bipolar arrays; q95 inverse viafloat64sidecar restores physicaluV; nativeengine divides100. Sixteen named bipolar channels use distinct fresh native spatial slots1..16, not pretrained monopolar identities; CLS/time/remaining shared backbone weights pretrained. Original bipolar lookup121..136 exceeds released129-row pos_embed and cannot be used directly."
+        }
+      },
+      "data_identity": {
+        "manifest_sha256": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+        "accepted_sha256": "863e397120eb3894f0332a3ebaf40ffdd225e157ab52e190f12a351f4c6ac124",
+        "accepted_file_hashes": {
+          "test_labels.npy": "ae8af62e7bc513afeb0832bc32884ea70a08fdbc6f9db8c070eb2da49ed7fd6b",
+          "test_provenance.jsonl": "a8da42962473d16490ea421abd364c1aaa771be4c6989b2619722bba1fa13c12",
+          "test_q95_denominators.npy": "d31e5c3619c4eade789eba2ed26039e1780f37552f8e40ccc576df64d0dbf0e0",
+          "test_signals.npy": "d3565bca8f95ef1e83fc5f6e1c1665b253e6cd377356e253e540c7407a0c2fbc",
+          "train_labels.npy": "5d2ca941b45080afaab94e05c3bf31bea54e98e35e112bbcc2b01f9d998a55d8",
+          "train_provenance.jsonl": "267bade03974c5ebdd71c37529a057b5bc75250c9c23123b6b43051640da94ef",
+          "train_q95_denominators.npy": "3741e51b87a524864acbabcc9db8a3876f825502ef0c78886b847240d555c1ba",
+          "train_signals.npy": "b753ab5e06606cffc232400ac40fe00f2f0de1938b5cd061cb2ec6f6141c4223",
+          "val_labels.npy": "74a5b8d5c468d105545912af9c5632e588d58f4f9ef828c4bfb3d559e428de7e",
+          "val_provenance.jsonl": "b8544de8a89979d84b8bcefc0cf64fdec934b71c063320360db79291a20fe114",
+          "val_q95_denominators.npy": "afaf22198823e446e002c16c67ea9b8516dabf71507a223f0f619a6905c49702",
+          "val_signals.npy": "d78f8265759456ed13586b1c5168118c43e8f4b591f15f0633f6f29ea5961ec4",
+          "manifest.json": "f914c074e9f7ab165fed5b27919cbbe9dbd12c5a3e0faf36756bb2bd87672567",
+          "BUILD.json": "5c4280df5e40bd945844aa69820ecdb814795af3ba617fca57ee2d89f174a26f",
+          "READY.json": "2f1a729c8fa8c13d4f075a839084dbd9334fae3768b2525c459c16cf6586c4c4"
+        }
+      },
+      "wall_time_sec": 361.5128169003874,
+      "independent_check": {
+        "status": "PASS",
+        "result_sha256": "1a5c8b8a9a61b7d5b46c9de76d26ceafb3880f2aa6e69f02715f839f3b8bb5ca",
+        "predictions_sha256": "559e250e5071eda2054b0f6fe54a864319b55c75a5288a645c7e8ad3979c9e4a",
+        "test_targets_sha256": "ef4a5a33ff2ef30a7bfdb43c32b3b9ec093dc3c441fb6a1415bae70e48134de6",
+        "test_rows": 17224,
+        "all_endpoint_checks": [
+          {
+            "label": "tokenizer/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.11379590549069614,
+            "stored_r2": 0.11379590523143025,
+            "absolute_difference": 2.592658865374631e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.18312017962600005,
+            "stored_r2": 0.183120178813859,
+            "absolute_difference": 8.121410488559633e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.18312017962600005,
+            "stored_r2": 0.183120178813859,
+            "absolute_difference": 8.121410488559633e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.1794440995818428,
+            "stored_r2": 0.1794440996375263,
+            "absolute_difference": 5.568351335583088e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.14993981120491512,
+            "stored_r2": 0.1499398111147485,
+            "absolute_difference": 9.016662416705401e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.18720030145871158,
+            "stored_r2": 0.18720030154381787,
+            "absolute_difference": 8.510628313196378e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.17441472980875336,
+            "stored_r2": 0.17441472984626313,
+            "absolute_difference": 3.7509773065380614e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.13924106414856038,
+            "stored_r2": 0.13924106470475986,
+            "absolute_difference": 5.561994753655597e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_07/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.13251954123714668,
+            "stored_r2": 0.13251954123179185,
+            "absolute_difference": 5.354827692372055e-12,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_08/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.1179349132457555,
+            "stored_r2": 0.11793491374421032,
+            "absolute_difference": 4.984548190867244e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_09/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.16245921854481643,
+            "stored_r2": 0.16245921936680005,
+            "absolute_difference": 8.219836200584751e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_10/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.13254962812494261,
+            "stored_r2": 0.13254962773168916,
+            "absolute_difference": 3.9325345757568186e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_11/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.12021548559315454,
+            "stored_r2": 0.12021548572470374,
+            "absolute_difference": 1.3154920208702237e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_12/X001_delta_beta",
+            "sklearn_clipped_mean_r2": 0.1020315569645812,
+            "stored_r2": 0.10203155675901031,
+            "absolute_difference": 2.055708936410383e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.05802262881990039,
+            "stored_r2": 0.05802262937775776,
+            "absolute_difference": 5.578573714082324e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.0855861440223426,
+            "stored_r2": 0.08558614427634875,
+            "absolute_difference": 2.5400614944715016e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.10361506629554519,
+            "stored_r2": 0.10361506697765337,
+            "absolute_difference": 6.821081754981861e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.0855861440223426,
+            "stored_r2": 0.08558614427634875,
+            "absolute_difference": 2.5400614944715016e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.10746988082262239,
+            "stored_r2": 0.10746988130864671,
+            "absolute_difference": 4.860243180138113e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.12299708986224221,
+            "stored_r2": 0.12299708959358052,
+            "absolute_difference": 2.6866169011707797e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.15955359974907482,
+            "stored_r2": 0.15955359990237836,
+            "absolute_difference": 1.5330353653197903e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.1528469552137346,
+            "stored_r2": 0.15284695524933958,
+            "absolute_difference": 3.560499117760685e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_07/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.16891169739081166,
+            "stored_r2": 0.16891169679814055,
+            "absolute_difference": 5.926711066361889e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_08/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.14478013125828784,
+            "stored_r2": 0.14478013113669574,
+            "absolute_difference": 1.215920975017326e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_09/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.1665429465629423,
+            "stored_r2": 0.1665429461104706,
+            "absolute_difference": 4.524716989973143e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_10/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.1412480703089288,
+            "stored_r2": 0.14124807070119844,
+            "absolute_difference": 3.922696334424103e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_11/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.12019542073964269,
+            "stored_r2": 0.12019542020202612,
+            "absolute_difference": 5.376165762571716e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_12/X002_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.12375678549417125,
+            "stored_r2": 0.1237567859137101,
+            "absolute_difference": 4.1953884810652653e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_07/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_08/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_09/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_10/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_11/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_12/X003_alpha_gamma",
+            "sklearn_clipped_mean_r2": 0.0,
+            "stored_r2": 0.0,
+            "absolute_difference": 0.0,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.08909551941905659,
+            "stored_r2": 0.08909551969508316,
+            "absolute_difference": 2.7602656271774606e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.09721214046077574,
+            "stored_r2": 0.09721213982503407,
+            "absolute_difference": 6.357416676427974e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.09721214046077574,
+            "stored_r2": 0.09721213982503407,
+            "absolute_difference": 6.357416676427974e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.1078790628011258,
+            "stored_r2": 0.10787906311159945,
+            "absolute_difference": 3.104736467918201e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.08731417392297845,
+            "stored_r2": 0.08731417436850523,
+            "absolute_difference": 4.455267821334985e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.10883832596573913,
+            "stored_r2": 0.10883832531565818,
+            "absolute_difference": 6.500809474063729e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.10267018719691713,
+            "stored_r2": 0.10267018735957763,
+            "absolute_difference": 1.6266049618351985e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.13488194349991622,
+            "stored_r2": 0.13488194337463633,
+            "absolute_difference": 1.2527989756705438e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_07/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.14716057531023077,
+            "stored_r2": 0.14716057561861837,
+            "absolute_difference": 3.0838759323970066e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_08/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.17021839476169087,
+            "stored_r2": 0.17021839505507572,
+            "absolute_difference": 2.9338484419660915e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_09/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.1421797828686212,
+            "stored_r2": 0.1421797832741422,
+            "absolute_difference": 4.055210056641556e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_10/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.11831842347730093,
+            "stored_r2": 0.11831842324560993,
+            "absolute_difference": 2.316909997190919e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_11/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.10565327847209573,
+            "stored_r2": 0.10565327832456389,
+            "absolute_difference": 1.4753183397164804e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_12/X004_aac_theta_gamma",
+            "sklearn_clipped_mean_r2": 0.11184677670840287,
+            "stored_r2": 0.11184677710861139,
+            "absolute_difference": 4.002085191023852e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "tokenizer/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.051297923765251406,
+            "stored_r2": 0.05129792363763499,
+            "absolute_difference": 1.2761641743352925e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "encoder_peak/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.04870495156503829,
+            "stored_r2": 0.04870495150868739,
+            "absolute_difference": 5.6350903110402584e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_01/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.05027390882990342,
+            "stored_r2": 0.0502739086437643,
+            "absolute_difference": 1.8613912494691576e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_02/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.05611065774504668,
+            "stored_r2": 0.056110657411653754,
+            "absolute_difference": 3.3339292437872814e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_03/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.03989297939041503,
+            "stored_r2": 0.039892979521928496,
+            "absolute_difference": 1.3151346678341724e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_04/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.03849202828970427,
+            "stored_r2": 0.03849202855296411,
+            "absolute_difference": 2.6325983754071913e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_05/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.05085401102114682,
+            "stored_r2": 0.050854011031716294,
+            "absolute_difference": 1.0569475850097376e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_06/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.04843406945699086,
+            "stored_r2": 0.048434069784840716,
+            "absolute_difference": 3.278498583725309e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_07/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.04870495156503829,
+            "stored_r2": 0.04870495150868739,
+            "absolute_difference": 5.6350903110402584e-11,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_08/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.0479358826682252,
+            "stored_r2": 0.04793588299626297,
+            "absolute_difference": 3.280377636194487e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_09/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.05265068029203185,
+            "stored_r2": 0.052650680133646356,
+            "absolute_difference": 1.5838549222157994e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_10/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.04458715762224217,
+            "stored_r2": 0.044587157504827724,
+            "absolute_difference": 1.174144462212645e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_11/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.0389280824356986,
+            "stored_r2": 0.038928082084422645,
+            "absolute_difference": 3.512759527701803e-10,
+            "validation_only_selection_replayed": true
+          },
+          {
+            "label": "family_layer/layer_12/X005_aac_delta_gamma",
+            "sklearn_clipped_mean_r2": 0.03917186178241444,
+            "stored_r2": 0.039171861433163,
+            "absolute_difference": 3.4925144026809463e-10,
+            "validation_only_selection_replayed": true
+          }
+        ],
+        "largest_r2_difference": 8.219836200584751e-10
+      }
+    }
+  ],
+  "recovery_launch": [],
+  "rows": [
+    {
+      "dataset": "tuev",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X001_delta_beta",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "9c8b1c17fc5057d6aa23f2375027068acc191afe916bb4ac6fb529359086192d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X002_theta_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "9c8b1c17fc5057d6aa23f2375027068acc191afe916bb4ac6fb529359086192d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X003_alpha_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "9c8b1c17fc5057d6aa23f2375027068acc191afe916bb4ac6fb529359086192d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X004_aac_theta_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "9c8b1c17fc5057d6aa23f2375027068acc191afe916bb4ac6fb529359086192d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X005_aac_delta_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "9c8b1c17fc5057d6aa23f2375027068acc191afe916bb4ac6fb529359086192d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X001_delta_beta",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "9c8b1c17fc5057d6aa23f2375027068acc191afe916bb4ac6fb529359086192d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X002_theta_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "9c8b1c17fc5057d6aa23f2375027068acc191afe916bb4ac6fb529359086192d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X003_alpha_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "9c8b1c17fc5057d6aa23f2375027068acc191afe916bb4ac6fb529359086192d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X004_aac_theta_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "9c8b1c17fc5057d6aa23f2375027068acc191afe916bb4ac6fb529359086192d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X005_aac_delta_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "9c8b1c17fc5057d6aa23f2375027068acc191afe916bb4ac6fb529359086192d",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X001_delta_beta",
+      "r2": 0.08668072984752943,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 0.1,
+      "checkpoint_sha256": "1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X002_theta_gamma",
+      "r2": 0.01121924283758946,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 0.1,
+      "checkpoint_sha256": "1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X003_alpha_gamma",
+      "r2": 0.025164735124732756,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 0.1,
+      "checkpoint_sha256": "1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X004_aac_theta_gamma",
+      "r2": 0.08054773947612427,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 100.0,
+      "checkpoint_sha256": "1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X005_aac_delta_gamma",
+      "r2": 0.0060625693571900174,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 100.0,
+      "checkpoint_sha256": "1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X001_delta_beta",
+      "r2": 0.31224945471694004,
+      "status": "completed_verified",
+      "endpoint": "layer_01",
+      "alpha": 0.1,
+      "checkpoint_sha256": "1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X002_theta_gamma",
+      "r2": 0.20624036038986507,
+      "status": "completed_verified",
+      "endpoint": "layer_12",
+      "alpha": 100.0,
+      "checkpoint_sha256": "1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X003_alpha_gamma",
+      "r2": 0.22612040439866102,
+      "status": "completed_verified",
+      "endpoint": "layer_07",
+      "alpha": 100.0,
+      "checkpoint_sha256": "1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X004_aac_theta_gamma",
+      "r2": 0.43084325379195004,
+      "status": "completed_verified",
+      "endpoint": "layer_11",
+      "alpha": 100.0,
+      "checkpoint_sha256": "1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-tuev/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X005_aac_delta_gamma",
+      "r2": 0.382688517530515,
+      "status": "completed_verified",
+      "endpoint": "layer_07",
+      "alpha": 100.0,
+      "checkpoint_sha256": "1251a0cbca4086a07e9c5f761e00cc3eab393d5b3a20ae4f260cb3bcb05ec9e6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-tuev/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X001_delta_beta",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X002_theta_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X003_alpha_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X004_aac_theta_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X005_aac_delta_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X001_delta_beta",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X002_theta_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X003_alpha_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X004_aac_theta_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "cbramod",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X005_aac_delta_gamma",
+      "r2": "",
+      "status": "waiting_for_shared_GPU_headroom",
+      "endpoint": "",
+      "alpha": "",
+      "checkpoint_sha256": "ae1cad19392afeaefb7498f88bb20edcafbe9be09fe4025e5e0ec701cf63f2f5",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/cbramod-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X001_delta_beta",
+      "r2": 0.11379590523143025,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 100.0,
+      "checkpoint_sha256": "030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X002_theta_gamma",
+      "r2": 0.05802262937775776,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 1.0,
+      "checkpoint_sha256": "030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X003_alpha_gamma",
+      "r2": 0.0,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 100.0,
+      "checkpoint_sha256": "030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X004_aac_theta_gamma",
+      "r2": 0.08909551969508316,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 10.0,
+      "checkpoint_sha256": "030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "tokenizer",
+      "feature": "X005_aac_delta_gamma",
+      "r2": 0.05129792363763499,
+      "status": "completed_verified",
+      "endpoint": "tokenizer",
+      "alpha": 100.0,
+      "checkpoint_sha256": "030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X001_delta_beta",
+      "r2": 0.183120178813859,
+      "status": "completed_verified",
+      "endpoint": "layer_01",
+      "alpha": 100.0,
+      "checkpoint_sha256": "030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X002_theta_gamma",
+      "r2": 0.08558614427634875,
+      "status": "completed_verified",
+      "endpoint": "layer_02",
+      "alpha": 10.0,
+      "checkpoint_sha256": "030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X003_alpha_gamma",
+      "r2": 0.0,
+      "status": "completed_verified",
+      "endpoint": "layer_01",
+      "alpha": 100.0,
+      "checkpoint_sha256": "030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X004_aac_theta_gamma",
+      "r2": 0.09721213982503407,
+      "status": "completed_verified",
+      "endpoint": "layer_01",
+      "alpha": 100.0,
+      "checkpoint_sha256": "030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-chbmit/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "model": "labram",
+      "initialization": "official_pretraining_then_task_finetuning",
+      "seed": 0,
+      "scope": "encoder_peak",
+      "feature": "X005_aac_delta_gamma",
+      "r2": 0.04870495150868739,
+      "status": "completed_verified",
+      "endpoint": "layer_07",
+      "alpha": 100.0,
+      "checkpoint_sha256": "030d2fa5726d35f1b15d18113da727d1d433dce66097d43ff9a016d03638e7d6",
+      "source_ref": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/finetuned-cfc-readout-20261116/results/labram-chbmit/result.json"
+    }
+  ]
+}

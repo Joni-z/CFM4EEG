@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-11-16T02:51:07.447892+08:00",
+  "updated_at": "2026-11-16T12:44:09.028268+08:00",
   "historical_unique_results": 2681,
   "clinical_records": 2684,
   "model_versions": 268,
-  "study_and_trial_records": 377,
-  "trial_rows": 296,
+  "study_and_trial_records": 397,
+  "trial_rows": 316,
   "checkpoint_locations": 1953,
   "conflict_rows": 154,
   "conflict_groups": 93,
@@ -36,7 +36,7 @@
     "tusz": 211,
     "tusz_type": 6
   },
-  "input_files": 549,
+  "input_files": 550,
   "input_hashes": {
     "/Users/mr.z/CFM4EEG/.local/legacy/experiments/raw-results-deduplicated.jsonl": "2b88344367d241d6d75306acb7bba7d3db28d133ef925142a43535f5d5b1b717",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/original-cfft-pac-readout-20261102/full-token/scores.json": "870f761d780350819f5d6814381a8125a98b8f5970209c1ecb5be823551a33f3",
@@ -523,6 +523,7 @@
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-slides-eval-20261113/collected/real-results/own/result.json": "fff73adcddee40ac94069f1b0015816f535dd1b98bbdfffd487800362713d0ae",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-slides-eval-20261113/collected/real-results/own/selection.json": "5b8e21b285c0c31c248638858fa867bebc40c239545e9cba58110937faf0e789",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-slides-eval-20261113/collected/real-results/own/progress.json": "cc93a10d3cd82ca36c8cf4b2195f049aa85d2a6c876a43f97d300184f850b1ab",
+    "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/finetuned-cfc-readout-20261116/results.tsv": "3ded6f385bb963fefd2033d46227de563f5b24cba66f2141c4aa6c7a91b868ba",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/cell-audit-tracker-20261022/artifacts/eegpt-tuev23/seed0-train/provenance.json": "25382d43952cb509e4b58c4ed06c5f4f19949a239e4d6688a906d7b3317eeeec",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/cell-audit-tracker-20261022/artifacts/eegpt-tuev23/seed0-train/result.json": "12a5dd70fa15eff22c036a69fddc9f94d0957d512255568337e7c3811a0211b5",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/cell-audit-tracker-20261022/artifacts/training/native-labram/chbmit-seed0/provenance.json": "9f21d804518aff6586e711f6ab61c8875850d71488eda193c23dfbdf19c4c74a",
