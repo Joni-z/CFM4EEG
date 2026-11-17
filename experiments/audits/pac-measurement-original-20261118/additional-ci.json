@@ -1,0 +1,261 @@
+{
+  "bootstrap_realizations": 100,
+  "bootstrap_draws": 500,
+  "summary": [
+    {
+      "pair": "delta_beta",
+      "noise": "clean",
+      "strength_spearman_ci95": [
+        0.7647777409915181,
+        0.8162605037977756
+      ],
+      "detection_auroc_ci95": [
+        0.5083353515625,
+        0.5443485546875
+      ],
+      "reference_minus_native_AUC": 0.3869484375000001,
+      "reference_minus_native_AUC_ci95": [
+        0.3659746875,
+        0.4081827343750001
+      ]
+    },
+    {
+      "pair": "delta_beta",
+      "noise": "10dB",
+      "strength_spearman_ci95": [
+        0.7680343659924661,
+        0.8166820373572622
+      ],
+      "detection_auroc_ci95": [
+        0.488598984375,
+        0.533117109375
+      ],
+      "reference_minus_native_AUC": 0.39622187499999995,
+      "reference_minus_native_AUC_ci95": [
+        0.370988828125,
+        0.4205733203125
+      ]
+    },
+    {
+      "pair": "delta_beta",
+      "noise": "0dB",
+      "strength_spearman_ci95": [
+        0.6370411890680782,
+        0.6979123151084029
+      ],
+      "detection_auroc_ci95": [
+        0.4421405078125,
+        0.5221525
+      ],
+      "reference_minus_native_AUC": 0.3716499999999999,
+      "reference_minus_native_AUC_ci95": [
+        0.3329512109375001,
+        0.4143132421875
+      ]
+    },
+    {
+      "pair": "theta_gamma",
+      "noise": "clean",
+      "strength_spearman_ci95": [
+        0.968246518957869,
+        0.9682471889785356
+      ],
+      "detection_auroc_ci95": [
+        0.6554037109375,
+        0.6667171093750001
+      ],
+      "reference_minus_native_AUC": 0.32185624999999995,
+      "reference_minus_native_AUC_ci95": [
+        0.31358781249999995,
+        0.3297373828125
+      ]
+    },
+    {
+      "pair": "theta_gamma",
+      "noise": "10dB",
+      "strength_spearman_ci95": [
+        0.9682465249148628,
+        0.9682471668525138
+      ],
+      "detection_auroc_ci95": [
+        0.6524513671875,
+        0.6666339453125
+      ],
+      "reference_minus_native_AUC": 0.3254656250000001,
+      "reference_minus_native_AUC_ci95": [
+        0.31670878906250005,
+        0.33366261718750007
+      ]
+    },
+    {
+      "pair": "theta_gamma",
+      "noise": "0dB",
+      "strength_spearman_ci95": [
+        0.955337304056957,
+        0.9623988987427304
+      ],
+      "detection_auroc_ci95": [
+        0.61505453125,
+        0.6501185546875
+      ],
+      "reference_minus_native_AUC": 0.33162499999999995,
+      "reference_minus_native_AUC_ci95": [
+        0.3150553515625001,
+        0.35154578125
+      ]
+    },
+    {
+      "pair": "alpha_gamma",
+      "noise": "clean",
+      "strength_spearman_ci95": [
+        0.8688363828818422,
+        0.9220896733522912
+      ],
+      "detection_auroc_ci95": [
+        0.6236399609375,
+        0.67855796875
+      ],
+      "reference_minus_native_AUC": 0.33525312499999993,
+      "reference_minus_native_AUC_ci95": [
+        0.3125333984375,
+        0.36096230468749996
+      ]
+    },
+    {
+      "pair": "alpha_gamma",
+      "noise": "10dB",
+      "strength_spearman_ci95": [
+        0.8682315602038618,
+        0.9208028173337932
+      ],
+      "detection_auroc_ci95": [
+        0.6196866796875,
+        0.6762130859375
+      ],
+      "reference_minus_native_AUC": 0.33951718750000004,
+      "reference_minus_native_AUC_ci95": [
+        0.31331441406250005,
+        0.36412839843749994
+      ]
+    },
+    {
+      "pair": "alpha_gamma",
+      "noise": "0dB",
+      "strength_spearman_ci95": [
+        0.8416121092085552,
+        0.9032373322563507
+      ],
+      "detection_auroc_ci95": [
+        0.591858671875,
+        0.65739953125
+      ],
+      "reference_minus_native_AUC": 0.34791562500000006,
+      "reference_minus_native_AUC_ci95": [
+        0.31858546875,
+        0.37774105468749997
+      ]
+    },
+    {
+      "pair": "boundary_0p5",
+      "noise": "clean",
+      "strength_spearman_ci95": [
+        0.9623197802722555,
+        0.9661971191015644
+      ],
+      "detection_auroc_ci95": [
+        0.4846359765625,
+        0.52739453125
+      ],
+      "reference_minus_native_AUC": 0.25830624999999996,
+      "reference_minus_native_AUC_ci95": [
+        0.22342796875,
+        0.2903242578125
+      ]
+    },
+    {
+      "pair": "boundary_0p5",
+      "noise": "10dB",
+      "strength_spearman_ci95": [
+        0.8836987728874364,
+        0.9101957533719467
+      ],
+      "detection_auroc_ci95": [
+        0.43126101562499997,
+        0.490359609375
+      ],
+      "reference_minus_native_AUC": 0.29414375000000015,
+      "reference_minus_native_AUC_ci95": [
+        0.25132781249999997,
+        0.3374873046875
+      ]
+    },
+    {
+      "pair": "boundary_0p5",
+      "noise": "0dB",
+      "strength_spearman_ci95": [
+        0.31954484023065616,
+        0.42001315963873653
+      ],
+      "detection_auroc_ci95": [
+        0.3895246484375,
+        0.5285299609374999
+      ],
+      "reference_minus_native_AUC": 0.22314687499999997,
+      "reference_minus_native_AUC_ci95": [
+        0.14454457031249998,
+        0.307880703125
+      ]
+    },
+    {
+      "pair": "boundary_1",
+      "noise": "clean",
+      "strength_spearman_ci95": [
+        0.9500362657410223,
+        0.9616524804113139
+      ],
+      "detection_auroc_ci95": [
+        0.5565393750000001,
+        0.5975161328124999
+      ],
+      "reference_minus_native_AUC": 0.28834531250000006,
+      "reference_minus_native_AUC_ci95": [
+        0.26076417968750004,
+        0.31880625
+      ]
+    },
+    {
+      "pair": "boundary_1",
+      "noise": "10dB",
+      "strength_spearman_ci95": [
+        0.9439818349744544,
+        0.9552354684826927
+      ],
+      "detection_auroc_ci95": [
+        0.5283101953125,
+        0.57253640625
+      ],
+      "reference_minus_native_AUC": 0.3118781249999999,
+      "reference_minus_native_AUC_ci95": [
+        0.28555238281250006,
+        0.3401201953125
+      ]
+    },
+    {
+      "pair": "boundary_1",
+      "noise": "0dB",
+      "strength_spearman_ci95": [
+        0.5323636138050298,
+        0.6302289849986942
+      ],
+      "detection_auroc_ci95": [
+        0.4828562890625,
+        0.5822489453124999
+      ],
+      "reference_minus_native_AUC": 0.2806484375,
+      "reference_minus_native_AUC_ci95": [
+        0.22761164062500006,
+        0.33763734375
+      ]
+    }
+  ]
+}

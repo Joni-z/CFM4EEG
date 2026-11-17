@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "recordings": 34500,
+  "conditions": 30,
+  "aggregation_max_absolute_error": 1.1102230246251565e-16,
+  "independent_waveform_witnesses": 30,
+  "numpy_scipy_max_depth_error": 6.897578350151257e-08,
+  "numpy_scipy_max_phase_MAE_difference_deg": 7.252992853068463e-05,
+  "numpy_scipy_max_complex_Z_mean_error": 4.365920849559379e-07,
+  "initial_and_final_native_outputs_identical": true,
+  "model_checkpoint_unchanged": true,
+  "source_unchanged": true,
+  "no_tokens_or_probe": true,
+  "statistical_unit": "independent realization; depth/phase repetitions cluster together",
+  "verifier_sha256": "568852f030482dda60ae18f82a861428db9433534aa37b856f5dde855b88de7a"
+}

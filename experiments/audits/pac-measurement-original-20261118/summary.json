@@ -1,0 +1,1245 @@
+{
+  "study": "original_cfft_known_pac_measurement_20261118",
+  "status": "completed",
+  "evidence_type": "synthetic_measurement",
+  "created_at": "2026-11-18T00:31:13.979635+08:00",
+  "neural_training": false,
+  "device": "cpu",
+  "records": 34500,
+  "wall_seconds": 25.818658291827887,
+  "summary": [
+    {
+      "pair": "delta_beta",
+      "noise": "clean",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.569375,
+      "localization_ci95": [
+        0.526875,
+        0.611875
+      ],
+      "strength_spearman": 0.790869405298729,
+      "phase_mae_deg": 27.368150312155485,
+      "phase_mae_ci95": [
+        26.279057504821566,
+        28.345853012751785
+      ],
+      "recording_phase_mae_deg": 22.103105046541895,
+      "complex_depth_vector_mae": 0.31134964732540443,
+      "mean_estimated_depth": {
+        "0.2": 0.10677629900630564,
+        "0.4": 0.20928222711198033,
+        "0.6": 0.3067001715861261,
+        "0.8": 0.39269103430211544
+      },
+      "detection_auroc": 0.5262484375,
+      "null_threshold": 0.4332803189754485,
+      "false_positive_rate": 0.02,
+      "false_positive_ci95": [
+        0.0075,
+        0.035
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.13625,
+      "oracle_phase_mae_deg": 26.636859131157397,
+      "oracle_depth_mae": 0.1449878564234823,
+      "reference_recording_dpac_auroc": 0.9131968750000001,
+      "reference_recording_dpac_phase_mae_deg": 0.8830996216346375
+    },
+    {
+      "pair": "delta_beta",
+      "noise": "clean",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.111875,
+      "localization_ci95": [
+        0.07125,
+        0.159375
+      ],
+      "strength_spearman": 0.7492178818897955,
+      "phase_mae_deg": 26.832393559366466,
+      "phase_mae_ci95": [
+        25.486525681268425,
+        28.133395505197345
+      ],
+      "recording_phase_mae_deg": 24.862677470970667,
+      "complex_depth_vector_mae": 0.30818217125365693,
+      "mean_estimated_depth": {
+        "0.2": 0.10689802132546902,
+        "0.4": 0.2114516355935484,
+        "0.6": 0.30995967077091335,
+        "0.8": 0.39615840269252656
+      },
+      "detection_auroc": 0.5280078125000001,
+      "null_threshold": 0.445256969332695,
+      "false_positive_rate": 0.0275,
+      "false_positive_ci95": [
+        0.0125,
+        0.045
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.141875,
+      "oracle_phase_mae_deg": 26.78435144096613,
+      "oracle_depth_mae": 0.14473662055889147,
+      "reference_recording_dpac_auroc": 0.9131968750000001,
+      "reference_recording_dpac_phase_mae_deg": 0.8830996216346375
+    },
+    {
+      "pair": "delta_beta",
+      "noise": "10dB",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.344375,
+      "localization_ci95": [
+        0.323125,
+        0.3675
+      ],
+      "strength_spearman": 0.7913498973889638,
+      "phase_mae_deg": 32.28177162796259,
+      "phase_mae_ci95": [
+        31.712619848422708,
+        32.84294361659139
+      ],
+      "recording_phase_mae_deg": 22.63514790746034,
+      "complex_depth_vector_mae": 0.32680660734017125,
+      "mean_estimated_depth": {
+        "0.2": 0.12284892874769866,
+        "0.4": 0.2151579785719514,
+        "0.6": 0.3080596372298896,
+        "0.8": 0.38965792156755924
+      },
+      "detection_auroc": 0.5106328125,
+      "null_threshold": 0.43021004796028134,
+      "false_positive_rate": 0.025,
+      "false_positive_ci95": [
+        0.0125,
+        0.0425
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.135625,
+      "oracle_phase_mae_deg": 26.636859131157397,
+      "oracle_depth_mae": 0.1449878564234823,
+      "reference_recording_dpac_auroc": 0.9068546875,
+      "reference_recording_dpac_phase_mae_deg": 3.9820654529006423
+    },
+    {
+      "pair": "delta_beta",
+      "noise": "10dB",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.3525,
+      "localization_ci95": [
+        0.330625,
+        0.374375
+      ],
+      "strength_spearman": 0.7483476707742315,
+      "phase_mae_deg": 31.731536429822444,
+      "phase_mae_ci95": [
+        31.041446735173466,
+        32.40365085864067
+      ],
+      "recording_phase_mae_deg": 25.087185249946778,
+      "complex_depth_vector_mae": 0.3241037142739424,
+      "mean_estimated_depth": {
+        "0.2": 0.1225901395548135,
+        "0.4": 0.21706376677379013,
+        "0.6": 0.3111375599913299,
+        "0.8": 0.39292112801223994
+      },
+      "detection_auroc": 0.5110015625000001,
+      "null_threshold": 0.44958137273788445,
+      "false_positive_rate": 0.015,
+      "false_positive_ci95": [
+        0.005,
+        0.0275
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.1225,
+      "oracle_phase_mae_deg": 26.78435144096613,
+      "oracle_depth_mae": 0.14473662055889147,
+      "reference_recording_dpac_auroc": 0.9068546875,
+      "reference_recording_dpac_phase_mae_deg": 3.9820654529006423
+    },
+    {
+      "pair": "delta_beta",
+      "noise": "0dB",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.054375,
+      "localization_ci95": [
+        0.040625,
+        0.069375
+      ],
+      "strength_spearman": 0.6632884677273193,
+      "phase_mae_deg": 54.991686265468594,
+      "phase_mae_ci95": [
+        54.07494458600878,
+        55.88298487696051
+      ],
+      "recording_phase_mae_deg": 27.548244787356815,
+      "complex_depth_vector_mae": 0.4183648758933684,
+      "mean_estimated_depth": {
+        "0.2": 0.22535727739334108,
+        "0.4": 0.26966897428035735,
+        "0.6": 0.32302871216088536,
+        "0.8": 0.3704905465245247
+      },
+      "detection_auroc": 0.48476093750000004,
+      "null_threshold": 0.4070668667554855,
+      "false_positive_rate": 0.05,
+      "false_positive_ci95": [
+        0.0275,
+        0.0775
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.118125,
+      "oracle_phase_mae_deg": 26.636859131157397,
+      "oracle_depth_mae": 0.1449878564234823,
+      "reference_recording_dpac_auroc": 0.8564109375,
+      "reference_recording_dpac_phase_mae_deg": 14.195964671582916
+    },
+    {
+      "pair": "delta_beta",
+      "noise": "0dB",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.06375,
+      "localization_ci95": [
+        0.046875,
+        0.081875
+      ],
+      "strength_spearman": 0.5975530347375654,
+      "phase_mae_deg": 54.62019117474556,
+      "phase_mae_ci95": [
+        53.46988759785891,
+        55.841783783391115
+      ],
+      "recording_phase_mae_deg": 31.02439191554673,
+      "complex_depth_vector_mae": 0.41625991539701834,
+      "mean_estimated_depth": {
+        "0.2": 0.22452546736225487,
+        "0.4": 0.2701177518442273,
+        "0.6": 0.32391655776649714,
+        "0.8": 0.3712977220490575
+      },
+      "detection_auroc": 0.47812656249999996,
+      "null_threshold": 0.4107641637325286,
+      "false_positive_rate": 0.065,
+      "false_positive_ci95": [
+        0.0375,
+        0.0925
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.1375,
+      "oracle_phase_mae_deg": 26.78435144096613,
+      "oracle_depth_mae": 0.14473662055889147,
+      "reference_recording_dpac_auroc": 0.8564109375,
+      "reference_recording_dpac_phase_mae_deg": 14.195964671582916
+    },
+    {
+      "pair": "theta_gamma",
+      "noise": "clean",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.753125,
+      "localization_ci95": [
+        0.750625,
+        0.75625
+      ],
+      "strength_spearman": 0.9682460256624246,
+      "phase_mae_deg": 3.2208881751447915,
+      "phase_mae_ci95": [
+        3.1185080005154013,
+        3.3215287880720568
+      ],
+      "recording_phase_mae_deg": 0.8564136445871554,
+      "complex_depth_vector_mae": 0.27141777614737367,
+      "mean_estimated_depth": {
+        "0.2": 0.09571272676810622,
+        "0.4": 0.18882749244570732,
+        "0.6": 0.2781922173500061,
+        "0.8": 0.36182835899293425
+      },
+      "detection_auroc": 0.6611281250000001,
+      "null_threshold": 0.2891811981797218,
+      "false_positive_rate": 0.045,
+      "false_positive_ci95": [
+        0.0275,
+        0.065
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.258125,
+      "oracle_phase_mae_deg": 1.6420766442175954,
+      "oracle_depth_mae": 0.017912453033030046,
+      "reference_recording_dpac_auroc": 0.982984375,
+      "reference_recording_dpac_phase_mae_deg": 0.5684036637085638
+    },
+    {
+      "pair": "theta_gamma",
+      "noise": "clean",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.74875,
+      "localization_ci95": [
+        0.746875,
+        0.75
+      ],
+      "strength_spearman": 0.9682460263715895,
+      "phase_mae_deg": 1.6766721882950515,
+      "phase_mae_ci95": [
+        1.5395652386969887,
+        1.8146799024913927
+      ],
+      "recording_phase_mae_deg": 0.875496171667637,
+      "complex_depth_vector_mae": 0.2695055420473483,
+      "mean_estimated_depth": {
+        "0.2": 0.09524732645601035,
+        "0.4": 0.18852556869387627,
+        "0.6": 0.27790175557136537,
+        "0.8": 0.3615124401450157
+      },
+      "detection_auroc": 0.663678125,
+      "null_threshold": 0.2979114294052124,
+      "false_positive_rate": 0.0525,
+      "false_positive_ci95": [
+        0.0325,
+        0.0725
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.25,
+      "oracle_phase_mae_deg": 1.6512434221617878,
+      "oracle_depth_mae": 0.01796230112947525,
+      "reference_recording_dpac_auroc": 0.982984375,
+      "reference_recording_dpac_phase_mae_deg": 0.5684036637085638
+    },
+    {
+      "pair": "theta_gamma",
+      "noise": "10dB",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.428125,
+      "localization_ci95": [
+        0.401875,
+        0.4525
+      ],
+      "strength_spearman": 0.9682460256624246,
+      "phase_mae_deg": 10.965553784668446,
+      "phase_mae_ci95": [
+        10.700787697322665,
+        11.227674493305386
+      ],
+      "recording_phase_mae_deg": 2.5641322533444986,
+      "complex_depth_vector_mae": 0.2771152392379204,
+      "mean_estimated_depth": {
+        "0.2": 0.10087802173569799,
+        "0.4": 0.19088221568614244,
+        "0.6": 0.2789764155447483,
+        "0.8": 0.361663551107049
+      },
+      "detection_auroc": 0.6595734375,
+      "null_threshold": 0.29574860781431195,
+      "false_positive_rate": 0.0475,
+      "false_positive_ci95": [
+        0.03,
+        0.0675
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.259375,
+      "oracle_phase_mae_deg": 1.6420766442175954,
+      "oracle_depth_mae": 0.017912453033030046,
+      "reference_recording_dpac_auroc": 0.9850390625000001,
+      "reference_recording_dpac_phase_mae_deg": 2.368686807047088
+    },
+    {
+      "pair": "theta_gamma",
+      "noise": "10dB",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.505625,
+      "localization_ci95": [
+        0.475,
+        0.53625
+      ],
+      "strength_spearman": 0.9682460256624246,
+      "phase_mae_deg": 10.018434091210365,
+      "phase_mae_ci95": [
+        9.752354764346032,
+        10.317619415700436
+      ],
+      "recording_phase_mae_deg": 3.351476496576506,
+      "complex_depth_vector_mae": 0.27520056266496795,
+      "mean_estimated_depth": {
+        "0.2": 0.10049302810803055,
+        "0.4": 0.190652665682137,
+        "0.6": 0.278763568662107,
+        "0.8": 0.36144237525761125
+      },
+      "detection_auroc": 0.6595703125,
+      "null_threshold": 0.30081777721643443,
+      "false_positive_rate": 0.05,
+      "false_positive_ci95": [
+        0.0325,
+        0.07
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.2575,
+      "oracle_phase_mae_deg": 1.6512434221617878,
+      "oracle_depth_mae": 0.01796230112947525,
+      "reference_recording_dpac_auroc": 0.9850390625000001,
+      "reference_recording_dpac_phase_mae_deg": 2.368686807047088
+    },
+    {
+      "pair": "theta_gamma",
+      "noise": "0dB",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.0,
+      "localization_ci95": [
+        0.0,
+        0.0
+      ],
+      "strength_spearman": 0.959162667634179,
+      "phase_mae_deg": 33.352812814116476,
+      "phase_mae_ci95": [
+        32.60217006748915,
+        34.21777980729938
+      ],
+      "recording_phase_mae_deg": 8.151264388720692,
+      "complex_depth_vector_mae": 0.3248677599234757,
+      "mean_estimated_depth": {
+        "0.2": 0.1494067246094346,
+        "0.4": 0.21167670249938964,
+        "0.6": 0.2860694659873843,
+        "0.8": 0.3589655812829733
+      },
+      "detection_auroc": 0.6341359375000001,
+      "null_threshold": 0.3181681334972381,
+      "false_positive_rate": 0.04,
+      "false_positive_ci95": [
+        0.0225,
+        0.06
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.25875,
+      "oracle_phase_mae_deg": 1.6420766442175954,
+      "oracle_depth_mae": 0.017912453033030046,
+      "reference_recording_dpac_auroc": 0.9657609375,
+      "reference_recording_dpac_phase_mae_deg": 7.782712878866587
+    },
+    {
+      "pair": "theta_gamma",
+      "noise": "0dB",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.0,
+      "localization_ci95": [
+        0.0,
+        0.0
+      ],
+      "strength_spearman": 0.9362684903573909,
+      "phase_mae_deg": 32.91961619257927,
+      "phase_mae_ci95": [
+        31.99490219807625,
+        33.90437534829974
+      ],
+      "recording_phase_mae_deg": 10.685884019774093,
+      "complex_depth_vector_mae": 0.3234524472215442,
+      "mean_estimated_depth": {
+        "0.2": 0.14990534849464893,
+        "0.4": 0.21202179487794637,
+        "0.6": 0.2862405366078019,
+        "0.8": 0.35908909790217874
+      },
+      "detection_auroc": 0.6377203124999999,
+      "null_threshold": 0.3201036363840102,
+      "false_positive_rate": 0.0575,
+      "false_positive_ci95": [
+        0.035,
+        0.0775
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.260625,
+      "oracle_phase_mae_deg": 1.6512434221617878,
+      "oracle_depth_mae": 0.01796230112947525,
+      "reference_recording_dpac_auroc": 0.9657609375,
+      "reference_recording_dpac_phase_mae_deg": 7.782712878866587
+    },
+    {
+      "pair": "alpha_gamma",
+      "noise": "clean",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.545625,
+      "localization_ci95": [
+        0.497484375,
+        0.589375
+      ],
+      "strength_spearman": 0.8948227192289109,
+      "phase_mae_deg": 2.5929875371232627,
+      "phase_mae_ci95": [
+        2.4348733764751813,
+        2.7490964292124844
+      ],
+      "recording_phase_mae_deg": 1.1350523063284572,
+      "complex_depth_vector_mae": 0.3077253585394314,
+      "mean_estimated_depth": {
+        "0.2": 0.08063511849381029,
+        "0.4": 0.15749626681208612,
+        "0.6": 0.23278666472062468,
+        "0.8": 0.30491835460066796
+      },
+      "detection_auroc": 0.651784375,
+      "null_threshold": 0.25595834553241725,
+      "false_positive_rate": 0.0325,
+      "false_positive_ci95": [
+        0.0175,
+        0.05
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.29875,
+      "oracle_phase_mae_deg": 0.7819342461362249,
+      "oracle_depth_mae": 0.0063399104978889365,
+      "reference_recording_dpac_auroc": 0.9870374999999999,
+      "reference_recording_dpac_phase_mae_deg": 1.1518928867355134
+    },
+    {
+      "pair": "alpha_gamma",
+      "noise": "clean",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.799375,
+      "localization_ci95": [
+        0.7643593750000001,
+        0.835
+      ],
+      "strength_spearman": 0.8873684351388423,
+      "phase_mae_deg": 0.8089430267224088,
+      "phase_mae_ci95": [
+        0.7162447405047715,
+        0.8992993476393166
+      ],
+      "recording_phase_mae_deg": 0.22524179050275023,
+      "complex_depth_vector_mae": 0.3078172013688447,
+      "mean_estimated_depth": {
+        "0.2": 0.07861493744887411,
+        "0.4": 0.15607195267453788,
+        "0.6": 0.23123640287667513,
+        "0.8": 0.30301772851496933
+      },
+      "detection_auroc": 0.647784375,
+      "null_threshold": 0.2650042220950126,
+      "false_positive_rate": 0.0325,
+      "false_positive_ci95": [
+        0.0175,
+        0.05
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.26375,
+      "oracle_phase_mae_deg": 0.7755817218072479,
+      "oracle_depth_mae": 0.006442023944109691,
+      "reference_recording_dpac_auroc": 0.9870374999999999,
+      "reference_recording_dpac_phase_mae_deg": 1.1518928867355134
+    },
+    {
+      "pair": "alpha_gamma",
+      "noise": "10dB",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.07625,
+      "localization_ci95": [
+        0.04875,
+        0.10625
+      ],
+      "strength_spearman": 0.8935567375503572,
+      "phase_mae_deg": 9.678200656026602,
+      "phase_mae_ci95": [
+        9.25658593704179,
+        10.143126862235366
+      ],
+      "recording_phase_mae_deg": 2.110255591629011,
+      "complex_depth_vector_mae": 0.3104541660786015,
+      "mean_estimated_depth": {
+        "0.2": 0.08389100599102677,
+        "0.4": 0.15877869073301554,
+        "0.6": 0.23324877362698315,
+        "0.8": 0.3047376685217023
+      },
+      "detection_auroc": 0.6464953125,
+      "null_threshold": 0.26092812716960906,
+      "false_positive_rate": 0.03,
+      "false_positive_ci95": [
+        0.015,
+        0.0475
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.279375,
+      "oracle_phase_mae_deg": 0.7819342461362249,
+      "oracle_depth_mae": 0.0063399104978889365,
+      "reference_recording_dpac_auroc": 0.9860125000000001,
+      "reference_recording_dpac_phase_mae_deg": 2.1048515140375823
+    },
+    {
+      "pair": "alpha_gamma",
+      "noise": "10dB",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.085,
+      "localization_ci95": [
+        0.055625,
+        0.118125
+      ],
+      "strength_spearman": 0.8858664434915335,
+      "phase_mae_deg": 8.383813048154115,
+      "phase_mae_ci95": [
+        7.971878408633172,
+        8.828342154268174
+      ],
+      "recording_phase_mae_deg": 2.162600481574627,
+      "complex_depth_vector_mae": 0.3103452864448298,
+      "mean_estimated_depth": {
+        "0.2": 0.08181497144512832,
+        "0.4": 0.15742282217368483,
+        "0.6": 0.23182444734498858,
+        "0.8": 0.303018366061151
+      },
+      "detection_auroc": 0.643890625,
+      "null_threshold": 0.26172840893268584,
+      "false_positive_rate": 0.0475,
+      "false_positive_ci95": [
+        0.0275,
+        0.0675
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.27625,
+      "oracle_phase_mae_deg": 0.7755817218072479,
+      "oracle_depth_mae": 0.006442023944109691,
+      "reference_recording_dpac_auroc": 0.9860125000000001,
+      "reference_recording_dpac_phase_mae_deg": 2.1048515140375823
+    },
+    {
+      "pair": "alpha_gamma",
+      "noise": "0dB",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.0,
+      "localization_ci95": [
+        0.0,
+        0.0
+      ],
+      "strength_spearman": 0.8729343075112798,
+      "phase_mae_deg": 28.71447603404522,
+      "phase_mae_ci95": [
+        27.68621512566507,
+        29.822054487586023
+      ],
+      "recording_phase_mae_deg": 5.860409811801073,
+      "complex_depth_vector_mae": 0.3352752290787418,
+      "mean_estimated_depth": {
+        "0.2": 0.11443491596728564,
+        "0.4": 0.17120335295796393,
+        "0.6": 0.23686407707631588,
+        "0.8": 0.30162613932043314
+      },
+      "detection_auroc": 0.6253109375,
+      "null_threshold": 0.2603877574205398,
+      "false_positive_rate": 0.045,
+      "false_positive_ci95": [
+        0.0275,
+        0.065
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.285625,
+      "oracle_phase_mae_deg": 0.7819342461362249,
+      "oracle_depth_mae": 0.0063399104978889365,
+      "reference_recording_dpac_auroc": 0.9732265625000001,
+      "reference_recording_dpac_phase_mae_deg": 5.782844304348255
+    },
+    {
+      "pair": "alpha_gamma",
+      "noise": "0dB",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.0,
+      "localization_ci95": [
+        0.0,
+        0.0
+      ],
+      "strength_spearman": 0.8572329885254879,
+      "phase_mae_deg": 27.958507152199743,
+      "phase_mae_ci95": [
+        26.77107586297393,
+        29.20995141752064
+      ],
+      "recording_phase_mae_deg": 7.1421924750070325,
+      "complex_depth_vector_mae": 0.3342103040707194,
+      "mean_estimated_depth": {
+        "0.2": 0.11241618217900395,
+        "0.4": 0.16967406265437604,
+        "0.6": 0.23543352054432035,
+        "0.8": 0.30003268776461484
+      },
+      "detection_auroc": 0.62172578125,
+      "null_threshold": 0.26278986930847165,
+      "false_positive_rate": 0.06,
+      "false_positive_ci95": [
+        0.0375,
+        0.0825
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.275,
+      "oracle_phase_mae_deg": 0.7755817218072479,
+      "oracle_depth_mae": 0.006442023944109691,
+      "reference_recording_dpac_auroc": 0.9732265625000001,
+      "reference_recording_dpac_phase_mae_deg": 5.782844304348255
+    },
+    {
+      "pair": "boundary_0p5",
+      "noise": "clean",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.0,
+      "localization_ci95": [
+        0.0,
+        0.0
+      ],
+      "strength_spearman": 0.9644674455472769,
+      "phase_mae_deg": 45.07748705863953,
+      "phase_mae_ci95": [
+        44.71334434437752,
+        45.41493768322468
+      ],
+      "recording_phase_mae_deg": 6.846012300027069,
+      "complex_depth_vector_mae": 0.4751164075689337,
+      "mean_estimated_depth": {
+        "0.2": 0.014766822757665068,
+        "0.4": 0.02739346166141331,
+        "0.6": 0.042749247467145327,
+        "0.8": 0.06402698891237378
+      },
+      "detection_auroc": 0.5049484375000001,
+      "null_threshold": 0.07188840471208094,
+      "false_positive_rate": 0.0425,
+      "false_positive_ci95": [
+        0.025,
+        0.0625
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.048125,
+      "oracle_phase_mae_deg": 42.796019096374515,
+      "oracle_depth_mae": 0.46249386076000526,
+      "reference_recording_dpac_auroc": 0.7632546875,
+      "reference_recording_dpac_phase_mae_deg": 1.1776546255009988
+    },
+    {
+      "pair": "boundary_0p5",
+      "noise": "clean",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.13625,
+      "localization_ci95": [
+        0.10623437499999999,
+        0.1675
+      ],
+      "strength_spearman": 0.9678998777082504,
+      "phase_mae_deg": 42.91479895353317,
+      "phase_mae_ci95": [
+        42.52611616283655,
+        43.26661580443382
+      ],
+      "recording_phase_mae_deg": 0.690486880732924,
+      "complex_depth_vector_mae": 0.4744270571779421,
+      "mean_estimated_depth": {
+        "0.2": 0.012211637499276548,
+        "0.4": 0.025349863236770034,
+        "0.6": 0.040823541888967155,
+        "0.8": 0.061819809786975384
+      },
+      "detection_auroc": 0.526278125,
+      "null_threshold": 0.07055489383637906,
+      "false_positive_rate": 0.0325,
+      "false_positive_ci95": [
+        0.0175,
+        0.05
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.04,
+      "oracle_phase_mae_deg": 42.85735019445419,
+      "oracle_depth_mae": 0.4625002371822485,
+      "reference_recording_dpac_auroc": 0.7632546875,
+      "reference_recording_dpac_phase_mae_deg": 1.1776546255009988
+    },
+    {
+      "pair": "boundary_0p5",
+      "noise": "10dB",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.0,
+      "localization_ci95": [
+        0.0,
+        0.0
+      ],
+      "strength_spearman": 0.8969334955648549,
+      "phase_mae_deg": 56.80978796243667,
+      "phase_mae_ci95": [
+        56.11934071409702,
+        57.4501281542182
+      ],
+      "recording_phase_mae_deg": 13.94978576239344,
+      "complex_depth_vector_mae": 0.4771486998084559,
+      "mean_estimated_depth": {
+        "0.2": 0.024928888785652817,
+        "0.4": 0.033892457098700104,
+        "0.6": 0.047691517733037474,
+        "0.8": 0.06694831970147788
+      },
+      "detection_auroc": 0.4626874999999999,
+      "null_threshold": 0.08232239633798598,
+      "false_positive_rate": 0.025,
+      "false_positive_ci95": [
+        0.0125,
+        0.04
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.02625,
+      "oracle_phase_mae_deg": 42.796019096374515,
+      "oracle_depth_mae": 0.46249386076000526,
+      "reference_recording_dpac_auroc": 0.7568312500000001,
+      "reference_recording_dpac_phase_mae_deg": 5.633454952911416
+    },
+    {
+      "pair": "boundary_0p5",
+      "noise": "10dB",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.0,
+      "localization_ci95": [
+        0.0,
+        0.0
+      ],
+      "strength_spearman": 0.897754084071604,
+      "phase_mae_deg": 55.16618274450302,
+      "phase_mae_ci95": [
+        54.39353337526322,
+        55.91299062114954
+      ],
+      "recording_phase_mae_deg": 13.026955436423014,
+      "complex_depth_vector_mae": 0.47625744587795293,
+      "mean_estimated_depth": {
+        "0.2": 0.0224097453430295,
+        "0.4": 0.03157444588374347,
+        "0.6": 0.04538748431019485,
+        "0.8": 0.06442063750699162
+      },
+      "detection_auroc": 0.480975,
+      "null_threshold": 0.08261108510196208,
+      "false_positive_rate": 0.0375,
+      "false_positive_ci95": [
+        0.02,
+        0.055
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.0175,
+      "oracle_phase_mae_deg": 42.85735019445419,
+      "oracle_depth_mae": 0.4625002371822485,
+      "reference_recording_dpac_auroc": 0.7568312500000001,
+      "reference_recording_dpac_phase_mae_deg": 5.633454952911416
+    },
+    {
+      "pair": "boundary_0p5",
+      "noise": "0dB",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.0,
+      "localization_ci95": [
+        0.0,
+        0.0
+      ],
+      "strength_spearman": 0.3646983379855899,
+      "phase_mae_deg": 79.40423253297806,
+      "phase_mae_ci95": [
+        78.60280921500922,
+        80.21914116960764
+      ],
+      "recording_phase_mae_deg": 49.068336476399566,
+      "complex_depth_vector_mae": 0.49139835516129216,
+      "mean_estimated_depth": {
+        "0.2": 0.061045023263432086,
+        "0.4": 0.06617969486862421,
+        "0.6": 0.07313584693241865,
+        "0.8": 0.07965539392549545
+      },
+      "detection_auroc": 0.4582625,
+      "null_threshold": 0.101602029427886,
+      "false_positive_rate": 0.0775,
+      "false_positive_ci95": [
+        0.0475,
+        0.1125
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.053125,
+      "oracle_phase_mae_deg": 42.796019096374515,
+      "oracle_depth_mae": 0.46249386076000526,
+      "reference_recording_dpac_auroc": 0.681409375,
+      "reference_recording_dpac_phase_mae_deg": 21.341367437515874
+    },
+    {
+      "pair": "boundary_0p5",
+      "noise": "0dB",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.0,
+      "localization_ci95": [
+        0.0,
+        0.0
+      ],
+      "strength_spearman": 0.29828815849806206,
+      "phase_mae_deg": 79.19624688386916,
+      "phase_mae_ci95": [
+        78.12726103848219,
+        80.2325059723854
+      ],
+      "recording_phase_mae_deg": 51.819504081113266,
+      "complex_depth_vector_mae": 0.4905382978573758,
+      "mean_estimated_depth": {
+        "0.2": 0.060819130644667894,
+        "0.4": 0.0659995167562738,
+        "0.6": 0.07289805492851884,
+        "0.8": 0.07906563898548484
+      },
+      "detection_auroc": 0.47990937499999997,
+      "null_threshold": 0.11048754788935183,
+      "false_positive_rate": 0.0525,
+      "false_positive_ci95": [
+        0.0225,
+        0.09
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.038125,
+      "oracle_phase_mae_deg": 42.85735019445419,
+      "oracle_depth_mae": 0.4625002371822485,
+      "reference_recording_dpac_auroc": 0.681409375,
+      "reference_recording_dpac_phase_mae_deg": 21.341367437515874
+    },
+    {
+      "pair": "boundary_1",
+      "noise": "clean",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.019375,
+      "localization_ci95": [
+        0.010625,
+        0.029375
+      ],
+      "strength_spearman": 0.9562095172559087,
+      "phase_mae_deg": 40.21525162577629,
+      "phase_mae_ci95": [
+        39.47544841238856,
+        40.87733900460601
+      ],
+      "recording_phase_mae_deg": 1.8210509402009485,
+      "complex_depth_vector_mae": 0.4217200338170068,
+      "mean_estimated_depth": {
+        "0.2": 0.04290766865946352,
+        "0.4": 0.0865346566773951,
+        "0.6": 0.13480838419869542,
+        "0.8": 0.1889604232273996
+      },
+      "detection_auroc": 0.57769375,
+      "null_threshold": 0.18213964253664014,
+      "false_positive_rate": 0.0475,
+      "false_positive_ci95": [
+        0.03,
+        0.0675
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.150625,
+      "oracle_phase_mae_deg": 39.534028403759,
+      "oracle_depth_mae": 0.36365031850291424,
+      "reference_recording_dpac_auroc": 0.8660390625000001,
+      "reference_recording_dpac_phase_mae_deg": 1.1714050188205147
+    },
+    {
+      "pair": "boundary_1",
+      "noise": "clean",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.74375,
+      "localization_ci95": [
+        0.6856093750000001,
+        0.7975
+      ],
+      "strength_spearman": 0.9495334609089662,
+      "phase_mae_deg": 40.06198956131935,
+      "phase_mae_ci95": [
+        39.21776385325194,
+        40.7945424015224
+      ],
+      "recording_phase_mae_deg": 1.329443193010702,
+      "complex_depth_vector_mae": 0.42007298272863,
+      "mean_estimated_depth": {
+        "0.2": 0.042971529485657814,
+        "0.4": 0.08809156887233258,
+        "0.6": 0.13755218425765633,
+        "0.8": 0.19258832262828945
+      },
+      "detection_auroc": 0.5837578125,
+      "null_threshold": 0.18933798000216484,
+      "false_positive_rate": 0.0425,
+      "false_positive_ci95": [
+        0.025,
+        0.0625
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.1425,
+      "oracle_phase_mae_deg": 39.92755202293396,
+      "oracle_depth_mae": 0.362943529796321,
+      "reference_recording_dpac_auroc": 0.8660390625000001,
+      "reference_recording_dpac_phase_mae_deg": 1.1714050188205147
+    },
+    {
+      "pair": "boundary_1",
+      "noise": "10dB",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.0,
+      "localization_ci95": [
+        0.0,
+        0.0
+      ],
+      "strength_spearman": 0.9495140959884529,
+      "phase_mae_deg": 46.04681404590607,
+      "phase_mae_ci95": [
+        45.67204815518856,
+        46.462930101811885
+      ],
+      "recording_phase_mae_deg": 6.195098673538887,
+      "complex_depth_vector_mae": 0.427455483838165,
+      "mean_estimated_depth": {
+        "0.2": 0.054919650219380854,
+        "0.4": 0.09142209114506841,
+        "0.6": 0.136197975743562,
+        "0.8": 0.18563805475831033
+      },
+      "detection_auroc": 0.5509109375000001,
+      "null_threshold": 0.192242357134819,
+      "false_positive_rate": 0.0275,
+      "false_positive_ci95": [
+        0.0125,
+        0.045
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.104375,
+      "oracle_phase_mae_deg": 39.534028403759,
+      "oracle_depth_mae": 0.36365031850291424,
+      "reference_recording_dpac_auroc": 0.8627890625,
+      "reference_recording_dpac_phase_mae_deg": 4.203039311881875
+    },
+    {
+      "pair": "boundary_1",
+      "noise": "10dB",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.0,
+      "localization_ci95": [
+        0.0,
+        0.0
+      ],
+      "strength_spearman": 0.933943489588269,
+      "phase_mae_deg": 45.17181330561638,
+      "phase_mae_ci95": [
+        44.67790398851037,
+        45.65499285411835
+      ],
+      "recording_phase_mae_deg": 7.6870379856838555,
+      "complex_depth_vector_mae": 0.4255743001891807,
+      "mean_estimated_depth": {
+        "0.2": 0.05431870996952057,
+        "0.4": 0.09231940536759793,
+        "0.6": 0.13850791919976474,
+        "0.8": 0.18904056945815684
+      },
+      "detection_auroc": 0.5622499999999999,
+      "null_threshold": 0.19125785306096074,
+      "false_positive_rate": 0.0475,
+      "false_positive_ci95": [
+        0.03,
+        0.0675
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.11875,
+      "oracle_phase_mae_deg": 39.92755202293396,
+      "oracle_depth_mae": 0.362943529796321,
+      "reference_recording_dpac_auroc": 0.8627890625,
+      "reference_recording_dpac_phase_mae_deg": 4.203039311881875
+    },
+    {
+      "pair": "boundary_1",
+      "noise": "0dB",
+      "scope": "all",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.0,
+      "localization_ci95": [
+        0.0,
+        0.0
+      ],
+      "strength_spearman": 0.5808846794057868,
+      "phase_mae_deg": 69.60683415174485,
+      "phase_mae_ci95": [
+        68.85332419073582,
+        70.40063723421098
+      ],
+      "recording_phase_mae_deg": 26.86766029168968,
+      "complex_depth_vector_mae": 0.46852044119684644,
+      "mean_estimated_depth": {
+        "0.2": 0.11059217195026577,
+        "0.4": 0.1261577472090721,
+        "0.6": 0.14653680011630058,
+        "0.8": 0.16602266291156412
+      },
+      "detection_auroc": 0.530571875,
+      "null_threshold": 0.19683831632137294,
+      "false_positive_rate": 0.03,
+      "false_positive_ci95": [
+        0.01,
+        0.055
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.06,
+      "oracle_phase_mae_deg": 39.534028403759,
+      "oracle_depth_mae": 0.36365031850291424,
+      "reference_recording_dpac_auroc": 0.8112203125,
+      "reference_recording_dpac_phase_mae_deg": 15.104575938878115
+    },
+    {
+      "pair": "boundary_1",
+      "noise": "0dB",
+      "scope": "interior",
+      "coupled": 1600,
+      "independent_null": 400,
+      "calibration_null": 200,
+      "realizations": 100,
+      "localization_rate": 0.0,
+      "localization_ci95": [
+        0.0,
+        0.0
+      ],
+      "strength_spearman": 0.5252843616896541,
+      "phase_mae_deg": 68.54251765966416,
+      "phase_mae_ci95": [
+        67.46171157705783,
+        69.64603685247897
+      ],
+      "recording_phase_mae_deg": 30.884221953696105,
+      "complex_depth_vector_mae": 0.4661706425042967,
+      "mean_estimated_depth": {
+        "0.2": 0.10973796086851507,
+        "0.4": 0.12576096285134553,
+        "0.6": 0.1468226789869368,
+        "0.8": 0.1673801982961595
+      },
+      "detection_auroc": 0.5378609375000001,
+      "null_threshold": 0.19884660020470618,
+      "false_positive_rate": 0.06,
+      "false_positive_ci95": [
+        0.0325,
+        0.0925
+      ],
+      "false_positive_independent_realizations": 100,
+      "true_positive_rate": 0.075625,
+      "oracle_phase_mae_deg": 39.92755202293396,
+      "oracle_depth_mae": 0.362943529796321,
+      "reference_recording_dpac_auroc": 0.8112203125,
+      "reference_recording_dpac_phase_mae_deg": 15.104575938878115
+    }
+  ],
+  "checkpoint_sha256": "1fb2b132f935d890373f38f47ee2b5e99c796b3d5d9b76773c74b94b3e8b1a3c",
+  "protocol_sha256": "40d92436a626e9c5409ccb18f857ec3a4d568afc7f18ddc10c638866128787de",
+  "recordings_sha256": "1257d1929b33fc6adc1c443d02fc40c1ddff47ed743ec1ba18c6105eb1c157cd"
+}

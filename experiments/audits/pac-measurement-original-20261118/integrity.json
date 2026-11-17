@@ -1,0 +1,14 @@
+{
+  "checkpoint_unchanged": true,
+  "model_state_unchanged": true,
+  "model_source_unchanged": true,
+  "rows": 34500,
+  "smoke_only": false,
+  "native_forward_match": {
+    "native_forward_exact_match": true,
+    "independent_numpy_scipy_max_Z_error": 1.8120686036127154e-06,
+    "constant_envelope_exact_zero": true,
+    "known_population_vector_sign_and_scale": true,
+    "token_projection_rotation_encoder_executed": false
+  }
+}
