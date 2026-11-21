@@ -73,7 +73,6 @@ Restore an offloaded path on 145 with the existing archive client:
 
 ```sh
 /data2/zz5070/.maintenance/hf-checkpoint-archive-20261026/client-env/bin/python \
-  /data2/zz5070/.maintenance/checkpoint-offload-cleanup-20261027/published_restore.py \
-  145 "$original_path" "$original_path" \
-  --revision cdb6374ac043679d8005e7f69f6d0c811f2b622d
+  /data2/zz5070/.maintenance/storage-145-compact-20261121/restore.py \
+  "$original_path"
 ```
