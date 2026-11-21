@@ -855,3 +855,20 @@ strict checkpoint loading and actual-data shape/order checks passed on CPU.
 GPU checks run inside the job before full scoring. No neural-network training is performed; only frozen
 representations and affine ridge probes are evaluated. Progress is recorded in
 the existing ISRUC audit.
+
+## Frozen PAC erasure on TUEV and CHB-MIT
+
+The [erasure runner](../scripts/experiments/pac_real_eeg_erase.py) uses the
+same seed-0 CfFT snapshots, current accepted windows, and three PAC column
+groups from the CFC readout. TUEV uses the two-axis checkpoint; CHB-MIT uses
+the historical three-axis checkpoint evaluated on the current natural grid.
+The intervention fits a joint PAC subspace on the training split. It subtracts
+the projected sample mean from every token, preserving differences between
+tokens. The original task model and head remain frozen.
+
+The encoder hook uses layer 4 for TUEV and layer 2 for CHB-MIT, selected by
+the previously recorded mean validation PAC score across the three pairs.
+The tokenizer hook uses the frontend output. Each run stores original,
+PAC-erased, shuffled-target and five rank-matched random controls, along with
+the residual PAC readout. This is a joint readout intervention and does not
+estimate a separate erasure effect for each frequency pair.
