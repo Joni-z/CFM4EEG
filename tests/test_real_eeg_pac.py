@@ -42,6 +42,31 @@ def test_ordinary_streaming_rows_are_unchanged(tmp_path):
         rows.close()
 
 
+def test_relocated_accepted_data_checks_content(tmp_path):
+    import json
+    from scripts.experiments.pac_real_eeg_probe import dataset_identity
+    from paclock_bench.probing.real_eeg_models import sha256
+
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text("{}")
+    files = {}
+    for split in ("train", "val", "test"):
+        for suffix in ("signals", "labels"):
+            p = tmp_path / f"{split}_{suffix}.npy"
+            np.save(p, np.zeros(2))
+            files[p.name] = {"mtime_ns": 0, "size": p.stat().st_size, "sha256": sha256(p)}
+    accepted = dict(status="accepted", dataset="tuev", manifest_sha256=sha256(manifest), files=files)
+    (tmp_path / "ACCEPTED.json").write_text(json.dumps(accepted))
+    job = dict(dataset="tuev", data_root=str(tmp_path), manifest_sha256=sha256(manifest))
+    with pytest.raises(ValueError, match="Accepted data file changed"):
+        dataset_identity(job)
+    job["verify_relocated_data"] = True
+    assert dataset_identity(job)["manifest_sha256"] == sha256(manifest)
+    np.save(tmp_path / "val_signals.npy", np.ones(2))
+    with pytest.raises(ValueError, match="val_signals.npy"):
+        dataset_identity(job)
+
+
 def reference(signal):
     freq = np.fft.fftfreq(len(signal), 1 / 200)
     bands = [hilbert(np.fft.ifft(np.fft.fft(signal) *

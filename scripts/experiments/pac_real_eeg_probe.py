@@ -94,8 +94,13 @@ def dataset_identity(job: dict) -> dict:
         if job["dataset"] == "chbmit":
             names.append(f"{split}_q95_denominators.npy")
         for name in names:
-            recorded, current = accepted["files"][name], (root / name).stat()
-            if current.st_size != recorded["size"] or current.st_mtime_ns != recorded["mtime_ns"]:
+            path = root / name
+            recorded, current = accepted["files"][name], path.stat()
+            # A relocated cache can preserve all bytes while its filesystem
+            # represents the modification timestamp at a different precision.
+            verified = (sha256(path) == recorded["sha256"] if job.get("verify_relocated_data")
+                        else current.st_mtime_ns == recorded["mtime_ns"])
+            if current.st_size != recorded["size"] or not verified:
                 raise ValueError("Accepted data file changed: " + name)
     return dict(manifest_sha256=manifest_hash, accepted_sha256=sha256(root / "ACCEPTED.json"),
                 accepted_file_hashes={k: v["sha256"] for k, v in accepted["files"].items()})

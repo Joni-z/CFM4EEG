@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
 import time
 from pathlib import Path
 
@@ -115,17 +116,37 @@ def attach(readout, endpoint):
     return Activation(readout.encoder_layers[layer])
 
 
+def available_host_memory():
+    if os.name != "nt":
+        amount = next(int(row.split()[1]) for row in Path("/proc/meminfo").read_text().splitlines()
+                      if row.startswith("MemAvailable:"))
+        return amount * 1024
+    from ctypes import Structure, byref, c_ulong, c_ulonglong, sizeof, windll
+
+    class MemoryStatus(Structure):
+        _fields_ = [("length", c_ulong), ("load", c_ulong)] + [
+            (field, c_ulonglong) for field in
+            ("total", "available", "page_total", "page_available", "virtual_total",
+             "virtual_available", "extended_available")
+        ]
+
+    status = MemoryStatus()
+    status.length = sizeof(status)
+    if not windll.kernel32.GlobalMemoryStatusEx(byref(status)):
+        raise OSError("Cannot read Windows memory availability")
+    return status.available
+
+
 def resource_guard(out, device):
     if device.type == "cpu":
         return
     started = time.monotonic()
     while True:
         free_gpu = torch.cuda.mem_get_info(device)[0]
-        disk_stat = os.statvfs(out)
-        disk = disk_stat.f_bavail * disk_stat.f_frsize
-        total_host = next(int(x.split()[1]) * 1024 for x in Path("/proc/meminfo")
-                          .read_text().splitlines() if x.startswith("MemAvailable:"))
-        if free_gpu >= 1024 << 20 and disk >= 4 << 30 and total_host >= 24 << 30:
+        disk = shutil.disk_usage(out).free
+        host_floor = 6 if os.name == "nt" else 24
+        available = available_host_memory()
+        if free_gpu >= 1024 << 20 and disk >= 4 << 30 and available >= host_floor << 30:
             return
         if time.monotonic() - started > 1800:
             raise RuntimeError("Shared memory or disk headroom remains low")
