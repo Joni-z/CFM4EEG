@@ -126,6 +126,7 @@ class FrozenReadout:
                             self._input_hook(self.endpoints[i+1])) for i in range(3)]
             self.handles.append(self.model.LAT.register_forward_hook(self._hook("layer_04")))
         else:
+            self.stem, self.encoder_layers = stem, layers
             self.endpoints = ["tokenizer"] + [f"layer_{i+1:02d}" for i in range(len(layers))]
             self.handles = [stem.register_forward_hook(self._hook("tokenizer"))]
             self.handles += [layer.register_forward_hook(self._hook(name))
@@ -146,6 +147,60 @@ class FrozenReadout:
             capture(module, None, inputs[0])
         return before
 
+    def _tfm_tokens(self, stored, denominators):
+        from paclock_bench.probing.features import get_stft_torch
+        physical = stored.double().numpy()
+        if self.tfm_dataset == "chbmit":
+            if denominators is None:
+                raise ValueError("CHB-MIT TFM input requires its physical-unit sidecar")
+            physical = physical * denominators
+        elif self.tfm_dataset == "tuev":
+            # Match BIOTWindowDataset: float32 multiply before NumPy q95.
+            physical = physical * 100 if self.tfm_legacy_physical_q95 else stored.numpy() * 100.0
+        else:
+            raise ValueError("This TFM launch supports only declared TUEV/CHB-MIT units")
+        # Author datasets/data_loaders.py: per-channel linear q95 + 1e-8.
+        normalized = stored.numpy() if self.tfm_stored_q95 else physical / (
+            np.quantile(np.abs(physical), .95, axis=-1, method="linear", keepdims=True) + 1e-8)
+        x = torch.as_tensor(normalized, dtype=torch.float32, device=self.device)
+        n, channels, length = x.shape
+        spectrum = get_stft_torch(x).reshape(n * channels, 100, -1)
+        quantized, codes, _ = self.tokenizer.tokenize(spectrum, x.reshape(n * channels, length))
+        if quantized.ndim != 3 or quantized.shape[0] != n * channels:
+            raise ValueError("Unexpected native TFM quantized-embedding shape")
+        return quantized.reshape(n, channels, -1, quantized.shape[-1]), codes.reshape(n, channels, -1)
+
+    def _native_patches(self, stored, denominators):
+        x = stored
+        if denominators is not None:
+            # Same physical-microvolt bridge as the original clinical runners.
+            physical = stored.double().numpy() * denominators
+            if self.kind == "cbramod":
+                from scipy.signal import resample
+                physical = resample(physical, 2000, axis=-1) / 100
+            else:
+                # LaBraM native engine receives float32 physical uV, then /100.
+                physical = physical.astype("float32") / 100
+            x = torch.as_tensor(physical, dtype=torch.float32)
+        elif self.kind == "labram":
+            x = (stored.double() * 100).float() / 100
+        return x.to(self.device).reshape(len(x), x.shape[1], -1, 200)
+
+    @torch.inference_mode()
+    def task_logits(self, stored, denominators=None):
+        """Run the unchanged native task head on the accepted input bridge."""
+        if self.released or self.tokenizer_only:
+            raise ValueError("Erasure requires a complete task checkpoint and classifier")
+        if self.kind == "cfft":
+            return self.model(stored.to(self.device))
+        if self.kind == "tfm":
+            _, codes = self._tfm_tokens(stored, denominators)
+            return self.model(codes, num_ch=codes.shape[1])
+        x = self._native_patches(stored, denominators)
+        if self.kind == "labram":
+            return self.model(x, input_chans=list(range(x.shape[1] + 1)))
+        return self.model(x)
+
     @torch.inference_mode()
     def __call__(self, stored: torch.Tensor, denominators=None):
         self.features.clear()
@@ -155,44 +210,11 @@ class FrozenReadout:
             else:
                 self.model(stored.to(self.device))
         elif self.kind == "tfm":
-            from paclock_bench.probing.features import get_stft_torch
-            physical = stored.double().numpy()
-            if self.tfm_dataset == "chbmit":
-                if denominators is None:
-                    raise ValueError("CHB-MIT TFM input requires its physical-unit sidecar")
-                physical = physical * denominators
-            elif self.tfm_dataset == "tuev":
-                # Match BIOTWindowDataset: float32 multiply before NumPy q95.
-                physical = physical * 100 if self.tfm_legacy_physical_q95 else stored.numpy() * 100.0
-            else:
-                raise ValueError("This TFM launch supports only declared TUEV/CHB-MIT units")
-            # Author datasets/data_loaders.py: per-channel linear q95 + 1e-8.
-            normalized = stored.numpy() if self.tfm_stored_q95 else physical / (
-                np.quantile(np.abs(physical), .95, axis=-1, method="linear", keepdims=True) + 1e-8)
-            x = torch.as_tensor(normalized, dtype=torch.float32, device=self.device)
-            n, channels, length = x.shape
-            spectrum = get_stft_torch(x).reshape(n * channels, 100, -1)
-            quantized, codes, _ = self.tokenizer.tokenize(spectrum, x.reshape(n * channels, length))
-            if quantized.ndim != 3 or quantized.shape[0] != n * channels:
-                raise ValueError("Unexpected native TFM quantized-embedding shape")
-            tokens = quantized.reshape(n, channels, -1, quantized.shape[-1])
+            tokens, codes = self._tfm_tokens(stored, denominators)
             self.features["tokenizer"] = tokens.mean((1, 2)).double().cpu().numpy()
-            self.model(codes.reshape(n, channels, -1), num_ch=channels)
+            self.model(codes, num_ch=codes.shape[1])
         else:
-            x = stored
-            if denominators is not None:
-                # Same physical-microvolt bridge as the original clinical runners.
-                physical = stored.double().numpy() * denominators
-                if self.kind == "cbramod":
-                    from scipy.signal import resample
-                    physical = resample(physical, 2000, axis=-1) / 100
-                else:
-                    # LaBraM native engine receives float32 physical uV, then /100.
-                    physical = physical.astype("float32") / 100
-                x = torch.as_tensor(physical, dtype=torch.float32)
-            elif self.kind == "labram":
-                x = (stored.double() * 100).float() / 100
-            x = x.to(self.device).reshape(len(x), x.shape[1], -1, 200)
+            x = self._native_patches(stored, denominators)
             if self.kind == "cbramod":
                 (self.model if self.released else self.model.backbone)(x)
             elif self.kind == "labram" and self.released:

@@ -227,6 +227,28 @@ def test_frozen_hooks_pool_hidden_axis_and_return_no_grad():
     np.testing.assert_allclose(stub.features['layer'], x.mean((1, 2)).double().numpy())
 
 
+def test_erase_tfm_intervenes_on_complete_residual():
+    from types import SimpleNamespace
+    from scripts.experiments.pac_real_eeg_erase import attach
+
+    # TFM's executor adds each feed-forward delta outside the hooked module.
+    delta = torch.nn.Identity()
+    executor = SimpleNamespace(layers=[(torch.nn.Identity(), delta)])
+    classifier = SimpleNamespace(LAT=SimpleNamespace(layers=executor))
+    readout = SimpleNamespace(kind="tfm", endpoints=["tokenizer", "layer_01"], model=classifier)
+    hook = attach(readout, "layer_01")
+    x = torch.arange(24, dtype=torch.float32).reshape(2, 3, 4)
+    original = x + delta(x)
+    torch.testing.assert_close(original, 2 * x)
+    torch.testing.assert_close(hook.take(), original.mean(1))
+    hook.projection = (torch.zeros(4), torch.eye(4)[:, :1])
+    edited = x + delta(x)
+    expected = original.clone()
+    expected[:, :, 0] -= original[:, :, 0].mean(1, keepdim=True)
+    torch.testing.assert_close(edited, expected)
+    torch.testing.assert_close(hook.take(), expected.mean(1))
+
+
 def test_declared_seed2_tokenizer_readout_matches_full_forward(tmp_path, monkeypatch):
     from paclock_bench.models import build
     from paclock_bench.probing.real_eeg_models import FrozenReadout, sha256

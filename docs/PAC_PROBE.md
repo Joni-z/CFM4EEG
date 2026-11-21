@@ -872,3 +872,13 @@ The tokenizer hook uses the frontend output. Each run stores original,
 PAC-erased, shuffled-target and five rank-matched random controls, along with
 the residual PAC readout. This is a joint readout intervention and does not
 estimate a separate erasure effect for each frequency pair.
+
+The same evaluator supports complete TUEV and CHB-MIT task checkpoints for
+CBraMod, LaBraM and TFM. It keeps their native heads and the readout input
+bridges. CBraMod and LaBraM use their patch embedding output at the tokenizer
+endpoint. TFM uses the classifier embedding immediately after the native
+code lookup and before positional and channel embeddings. The earlier TFM
+tokenizer probe measured the quantizer's vectors, so the two TFM tokenizer
+readouts are from distinct endpoints. For an intermediate TFM layer the
+intervention changes the full post-block residual state passed to the next
+layer. This leaves the attention and feed-forward implementations intact.

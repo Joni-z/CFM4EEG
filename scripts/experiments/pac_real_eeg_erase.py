@@ -1,4 +1,4 @@
-"""Joint PAC erasure on a frozen CfFT checkpoint and its original task head.
+"""Joint PAC erasure on a frozen EEG checkpoint and its original task head.
 
 Fit a centered cross-covariance subspace to three PAC targets on training
 windows. Subtract only the projected per-window token mean from the original
@@ -16,7 +16,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from pac_real_eeg_probe import Rows, dataset_identity, write_json
+from scripts.experiments.pac_real_eeg_probe import Rows, dataset_identity, write_json
 from paclock_bench.probing.real_eeg import ALPHAS, CFC_FEATURES, R2Moments, RidgeMoments, robust_scale
 from paclock_bench.probing.real_eeg_models import FrozenReadout, sha256
 from paclock_bench.training.metrics import compute_metrics
@@ -69,17 +69,27 @@ def covariance(fit):
 class Activation:
     """One exact module hook on an otherwise unchanged task model."""
 
-    def __init__(self, layer):
+    def __init__(self, layer, residual=False):
         self.value = None
         self.projection = None
+        self.residual = residual
         self.handle = layer.register_forward_hook(self.capture)
 
-    def capture(self, _module, _args, output):
-        if self.projection is not None:
-            output = erase(output, *self.projection)
+    def capture(self, _module, args, output):
         if self.value is not None:
             raise ValueError("Selected module executed more than once in a forward")
-        self.value = pooled(token_grid(output))
+        if self.residual:
+            # TFM adds the feed-forward delta outside the module. Project
+            # that full state, then return its delta for the native addition.
+            state = args[0] + output
+            if self.projection is not None:
+                output = erase(state, *self.projection) - args[0]
+                state = args[0] + output
+        else:
+            if self.projection is not None:
+                output = erase(output, *self.projection)
+            state = token_grid(output)
+        self.value = pooled(state)
         return output
 
     def take(self):
@@ -87,6 +97,22 @@ class Activation:
             raise ValueError("Selected activation hook did not execute")
         value, self.value = self.value, None
         return value
+
+
+def attach(readout, endpoint):
+    if endpoint not in readout.endpoints:
+        raise ValueError(f"Unknown intervention endpoint: {endpoint}")
+    if readout.kind == "tfm":
+        if endpoint == "tokenizer":
+            return Activation(readout.model.eeg_token_embedding)
+        if endpoint == "layer_04":
+            return Activation(readout.model.LAT)
+        layer = int(endpoint.split("_")[1]) - 1
+        return Activation(readout.model.LAT.layers.layers[layer][1], residual=True)
+    if endpoint == "tokenizer":
+        return Activation(readout.stem)
+    layer = int(endpoint.split("_")[1]) - 1
+    return Activation(readout.encoder_layers[layer])
 
 
 def resource_guard(out, device):
@@ -122,15 +148,18 @@ def load_targets(job, identity):
     return {s: (x - center) / scale for s, x in arrays.items()}
 
 
-def chunked(root, split, batch, expected, limit=None):
+def chunked(root, split, batch, expected, need_denominators=False):
     rows = Rows(root / f"{split}_signals.npy")
     try:
         if rows.shape[0] != expected:
             raise ValueError("Targets and input windows disagree")
-        total = min(limit, expected) if limit else expected
-        for lo in range(0, total, batch):
-            hi = min(lo + batch, total)
-            yield lo, hi, total, torch.from_numpy(rows.read(lo, hi))
+        scales = np.load(root / f"{split}_q95_denominators.npy", mmap_mode="r") if need_denominators else None
+        if scales is not None and scales.shape != (*rows.shape[:2], 1):
+            raise ValueError("Expected one accepted q95 denominator per channel and window")
+        for lo in range(0, expected, batch):
+            hi = min(lo + batch, expected)
+            yield lo, hi, expected, (torch.from_numpy(rows.read(lo, hi)),
+                                     None if scales is None else scales[lo:hi])
     finally:
         rows.close()
 
@@ -142,9 +171,9 @@ def elapsed_progress(out, phase, arm, hi, total, device, started):
 
 
 @torch.inference_mode()
-def forward(model, hook, x, device, delay):
+def forward(readout, hook, inputs, delay):
     start = time.monotonic()
-    logits = model(x.to(device)).detach().float().cpu().numpy()
+    logits = readout.task_logits(*inputs).detach().float().cpu().numpy()
     hidden = hook.take().double().cpu().numpy()
     if not np.isfinite(logits).all() or not np.isfinite(hidden).all():
         raise ValueError("Nonfinite logits or representation")
@@ -153,23 +182,23 @@ def forward(model, hook, x, device, delay):
     return hidden, logits
 
 
-def smoke(model, hook, x, device, out):
-    hidden, reference = forward(model, hook, x, device, 0)
-    other_hidden, other = forward(model, hook, x, device, 0)
+def smoke(readout, hook, inputs, device, out):
+    hidden, reference = forward(readout, hook, inputs, 0)
+    other_hidden, other = forward(readout, hook, inputs, 0)
     np.testing.assert_allclose(reference, other, rtol=1e-6, atol=1e-7)
     np.testing.assert_allclose(hidden, other_hidden, rtol=1e-6, atol=1e-7)
     width = hidden.shape[1]
     center = np.zeros(width, np.float32)
     basis = np.eye(width, 2, dtype=np.float32)
     hook.projection = (torch.from_numpy(center).to(device), torch.from_numpy(basis).to(device))
-    edited, _ = forward(model, hook, x, device, 0)
+    edited, _ = forward(readout, hook, inputs, 0)
     actual = hidden.copy()
     actual[:, :2] = 0
     np.testing.assert_allclose(actual, edited, rtol=1e-5, atol=1e-6)
     hook.projection = None
-    _, after = forward(model, hook, x, device, 0)
+    _, after = forward(readout, hook, inputs, 0)
     np.testing.assert_allclose(reference, after, rtol=1e-6, atol=1e-7)
-    write_json(out / "smoke.json", dict(status="passed", samples=len(x), width=width,
+    write_json(out / "smoke.json", dict(status="passed", samples=len(inputs[0]), width=width,
                allocated_peak_mib=torch.cuda.max_memory_allocated(device)/2**20 if device.type=="cuda" else 0,
                gpu_free_mib=torch.cuda.mem_get_info(device)[0]/2**20 if device.type=="cuda" else None,
                logits_untouched_after_hook_removal=True, projection_mean_verified=True))
@@ -187,15 +216,15 @@ def run(job, device, smoke_only):
     shape = tuple(rows.shape[1:])
     witness = torch.from_numpy(rows.read(0, job["batch_size"]))
     rows.close()
+    need_denominators = job["dataset"] == "chbmit" and job["kind"] != "cfft"
+    scale_path = root / "train_q95_denominators.npy"
+    witness_scale = np.load(scale_path, mmap_mode="r")[:len(witness)] if need_denominators else None
     resource_guard(out, device)
     readout = FrozenReadout(job, shape, str(device))
     for h in readout.handles:
         h.remove()
-    model = readout.model
-    stage = job["endpoint"]
-    module = model.frontend if stage=="tokenizer" else model.encoder.blocks[int(stage.split("_")[1])-1]
-    hook = Activation(module)
-    smoke(model, hook, witness, device, out)
+    hook = attach(readout, job["endpoint"])
+    smoke(readout, hook, (witness, witness_scale), device, out)
     if smoke_only:
         return
     rng = np.random.default_rng(4311)
@@ -209,12 +238,12 @@ def run(job, device, smoke_only):
     random_rows = rng.permutation(len(train))
     fit = shuffled = None
     with torch.inference_mode():
-        for lo,hi,total,x in chunked(root,"train",batch,len(train)):
+        for lo,hi,total,inputs in chunked(root,"train",batch,len(train),need_denominators):
             if lo == 0 or time.monotonic()-clock>10:
                 resource_guard(out,device)
                 elapsed_progress(out,"fit","original",lo,total,device,started)
                 clock = time.monotonic()
-            h,_ = forward(model,hook,x,device,delay)
+            h,_ = forward(readout,hook,inputs,delay)
             if fit is None:
                 fit = RidgeMoments(h.shape[1],18)
                 shuffled = RidgeMoments(h.shape[1],18)
@@ -241,12 +270,12 @@ def run(job, device, smoke_only):
                 ys = targets[split]
                 metrics = [R2Moments(18) for _ in ALPHAS] if split=="val" else [R2Moments(18)]
                 logits = []
-                for lo,hi,total,x in chunked(root,split,batch,len(ys)):
+                for lo,hi,total,inputs in chunked(root,split,batch,len(ys),need_denominators):
                     if lo == 0 or time.monotonic()-clock>10:
                         resource_guard(out,device)
                         elapsed_progress(out,split,arm,lo,total,device,started)
                         clock=time.monotonic()
-                    h,raw = forward(model,hook,x,device,delay)
+                    h,raw = forward(readout,hook,inputs,delay)
                     logits.append(raw)
                     if split == "val":
                         for metric,(weights,offset) in zip(metrics,fits):
