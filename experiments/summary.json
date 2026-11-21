@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-11-18T00:36:57.008008+08:00",
+  "updated_at": "2026-11-21T23:43:32.936140+08:00",
   "historical_unique_results": 2681,
   "clinical_records": 2684,
   "model_versions": 268,
   "study_and_trial_records": 450,
   "trial_rows": 366,
-  "checkpoint_locations": 1953,
+  "checkpoint_locations": 2035,
   "conflict_rows": 154,
   "conflict_groups": 93,
   "by_status": {
@@ -610,7 +610,7 @@
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/experiment-ledger-20261105/collected/145-records-20261116-demod-readout.jsonl": "328643bad5fb6217d73f1d4cfbd88d9e31709cbdf5ffe18c587a4b90c0d21dd9",
     "/Users/mr.z/CFM4EEG/experiments/receipts/chbmit/cbramod-pretrained/result.json": "9ed434c493870f5fc8dec698912344e387b93b0d36a5af42d7d1049a646e9096",
     "/Users/mr.z/CFM4EEG/experiments/receipts/chbmit/cbramod-scratch/result.json": "7d33b995cdeb5f79cc273682eb90915d990dbea47ad62074444fd0333dd4e19a",
-    "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/hf-checkpoint-archive-20261026/archive-manifest.json": "7cf33d5ba4317faf9e8a98055ee1ed788b082346fb75e08a8c1f45389353ddc1"
+    "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/hf-checkpoint-archive-20261026/archive-manifest.json": "46173c5aab77af2f8c662dbc8073b711eed7819e7886cfcfba4e2da48c39da9d"
   },
   "parse_errors": [],
   "remote_collection": {

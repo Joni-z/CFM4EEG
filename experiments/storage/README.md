@@ -57,3 +57,23 @@ or rerunning preprocessing.
 
 The complete protected-file inventory and execution log remain locally at
 `/Users/mr.z/CFM4EEG/.local/workspace/maintenance/storage-cleanup-20261110/`.
+
+## 145 checkpoint archive (2026-11-21)
+
+The [private Hugging Face archive](https://huggingface.co/JoniZz/CFM4EEG-checkpoint-archive/tree/cdb6374ac043679d8005e7f69f6d0c811f2b622d)
+contains the 98 distinct checkpoint objects from this inventory, including 56 new
+uploads. The archive index maps original paths to SHA-256 objects. An archived
+checkpoint was downloaded on 145 and verified by SHA-256 before removing 76 cold
+local copies. This freed at least 583,819,264 bytes on 145. The weights needed
+for current readouts and Erase, vendor weights, and EEG datasets remain local.
+
+The exact offload receipt on 145 is
+`/data2/zz5070/.maintenance/storage-145-compact-20261121/released.jsonl`.
+Restore an offloaded path on 145 with the existing archive client:
+
+```sh
+/data2/zz5070/.maintenance/hf-checkpoint-archive-20261026/client-env/bin/python \
+  /data2/zz5070/.maintenance/checkpoint-offload-cleanup-20261027/published_restore.py \
+  145 "$original_path" "$original_path" \
+  --revision cdb6374ac043679d8005e7f69f6d0c811f2b622d
+```
