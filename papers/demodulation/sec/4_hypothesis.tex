@@ -1,0 +1,80 @@
+\section{The demodulation hypothesis}
+\label{sec:hypothesis}
+
+The hypothesis has four parts: a signal model under which band-wise demodulation is exact, a label model that says which functionals of the demodulated signal the clinical labels are, an information argument for why computing those functionals in the tokenizer helps a fixed-capacity reader, and a reader model that says which encoder structure matches the label structure. Each part yields predictions that Section~\ref{sec:experiments} tests.
+
+\subsection{Signal model: band-limited AM--FM components}
+\label{sec:signal}
+We model a window of electrode $c$ as a sum of band-limited components, each a slowly varying non-negative envelope modulating a carrier, plus noise,
+\begin{equation}
+x_c(t) = \sum_{b=1}^{B} A_{c,b}(t)\cos\varphi_{c,b}(t) + \varepsilon_c(t).
+\label{eq:amfm}
+\end{equation}
+Bedrosian's theorem~\cite{bedrosian1963product} states when the Hilbert envelope recovers $A$: if the spectrum of $A_{c,b}$ lies below a frequency $f_0$ and that of $\cos\varphi_{c,b}$ lies above it, then $\mathcal{H}[A\cos\varphi] = A\sin\varphi$ and the analytic signal $A e^{i\varphi}$ has modulus exactly $A$. The condition holds band by band when bands are narrow relative to their centre frequency, which is why the filterbank is constant-$Q$ (log-spaced, bandwidth proportional to centre frequency) and why demodulation must follow band separation rather than act on the broadband signal. A learned sinc filterbank initialised on a log grid keeps this property and lets the edges adapt.
+
+\subsection{The demodulated grid and the label model}
+\label{sec:label}
+Cut time into $P$ patches of length $\ell$ (0.25\,s). The demodulated grid holds two views per electrode, band and patch,
+\begin{equation}
+a_{c,b}[p] = \log\big(1 + A_{c,b}[p]\big), \qquad w_{c,b}[p] = (x_c * h_b)[p],
+\label{eq:grid}
+\end{equation}
+the log-envelope and the band-limited waveform; $D(x) = \{a_{c,b}[p], w_{c,b}[p]\}_{c,b,p}$ is the demodulated grid. The label model says that a clinical label is a low-complexity functional of this grid, $y = g(D(x))$, where $g$ is built from three operations: patterns of the envelope along $p$ within a band (level, periodicity, evolution), composition across $b$ within a patch, and pooling across $c$. Table~\ref{tab:labels} says which view each label leans on, read off the definitions of Section~\ref{sec:background}.
+
+\begin{table}[t]
+\centering
+\TableStyle
+\caption{Which view of the demodulated grid each clinical label leans on, from the ACNS definitions.}
+\label{tab:labels}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.55cm}>{\raggedright\arraybackslash}p{3.6cm}l@{}}
+\toprule
+Label & Dominant view & Timescale \\
+\midrule
+Periodic discharges (GPED, PLED) & envelope periodicity at 0.5--3\,Hz & 0.3--2\,s \\
+Artifact (ARTF) & broadband envelope level and spread & 0.25--1\,s \\
+Spike-and-wave (SPSW) & waveform morphology within the band & 0.1--0.5\,s \\
+Eye movement (EYEM) & low-band waveform, slow frontal deflection & 0.5--1\,s \\
+Seizure (CHB-MIT, TUSZ) & both: rhythmic evolution and spike shape & 1--10\,s \\
+Sleep stage & envelope proportions across bands & 30\,s \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Usable information: why the tokenizer should demodulate}
+\label{sec:usable}
+Shannon information cannot increase under a deterministic map, so if tokenization mattered only in Shannon's sense any lossless tokenizer would do. The relevant quantity is instead the information a restricted predictor can use. For a predictor family $\mathcal{V}$, Xu et al.~\cite{xu2020usable} define the predictive $\mathcal{V}$-information
+\begin{equation}
+\begin{split}
+\I_{\mathcal{V}}(X \to Y) &= \Hv_{\mathcal{V}}(Y) - \Hv_{\mathcal{V}}(Y \mid X),\\
+\Hv_{\mathcal{V}}(Y \mid X) &= \inf_{f \in \mathcal{V}} \mathbb{E}\big[-\log f[x](y)\big],
+\end{split}
+\label{eq:vinfo}
+\end{equation}
+and show that a deterministic preprocessing $\Phi$ can raise it: $\I_{\mathcal{V}}(\Phi(X) \to Y)$ may exceed $\I_{\mathcal{V}}(X \to Y)$ whenever $\Phi$ computes a function that $\mathcal{V}$ cannot represent cheaply. Take $\mathcal{V}$ to be a depth-6, width-128 transformer with a linear patch embedding and a mean-pooled head, trained on $10^4$ to $10^5$ labelled windows. The envelope $A_{c,b}$ is the modulus of a 201-tap filtered signal and its quadrature; it is non-linear, and its support (about 1\,s) is four times the patch. A linear embedding of a 50-sample patch cannot represent it, and attention can only assemble it across many tokens and layers. The demodulation $\Phi$ therefore raises $\I_{\mathcal{V}}$ by the amount that $g$ depends on the envelope view, and most on labels that are envelope-dominated. Two corollaries follow. The learning curve of the demodulated model should saturate at far fewer labelled windows than that of a raw-patch model; sample efficiency is the operational signature of usable information. And a frontend from another family that also exposes a time-frequency magnitude, such as an FFT-magnitude stem, should be nearly as good when read by the same encoder.
+
+\subsection{Factorized reading: why the encoder should attend along axes}
+\label{sec:factorized}
+The grid has axes $(c, b, p)$. If $g$ factorizes along them, as the label vocabulary indicates, an encoder that attends along one axis at a time represents $g$ with attention tables of size $P^2 + C^2 + B^2$ per layer rather than $(PCB)^2$. For $C = 16$ electrodes, $B = 16$ bands and $P = 20$ patches that is 912 pairs against 26 million. The hypothesis class shrinks by the same factor, and with it the number of labelled windows needed to find $g$~\cite{ho2019axial}. A flat reader must learn the separability from data; a two-axis reader that joins electrodes and bands into one axis of $CB$ tokens sits in between (65,536 pairs). The prediction is ordinal: flat far below factorized, and three-axis at or above two-axis by a margin that depends on how much the task needs the band and electrode structure separately.
+
+\subsection{Nuisance transforms: what a content-independent rotation does}
+\label{sec:nuisance}
+Let $R$ be a per-token transform of the content $(a, w)$ that is conditionally independent of $y$ given $D$. It adds nothing in either sense of information, and the reader must learn to be invariant to it. The cost of that invariance grows with the entropy of $R$ given the visible context. To test this we need a family of such transforms whose entropy can be dialled, and the cross-frequency literature supplies one: rotate the content token by a unit-modulus direction $u$ formed from the measured phase--amplitude coupling between a band and the slower bands of the same electrode,
+\begin{equation}
+h_{c,b}[p] = \big(a_{c,b}[p] + i\,w_{c,b}[p]\big)\,\frac{u_{c,b}[p]}{|u_{c,b}[p]|}, \qquad |h|^2 = a^2 + w^2,
+\label{eq:rotation}
+\end{equation}
+which is an isometry on the two views and so cannot add usable information. It can only cost, and how much depends on $u$. With $u = 1$ there is no transform. With $u$ the measured, gauge-cancelled alignment to slower bands, $u$ varies slowly across neighbouring tokens and cancels the arbitrary phase reference of the Hilbert transform, so its conditional entropy is low. With $u$ a band's own projected phase, $u$ varies on the carrier timescale and depends on the reference, so its entropy is high. With $u$ measured on a different window, or with the alignment removed but the weights kept, $u$ is uncorrelated with the token's content. The prediction is an ordering: no transform about equal to the measured alignment, both far above the own-phase, other-window and unaligned variants. A further prediction concerns variants that break the isometry (a bounded complex gain with modulus between 0.5 and 1.5, which makes the coupling readable from the token): they alter the content magnitude that $g$ depends on and should lose. Finally, whether $R$ is cheaply undone depends on $\mathcal{V}$: a reader that flattens the band axis into channels has no cheap way to undo a cross-band rotation, so for that reader the same $R$ can act as a feature, helpful on some labels and harmful on others.
+
+\subsection{Predictions}
+\label{sec:predictions}
+\begin{enumerate}[label=\textbf{P\arabic*}]
+\item A flat encoder over the same grid collapses relative to the factorized one at clinical data sizes.
+\item Collapsing the filterbank to a single band collapses performance, most where labels are band-specific.
+\item On envelope-dominated labels (TUEV) the envelope view alone matches the full model; on morphology-dependent labels (CHB-MIT seizures) removing the waveform view costs a large margin.
+\item Raw band-limited waveform tokens underperform envelope-bearing tokens on TUEV by a large margin, and the gain concentrates in the periodic-discharge classes.
+\item Learned linear views of a raw 0.25\,s patch cannot substitute for physical band separation, even under the same three-axis reader.
+\item The envelope's time resolution must match the event timescale; 1\,s patches lose on TUEV relative to 0.25\,s.
+\item An isometric rotation of the token by a content-independent measured direction is neutral in the factorized reader; content-dependent or uncorrelated directions are harmful; isometry-breaking variants lose; and the same rotation has large, sign-varying effects in a flattened host reader.
+\item A different frontend that exposes time-frequency magnitude, read by the same encoder, is also strong; the demodulated model's learning curve saturates at a small fraction of the labelled data; amplitude-reconstruction pretraining does not help because the label-relevant content is already explicit.
+\end{enumerate}

@@ -1,0 +1,49 @@
+\section{Method}
+\label{sec:method}
+
+The model is the demodulated grid of Eq.~\eqref{eq:grid} read by a three-axis transformer, 1.62M parameters, trained from scratch per corpus (Figure~\ref{fig:pipeline}). It has no cross-frequency module; the rotation of Eq.~\eqref{eq:rotation} exists only as the test transform of Section~\ref{sec:rotation}.
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+  font=\footnotesize,
+  box/.style={draw=black!55, rounded corners=2pt, line width=0.5pt, align=center, inner sep=4pt, minimum height=10mm, text width=2.35cm},
+  main/.style={box, draw=cvprblue, fill=cvprblue!10, line width=0.9pt},
+  opt/.style={box, dashed, draw=black!55},
+  arr/.style={-{Latex[length=1.6mm]}, line width=0.5pt, draw=black!60},
+  x=1cm, y=1cm
+]
+\node[box] (raw) at (0,0) {Raw window\\[-1pt]{\scriptsize 16 electrodes, 5\,s, 200\,Hz}};
+\node[box] (fb) at (3.3,0) {Learned constant-$Q$ filterbank\\[-1pt]{\scriptsize 16 sinc bands, 201 taps}};
+\node[box] (dem) at (6.6,0) {Analytic-signal demodulation\\[-1pt]{\scriptsize envelope $A$, carrier phase}};
+\node[box] (env) at (9.9,0.8) {Envelope view $a$\\[-1pt]{\scriptsize $\log(1+A)$ per 0.25\,s, 64-d}};
+\node[box] (wav) at (9.9,-0.8) {Waveform view $w$\\[-1pt]{\scriptsize band-limited patch, 64-d}};
+\node[main] (grid) at (3.3,-3.0) {Demodulated grid\\[-1pt]{\scriptsize $16 \times 16 \times 20 \times 128$}};
+\node[box] (rd) at (6.6,-3.0) {Three-axis reader\\[-1pt]{\scriptsize time $\to$ electrode $\to$ band attention, 6 blocks}};
+\node[box] (head) at (9.9,-3.0) {Mean pool,\\linear head\\[-1pt]{\scriptsize one label per window}};
+\node[opt] (rot) at (0,-3.0) {Test transform: rotation by direction $u$\\[-1pt]{\scriptsize controls only, Sec.~\ref{sec:rotation}}};
+\draw[arr] (raw) -- (fb);
+\draw[arr] (fb) -- (dem);
+\draw[arr] (dem.east) -- ++(0.25,0) |- (env.west);
+\draw[arr] (dem.east) -- ++(0.25,0) |- (wav.west);
+\draw[line width=0.5pt, draw=black!60] (env.east) -- ++(0.35,0) |- (11.45,-0.8);
+\draw[arr] (wav.east) -- ++(0.35,0) -- (11.45,-1.7) -- (3.3,-1.7) -- (grid.north);
+\draw[arr] (grid) -- (rd);
+\draw[arr] (rd) -- (head);
+\draw[dashed, line width=0.5pt, draw=black!60] (rot) -- (grid);
+\end{tikzpicture}
+\caption{The pipeline. Each electrode is split into 16 learned constant-$Q$ bands and demodulated; the envelope and waveform views at 0.25\,s form a grid of electrodes $\times$ bands $\times$ patches that a three-axis transformer reads along one axis at a time. The dashed box is the content-independent test transform of Section~\ref{sec:nuisance}, applied only in the controls of Section~\ref{sec:rotation}.}
+\label{fig:pipeline}
+\end{figure*}
+
+\paragraph{Learned filterbank and demodulation.}
+Each electrode passes through $B = 16$ learnable sinc band-pass filters~\cite{ravanelli2018sincnet} (201 taps at 200\,Hz, about 1\,s of support), with cut-offs initialised on a log grid over 0.5 to 75\,Hz and free to move. The analytic signal of each band gives its envelope $A$ and unit phase. Time is cut into non-overlapping patches of 50 samples (0.25\,s), $P = 20$ per 5\,s window. Two linear projections produce the content token: the envelope view $a$, a 64-dimensional projection of $\log(1 + A)$ over the patch, and the waveform view $w$, a 64-dimensional projection of the band-limited waveform over the patch. The token is their concatenation, 128 dimensions, arranged as the real and imaginary parts of 64 complex coordinates, a layout used only by the test transform of Section~\ref{sec:rotation}.
+
+\paragraph{Three-axis reader.}
+The grid has shape electrodes $\times$ bands $\times$ patches $\times$ 128. Positions are physical where the corpus allows it: electrode coordinates from the 10--20 montage (both endpoints of a bipolar channel), rotary embedding along time~\cite{su2024roformer}, and a learned embedding per band index. Six pre-norm blocks follow; each applies attention along time within an (electrode, band) row, then along electrodes within a (band, patch) slice, then along bands within an (electrode, patch) slice, then a feed-forward layer; four heads, width 128, dropout 0.35. A mean over all tokens feeds a linear classifier. The two-axis variant used for some controls joins electrodes and bands into one axis of 256 tokens per patch (1.22M parameters); the flat control of Section~\ref{sec:attribution} folds electrodes into the convolutional front end and attends over bands and time only (0.90M).
+
+\paragraph{The test transform.}
+For the controls of Section~\ref{sec:rotation} the token can be rotated by a direction $u$ computed from the signal itself: per electrode and patch, the centred first circular moment $Z_{ij}$ between the phase of a slower band $i$ and the envelope of a faster band $j$, and $u_j$ the $|Z|$-weighted sum of the slower bands' projected phases rotated by the conjugate preferred phase. This direction is invariant to the Hilbert phase reference for every band that has a slower band to align to, which is what makes it content-independent in the sense of Section~\ref{sec:nuisance}. Its variants (a band's own phase; the weights without the alignment; the direction measured on another window; a bounded complex gain in place of the unit rotation) are the entropy ladder of P7. The main model applies no transform.
+
+\paragraph{Training recipe.}
+AdamW~\cite{loshchilov2019decoupled} with learning rate $10^{-4}$ and weight decay 0.05, cosine decay, batch 32, 20 epochs, label smoothing 0.1, gradient clipping at 1, and five input augmentations (sign flip, jitter, time mask, channel mask, frequency mask). Multi-class corpora use cross-entropy and one validation per epoch; the seizure corpora use focal loss with validation every 200 steps and patience 20. The checkpoint is selected on the validation split only, and the test split is scored once. Seeds 0, 1 and 2 are reported wherever they exist; single-seed cells are marked. The model is not pretrained, receives no auxiliary supervision, and does not tune hyperparameters per corpus beyond the loss and evaluation cadence inherited from each corpus's baselines.

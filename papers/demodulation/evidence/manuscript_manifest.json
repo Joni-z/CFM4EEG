@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "document_id": "demodulate-then-attend-cvpr2027",
+  "draft_status": "draft",
+  "study_design": "computational_benchmark_and_attribution",
+  "submission_ready": false,
+  "registries": {
+    "source_manifest": "source_manifest.json",
+    "claim_evidence": "claims.csv",
+    "consistency_manifest": "consistency_manifest.json",
+    "authorship_manifest": "authorship.json",
+    "reporting_coverage": "reporting_coverage.json"
+  },
+  "reporting_guidelines": [],
+  "required_statements": {
+    "ai_disclosure": "draft",
+    "author_contributions": "missing",
+    "code_availability": "missing",
+    "conflicts": "missing",
+    "consent": "not_applicable",
+    "data_availability": "missing",
+    "ethics": "not_applicable",
+    "funding": "missing"
+  },
+  "human_verification": {
+    "completed": false,
+    "verified_by": "",
+    "verified_on": ""
+  },
+  "confidentiality_review": {
+    "completed": false,
+    "external_services_authorized": false,
+    "policy_checked": false,
+    "verified_by": "",
+    "verified_on": ""
+  }
+}

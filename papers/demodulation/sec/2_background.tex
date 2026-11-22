@@ -1,0 +1,34 @@
+\section{What clinical labels are made of, and what tokenizers carry}
+\label{sec:background}
+
+The gap is visible once the label vocabulary and the token vocabulary are written side by side.
+
+\paragraph{The label vocabulary.}
+The ACNS Standardized Critical Care EEG Terminology~\cite{hirsch2021acns} defines periodic discharges as repetition of a waveform of relatively uniform morphology at nearly regular intervals, graded by frequency (typically 0.5 to 3\,Hz), amplitude and sharpness; rhythmic delta activity as the same repetition with no interval; spike-and-wave as a sharp transient followed by a slow wave, a statement about shape; and an electrographic seizure by evolution in frequency, amplitude, morphology or location over seconds. The TUEV classes map onto this vocabulary directly: GPED and PLED are periodic discharges, SPSW is spike-and-wave, EYEM is a large slow frontal deflection, ARTF is broadband muscle or electrode activity. Three properties of the vocabulary carry our argument. The quantities are band-specific. They come in two kinds: dynamics of the amplitude envelope (how much, when, how regularly) and morphology of the band-limited waveform (how sharp, which shape). And their timescale is the event, 0.1 to 1\,s for a discharge and seconds for seizure evolution.
+
+\paragraph{What each tokenizer exposes.}
+Table~\ref{tab:tokenizers} lists the content a token carries before the encoder sees it. Magnitude tokenizers discard phase and hold the envelope only at 1\,s resolution; waveform tokenizers keep morphology but leave the envelope to be assembled implicitly by attention; only EEGPT reaches sub-second resolution, and it discards band structure. No tokenizer exposes band envelopes at the event timescale as separate tokens on a band axis.
+
+\begin{table*}[t]
+\centering
+\TableStyle
+\caption{Content a token carries before the encoder. \emph{Band axis}: bands are separate tokens the encoder can attend over. \emph{Envelope}: a per-band amplitude envelope at the token's time resolution. \emph{Waveform}: the band-limited time-domain shape.}
+\label{tab:tokenizers}
+\begin{tabular}{@{}lllccc@{}}
+\toprule
+Tokenizer & Content per token & Res. & Band axis & Env. & Wave. \\
+\midrule
+BIOT, ContraWR, FFCL~\cite{yang2023biot} & STFT magnitude, phase discarded & 1\,s & no & yes & no \\
+CBraMod~\cite{wang2025cbramod} & raw patch CNN + FFT magnitude & 1\,s & no & partly & yes \\
+LaBraM~\cite{jiang2024labram} & code of per-bin amplitude and phase & 1\,s & no & target & no \\
+EEGPT~\cite{wang2024eegpt} & raw patch projection & 0.25\,s & no & no & yes \\
+REVE~\cite{elouahidi2025reve} & raw patch projection & 0.9\,s & no & no & yes \\
+TFM-Tokenizer~\cite{pradeepkumar2026tfm} & code of STFT magnitude + raw branch & 1\,s & no & yes & yes \\
+\midrule
+This paper & per-band log-envelope and waveform, 16 learned bands & 0.25\,s & yes & yes & yes \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\paragraph{Content and reader are never varied independently.}
+Transplant studies~\cite{pradeepkumar2026tfm} vary the tokenizer and hold each host's encoder fixed, so they cannot say whether a gain belongs to the content or to how the host reads it. One result from our archive shows why the distinction matters: CBraMod's own stem (a temporal CNN plus an FFT-magnitude branch) attached to our compact two-axis encoder reaches TUEV $\kappa$ 0.738, while the same stem attached to CBraMod's own 12-layer encoder, trained from scratch on the same arrays, reaches 0.575. The content was identical; the reader moved the score by 0.16. This paper treats content and reader as the two experimental factors.

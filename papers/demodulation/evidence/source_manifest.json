@@ -1,0 +1,1013 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "evidence_id": "E001",
+      "title": "CFM4EEG archive: raw-results-deduplicated.jsonl (2,681 original result.json payloads)",
+      "source_type": "dataset",
+      "locator": "macmini:~/CFM4EEG-archive-20260919/experiments/raw-results-deduplicated.jsonl, SHA-256 2b88344367d241d6d75306acb7bba7d3db28d133ef925142a43535f5d5b1b717; per-run config, seed, test metrics | note: Primary data for every own-model number. Verified by the drafter against the file; an author must re-open.",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E002",
+      "title": "Single-field contrast ledger computed 2026-11-05 (analyze.py, contrasts.json, groups.json)",
+      "source_type": "other",
+      "locator": "evidence/ledger/ in this folder; 748 canonical runs, 443 cells, 425 contrasts | note: Derived from E001 by the drafter.",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E003",
+      "title": "Legacy CfFT + three-axis attribution audit (legacy-triaxial-attribution-20261105/report.md)",
+      "source_type": "report",
+      "locator": "macmini:~/CFM4EEG-rebuild-20261021/maintenance/legacy-triaxial-attribution-20261105/report.md",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E004",
+      "title": "Performance-driver evidence synthesis (performance-drivers-20261105/notes.md)",
+      "source_type": "report",
+      "locator": "macmini maintenance/performance-drivers-20261105/notes.md",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E005",
+      "title": "CHB-MIT original control and data/recipe audit (chbmit-control-audit-20261104/report.md, mechanism-followup.md)",
+      "source_type": "report",
+      "locator": "macmini maintenance/chbmit-control-audit-20261104/; counts 316205/21184/17386 and 316205/21094/17224; enriched-vs-natural rescoring .696899 vs .485518",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E006",
+      "title": "Original CfFT PAC token readout (original-cfft-pac-readout-20261102/report.md)",
+      "source_type": "report",
+      "locator": "macmini maintenance/original-cfft-pac-readout-20261102/report.md; PAC curve R2 -0.091, full-token -0.0008",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E007",
+      "title": "Single-path PAC candidate screen (pac-singlepath-20261104/report.md)",
+      "source_type": "report",
+      "locator": "macmini maintenance/pac-singlepath-20261104/report.md; candidate C R2 0.773/0.750",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E008",
+      "title": "Candidate C downstream runs (pac-c-downstream-20261104/report.md; chbmit-control-audit)",
+      "source_type": "report",
+      "locator": "C TUEV test kappa .660108 vs original .693214; CHB validation PR .3207 vs original .4157 when stopped",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E009",
+      "title": "Legacy three-axis validation and identity controls (legacy-triaxial-validation-20261105/report.md; runs/*/seed2/result.json on 145)",
+      "source_type": "report",
+      "locator": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/legacy-triaxial-validation-20261105/runs/; TUEV identity s2 kappa .7111908, CHB identity s2 PR .6994135",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E010",
+      "title": "Raw-patch learned-row three-axis control (raw-triaxial-control-20261105, result.json)",
+      "source_type": "dataset",
+      "locator": "145:/data2/zz5070/CFM4EEG-rebuild-20261021/raw-triaxial-control-20261105/runs/tuev-wave_patch_threeaxis-20261105/seed2/result.json; kappa .5758048, BA .5524684",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E011",
+      "title": "CBraMod tokenizer with two-axis encoder (cbramod-tokenizer-review-20261022/final-result.json)",
+      "source_type": "dataset",
+      "locator": "macmini maintenance/cbramod-tokenizer-review-20261022/final-result.json; kappa .7380962",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E012",
+      "title": "Rebuild progress log and native baseline results (PROGRESS.md, cell-audit-tracker-20261022)",
+      "source_type": "report",
+      "locator": "macmini:~/CFM4EEG-rebuild-20261021/PROGRESS.md; TUEV native CBraMod .574899, Conformer .5028876, FFCL .4585601, BIOT .4181469, REVE .423435; WavePatch .6378/.6387; CHB natural grid CBraMod .56993, EEGPT .3791208",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E013",
+      "title": "Own-model and training-chain audit (own-model-audit-20261024/report.md)",
+      "source_type": "report",
+      "locator": "macmini maintenance/own-model-audit-20261024/report.md; TUEV 3,243 distinct test signals, 144 conflicting groups, unique-signal kappa .613811/.576291/.547097",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E014",
+      "title": "Static comparison audit (explanation-audit-20261023/report.md)",
+      "source_type": "report",
+      "locator": "macmini maintenance/explanation-audit-20261023/report.md",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E015",
+      "title": "Repository FINDINGS.md (PACLock/CroFreMo measured findings, 2026-08 to 2026-09)",
+      "source_type": "report",
+      "locator": "github.com/Joni-z/CFM4EEG docs/FINDINGS.md sections 1-6 (patch ladder, probe readability, per-class F1, nb1/flat, pretraining 3/9)",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E016",
+      "title": "Quad16 breadth and model-version records (QUAD16-BREADTH-2026-09-15.md, MODEL-VERSIONS.md)",
+      "source_type": "report",
+      "locator": "145 workspaces CFM4EEG-a128-r1-20260916/docs/; Quad16 TUEV seeds .7278934/.6951873/.6566204, IIIC .504/.491/.496",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E017",
+      "title": "PAC-former weekly report 2026-07-26 (July ablations)",
+      "source_type": "report",
+      "locator": "145 workspaces/PAC-former/WEEKLY_REPORT_2026-07-26.md section 10 and 12.3",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E018",
+      "title": "Frozen manuscript results tables (paper_drafts/v2026-09-11e/sections/results.tex, appendix.tex)",
+      "source_type": "report",
+      "locator": "github.com/Joni-z/CFM4EEG paper_drafts/v2026-09-11e; baseline means over three seeds",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E019",
+      "title": "HANDOFF.md main table and tokenizer table (2026-09-12)",
+      "source_type": "report",
+      "locator": "github.com/Joni-z/CFM4EEG docs/HANDOFF.md section 4",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E020",
+      "title": "Explicit PAC measurement component record (autoresearch-pac-20261028/report.md)",
+      "source_type": "report",
+      "locator": "macmini maintenance/autoresearch-pac-20261028/report.md section 4; measured .694206 vs identity .683434",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E021",
+      "title": "PAC content fusion and relation-context studies (pac-content-fusion-20261103, autoresearch-pac-token-20261103)",
+      "source_type": "report",
+      "locator": "macmini maintenance/; original token curve R2 about -0.001",
+      "year": 2026,
+      "authors": [],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "restricted",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E101",
+      "title": "A Theory of Usable Information under Computational Constraints",
+      "source_type": "journal_article",
+      "locator": "ICLR 2020; arXiv:2002.10689 | note: Title/authors checked against arXiv API 2026-11-05.",
+      "year": 2020,
+      "authors": [
+        "Xu, Yilun",
+        "Zhao, Shengjia",
+        "Song, Jiaming",
+        "Stewart, Russell",
+        "Ermon, Stefano"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2002.10689"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E102",
+      "title": "Axial Attention in Multidimensional Transformers",
+      "source_type": "preprint",
+      "locator": "arXiv:1912.12180 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2019,
+      "authors": [
+        "Ho, Jonathan",
+        "Kalchbrenner, Nal",
+        "Weissenborn, Dirk",
+        "Salimans, Tim"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/1912.12180"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E103",
+      "title": "Conditional probing: measuring usable information beyond a baseline",
+      "source_type": "journal_article",
+      "locator": "EMNLP 2021 | note: From drafter memory; verify.",
+      "year": 2021,
+      "authors": [
+        "Hewitt, John",
+        "Ethayarajh, Kawin",
+        "Liang, Percy",
+        "Manning, Christopher D."
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://aclanthology.org/2021.emnlp-main.122/"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E104",
+      "title": "Designing and Interpreting Probes with Control Tasks",
+      "source_type": "journal_article",
+      "locator": "EMNLP 2019 | note: From drafter memory; verify.",
+      "year": 2019,
+      "authors": [
+        "Hewitt, John",
+        "Liang, Percy"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://aclanthology.org/D19-1275/"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E105",
+      "title": "A product theorem for Hilbert transforms",
+      "source_type": "journal_article",
+      "locator": "Proceedings of the IEEE 51(5):868-869 | note: From drafter memory; verify.",
+      "year": 1963,
+      "authors": [
+        "Bedrosian, Edward"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E106",
+      "title": "Brain oscillations and the importance of waveform shape",
+      "source_type": "journal_article",
+      "locator": "Trends in Cognitive Sciences 21(2):137-149 | note: From drafter memory; verify.",
+      "year": 2017,
+      "authors": [
+        "Cole, Scott R.",
+        "Voytek, Bradley"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E107",
+      "title": "American Clinical Neurophysiology Society's Standardized Critical Care EEG Terminology: 2021 Version",
+      "source_type": "journal_article",
+      "locator": "Journal of Clinical Neurophysiology 38(1):1-29 | note: From drafter memory; verify DOI and author list.",
+      "year": 2021,
+      "authors": [
+        "Hirsch, Lawrence J.",
+        "and others"
+      ],
+      "identifiers": {
+        "doi": "10.1097/WNP.0000000000000806",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E108",
+      "title": "EEG-FM-Compass: Progress, Benchmarking, and Future Directions for EEG Foundation Models",
+      "source_type": "journal_article",
+      "locator": "National Science Review 2026; arXiv:2601.17883 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2026,
+      "authors": [
+        "Liu, Dingkun",
+        "Chen, Yuheng",
+        "Chen, Zhu",
+        "Cui, Zhenyao",
+        "Wen, Yaozhi",
+        "An, Jiayu",
+        "Luo, Jingwei",
+        "Wu, Dongrui"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2601.17883"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E109",
+      "title": "Aperiodic and Low-Frequency Spectral Bias in Reconstruction based EEG Foundation Models",
+      "source_type": "preprint",
+      "locator": "arXiv:2605.26434 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2026,
+      "authors": [
+        "Kommineni, Aditya",
+        "and others"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2605.26434"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E110",
+      "title": "What Do EEG Foundation Models Capture from Human Brain Signals?",
+      "source_type": "preprint",
+      "locator": "arXiv:2605.11410 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2026,
+      "authors": [
+        "Tang, Ling",
+        "and others"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2605.11410"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E111",
+      "title": "EEG-FM-Bench: A Comprehensive Benchmark for the Systematic Evaluation and Diagnostic Analyses of EEG Foundation Models",
+      "source_type": "preprint",
+      "locator": "arXiv:2508.17742 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2025,
+      "authors": [
+        "Xiong, Wei",
+        "Li, Jiangtong",
+        "Li, Jie",
+        "Zhu, Kun",
+        "Jiang, Changjun"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2508.17742"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E112",
+      "title": "NeuroAtlas: Benchmarking Foundation Models for Clinical EEG and Brain-Computer Interfaces",
+      "source_type": "preprint",
+      "locator": "arXiv:2605.14698 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2026,
+      "authors": [
+        "Kontras, Konstantinos",
+        "and others"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2605.14698"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E113",
+      "title": "BandVQ: Band-Wise Vector-Quantized EEG Foundation Model",
+      "source_type": "preprint",
+      "locator": "arXiv:2605.24921 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2026,
+      "authors": [
+        "Sukhbaatar, Jamiyan",
+        "Imamura, Satoshi",
+        "Tanaka, Toshihisa"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2605.24921"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E114",
+      "title": "CodeBrain: Bridging Decoupled Tokenizer and Multi-Scale Architecture for EEG Foundation Model",
+      "source_type": "preprint",
+      "locator": "arXiv:2506.09110 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2025,
+      "authors": [
+        "Ma, Jingying",
+        "and others"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2506.09110"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E115",
+      "title": "Understanding and Correcting Low-Frequency Bias in EEG Foundation Model",
+      "source_type": "preprint",
+      "locator": "arXiv:2608.01898 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2026,
+      "authors": [
+        "Yu, Junjie",
+        "and others"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2608.01898"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E116",
+      "title": "FAPEX: Fractional Amplitude-Phase Expressor for Robust Cross-Subject Seizure Prediction",
+      "source_type": "preprint",
+      "locator": "arXiv:2511.03263 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2025,
+      "authors": [
+        "Zheng, Ruizhe",
+        "and others"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2511.03263"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E117",
+      "title": "BIOT: Cross-data Biosignal Learning in the Wild",
+      "source_type": "journal_article",
+      "locator": "NeurIPS 2023; arXiv:2305.10351 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2023,
+      "authors": [
+        "Yang, Chaoqi",
+        "Westover, M. Brandon",
+        "Sun, Jimeng"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2305.10351"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E118",
+      "title": "CBraMod: A Criss-Cross Brain Foundation Model for EEG Decoding",
+      "source_type": "journal_article",
+      "locator": "ICLR 2025; arXiv:2412.07236 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2025,
+      "authors": [
+        "Wang, Jiquan",
+        "and others"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2412.07236"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E119",
+      "title": "Tokenizing Single-Channel EEG with Time-Frequency Motif Learning",
+      "source_type": "journal_article",
+      "locator": "ICLR 2026; arXiv:2502.16060 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2026,
+      "authors": [
+        "Pradeepkumar, Jathurshan",
+        "Piao, Xihao",
+        "Chen, Zheng",
+        "Sun, Jimeng"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2502.16060"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E120",
+      "title": "Theory of communication",
+      "source_type": "journal_article",
+      "locator": "Journal of the IEE Part III 93(26):429-457 | note: From drafter memory; verify.",
+      "year": 1946,
+      "authors": [
+        "Gabor, Dennis"
+      ],
+      "identifiers": {
+        "doi": "",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": ""
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    },
+    {
+      "evidence_id": "E121",
+      "title": "Scientific Agent Skills: A Library of Procedural Knowledge for Research Agents",
+      "source_type": "preprint",
+      "locator": "arXiv:2609.00065 | note: Checked against arXiv API 2026-11-05.",
+      "year": 2026,
+      "authors": [
+        "Kassis, Timothy",
+        "Agarwal, Vinayak",
+        "He, Yuhuan",
+        "Patel, Darshil",
+        "Brueckner, Aubrey M."
+      ],
+      "identifiers": {
+        "doi": "10.48550/arXiv.2609.00065",
+        "isbn": "",
+        "pmcid": "",
+        "pmid": "",
+        "url": "https://arxiv.org/abs/2609.00065"
+      },
+      "confidentiality": "public",
+      "verification": {
+        "source_opened": false,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      }
+    }
+  ]
+}

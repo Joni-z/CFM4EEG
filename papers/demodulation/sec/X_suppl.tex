@@ -1,0 +1,112 @@
+\clearpage
+\setcounter{page}{1}
+\maketitlesupplementary
+
+\section{Evidence ledger}
+\label{sec:ledger}
+Table~\ref{tab:ledger} summarises the single-field contrasts behind Section~\ref{sec:attribution}. A contrast is two (corpus, configuration) cells in the same corpus whose configurations differ in exactly one field; paired differences use seeds present in both cells. Values are the primary metric of each corpus. The complete ledger, with run names, configuration diffs and per-seed values, is released with the code (\texttt{evidence/}).
+
+\begin{table*}[t]
+\centering
+\TableStyle
+\caption{Single-field contrasts computed from the archived result files (2,681 records; 748 canonical runs of our model family; 443 cells; 425 contrasts).}
+\label{tab:ledger}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.2cm}rrr>{\raggedright\arraybackslash}p{7.3cm}@{}}
+\toprule
+Field, A $\to$ B & Contrasts & Paired seeds & Mean paired B$-$A & Per-corpus pattern \\
+\midrule
+encoder flat $\to$ three-axis & 2 & 6 & $+0.377$ & CHB-MIT $+0.531$, TUSZ $+0.223$, all six positive \\
+bands 1 $\to$ 8 (raw tokens) & 2 & 6 & $+0.268$ & CHB-MIT $+0.422$, TUSZ $+0.113$, all six positive \\
+rotation measured $\to$ own phase & 8 & 15 & $-0.076$ & 14 of 15 negative; CHB-MIT, TUEV, TUSZ, IIIC \\
+rotation identity $\to$ own phase & 3 & 2 & $-0.121$ & TUEV $-0.197$, $-0.099$; CHB-MIT $-0.143$ \\
+rotation unaligned weights $\to$ measured & 3 & 3 & $+0.058$ & CHB-MIT $+0.065$; TUEV $+0.073$, $+0.036$ \\
+rotation identity $\to$ measured & 3 & 4 & $+0.006$ & two-axis TUEV $+0.068$, $-0.001$; CHB-MIT $-0.027$; three-axis TUEV $-0.015$ \\
+waveform view off $\to$ on & 4 & 4 & $+0.056$ & CHB-MIT $+0.167$, $+0.062$; TUEV $+0.002$, $-0.006$ \\
+token content envelope $\to$ raw waveform & 13 & 30 & $+0.022$ & TUEV $-0.172$; CHB-MIT $+0.121$; TUSZ $+0.083$; MI and TUAR positive \\
+both rows $\to$ envelope only & 18 & 42 & $-0.010$ & TUEV $+0.041$; CHB-MIT $-0.193$; TUSZ $-0.014$; Siena $+0.144$ \\
+band attention $\to$ none (8-band duplex) & 4 & 4 & $-0.059$ & CHB-MIT $-0.129$, IIIC $-0.043$, TUEV $-0.031$, TUSZ $+0.005$ \\
+moment window 1\,s $\to$ 0.25\,s (8 bands) & 10 & 12 & $+0.021$ & TUEV $+0.097$ (3 seeds); others within 0.06 \\
+product $\to$ unit rotation & 13 & 28 & $+0.002$ & 18 of 28 positive; TUSZ $+0.037$, CHB-MIT $-0.040$ \\
+coupling-strength feature off $\to$ on & 28 & 28 & $-0.004$ & 12 of 28 positive \\
+own-band coupling off $\to$ on & 9 & 9 & $+0.005$ & 4 of 9 positive \\
+bands 16 $\to$ 8 & 12 & 16 & $-0.024$ & CHB-MIT $-0.171$ (1 seed); TUEV $+0.019$; MI $-0.03$ \\
+width 128 $\to$ 192 & 17 & 17 & $+0.022$ & 12 of 17 positive \\
+width 192 $\to$ 256 & 16 & 29 & $-0.013$ & TUSZ $-0.043$, CHB-MIT $-0.036$, TUAR $+0.065$ \\
+augmentation off $\to$ on & 17 & 17 & $+0.006$ & TUEV mixed; TUAR $+0.034$ \\
+weight decay 0.05 $\to$ $10^{-5}$ & 7 & 7 & $+0.007$ & within 0.03 everywhere \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\section{Rotation controls}
+\label{sec:rotation_suppl}
+Table~\ref{tab:rotation} gives the paired runs behind Section~\ref{sec:rotation} and Table~\ref{tab:biot} the host-reader runs.
+
+\begin{table}[t]
+\centering
+\TableStyle
+\caption{Token rotated by the measured content-independent direction against the untransformed token (identity); only this differs within a column. TUEV $\kappa$, CHB-MIT AUC-PR.}
+\label{tab:rotation}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Reader, rotation & TUEV s0 & TUEV s2 & CHB s0 & CHB s2 \\
+\midrule
+3-axis, measured & 0.714 & 0.716 & 0.697 & 0.710 \\
+3-axis, identity & 0.729 & 0.711 & 0.671 & 0.699 \\
+2-axis, measured & 0.685 & 0.713 & 0.605 & 0.624 \\
+2-axis, identity & 0.616 & 0.699 & 0.665 & 0.650$^{\dagger}$ \\
+\bottomrule
+\end{tabular}
+\\[2pt]{\scriptsize $^{\dagger}$stopped by an 11\,h budget before patience.}
+\end{table}
+
+\begin{table}[t]
+\centering
+\TableStyle
+\caption{The same rotation inside a flattened host reader (BIOT's linear-attention transformer reading our frontend); seeds 0, 1, 2.}
+\label{tab:biot}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Corpus, metric & measured & identity \\
+\midrule
+TUEV, $\kappa$ & 0.596, 0.583, 0.653 & 0.400, 0.385, 0.443 \\
+IIIC, $\kappa$ & \multicolumn{2}{l}{measured $-$ identity $= +0.12$, three seeds} \\
+CHB-MIT, AUC-PR & 0.474, 0.454, 0.465 & 0.685, 0.646, 0.555 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Protocol notes and two corrections}
+\label{sec:protocols}
+\paragraph{Splits.}
+TUEV: shared 16-channel bipolar cohort, 68,445 / 15,487 / 29,421 windows, 3,243 distinct test signals; validation once per epoch; $\kappa$ selects the checkpoint. TUSZ: official train / dev / eval, 10\,s windows, 46,091 test windows; validation every 200 steps, patience 20, focal loss. CHB-MIT: patient-disjoint, chb21 grouped with chb01 in training. IIIC: deduplicated, tie-free, patient-stratified split, 15,780 test rows. From-scratch baselines use each author's released training code with the shared arrays and documented input adaptations; BIOT and FFCL are reported at their validation-best checkpoint because their released entry point selects the terminal one. Pretrained baselines use released weights and each repository's preprocessing.
+
+\paragraph{Correction 1: CHB-MIT evaluation composition.}
+The legacy CHB-MIT validation and test sets contained 21,184 / 17,386 windows with 150 / 276 positives; the natural 10\,s grid has 21,094 / 17,224 windows with 60 / 114 positives. The extra 90 / 162 windows were seizure-centred. Test prevalence falls from 1.59\% to 0.66\%, and neither AUC-PR nor a validation-selected checkpoint is comparable across the two sets. All CHB-MIT numbers in the main text are labelled with the set they were scored on.
+
+\paragraph{Correction 2: TUEV annotation multiplicity.}
+TUEV's 29,421 test rows are 3,243 distinct signals, because the corpus annotates the same interval once per channel and the preprocessing cuts all 16 channels for every annotation; 144 identical-signal groups carry conflicting labels. No identical signal crosses the train / validation / test boundary. Weighting each distinct signal once changes magnitudes, not the ordering of the models compared in Section~\ref{sec:main}.
+
+\section{Run index}
+\label{sec:runs}
+\begin{itemize}\raggedright
+\item Band and encoder controls, TUSZ and CHB-MIT, three seeds each: \texttt{paclock\_rawtok}, \texttt{paclock\_raw\_nb1}, \texttt{paclock\_raw\_flat}.
+\item Three-axis 16-band, rotated: \texttt{quad\_range\_20260916} (seeds 0, 2); unrotated: \texttt{range\_identity\_sean} (TUEV, seed 0), \texttt{legacy-triaxial-identity-20261105} (TUEV and CHB-MIT, seed 2).
+\item Own phase, unaligned weights, envelope only (seed 2): \texttt{quad\_range\_own}, \texttt{quad\_range\_weight}, \texttt{quad\_range\_envelope}; different-window direction (TUEV, seed 0): \texttt{range\_sample\_shuffle\_sean}.
+\item Two-axis pairs: \texttt{range\_twoaxis\_measured}, \texttt{\_identity}, \texttt{\_own}, \texttt{\_weight}, \texttt{\_envelope}, all suffixed \texttt{\_20260917}.
+\item Eight-band families: \texttt{paclock\_rot2} (envelope only, rotated), \texttt{paclock\_duplex} (both rows), \texttt{paclock\_rawtok} (waveform).
+\item BIOT host pairs, seeds 0 to 2: \texttt{biot\_range\_measured\_sean}, \texttt{biot\_range\_identity\_sean}.
+\item Learned-row control (seed 2): \texttt{wave\_patch\_threeaxis-20261105}; CBraMod stem with our reader: \texttt{cbramod\_tokenizer\_twoaxis\_20261021}; isometry-breaking variant: \texttt{cfc-direct-20261104}.
+\item Label-fraction runs: \texttt{tuev-paclock\_v2\_n2160}, \texttt{\_n6720}, \texttt{\_n20000}; \texttt{tuev-sparcnet\_n2160}, \texttt{\_n6720}, \texttt{\_n20000}.
+\end{itemize}
+
+\section{Remaining experiments}
+\label{sec:remaining}
+In order: (1) finish the learned-row control on CHB-MIT (seed 2); (2) run the main model on all twelve corpora, three seeds, replacing the rotated-token stand-ins of Table~\ref{tab:main}; (3) under the main model, run the content three-arm (envelope only, waveform only, both) on TUEV, CHB-MIT, TUSZ and IIIC, three seeds; (4) run T1, T2 and T6 on synthetic signals and the T3 noise ladder on TUEV; (5) compare three-axis with a parameter-matched two-axis reader; (6) compare learned, fixed log-spaced and linearly spaced 16-band filterbanks, and 8 against 16 bands, three seeds; (7) re-train every model on the CHB-MIT natural grid and report that protocol only, with unique-signal weighting as a secondary TUEV metric; (8) re-run the pretrained baselines through the native pipeline and confirm or withdraw the single-seed Sleep-EDF and TUAR leads.
+
+\section{Drafting and AI-use note}
+\label{sec:aiuse}
+This draft was prepared with an AI coding assistant following the evidence-bound drafting procedure of the Scientific Agent Skills library~\cite{kassis2026skills}: every numeric claim is bound to an evidence identifier in the released \texttt{evidence/} registry, and the registry marks which sources an accountable author has verified. The accountable authors are responsible for all content; the venue's AI-use policy will be followed in the final version.

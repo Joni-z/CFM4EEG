@@ -1,0 +1,279 @@
+{
+  "schema_version": "1.0",
+  "methods": [
+    {
+      "method_id": "M001",
+      "name": "single-field contrast over archived runs",
+      "analysis_intent": "descriptive",
+      "protocol_status": "post_hoc",
+      "outcome_ids": [
+        "O001"
+      ]
+    },
+    {
+      "method_id": "M002",
+      "name": "supervised training from scratch with validation-selected checkpoint, test scored once",
+      "analysis_intent": "confirmatory",
+      "protocol_status": "prespecified",
+      "outcome_ids": [
+        "O001"
+      ]
+    }
+  ],
+  "numeric_facts": [
+    {
+      "fact_id": "N001",
+      "concept": "TUEV kappa, rotation-off three-axis, seed 0",
+      "unit": "kappa",
+      "value": 0.729,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "abstract; intro; main",
+      "evidence_ids": [
+        "E001",
+        "E009"
+      ]
+    },
+    {
+      "fact_id": "N002",
+      "concept": "TUEV kappa, rotation-off three-axis, seed 2",
+      "unit": "kappa",
+      "value": 0.711,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "intro; attribution; main",
+      "evidence_ids": [
+        "E009"
+      ]
+    },
+    {
+      "fact_id": "N003",
+      "concept": "TUEV kappa, Quad16 three-seed mean",
+      "unit": "kappa",
+      "value": 0.693,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "abstract; intro; main",
+      "evidence_ids": [
+        "E016"
+      ]
+    },
+    {
+      "fact_id": "N004",
+      "concept": "TUSZ AUC-PR, raw band tokens three-seed mean",
+      "unit": "AUC-PR",
+      "value": 0.671,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "abstract; intro; attribution; main",
+      "evidence_ids": [
+        "E001",
+        "E019"
+      ]
+    },
+    {
+      "fact_id": "N005",
+      "concept": "TUSZ AUC-PR, two-axis duplex d192 three-seed mean",
+      "unit": "AUC-PR",
+      "value": 0.68,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "abstract; main",
+      "evidence_ids": [
+        "E001"
+      ]
+    },
+    {
+      "fact_id": "N006",
+      "concept": "IIIC kappa, Quad16 three-seed mean",
+      "unit": "kappa",
+      "value": 0.497,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "abstract; intro; main",
+      "evidence_ids": [
+        "E016"
+      ]
+    },
+    {
+      "fact_id": "N007",
+      "concept": "CBraMod TUEV scratch native, seed 0",
+      "unit": "kappa",
+      "value": 0.575,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "abstract; intro; background; attribution; main",
+      "evidence_ids": [
+        "E012"
+      ]
+    },
+    {
+      "fact_id": "N008",
+      "concept": "FFCL TUSZ three-seed mean",
+      "unit": "AUC-PR",
+      "value": 0.545,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "abstract; intro; main",
+      "evidence_ids": [
+        "E018"
+      ]
+    },
+    {
+      "fact_id": "N009",
+      "concept": "REVE IIIC pretrained three-seed mean",
+      "unit": "kappa",
+      "value": 0.436,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "abstract; intro; main",
+      "evidence_ids": [
+        "E018"
+      ]
+    },
+    {
+      "fact_id": "N010",
+      "concept": "CHB-MIT legacy-vs-natural rescoring, three-axis seed 0",
+      "unit": "AUC-PR",
+      "value": 0.697,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "intro; main",
+      "evidence_ids": [
+        "E005"
+      ]
+    },
+    {
+      "fact_id": "N011",
+      "concept": "CHB-MIT natural grid rescoring, three-axis seed 0",
+      "unit": "AUC-PR",
+      "value": 0.486,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "intro; main",
+      "evidence_ids": [
+        "E005"
+      ]
+    },
+    {
+      "fact_id": "N012",
+      "concept": "Candidate C TUEV kappa",
+      "unit": "kappa",
+      "value": 0.66,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "abstract; attribution; discussion",
+      "evidence_ids": [
+        "E008"
+      ]
+    },
+    {
+      "fact_id": "N013",
+      "concept": "Original CfFT two-axis TUEV kappa, seed 0 (aug)",
+      "unit": "kappa",
+      "value": 0.693,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "abstract; attribution; discussion",
+      "evidence_ids": [
+        "E012"
+      ]
+    },
+    {
+      "fact_id": "N014",
+      "concept": "Learned-row control TUEV kappa, seed 2",
+      "unit": "kappa",
+      "value": 0.576,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "intro; attribution",
+      "evidence_ids": [
+        "E010"
+      ]
+    },
+    {
+      "fact_id": "N015",
+      "concept": "CBraMod stem + two-axis TUEV kappa",
+      "unit": "kappa",
+      "value": 0.738,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "background; attribution; discussion",
+      "evidence_ids": [
+        "E011"
+      ]
+    },
+    {
+      "fact_id": "N016",
+      "concept": "Mean identity minus measured over 8 pairs",
+      "unit": "kappa or AUC-PR",
+      "value": -0.003,
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "test split",
+      "section": "abstract; intro; attribution; main",
+      "evidence_ids": [
+        "E002"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "result_id": "R001",
+      "outcome_id": "O001",
+      "method_id": "M002",
+      "analysis_intent": "confirmatory",
+      "evidence_ids": [
+        "E001"
+      ],
+      "reported_sections": [
+        "main"
+      ],
+      "sample_size": 29421
+    },
+    {
+      "result_id": "R002",
+      "outcome_id": "O001",
+      "method_id": "M001",
+      "analysis_intent": "descriptive",
+      "evidence_ids": [
+        "E002"
+      ],
+      "reported_sections": [
+        "attribution"
+      ],
+      "sample_size": 425
+    }
+  ]
+}

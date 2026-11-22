@@ -1,0 +1,25 @@
+%% Preamble for the demodulation draft. Loaded by main.tex before hyperref.
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs,multirow,array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.misc}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=*}
+
+%% Inline annotations (drafting only; disable for the final version)
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\todo}[1]{{\color{red}#1}}
+\newcommand{\TODO}[1]{\textbf{\color{red}[TODO: #1]}}
+% \renewcommand{\TODO}[1]{}
+% \renewcommand{\todo}[1]{#1}
+
+%% Typography helpers
+\newcommand{\TableStyle}{\fontsize{8}{9.5}\selectfont\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.08}}
+\newtheorem{proposition}{Proposition}
+\newcommand{\kap}{\ensuremath{\kappa}}
+\newcommand{\I}{\ensuremath{\mathrm{I}}}
+\newcommand{\Hv}{\ensuremath{\mathrm{H}}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
