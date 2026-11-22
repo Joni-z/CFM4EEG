@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-11-22T11:45:54.742094+08:00",
+  "updated_at": "2026-11-22T18:43:39.175534+08:00",
   "historical_unique_results": 2681,
   "clinical_records": 2684,
   "model_versions": 268,
-  "study_and_trial_records": 467,
-  "trial_rows": 382,
+  "study_and_trial_records": 476,
+  "trial_rows": 390,
   "checkpoint_locations": 2035,
   "conflict_rows": 154,
   "conflict_groups": 93,
@@ -36,11 +36,12 @@
     "tusz": 211,
     "tusz_type": 6
   },
-  "input_files": 591,
+  "input_files": 592,
   "input_hashes": {
     "/Users/mr.z/CFM4EEG/.local/legacy/experiments/raw-results-deduplicated.jsonl": "2b88344367d241d6d75306acb7bba7d3db28d133ef925142a43535f5d5b1b717",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/original-cfft-pac-readout-20261102/full-token/scores.json": "870f761d780350819f5d6814381a8125a98b8f5970209c1ecb5be823551a33f3",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/original-cfft-pac-readout-20261102/readout/scores.json": "06b1a906f72b5476d8c025b70b6308f7436865f29bd259c821e4427ababd3251",
+    "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/cfc-pac-closure-20261122/results.tsv": "0d353e2952116cb2ffed3ae9f3f87818c00ccaefcbb59a45c1796bbb4e8af6ef",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/results.tsv": "830758c30e42c53c926956a9836c78be5d1a59994e92c7fa8fdb0f9531685463",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/radial-screen/scores.json": "ca16cec18a406c2f9eec5cc2a76351037f089d826a0cec5099b82b8beb6741d9",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/pac-content-fusion-20261103/readout-diagnosis/scores.json": "085e7ff22c5d877ba1be751ba061b665b1cfb40a5750342b6c6bfb5b0d4ca414",
