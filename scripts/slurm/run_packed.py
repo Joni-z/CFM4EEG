@@ -82,8 +82,7 @@ def main():
                 env['MIOPEN_USER_DB_PATH']=cache;env['MIOPEN_CUSTOM_CACHE_DIR']=cache
                 logpath=Path('logs')/f'{name}-{job}-{item["index"]}-{Path(item["config"]).stem}-s{item["seed"]}.out'
                 log=logpath.open('w')
-                proc=subprocess.Popen([sys.executable,'-u','-m','paclock_bench.training.train',
-                                       '--config',item['config'],'--seed',str(item['seed'])],
+                proc=subprocess.Popen([sys.executable,'-u','scripts/run_sean.py',item['config']],
                                       env=env,stdout=log,stderr=subprocess.STDOUT)
                 item.update(gpu=gpu,pid=proc.pid,started_at=time.time(),log=str(logpath))
                 active[gpu]=(proc,item,log);snapshot()

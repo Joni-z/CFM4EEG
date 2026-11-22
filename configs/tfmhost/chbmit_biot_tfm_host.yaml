@@ -1,0 +1,28 @@
+name: chbmit-biot_tfm_host_20260918
+group: tfm_host
+dataset: chbmit
+data_root: $PACLOCK_PROC/processed_biot/chbmit
+checkpoint: null
+model: biot_tfm_host
+tfm_setting: single
+loader: biot
+optimizer: adam
+lr: 0.001
+weight_decay: 1.0e-05
+epochs: 100
+scheduler: null
+grad_clip: null
+patience: 5
+num_workers: 16
+device: cuda
+model_kwargs:
+  token_size: 200
+  hop_length: 100
+num_classes: 2
+sample_rate: 200
+batch_size: 128
+loss: cross_entropy
+label_smoothing: 0.0
+eval_every_steps: 0
+seed: 0
+max_hours: 11.0

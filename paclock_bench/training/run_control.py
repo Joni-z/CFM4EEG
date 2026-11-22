@@ -69,6 +69,9 @@ class RunControl:
             tmp = target.with_name(target.name + f'.tmp.{os.getpid()}')
             torch.save(dict(model=best_state, config=self.cfg, best_val=float(best),
                             tag=tag, purpose='selection checkpoint, not optimizer resume'), tmp)
+            archive = self.directory / 'checkpoints'
+            archive.mkdir(exist_ok=True)
+            os.link(tmp, archive / f'best-{time.time_ns()}-{os.getpid()}.pt')
             os.replace(tmp, target)
         self.history.append(entry)
         atomic_json(self.directory / 'progress.json', dict(
