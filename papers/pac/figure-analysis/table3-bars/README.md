@@ -1,0 +1,1 @@
+Frozen manuscript figure source. Input source.tex / plotted_data.csv is manuscript display data, not independently verified run evidence. Retained only to reproduce the frozen PDF. Use experiments/runs.csv for actual run records.

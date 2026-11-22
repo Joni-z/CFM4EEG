@@ -1,0 +1,5 @@
+{
+  "source": "Current Overleaf host-reuse table; exact snapshot in source.tex",
+  "note": "Table aggregates reproduced without raw-run verification; no seed counts inferred. Missing TFM/TUSZ bars omitted. All axes truncated and all whiskers within limits.",
+  "values_plotted": 51
+}

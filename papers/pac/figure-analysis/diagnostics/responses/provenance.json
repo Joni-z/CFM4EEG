@@ -1,0 +1,8 @@
+{
+  "source": "/Users/mr.z/CFM4EEG-paper-manual/full-audit-20260919/diagnostics/full/bands.npz",
+  "sample_rate": 200,
+  "kernel_size": 201,
+  "nfft": 32768,
+  "scope": "One fixed TUEV seed-0 measured checkpoint; NumPy reconstruction of SincBandpass.filters, not a dataset-wide audit.",
+  "interpretation": "Nominal cutoff ordering is distinct from spectral separation. Magnitude-response peaks on broad bands need not equal their midpoint."
+}

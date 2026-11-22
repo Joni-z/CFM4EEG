@@ -1,0 +1,490 @@
+{
+  "checkpoint": "runs/tuev-range_twoaxis_measured_20260917/seed0/best.pt",
+  "checkpoint_sha256": "e6529e504aeb76b541d9e9090914baf98ad625415591f8e913a0cfdbcca1a0bb",
+  "result_sha256": "3e8f185a0fc123bed3655461747ae16f61415cec39144a606a72c6fa673c3250",
+  "analysis_sha256": "7e3940100ff4595ceca4f757934d8ab8626d57fe0a96df21ce4dacaefd7f9920",
+  "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+  "dataset": "tuev",
+  "seed": 0,
+  "n_test": 29421,
+  "class_counts": [
+    567.0,
+    4677.0,
+    1998.0,
+    329.0,
+    2204.0,
+    19646.0
+  ],
+  "parameters": 1224486,
+  "parameter_groups": {
+    "augment": 0,
+    "frontend": 9760,
+    "band_pe": 2048,
+    "spatial_pe": 17408,
+    "encoder": 1194240,
+    "head": 1030
+  },
+  "config": {
+    "name": "tuev-range_twoaxis_measured_20260917",
+    "group": "range_twoaxis_20260917",
+    "dataset": "tuev",
+    "data_root": "$PACLOCK_PROC/processed/tuev",
+    "model": "paclock",
+    "optimizer": "adamw",
+    "lr": 0.0001,
+    "weight_decay": 0.05,
+    "scheduler": "cosine",
+    "grad_clip": 1.0,
+    "num_workers": 4,
+    "device": "cuda",
+    "num_classes": 6,
+    "epochs": 20,
+    "batch_size": 32,
+    "eval_every_steps": 0,
+    "patience": 20,
+    "loss": "cross_entropy",
+    "label_smoothing": 0.1,
+    "sample_rate": 200,
+    "model_kwargs": {
+      "filter_range": [
+        0.5,
+        75.0
+      ],
+      "arch": "triaxial",
+      "d_model": 128,
+      "depth": 6,
+      "n_bands": 16,
+      "n_heads": 4,
+      "dropout": 0.35,
+      "kernel_size": 201,
+      "patch_len": 50,
+      "augmentations": [
+        "flip0.5",
+        "jitter0.05",
+        "mask0.2",
+        "channel0.2",
+        "frequency0.2"
+      ],
+      "freq_mixer": "none",
+      "band_pe": "index",
+      "tokenizer_mode": "pac_interaction",
+      "pac_token_mode": "measured",
+      "interaction_mode": "rotation",
+      "spatial_pe": "xyz",
+      "pac_patch_len": 50,
+      "waveform_modulation": "quadrature",
+      "space_over_bands": true
+    },
+    "seed": 0,
+    "max_hours": 0
+  },
+  "interventions": {
+    "measured": {
+      "metrics": {
+        "balanced_acc": 0.6365798504083086,
+        "cohen_kappa": 0.6846006668809144,
+        "weighted_f1": 0.8357549585219306
+      },
+      "class_f1": [
+        0.05660377358490566,
+        0.8165023234727417,
+        0.5854498493327593,
+        0.7725947521865889,
+        0.5446410412853366,
+        0.9219978418375212
+      ],
+      "confusion": [
+        [
+          24,
+          132,
+          250,
+          0,
+          20,
+          141
+        ],
+        [
+          84,
+          3602,
+          520,
+          22,
+          90,
+          359
+        ],
+        [
+          74,
+          409,
+          1360,
+          39,
+          95,
+          21
+        ],
+        [
+          0,
+          0,
+          2,
+          265,
+          19,
+          43
+        ],
+        [
+          0,
+          3,
+          84,
+          9,
+          1339,
+          769
+        ],
+        [
+          99,
+          0,
+          432,
+          22,
+          1150,
+          17943
+        ]
+      ],
+      "seconds": 78.29108333587646
+    },
+    "identity": {
+      "metrics": {
+        "balanced_acc": 0.16666666666666666,
+        "cohen_kappa": 0.0,
+        "weighted_f1": 0.5347260469047578
+      },
+      "class_f1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.8007826033790532
+      ],
+      "confusion": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          567
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          4677
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1998
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          329
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          2204
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          19646
+        ]
+      ],
+      "seconds": 77.35563230514526
+    },
+    "own_phase": {
+      "metrics": {
+        "balanced_acc": 0.23909810180429655,
+        "cohen_kappa": 0.21550995196814382,
+        "weighted_f1": 0.6208097953509604
+      },
+      "class_f1": [
+        0.0,
+        0.38876184253511925,
+        0.023483365949119372,
+        0.15803108808290156,
+        0.009535918626827717,
+        0.8310433011139525
+      ],
+      "confusion": [
+        [
+          0,
+          212,
+          0,
+          8,
+          13,
+          334
+        ],
+        [
+          44,
+          1190,
+          22,
+          36,
+          515,
+          2870
+        ],
+        [
+          5,
+          36,
+          24,
+          56,
+          135,
+          1742
+        ],
+        [
+          0,
+          0,
+          0,
+          61,
+          0,
+          268
+        ],
+        [
+          0,
+          7,
+          0,
+          73,
+          15,
+          2109
+        ],
+        [
+          0,
+          0,
+          0,
+          209,
+          264,
+          19173
+        ]
+      ],
+      "seconds": 76.80741333961487
+    },
+    "weights_only": {
+      "metrics": {
+        "balanced_acc": 0.4451443679136413,
+        "cohen_kappa": 0.4160213391924368,
+        "weighted_f1": 0.6893254016146202
+      },
+      "class_f1": [
+        0.0,
+        0.4796712802768166,
+        0.19544198895027623,
+        0.2583222370173103,
+        0.5159977806547069,
+        0.8360215740906418
+      ],
+      "confusion": [
+        [
+          0,
+          171,
+          23,
+          140,
+          123,
+          110
+        ],
+        [
+          0,
+          2218,
+          325,
+          74,
+          625,
+          1435
+        ],
+        [
+          35,
+          516,
+          283,
+          178,
+          193,
+          793
+        ],
+        [
+          0,
+          3,
+          0,
+          194,
+          33,
+          99
+        ],
+        [
+          0,
+          39,
+          48,
+          37,
+          1395,
+          685
+        ],
+        [
+          66,
+          1624,
+          219,
+          550,
+          834,
+          16353
+        ]
+      ],
+      "seconds": 77.39011192321777
+    },
+    "shuffled_Z": {
+      "metrics": {
+        "balanced_acc": 0.25258958145910887,
+        "cohen_kappa": 0.17405890577487504,
+        "weighted_f1": 0.5898806829702493
+      },
+      "class_f1": [
+        0.0,
+        0.04019258949131254,
+        0.010763209393346379,
+        0.046242774566473986,
+        0.5174625801853172,
+        0.8138904886841151
+      ],
+      "confusion": [
+        [
+          0,
+          3,
+          0,
+          2,
+          0,
+          562
+        ],
+        [
+          6,
+          96,
+          33,
+          1,
+          228,
+          4313
+        ],
+        [
+          9,
+          1,
+          11,
+          3,
+          102,
+          1872
+        ],
+        [
+          0,
+          0,
+          0,
+          8,
+          24,
+          297
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          1089,
+          1113
+        ],
+        [
+          2,
+          0,
+          2,
+          2,
+          562,
+          19078
+        ]
+      ],
+      "seconds": 77.32484364509583
+    },
+    "envelope_only": {
+      "metrics": {
+        "balanced_acc": 0.42586444605962975,
+        "cohen_kappa": 0.6231352682075518,
+        "weighted_f1": 0.7919106096588929
+      },
+      "class_f1": [
+        0.006220839813374806,
+        0.7914320007386206,
+        0.4211994421199442,
+        0.09950248756218906,
+        0.3836174001526329,
+        0.9098015784101376
+      ],
+      "confusion": [
+        [
+          2,
+          338,
+          19,
+          0,
+          0,
+          208
+        ],
+        [
+          0,
+          4286,
+          26,
+          0,
+          0,
+          365
+        ],
+        [
+          29,
+          1186,
+          604,
+          53,
+          19,
+          107
+        ],
+        [
+          1,
+          82,
+          18,
+          20,
+          22,
+          186
+        ],
+        [
+          0,
+          31,
+          36,
+          0,
+          754,
+          1383
+        ],
+        [
+          44,
+          231,
+          167,
+          0,
+          932,
+          18272
+        ]
+      ],
+      "seconds": 77.3735179901123
+    }
+  },
+  "ascending_centers": true,
+  "max_center_shift_hz": 4.70654296875,
+  "fallback_fraction": 7.081109864835775e-09,
+  "alpha_max_edge_exclusion_change": 0.0018938936627149183,
+  "waveform_ratio_range": [
+    0.04118565552334759,
+    5.465849380027058
+  ],
+  "sampling": "Full test; window permutation seed 20260916; batch 32; Z rolled one window within each batch; not subject-level shuffle",
+  "interpretation": "Single fixed checkpoint, test-time interventions, not retrained ablations. No significance test.",
+  "smoke_only": false
+}

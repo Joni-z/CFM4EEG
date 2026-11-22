@@ -1,0 +1,55 @@
+host,frontend,dataset,metric,mean,reported_sd
+BIOT,Native,TUEV,Balanced accuracy,0.535,0.062
+BIOT,Native,TUEV,Cohen’s kappa,0.532,0.025
+BIOT,Native,TUEV,Weighted F1,0.761,0.013
+BIOT,Native,IIIC,Balanced accuracy,0.46,0.014
+BIOT,Native,IIIC,Cohen’s kappa,0.356,0.014
+BIOT,Native,IIIC,Weighted F1,0.462,0.015
+BIOT,Native,TUSZ,Balanced accuracy,0.616,0.065
+BIOT,Native,TUSZ,AUC-PR,0.347,0.026
+BIOT,Native,TUSZ,AUROC,0.826,0.017
+BIOT,Identity,TUEV,Balanced accuracy,0.414,0.02
+BIOT,Identity,TUEV,Cohen’s kappa,0.409,0.03
+BIOT,Identity,TUEV,Weighted F1,0.696,0.015
+BIOT,Identity,IIIC,Balanced accuracy,0.384,0.018
+BIOT,Identity,IIIC,Cohen’s kappa,0.268,0.02
+BIOT,Identity,IIIC,Weighted F1,0.389,0.018
+BIOT,Identity,TUSZ,Balanced accuracy,0.55,0.015
+BIOT,Identity,TUSZ,AUC-PR,0.391,0.019
+BIOT,Identity,TUSZ,AUROC,0.829,0.015
+BIOT,TFM-Tokenizer,TUEV,Balanced accuracy,0.429,0.013
+BIOT,TFM-Tokenizer,TUEV,Cohen’s kappa,0.449,0.02
+BIOT,TFM-Tokenizer,TUEV,Weighted F1,0.708,0.012
+BIOT,TFM-Tokenizer,IIIC,Balanced accuracy,0.46,0.009
+BIOT,TFM-Tokenizer,IIIC,Cohen’s kappa,0.354,0.012
+BIOT,TFM-Tokenizer,IIIC,Weighted F1,0.456,0.008
+BIOT,TFM-Tokenizer,TUSZ,Balanced accuracy,,
+BIOT,TFM-Tokenizer,TUSZ,AUC-PR,,
+BIOT,TFM-Tokenizer,TUSZ,AUROC,,
+BIOT,CroFreMo,TUEV,Balanced accuracy,0.53,0.019
+BIOT,CroFreMo,TUEV,Cohen’s kappa,0.611,0.037
+BIOT,CroFreMo,TUEV,Weighted F1,0.796,0.022
+BIOT,CroFreMo,IIIC,Balanced accuracy,0.489,0.017
+BIOT,CroFreMo,IIIC,Cohen’s kappa,0.385,0.017
+BIOT,CroFreMo,IIIC,Weighted F1,0.488,0.015
+BIOT,CroFreMo,TUSZ,Balanced accuracy,0.517,0.023
+BIOT,CroFreMo,TUSZ,AUC-PR,0.396,0.014
+BIOT,CroFreMo,TUSZ,AUROC,0.845,0.038
+CBraMod,Native,TUEV,Balanced accuracy,0.574,0.01
+CBraMod,Native,TUEV,Cohen’s kappa,0.564,0.024
+CBraMod,Native,TUEV,Weighted F1,0.767,0.004
+CBraMod,Native,IIIC,Balanced accuracy,0.489,0.005
+CBraMod,Native,IIIC,Cohen’s kappa,0.393,0.006
+CBraMod,Native,IIIC,Weighted F1,0.497,0.004
+CBraMod,Native,TUSZ,Balanced accuracy,0.576,0.049
+CBraMod,Native,TUSZ,AUC-PR,0.482,0.052
+CBraMod,Native,TUSZ,AUROC,0.875,0.033
+CBraMod,CroFreMo,TUEV,Balanced accuracy,0.539,0.018
+CBraMod,CroFreMo,TUEV,Cohen’s kappa,0.587,0.043
+CBraMod,CroFreMo,TUEV,Weighted F1,0.784,0.02
+CBraMod,CroFreMo,IIIC,Balanced accuracy,0.478,0.005
+CBraMod,CroFreMo,IIIC,Cohen’s kappa,0.382,0.004
+CBraMod,CroFreMo,IIIC,Weighted F1,0.484,0.005
+CBraMod,CroFreMo,TUSZ,Balanced accuracy,0.58,0.03
+CBraMod,CroFreMo,TUSZ,AUC-PR,0.552,0.013
+CBraMod,CroFreMo,TUSZ,AUROC,0.904,0.02
