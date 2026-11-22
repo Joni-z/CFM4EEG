@@ -4,11 +4,11 @@
 
 **[下载完整实验工作簿](Experiment-Records.xlsx)** · [模型版本](models.csv) · [算子与表征实验](studies.csv) · [checkpoint 索引](checkpoints.csv) · [待核对记录](conflicts.csv)
 
-本次索引生成时间：`2026-11-22T18:43:39.175534+08:00`。共 **2684** 条运行/评估记录、**268** 个模型版本。生成索引不代表重新查询了集群任务，采集范围见 [summary.json](summary.json)。
+本次索引生成时间：`2026-11-22T21:54:19.453807+08:00`。共 **2685** 条运行/评估记录、**269** 个模型版本。生成索引不代表重新查询了集群任务，采集范围见 [summary.json](summary.json)。
 
 | 数据集 | 记录数 | 下载 |
 |---|---:|---|
-| [TUEV](datasets/tuev.md) | 447 | [CSV](datasets/tuev.csv) |
+| [TUEV](datasets/tuev.md) | 448 | [CSV](datasets/tuev.csv) |
 | [CHB-MIT](datasets/chbmit.md) | 233 | [CSV](datasets/chbmit.csv) |
 | [IIIC](datasets/iiic.md) | 206 | [CSV](datasets/iiic.csv) |
 | [TUSZ](datasets/tusz.md) | 211 | [CSV](datasets/tusz.csv) |
@@ -29,6 +29,8 @@
 | [tusz_type](datasets/tusz_type.md) | 6 | [CSV](datasets/tusz_type.csv) |
 
 ## 查阅方式
+
+[PAC 测量、读出、擦除与 Closure；波形和包络对照](audits/README.md)。
 
 [CHB-MIT 新旧协议分数审计](../docs/CHBMIT_SCORE_AUDIT.md) 单独说明旧 CfFT 与三轴 E+W 的数值来源和比较边界。
 

@@ -1,0 +1,1679 @@
+% Local CVPR research draft. PAC operator documented 2026-10-30.
+% All manuscript prose is kept in this file. Original assets remain in figures/.
+\RequirePackage{fix-cm}
+\documentclass[10pt,twocolumn,letterpaper]{article}
+\usepackage[review]{cvpr}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx,booktabs,multirow,array,enumitem,adjustbox}
+\usepackage{needspace}
+\usepackage{xcolor}
+\definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
+\usepackage[pagebackref,breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
+\def\confName{CVPR}
+\def\confYear{2027}
+\newcommand{\TableStyle}{\fontsize{8}{9.5}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.10}}
+\newtheorem{proposition}{Proposition}
+\title{CfFT: Relation-Guided Cross-Frequency Fusion for EEG Tokenization}
+\author{Zhizhe Zhang\\NYU Shanghai\\{\tt\small zz5070@nyu.edu}\and
+Yifan Wang\\Stony Brook University\\{\tt\small yifan.wang.5@stonybrook.edu}}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Electroencephalography (EEG) reflects brain activity through neural
+oscillations at different frequencies and their interactions. Existing EEG
+tokenizers typically model these interactions through learned feature mixing,
+leaving the underlying coupling relationships implicit and difficult to
+quantify. We introduce CfFT (Cross-frequency Fusion Tokenizer), which uses
+explicitly measured phase--amplitude relationships to guide the transformation
+of band content. Phase--amplitude coupling (PAC) characterizes how the
+amplitude of one frequency band depends on the phase of another. Established
+connections between PAC and higher-order spectral statistics further support
+its interpretation as a measure of cross-frequency dependence. CfFT uses a PAC
+measurement operator to estimate these relationships and guide the joint
+rotation of waveform and amplitude-envelope features. Across our CfFT
+experiments, we obtain a Cohen's $\kappa$ of 0.693 on TUEV, a 2.4\% relative
+improvement over the strongest evaluated baseline, CBraMod (0.677), and an
+AUC-PR of 0.727 on CHB-MIT. Component and host-model analyses further show
+that the benefits of measured guidance depend on the task and encoder. Our
+work explores EEG tokenization in which interpretable statistical dependencies
+in the signal guide learned content representations.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+Electroencephalography (EEG) records brain activity through neural
+oscillations at different frequencies and supports the analysis of
+epileptiform events, seizures, and sleep. EEG representation learning has
+advanced from task-specific convolutional networks to Transformers trained
+across large collections of recordings
+\citep{schirrmeister2017deep,lawhern2018eegnet,yang2023biot,jiang2024labram,wang2025cbramod}.
+Tokenization converts continuous signals into the representations
+processed by an encoder, determining how frequency-band content and
+interactions enter the model.
+
+Cross-frequency interactions describe how activity in one band depends
+on activity in another, beyond the information carried by either band
+alone \citep{canolty2010functional,hyafil2015neural}.
+Existing EEG tokenizers commonly represent waveform or spectral content
+and model interactions through learned feature mixing. CBraMod combines
+temporal and spectral embeddings, while TFM-Tokenizer uses a frequency
+Transformer to learn interactions among spectral patches
+\citep{wang2025cbramod,pradeepkumar2026tfm}.
+However, these learned interactions do not directly quantify a specified
+coupling relationship in the input signal. Their interpretation depends
+on the learned features and training objective, leaving the underlying
+signal dependence implicit.
+
+We introduce \textbf{CfFT}, a \textbf{Cross-frequency Fusion Tokenizer}
+that uses explicitly measured relationships to guide band-content
+transformations. Our premise is that a measurable dependence can supply
+an interpretable inductive bias for token construction. The measurement
+quantifies a defined relationship in the current recording, while learned
+projections determine which aspects of their content support prediction.
+In this way, coupling participates directly in the construction of the
+representation that the encoder receives.
+
+\textbf{Higher-order spectral statistics} provide a statistical rationale
+for the relationship we measure. Power spectra describe energy across
+frequencies, but do not fully characterize dependencies in a non-Gaussian
+signal. The bispectrum extends spectral analysis to third order and
+captures phase dependencies among frequency triplets
+\citep{sigl1994introduction,kovach2018bispectrum}.
+Phase--amplitude coupling (PAC) offers an interpretable description of
+one form of cross-frequency dependence: how the amplitude of one band
+varies with the phase of another. Established links between particular
+PAC measures and smoothed bispectral estimates connect this description
+to higher-order spectral structure \citep{kovach2018bispectrum}.
+Intracranial studies also report PAC
+differences across sleep stages and epileptogenic regions
+\citep{amiri2016phase}. Together, these statistical and physiological
+considerations motivate PAC as the relation used in CfFT.
+
+CfFT turns this relation into a token-construction mechanism. A
+parameter-free CFC operator estimates phase-conditioned amplitude curves
+and returns coupling coefficients with explicit frequency support and
+measurement validity. A learnable filterbank extracts band content, and
+shared projections encode its waveform and amplitude envelope. The
+measured coupling supplies phase references that guide the joint rotation
+of these content features into tokens. Measurement context is decoupled
+from token duration to retain short content patches while estimating
+relationships over longer intervals. A compact Transformer then processes
+the tokens across time, electrodes, and bands.
+
+We first assess measurement using synthetic signals with known coupling.
+Varying modulation strength, preferred phase, and harmonic structure tests
+whether the estimates track the generating signal. Independent null
+records assess detection thresholds; frequency, noise, and context-length
+analyses characterize the measurement's operating conditions. These tests
+connect the operator's outputs to known signal properties.
+
+Clinical experiments assess predictive performance. On the fixed TUEV
+cohort, CfFT achieves
+Cohen's $\kappa=0.693$, exceeding the strongest evaluated baseline,
+CBraMod at 0.677, by a relative 2.4\%. The CHB-MIT context-length study
+reaches an AUC-PR of 0.727. Tokenizer and input-augmentation controls
+examine the sources of predictive gains, while component ablations
+and replacements in BIOT and CBraMod examine the role of coupling
+guidance. The effects depend on both task and encoder, with gains in
+event and pattern classification and a reversal in a seizure-detection
+host.
+
+Our contributions are:
+\begin{itemize}[leftmargin=*,itemsep=1pt,topsep=2pt]
+\item A relation-guided EEG tokenizer that uses measured PAC to condition
+the joint transformation of waveform and amplitude-envelope features.
+\item An explicit harmonic PAC measurement operator, with controlled
+validation of coupling recovery and finite-record behavior.
+\item Clinical, component, and host-model analyses that characterize
+both predictive performance and the conditions under which coupling
+guidance is useful.
+\end{itemize}
+More broadly, CfFT explores how interpretable statistical dependencies
+can guide learned content representations at the point of token
+construction.
+
+\section{Related Work}
+\label{sec:related}
+\subsection{EEG tokenization}
+EEG tokenizers represent local waveform or time--frequency content.
+BIOT embeds short-time spectra; CBraMod combines temporal and spectral
+features; LaBraM learns neural codes through spectrum prediction
+\citep{yang2023biot,wang2025cbramod,jiang2024labram}.
+EEGPT learns representations through self-supervised alignment and
+reconstruction, while REVE supports varied recording configurations
+\citep{wang2024eegpt,elouahidi2025reve}.
+These approaches establish the importance of input representation and
+its compatibility with the encoder and training objective.
+
+Relationships can also enter tokenization through learned interactions.
+TFM-Tokenizer applies a frequency Transformer before quantizing
+time--frequency motifs \citep{pradeepkumar2026tfm}.
+CfFT instead supplies a defined signal-derived coupling measurement to
+the token transformation. The difference is the explicit role of the
+measurement in constructing tokens, rather than the presence or absence
+of a learnable cross-frequency module. We do not assume that learned
+mixing is incapable of representing CFC.
+
+\subsection{Cross-frequency coupling in EEG}
+CFC describes several kinds of dependence, including amplitude--amplitude,
+phase--phase, and phase--amplitude relationships
+\citep{canolty2010functional,hyafil2015neural}.
+PAC describes how amplitude in one band varies with phase in another.
+Its associations with neural activity motivate applications to sleep and
+epilepsy \citep{canolty2006high,amiri2016phase,edakawa2016detection}.
+These observations motivate a candidate inductive bias; they do not
+establish a universal prediction advantage for PAC.
+
+Measurement requires care. Window length, phase coverage, filter
+bandwidth, waveform shape, and nonstationarity can affect a PAC estimate
+\citep{tort2010measuring,dvorak2014proper,aru2015untangling}.
+Regression-based estimators model amplitude as a function of phase
+\citep{penny2008nested,vanwijk2015parametric}. Our standalone operator
+builds on this approach with two harmonics, explicit physical support,
+and uncertainty-aware feature views. The reference tokenizer retains
+its centered local vector moment. Neither a nonzero coefficient nor a
+valid fit alone establishes physiological coupling.
+
+\subsection{Higher-order statistics and feature conditioning}
+Higher-order spectra capture statistical dependencies that are not
+determined by the power spectrum. Bispectral analysis has been applied
+to electrophysiological signals, and its relationship to particular
+PAC measures has been established analytically
+\citep{sigl1994introduction,kovach2018bispectrum}.
+Phase-harmonic representations similarly make frequency-dependent
+structure explicit \citep{mallat2019phaseharmoniccorrelationsconvolutional}.
+This literature motivates the measured relationship. Appendix~\ref{app:statistics}
+derives the link for the reference moment and distinguishes that
+statistic from the harmonic regression coefficients.
+
+Feature conditioning offers a way to use a measurement inside a learned
+representation. FiLM conditions feature transformations on an auxiliary
+input, and rotary embeddings use structured rotations for positional
+information \citep{perez2018film,su2024roformer}.
+CfFT derives its conditioning signal from the current EEG window's
+cross-band statistics. Its rotation is a design choice whose predictive
+value is assessed empirically; the statistical interpretation of PAC does
+not establish that rotation is an optimal fusion operator.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/cfft_architecture.pdf}
+\caption{\textbf{CfFT architecture.} A learnable filterbank supplies envelope
+and waveform content. The CFC operator measures phase--amplitude relations,
+which orient content features through a shared rotation. Local references
+complete bands outside the available physical measurements. A Transformer
+attends over time and jointly over electrode--band rows. The optional adapter
+maps tokens to another encoder's input grid.}
+\label{fig:architecture}
+\end{figure*}
+
+\section{Method}
+\label{sec:method}
+CfFT constructs tokens by measuring phase--amplitude relationships and
+using them to orient band content (Figure~\ref{fig:architecture}). A
+parameter-free CFC operator extracts the relationships from each input
+record. A learnable filterbank supplies envelope and waveform features,
+which are jointly rotated using the measured reference and passed to a
+two-axis Transformer. Measurement context and content-token resolution
+are specified independently.
+
+\subsection{Explicit phase--amplitude measurement}
+\label{sec:measurement}
+For an EEG record $x\in\mathbb R^{C\times L}$, the CFC operator extracts
+source phases $p_i(t)=e^{i\phi_i(t)}$ and target envelopes $A_j(t)$.
+The source anchors are $\{2,3,4,5,6,8\}$\,Hz; target amplitude filters
+are centered at $\{18,24,32,40,48\}$\,Hz. Within each source search
+cell, a tapered spectrum refines the analysis frequency to the observed
+peak. Separate analytic filters extract source phase and target
+amplitude while retaining the supported modulation sidebands
+\citep{dvorak2014proper}. Filter-edge samples and negligible source
+amplitudes are excluded. These physical analysis coordinates remain
+fixed independently of the learned content filterbank.
+
+\paragraph{Phase-conditioned amplitude.}
+Following regression-based PAC measurement
+\citep{penny2008nested,vanwijk2015parametric}, we fit
+\begin{equation}
+\begin{split}
+A_j(t)={}&\mu_{ij}+d_{ij}\tau(t)\\
+&+\sum_{k=1}^{K_{ij}}\operatorname{Re}
+  \left[c_{ijk}^{*}p_i(t)^k\right]+e_{ij}(t),
+\end{split}
+\label{eq:pac-curve}
+\end{equation}
+where $\tau$ is centered time and $\mu_{ij}$ is the fitted baseline.
+Each complex coefficient contains a cosine and a sine coefficient.
+The supported order $K_{ij}\in\{0,1,2\}$ follows the filter response:
+H1 describes a single preferred phase, while H2 also represents two
+amplitude peaks within a phase cycle.
+
+After weighted centering and detrending, the coefficients solve
+\begin{equation}
+\widehat{\boldsymbol\beta}_{ij}
+ =(X_r^{\mathsf T}WX_r+\lambda I)^{-1}
+   X_r^{\mathsf T}W\mathbf y_r.
+\label{eq:pac-fit}
+\end{equation}
+Here $X_r$ and $\mathbf y_r$ are the residualized design and envelope,
+and $W$ contains normalized valid-sample weights. The ridge multiplier
+is $10^{-3}$ relative to design energy. Fits use
+all usable samples in the input record; the resulting dimensionless
+relations are $f_{ijk}=c_{ijk}/\mu_{ij}$. The tokenizer consumes H1 from
+this joint fit, preserving the single phase reference used by the
+rotation. H2 participates in estimation without being converted into
+a unique rotation angle.
+
+\paragraph{Support and uncertainty.}
+A relation is available when its sidebands are supported, observed
+cycles and phase coverage are sufficient, the design is well
+conditioned, and the baseline is positive. The operator returns this
+availability mask together with its coefficients. It also aggregates
+regression scores over observed-cycle blocks for a covariance diagnostic
+\citep{cameron2015cluster}. With harmonic variance $v_{ijk}$, the
+interface provides an optional stabilized output
+\begin{equation}
+r_{ijk}=\frac{|c_{ijk}|^2}{|c_{ijk}|^2+v_{ijk}},\qquad
+f_{ijk}^{\rm stable}=r_{ijk}\frac{c_{ijk}}{\mu_{ij}}.
+\label{eq:pac-stable}
+\end{equation}
+CfFT uses the raw normalized coefficients $f_{ijk}$ for token construction.
+Filtering, availability checks, uncertainty and calibration are specified
+in Appendix~\ref{app:operator}.
+
+\subsection{Controlled measurement validation}
+\label{sec:synthetic}
+We check the measurement stage against known modulation. Synthetic
+records combine a low-frequency source, an amplitude-modulated carrier,
+and colored noise. The target curves include single-harmonic,
+double-harmonic, mixed and nonstationary conditions. Reconstruction
+error compares the estimated and generated curves at a predeclared
+source--target pair; invalid positive cases receive an error of one.
+
+\begin{table}[t]
+\centering\TableStyle
+\caption{\textbf{Recovering known modulation.} Mean curve RMSE on the
+same 3,500 positive 5-s records, with 500 records per condition.
+All four diagnostic arms use the same phase-filter setting.
+Lower is better; these are measurement configurations, not classifiers.}
+\label{tab:operator-factorial}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llr@{}}
+\toprule
+Source frequency & Harmonic basis & Curve RMSE\\
+\midrule
+Fixed & H1 & 0.10576\\
+Refined & H1 & 0.09465\\
+Fixed & H1+H2 & 0.05130\\
+Refined & H1+H2 & \textbf{0.02881}\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+Table~\ref{tab:operator-factorial} separates source-frequency refinement
+from harmonic order. With H1+H2 fixed, refinement reduces mean error by
+43.8\%. Double- and mixed-harmonic signals account for much of the basis
+gain. A separate 2,688-record confirmation gives mean error 0.06361 for
+raw output and 0.06111 for stabilized output; the no/weak-modulation
+groups improve from 0.03613 to 0.02649, while some strong mixed cases
+worsen.
+
+For detection, a threshold calibrated on 2,000 independent null records
+produces 199 exceedances in 4,000 fresh matched null records (4.98\%) at
+a nominal 5\% level. Curve recovery and null calibration test different
+properties of the measurement stage. Appendix~\ref{app:operator-validation}
+reports the protocols, coverage, condition-level findings and numerical
+checks.
+
+\subsection{Relation-guided token construction}
+\label{sec:tokenizer}
+A learnable sinc filterbank \citep{ravanelli2018sincnet} produces $n_b$
+content bands $x_b$. Full-record analytic transforms give their
+envelopes and unit phases before token patches are formed. Shared
+projections map each patch to envelope features
+$\mathbf a_b\in\mathbb R^{d/2}$ and waveform features
+$\mathbf w_b\in\mathbb R^{d/2}$. Their paired content is
+$\mathbf q_b=\mathbf a_b+i\mathbf w_b$. A real, bias-free linear map,
+applied equally to both complex coordinates, projects the measured
+source phases to $\tilde{\mathbf p}_i\in\mathbb C^{d/2}$.
+
+\paragraph{Measured reference.}
+To connect the physical targets to learned content bands, let
+$\rho_{bj}$ be band filter $b$'s power response at target center $j$,
+relative to that filter's peak power. The correspondence weight is
+$\omega_{bj}=\rho_{bj}\mathbb 1[\rho_{bj}\geq 1/2]$; thus only targets
+within the filter's half-power passband contribute. Available pairs
+define the reference
+\begin{equation}
+\begin{aligned}
+\alpha_{ij}^{(b)}&=\omega_{bj}M_{ij}|f_{ij1}|,
+&\eta_{ij}&=\frac{f_{ij1}^{*}}{|f_{ij1}|},\\
+\mathbf u_b^{\rm PAC}
+ &=\sum_{i,j}\alpha_{ij}^{(b)}\eta_{ij}\tilde{\mathbf p}_i,
+\end{aligned}
+\label{eq:reference}
+\end{equation}
+where $M_{ij}$ is the H1 availability mask and zero coefficients give
+zero contributions. In implementation the product
+$|f_{ij1}|\eta_{ij}$ is evaluated directly as $f_{ij1}^{*}$.
+Common strength normalization is absorbed by the final unit-reference
+normalization. The measurement grid supplies physical context rather
+than being identified with content-band indices.
+
+\paragraph{Reference completion.}
+A content band outside the supported measurement targets, or a patch
+without a usable measured reference, retains its local phase reference.
+For this rule, $i,j$ index learned content bands and
+\begin{equation}
+Z_{ij}=c_Z\left\langle p_i(t)
+ \bigl(A_j(t)-\langle A_j\rangle_{\mathcal W}\bigr)
+ \right\rangle_{\mathcal W},
+\label{eq:moment}
+\end{equation}
+where $c_Z=10^{-2}$ and $\mathcal W$ is the content patch. The local
+reference combines projected phases from $i<j$, with weights proportional
+to $|Z_{ij}|$ and conjugate directions $Z_{ij}^{*}/|Z_{ij}|$.
+The root band uses its own projected phase; negligible total local
+strength uses an unaligned average of eligible sources. These rules
+complete the reference within the same token construction.
+
+\paragraph{Joint content rotation.}
+Set $\mathbf u_b=\mathbf u_b^{\rm PAC}$ when a corresponding H1
+measurement is available and every reference coordinate has magnitude
+at least $\epsilon=10^{-6}$; otherwise use the completed local reference.
+The token is
+\begin{equation}
+\mathbf h_b=\mathbf q_b\odot
+\frac{\mathbf u_b}{\max(|\mathbf u_b|,\epsilon)}.
+\label{eq:token}
+\end{equation}
+Interleaving real and imaginary coordinates yields a real
+$d$-dimensional token. Envelope and waveform coordinates undergo the
+same planar rotation, preserving their paired magnitude above the
+normalization guard. Conjugate alignment cancels independent constant
+source-phase reference changes with content fixed
+(Appendix~\ref{app:properties}). The connection adds no learned fusion
+parameters.
+
+\subsection{Temporal context and encoder}
+\label{sec:encoder}
+Content patches have 50 samples at 200\,Hz (0.25\,s), retaining temporal
+resolution for transient events. PAC regression instead uses the full
+usable record: 5\,s for TUEV and 10\,s for CHB-MIT. Its coefficients
+are shared across patches and combined with each patch's source-phase
+features. Thus the relation context can span multiple oscillatory cycles
+without making the content tokens coarser. The local completion rule
+operates at token resolution.
+
+The tokenizer outputs a $C\times n_b\times P\times d$ grid. Each
+Transformer block applies temporal attention within a band--electrode
+row and joint attention across electrode--band rows at each patch,
+followed by a feed-forward layer \citep{vaswani2017attention}.
+Band embeddings, spatial coordinates and rotary temporal positions
+identify tokens \citep{su2024roformer}. We use 16 bands, width 128,
+six blocks and four heads. The model has 1.22 million trainable
+parameters; CFC measurement contributes no trainable weights.
+
+\section{Experimental Setup}
+\label{sec:setup}
+\paragraph{Data.}
+We evaluate the reference CfFT on TUEV event classification and analyze
+component behavior and host replacement using separately specified
+TUEV, IIIC, and CHB-MIT experiments
+\citep{obeid2016temple,jing2023development,shoeb2009application}.
+TUEV contains six event classes,
+16 bipolar channels, 5-s windows, and 200-Hz sampling. The fixed processed
+split contains 68,445 training, 15,487 validation, and 29,421 test rows.
+All rows in Table~\ref{tab:tuev} use the same accepted test arrays.
+The component and host protocols are specified in Appendix~\ref{app:data}.
+
+\paragraph{Baselines.}
+We compare single-dataset training and adaptation of released weights
+separately. Baselines include LaBraM, EEGPT, CBraMod, REVE, and
+TFM-Tokenizer
+\citep{jiang2024labram,wang2024eegpt,wang2025cbramod,elouahidi2025reve,pradeepkumar2026tfm}.
+Native implementations retain their recorded optimization and checkpoint
+selection rules. The TFM single-dataset pipeline includes tokenizer
+learning and masked-token pretraining on the training split before
+supervised adaptation. Thus it is not labeled a purely supervised model.
+Sharing a test cohort does not make the training recipes or selection
+metrics identical.
+
+\paragraph{Training and selection.}
+CfFT uses AdamW \citep{loshchilov2019decoupled} with learning rate
+$10^{-4}$, weight decay 0.05, dropout 0.35, batch size 32, cosine decay,
+gradient clipping at 1.0, and cross-entropy with label smoothing 0.1.
+The run uses a 20-epoch cap and selects the best validation-$\kappa$
+checkpoint before testing. One configured input augmentation is sampled
+per training forward pass; a separate control removes input augmentation
+while retaining the rest of the recipe. Current benchmark and augmentation
+comparisons use seed 0. Historical multi-seed experiments are labeled
+separately and retain their original protocols.
+
+\paragraph{Metrics.}
+TUEV reports Cohen's $\kappa$, balanced accuracy, and weighted F1.
+Seizure experiments use trapezoidal AUC-PR as their primary metric,
+with AUROC and balanced accuracy as complementary measures. A relative
+improvement is $(s_{\rm ours}-s_{\rm baseline})/s_{\rm baseline}$;
+an absolute difference is reported in metric units. Bold denotes the
+highest displayed value within a comparison. Sample SD is shown only
+when individual seed results are available for that aggregation.
+
+\section{Results}
+\label{sec:results}
+The experiments address three questions: whether the complete model
+produces useful representations, which aspects of the construction are
+used, and how measurement conditions affect the result. We distinguish
+the reference two-axis configuration, a band-mixer variant with an
+additional band-only attention sublayer, and host-specific replacements.
+Their data and training protocols remain separately specified.
+
+\subsection{Clinical event classification}
+\label{sec:main-results}
+\begin{table}[t]
+\centering\TableStyle
+\caption{\textbf{TUEV event classification.} All displayed models use the
+same 29,421 processed test rows. Native training recipes and selection
+rules are retained. Higher is better.}
+\label{tab:tuev}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc@{}}
+\toprule
+Method & Bal. acc. & $\kappa$ & W-F1\\
+\midrule
+\multicolumn{4}{l}{\textit{Single-dataset training}}\\
+LaBraM~\citep{jiang2024labram} & 0.380 & 0.569 & 0.766\\
+EEGPT~\citep{wang2024eegpt} & 0.530 & 0.578 & 0.783\\
+CBraMod~\citep{wang2025cbramod} & 0.566 & 0.575 & 0.775\\
+TFM-Tokenizer~\citep{pradeepkumar2026tfm} & 0.568 & 0.599 & 0.791\\
+\midrule
+\multicolumn{4}{l}{\textit{Released-weight adaptation}}\\
+LaBraM~\citep{jiang2024labram} & \textbf{0.655} & 0.602 & 0.797\\
+EEGPT~\citep{wang2024eegpt} & 0.594 & 0.634 & 0.812\\
+CBraMod~\citep{wang2025cbramod} & 0.596 & 0.677 & 0.830\\
+REVE~\citep{elouahidi2025reve} & 0.533 & 0.583 & 0.784\\
+\midrule
+CfFT & 0.612 & \textbf{0.693} & \textbf{0.838}\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+Table~\ref{tab:tuev} compares complete systems on the fixed TUEV cohort.
+CfFT obtains $\kappa=0.6932$, exceeding released-weight CBraMod's
+0.6769 by 0.0163, a 2.4\% relative improvement. Relative to the strongest
+displayed single-dataset baseline, TFM-Tokenizer at 0.5994, the absolute
+difference is 0.0938. CfFT also obtains the highest displayed weighted
+F1. LaBraM has higher balanced accuracy, indicating a different tradeoff
+across the imbalanced classes. We therefore report all three metrics
+rather than treating the primary score as uniform class-wise superiority.
+
+The reference CfFT has approximately 1.22M trainable parameters and is
+trained without released pretrained weights. This demonstrates the
+performance of a compact complete system. It does not isolate the
+effect of PAC, because the model also includes band decomposition,
+a particular token grid, encoder, and training recipe.
+
+\subsection{Tokenizer and training controls}
+\label{sec:training-controls}
+\begin{table}[t]
+\centering\TableStyle
+\caption{\textbf{TUEV tokenizer and input augmentation.} The WavePatch
+control uses raw waveform patches with a linear projection and the same
+encoder architecture. The token grids differ: CfFT retains 16 bands.}
+\label{tab:augmentation}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llccc@{}}
+\toprule
+Tokenizer & Input aug. & Bal. acc. & $\kappa$ & W-F1\\
+\midrule
+WavePatch & Yes & 0.580 & 0.638 & 0.815\\
+CfFT & Yes & \textbf{0.612} & \textbf{0.693} & \textbf{0.838}\\
+\midrule
+WavePatch & No & 0.507 & 0.639 & 0.808\\
+CfFT & No & 0.554 & 0.685 & 0.834\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+The augmentation control asks whether the frontend's observed advantage
+requires input augmentation. With augmentation, CfFT exceeds WavePatch
+by 0.0554 in $\kappa$ and 0.0326 in balanced accuracy.
+Without augmentation, the corresponding differences are 0.0458 and
+0.0469 (Table~\ref{tab:augmentation}). Removing input augmentation
+therefore does not remove the observed advantage.
+Both systems still use the same selected encoder architecture and
+regularization recipe. Moreover, CfFT produces 5,120 tokens for the
+TUEV input, compared with 320 for WavePatch. This comparison tests the
+complete frontend, including band resolution and computation, rather
+than PAC alone.
+
+\subsection{Role of measured guidance}
+\label{sec:components}
+Component controls answer different questions. Identity removes
+rotation while retaining band content. Own phase rotates content using
+the target band's phase. Weights only retains measured strengths but
+removes relation-dependent angular alignment. Envelope only removes the
+waveform coordinate. Their exact definitions are given in
+Appendix~\ref{app:controls}.
+
+The band-mixer variant provides a matched seed-2 TUEV component
+comparison: full construction reaches $\kappa=0.7155$, envelope only
+0.7137, weights only 0.6425, and own phase 0.5325.
+The main difference is between measured alignment and the two
+phase-based alternatives; the waveform coordinate has a much smaller
+effect in this run. However, the matched seed-0 identity comparison
+gives 0.7292 without rotation versus 0.7139 with measured construction.
+Thus, the loss from an incorrectly constructed rotation cannot be
+interpreted as proof that rotation improves over no rotation.
+These experiments characterize the band-mixer variant; matched retrained
+controls on the reference two-axis configuration remain necessary for
+attribution in that configuration.
+
+A fixed-checkpoint diagnostic addresses reliance after training.
+Reassigning measured relation tensors between test windows reduces
+$\kappa$ from 0.6846 to 0.1741 for one archived two-axis checkpoint.
+This shows that the trained predictor uses its input construction.
+Because the intervention changes that construction at inference time,
+it does not establish what an alternative model could learn after
+retraining. Full intervention values are retained in
+Appendix~\ref{app:diagnostics}.
+
+\subsection{Reuse and task dependence}
+\label{sec:reuse}
+An adapter concatenates band features, pools them to a host window, and
+projects to the native input width of BIOT or CBraMod
+\citep{yang2023biot,wang2025cbramod}.
+BIOT experiments compare measured and identity frontends within
+the same host recipe. The three-seed paired differences favor measured
+construction on TUEV by $0.2012\pm0.0074$ $\kappa$ and IIIC by
+$0.1175\pm0.0300$, but favor identity on CHB-MIT by
+$0.1645\pm0.0657$ AUC-PR. Each task has a consistent sign across its
+three seeds. Explicit guidance is consequently useful in some host--task
+combinations and harmful in another. Appendix~\ref{app:hosts} reports
+the per-seed values and training endpoints.
+
+CBraMod replacements give a smaller positive change on TUEV and a
+negative change on IIIC. These comparisons alter the whole frontend
+and adapter; they do not isolate the coupling measurement. We retain
+them as exploratory reuse evidence rather than a claim of universal
+plug-and-play improvement.
+
+\subsection{Estimation context and frequency structure}
+\label{sec:context}
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/cfft_window_sensitivity.pdf}
+\caption{\textbf{Estimation context with fixed token resolution.}
+Band-mixer experiments keep 0.25-s tokens and vary only the
+relation-estimation window. Primary metrics are $\kappa$ for TUEV and
+AUC-PR for CHB-MIT. The encoder is the band-mixer variant.}
+\label{fig:context}
+\end{figure}
+
+The measurement checks show why token length and estimation context
+should be distinguished. Figure~\ref{fig:context} examines this choice
+in the band-mixer variant. Increasing the context from
+0.25 to 1\,s raises TUEV $\kappa$ from 0.7139 to 0.7387 and CHB-MIT
+AUC-PR from 0.6969 to 0.7274. At 5\,s, they become 0.7368 and 0.6179.
+Longer context can help without coarsening tokens, but the gain is not
+monotonic. TUEV balanced accuracy also falls from 0.6806 to 0.6268
+at 1\,s. These experiments identify a context-sensitive design choice,
+not a universally optimal PAC window.
+
+Filter overlap is another possible source of apparent coupling
+\citep{aru2015untangling}. An archived two-axis checkpoint retains
+ordered nominal band centers but has overlapping low-frequency
+responses. Its strongest relative weight enrichments are not the pairs
+with the largest response overlap. Appendix~\ref{app:filters} gives
+the finite-response curves and the exact definition of enrichment.
+This excludes a simple explanation for those particular large weights;
+it does not certify every measured pair as physiological coupling.
+
+\paragraph{Scope.}
+The current comparable benchmark block is concentrated on TUEV;
+the historical experiments use additional protocols and encoders.
+The evidence does not yet establish broad clinical superiority,
+PAC's advantage over matched AAC/PPC guidance, or superiority to a
+matched PAC-as-feature construction. Such claims require the specified
+comparisons in Appendix~\ref{app:remaining}.
+The synthetic operator checks establish measurement behavior within
+specified signal families, not physiological validity or clinical gains.
+The reference tokenizer still uses subcycle local moments. Evaluating
+the new physical-grid operator inside a tokenizer remains a separate
+experiment. Finally, parameter count alone does not establish
+computational efficiency or reduced required capacity.
+
+\section{Conclusion}
+\label{sec:conclusion}
+We introduced CfFT, an EEG tokenizer that explicitly measures a
+phase--amplitude relationship and uses its strength and direction to
+condition band-content representations. Higher-order spectral analysis
+provides statistical context for the measured relationship. A standalone
+harmonic PAC operator extends the measurement interface with physical
+support, fit validity, and uncertainty; controlled signals characterize
+its operating conditions. Current TUEV comparisons evaluate the
+reference local-moment tokenizer and support the complete model's predictive value;
+component and host analyses show that the contribution of measured
+guidance depends on the construction, task, and encoder. CfFT offers a
+concrete way to connect interpretable signal statistics with learned
+EEG representations.
+
+{
+\small
+\bibliographystyle{ieeenat_fullname}
+\bibliography{references}
+}
+\clearpage
+\appendix
+\section*{Supplementary Material}
+
+\section{PAC operator specification}
+\label{app:operator}
+\texttt{CFCOperator} is the global uncertainty-aware harmonic estimator.
+It measures a relation on fixed physical coordinates and returns the
+measurement together with support and uncertainty masks. Its regression
+coefficients are estimated from each input record; they are not trained
+model parameters. The single-harmonic moment used by the evaluated
+reference tokenizer is specified separately in
+Eq.~\ref{eq:moment}. The two interfaces are not interchangeable.
+
+\subsection{Physical coordinates and analytic filters}
+\label{app:operator-filters}
+At 200\,Hz, source anchors are $\{2,3,4,5,6,8\}$\,Hz and target
+amplitude centers are $\{18,24,32,40,48\}$\,Hz. The configured passband
+is 0.5--75\,Hz, with 56--64\,Hz excluded. These are measurement
+settings, not a claim that every dataset has this acquisition passband.
+Source search cells are
+$[1.556,2.5]$, $[2.5,3.5]$, $[3.5,4.5]$, $[4.5,5.5]$,
+$[5.5,7]$, and $[7,9.778]$\,Hz. In each cell, a Hann-tapered
+periodogram selects a peak bin. Parabolic interpolation of neighboring
+log powers supplies a sub-bin offset, clipped to half a bin; the final
+frequency $\hat f_i$ remains inside the cell. Neither labels nor
+generator frequencies enter this refinement.
+
+A DC-corrected complex Morlet filter provides source phase. With
+$q=9$ and $\sigma_i=q/(2\pi\hat f_i)$, its unnormalized kernel is
+\begin{equation}
+\psi_i(t)=e^{-t^2/(2\sigma_i^2)}
+ \left(e^{i2\pi\hat f_i t}-e^{-q^2/2}\right),
+\quad |t|\leq3\sigma_i.
+\label{eq:morlet}
+\end{equation}
+The kernel is normalized to carrier gain two, matching the analytic
+representation of a real sinusoid. Here $q$ controls filter shape;
+it is not a count of observed cycles. For sampling rate $f_s$, the
+source edge guard is $\lceil3\sigma_i f_s\rceil$ samples per side.
+
+For target center $f_j$, define the amplitude halfwidth
+\begin{equation}
+w_j=\min\{0.4f_j,\;0.8(f_j-f_{\min}),\;
+                       0.8(f_{\max}-f_j)\}.
+\label{eq:amp-width}
+\end{equation}
+A Hamming-windowed low-pass FIR has transition width
+$\Delta_j=w_j/4$, cutoff $w_j+\Delta_j/2$, and radius
+$\lceil2f_s/\Delta_j\rceil$. After normalization it is modulated to
+$f_j$ with analytic gain two. Filtering uses FFT-based \emph{linear}
+convolution: zero padding is at least the input length plus kernel
+length minus one, and the centered output is cropped to the original
+length. The fit discards both source and target boundary guards.
+Zero padding does not add observations or make short records measurable.
+
+\paragraph{Sideband support.}
+Eligibility is tested for each harmonic, using the actual finite FIR
+response. With source-cell bounds $\ell_i,u_i$, the conservative phase
+support is $\ell_i(1-2/q)$ to $u_i(1+2/q)$. For harmonic $k$, set
+$s_{ik}=ku_i(1+2/q)$. Both responses at $f_j\pm s_{ik}$ must reach
+at least 90\% of the carrier response, and $s_{ik}\leq w_j$.
+Additional checks separate source and target supports, keep them within
+the passband, avoid excluded intervals, and limit source-center and
+negative-carrier leakage to 1\% of carrier gain. Using the whole
+search cell makes this physical support mask independent of a
+particular record's selected peak.
+
+\begin{table}[t]
+\centering\TableStyle
+\caption{\textbf{Maximum supported harmonic order.} Rows are source
+anchors; columns are target centers in Hz. Zero means unavailable.
+Temporal validity further restricts these physically supported pairs.}
+\label{tab:operator-support}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr@{}}
+\toprule
+Source (Hz) & 18 & 24 & 32 & 40 & 48\\
+\midrule
+2 & 2 & 2 & 2 & 2 & 2\\
+3 & 1 & 2 & 2 & 2 & 1\\
+4 & 1 & 1 & 2 & 2 & 1\\
+5 & 1 & 1 & 1 & 2 & 1\\
+6 & 0 & 1 & 1 & 1 & 0\\
+8 & 0 & 0 & 1 & 1 & 0\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+The default grid supports H1 on 25 of 30 pairs and H2 on 11.
+H1 availability therefore cannot be used as an H2 mask.
+A longer record cannot restore sidebands removed by acquisition,
+preprocessing, or the amplitude filter. At 100\,Hz, the passband and
+excluded intervals must be adjusted to the actual recording; a
+0.5--49\,Hz example configuration respects Nyquist but does not define
+a dataset preprocessing protocol.
+
+\subsection{Regression and usable-fit validity}
+\label{app:operator-fit}
+Suppress pair indices and let $m_t\in\{0,1\}$ be the usable-sample
+mask. We use $\omega_t=m_t/\max(\sum_t m_t,1)$ and
+$W=\operatorname{diag}(\boldsymbol\omega)$. A channel containing any
+nonfinite input is marked invalid. For otherwise finite inputs, the
+mask excludes filter boundaries and source amplitudes below
+$10^{-4}$ times channel RMS, subject to numerical floors. The harmonic
+design has columns
+$\cos\phi,\sin\phi,\ldots,\cos K\phi,\sin K\phi$.
+Time is sampled on $[-1,1]$ and centered using the same weights.
+
+Weighted centering removes the intercept. The centered envelope and
+harmonic columns are then residualized against time. The nuisance
+solve uses a ridge of $10^{-8}$ times its Gram scale, floored at
+$10^{-4}$, to avoid a singular zero-trend system. For the resulting
+harmonic Gram matrix $G=X_r^{\mathsf T}WX_r$, the penalty is
+\begin{equation}
+\lambda=10^{-3}\max\left\{
+          \frac{\operatorname{tr}G}{2K},10^{-6}\right\}+10^{-10}.
+\label{eq:ridge-scale}
+\end{equation}
+The linear solve uses float64 arithmetic. The fitted baseline is the
+weighted envelope mean minus the mean harmonic design times the
+coefficient vector; the time column is centered. The default has no
+source-amplitude covariates. An amplitude-adjusted companion estimator
+would answer a different conditional question and is not substituted
+for this fit.
+
+Validity requires at least $\max(8,8K)$ usable samples, finite
+coefficients, and a baseline above $10^{-12}$. The smallest eigenvalue
+of $G$ must be at least 0.01 and at least 5\% of the largest. Thus
+merely having enough samples does not compensate for poor phase
+coverage. Observed cycles are computed from signed adjacent phase
+increments for which both samples are usable. Their sum must be at
+least 2.98 cycles. The conservative context criterion
+\begin{equation}
+\frac{(n-1)\hat f_i(1-2/q)}{f_s}\geq2.98
+\label{eq:cycle-gate}
+\end{equation}
+must also hold, and mean observed frequency must lie within
+$\hat f_i(1\pm2/q)$. These are operational acceptance rules, not a
+claim that three cycles guarantee accurate physiological PAC.
+In a short record, low-frequency pairs can remain unavailable after
+edge removal even though the output token grid is well defined.
+
+\subsection{Cycle-block covariance and stabilization}
+\label{app:operator-uncertainty}
+For each accepted fit, the uncertainty diagnostic groups score vectors
+by accumulated source phase. Default blocks span one observed cycle.
+Writing $\mathbf x_t^r$ for a centered, time-residualized harmonic
+row and $e_t=A_j(t)-\widehat A_j(t)$, let $G_b$ be the number of
+retained blocks and $H=(G+\lambda I)^{-1}$. We compute
+\begin{equation}
+\begin{aligned}
+\mathbf s_g&=\sum_{t\in g}\omega_t\mathbf x_t^r e_t,\\
+\widehat V&=\frac{G_b}{G_b-1}\,
+ H\left(\sum_{g=1}^{G_b}\mathbf s_g\mathbf s_g^{\mathsf T}\right)H.
+\end{aligned}
+\label{eq:cycle-covariance}
+\end{equation}
+Only blocks with at least 0.98 usable cycles of positive phase progress
+enter the covariance, and at least four such blocks are required.
+The point fit still uses all accepted samples, including partial cycles.
+For harmonic $k$, $v_k$ is the trace of its cosine--sine $2\times2$
+covariance block, in squared input-amplitude units. The covariance
+helper uses analytic time residualization; its interpretation is a
+finite-record sandwich diagnostic, not an exact sampling law for the
+entire peak-selection and filtering pipeline.
+
+Grouping preserves within-cycle dependence, following the rationale of
+cluster-sandwich estimation \citep{cameron2015cluster}. Few blocks and
+cross-cycle dependence can still limit accuracy; we do not construct
+calibrated confidence intervals from $\widehat V$. The positive weight
+in Eq.~\ref{eq:pac-stable} preserves direction while reducing uncertain
+coefficient magnitudes. If covariance is unavailable, reliability is
+one and the raw coefficient is retained. A separate false uncertainty
+mask distinguishes this case from a precisely measured zero variance.
+The returned zero-filled variance is then a placeholder. The reliability
+denominator is floored at $10^{-20}$; baseline normalization uses a
+$10^{-12}$ floor. Eq.~\ref{eq:pac-stable} shows the nondegenerate case.
+
+\subsection{Optional record-level detection}
+\label{app:operator-calibration}
+Continuous relation features do not require a significance threshold.
+For detection analyses, alternating observed source cycles define two
+folds. Each fold fits harmonic and intercept--trend models and predicts
+the other fold. The clipped score
+\begin{equation}
+Q_{ij}=\left[1-
+ \frac{\mathrm{SSE}_{\rm harmonic}}
+      {\max(\mathrm{SSE}_{\rm nuisance},\epsilon)}\right]_{[0,1]}
+\label{eq:predictive-gain}
+\end{equation}
+is set to zero for invalid fold fits. Filtering precedes this split,
+so it is an internal consistency diagnostic, not independent-trial
+validation or a $p$-value. One record score is the maximum $Q_{ij}$
+over channels and source--target pairs, calibrating that maximum rather
+than treating every pair as an independent test.
+
+Let $a_{(1)}\leq\cdots\leq a_{(n)}$ be scores from independent
+matching null records. The marginal rank rule uses
+\begin{equation}
+k_\alpha=\lceil(n+1)(1-\alpha)\rceil,\qquad
+\text{detect if }Q_{\max}>a_{(k_\alpha)}.
+\label{eq:null-rank}
+\end{equation}
+Rank $n+1$ means an infinite threshold and abstention. Under
+exchangeability of reference and future null scores, the rank argument
+bounds marginal false-positive probability by $\alpha$
+\citep{shafer2008conformal}. Strict inequality handles ties
+conservatively. An optional tolerance rule chooses the smallest $k$
+satisfying
+\begin{equation}
+\Pr\{\operatorname{Bin}(n,1-\alpha)\leq k-1\}
+ \geq1-\delta.
+\label{eq:null-tolerance}
+\end{equation}
+For iid calibration records this bounds population null exceedance by
+$\alpha$ with confidence at least $1-\delta$. It is a different
+guarantee from marginal rank calibration.
+
+The calibration signature binds score code, filter state, constructor
+settings, runtime/device, channel count, and record length. Matching
+the signature prevents accidental reuse under another configuration;
+it does not establish distributional exchangeability. A synthetic
+threshold is therefore not automatically a clinical PAC threshold.
+
+\subsection{Coordinate properties and feature interface}
+\label{app:operator-interface}
+Changing the source phase origin by $\phi_i\mapsto\phi_i+\zeta_i$
+rotates the $k$th coefficient by $c_{ijk}\mapsto
+e^{ik\zeta_i}c_{ijk}$. The reconstructed curve in
+Eq.~\ref{eq:pac-curve} is unchanged. Isotropic ridge and the
+cosine--sine covariance block transform with the same orthogonal
+coordinate change; its trace and the shrinkage weight remain invariant.
+Likewise, positive input scaling multiplies the coefficients and
+baseline by the scale and variance by its square. Normalized relation
+features remain unchanged away from numerical floors and mask changes.
+These are coordinate and unit properties, not invariance to arbitrary
+perturbations of raw EEG. For H2, the coefficient angle describes phase
+modulo $\pi$ after division by two, not a unique preferred phase.
+
+For input $[B,C,L]$ and output patch count
+$P=\lfloor L/\texttt{patch\_len}\rfloor$, complex coefficients have
+shape $[B,C,P,6,5,2]$. Real--imaginary normalized features have shape
+$[B,C,P,6,5,2,2]$. The combined harmonic mask intersects physical
+support with fit validity. Source frequencies, source phases, temporal
+phase masks, baselines, and uncertainty masks are returned separately.
+Global coefficients are repeated across $P$ patches; these are not
+independent patch-level PAC measurements.
+
+\texttt{shrink=False} keeps raw values in \texttt{coef}. Feature
+consumption should explicitly select
+\texttt{relation\_features(stabilized=False)} or
+\texttt{relation\_features(stabilized=True)}; the feature helper's
+default is the latter. The separate local curve estimator uses
+source-dependent contexts with global fallback, but local mode is not
+part of this uncertainty-aware default. Physical buffers and constructor
+settings are serialized together and checked on restoration.
+CPU and CUDA are supported with float64 regression; MPS is rejected.
+Input gradients pass through filtering and regression, whereas spectral
+peak selection, masks, and the internal prediction score are not fully
+differentiable. Parent mixed-precision conversion preserves the
+physical buffers' precision.
+
+The measurement grid is $6\times5\times2$, not the learned
+16-band pair grid used in Eq.~\ref{eq:reference}. A tokenizer consuming
+it must specify the mapping from physical relations to learned content,
+mask handling, harmonic use, and estimation context. No downstream
+training with this interface is included in the present results.
+
+\section{PAC operator validation protocols and findings}
+\label{app:operator-validation}
+\subsection{Known-curve recovery and matched diagnostics}
+The initial release suite contains 5,500 independently generated
+5-s records per measurement configuration at 200\,Hz: 3,500 positive
+records, 1,000 ordinary nulls, and 1,000 stress signals. Positive
+conditions contain 500 records each: single-harmonic modulation at
+20 and 10\,dB; a second independently generated off-grid 20-dB group;
+double-harmonic and mixed modulation; PAC with AAC; and phase-varying
+signals. The off-grid group is an independent repetition, not a
+separate distribution: all source frequencies in this suite are
+off the nominal anchors.
+
+The source frequency is sampled from 3.2--6.3\,Hz, restricted to
+3.2--4.3\,Hz in double/mixed cases; the carrier lies in
+30.2--33.8\,Hz. Preferred phases are randomized. Single-harmonic
+depth lies in 0.25--0.65; double-harmonic depth in 0.3--0.65;
+mixed depths each lie in 0.2--0.4. The source amplitude also varies
+slowly. Colored-noise SNR in this release is relative to the complete
+clean raw signal. Ordinary nulls comprise independent envelopes and
+AAC without PAC. Stress cases comprise common transients and a
+nonsinusoidal source with harmonics.
+
+The operator receives raw signals only. Generator truth identifies the
+predeclared nearest source anchor and target anchor at 32\,Hz for
+scoring. Reconstruction evaluates
+$\sum_k\operatorname{Re}(c_k^*p_i^k)/\mu$ against the known
+normalized modulation over the central 40--60\% of each record.
+The mean error uses positive records only; an invalid estimate incurs
+unit error rather than being excluded. All positive records in the
+displayed release configurations have a valid pair.
+
+\begin{table}[t]
+\centering\TableStyle
+\caption{\textbf{Condition-level curve recovery.} Mean RMSE, 500
+positive records per row. The earlier H1 configuration also uses a
+different phase-filter shape, so this overall upgrade is not a
+single-factor comparison. Table~\ref{tab:operator-factorial} fixes that
+setting to isolate basis and refinement choices.}
+\label{tab:operator-conditions}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrr@{}}
+\toprule
+Signal & Earlier H1 & Refined H1+H2\\
+\midrule
+Single, 20\,dB & 0.01557 & \textbf{0.00896}\\
+Single, 10\,dB & 0.03653 & \textbf{0.02908}\\
+Off-grid repeat, 20\,dB & 0.01566 & \textbf{0.00896}\\
+Double, 10\,dB & 0.34004 & \textbf{0.04245}\\
+Mixed, 10\,dB & 0.21174 & \textbf{0.03728}\\
+PAC with AAC & 0.03999 & \textbf{0.03470}\\
+Phase-varying & \textbf{0.03789} & 0.04025\\
+\midrule
+Mean & 0.09963 & \textbf{0.02881}\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+The full change reduces mean error by 71.1\%
+(Table~\ref{tab:operator-conditions}). The four-arm diagnostic in
+Table~\ref{tab:operator-factorial} reuses these records and changes
+only frequency refinement and harmonic order with $q=9$ fixed.
+It is a matched diagnostic on exposed signals, not a fresh confirmation.
+The main gain is recovery of double and mixed modulation. On the
+first-harmonic-only groups, adding H2 to the refined fit increases
+mean error from 0.02224 to 0.02439. We therefore do not interpret
+the additional basis as a uniformly better PAC estimator. Independent
+NumPy replay of 44 retained cases agrees with the regression
+coefficients to a maximum absolute discrepancy of $6.88\times10^{-8}$.
+This checks numerical implementation, not physiological validity.
+
+\subsection{Frozen uncertainty-aware confirmation}
+The separate confirmation uses 2,688 10-s records, with 128 in each of
+21 conditions spanning modulation depth, preferred phase, harmonic
+shape, and noise. Raw and stabilized outputs are compared on the
+same records. Noise levels in this suite are relative to the clean
+target-band component, unlike the initial release; errors from the two
+suites are not pooled. The mean RMSE is 0.06361 for raw output and
+0.06111 for stabilized output, a 3.93\% reduction. A condition-stratified
+paired record bootstrap gives a 95\% interval of
+$[0.00236,0.00262]$ for the absolute mean error reduction.
+This interval describes paired recovery errors, not individual
+coefficient uncertainty.
+
+\begin{table}[t]
+\centering\TableStyle
+\caption{\textbf{Stabilization is a tradeoff.} Selected confirmation
+conditions, 128 records per condition. The weak-group row pools four
+depths (512 records); the overall row uses all 2,688 records.
+Lower curve RMSE is better.}
+\label{tab:operator-stabilization}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrr@{}}
+\toprule
+Condition & Raw & Stabilized\\
+\midrule
+Depth 0 & 0.03547 & \textbf{0.02036}\\
+Depth 0.02 & 0.03468 & \textbf{0.02241}\\
+Depth 0.05 & 0.03667 & \textbf{0.02975}\\
+Depth 0.1 & 0.03769 & \textbf{0.03345}\\
+No/weak group & 0.03613 & \textbf{0.02649}\\
+Mixed harmonics & \textbf{0.07431} & 0.07711\\
+Nonlinear modulation & \textbf{0.07639} & 0.07753\\
+Target-band SNR 0\,dB & \textbf{0.13984} & 0.14588\\
+\midrule
+Overall & 0.06361 & \textbf{0.06111}\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+Stabilization reduces no/weak-modulation error by 26.7\%, whereas mixed,
+nonlinear, and some low-SNR conditions worsen
+(Table~\ref{tab:operator-stabilization}). A further 768-record randomized
+carrier check tests recovery beyond a fixed coherent carrier and
+also finds cases where stabilization increases bias. These findings
+motivate retaining both output views rather than imposing shrinkage.
+
+\subsection{Calibration, coverage, and failure conditions}
+The final calibration uses 2,000 reference null records, followed by
+4,000 newly generated confirmation nulls. Both use 10-s records and
+the same iid mixture of independent-envelope and AAC-only nulls,
+with target-band SNR 10\,dB. At $\alpha=0.05$, the marginal rule
+selects rank 1,901 and threshold 0.04708; it flags 199/4,000 records
+(4.975\%; Wilson 95\% interval 4.34--5.69\%). The optional 95\%
+tolerance rule selects rank 1,917 and threshold 0.04995; it flags
+161/4,000 (4.025\%; interval 3.46--4.68\%). These are two rules
+evaluated on the same 4,000 records, not 8,000 independent nulls.
+
+A separate frequency--duration grid shows incomplete physical and
+temporal coverage. For the refined curve estimator, single-harmonic
+validity is 66.7\% at 5\,s and 83.3\% at 10 and 20\,s. In
+double-harmonic cases, the fraction of records with both a valid fit
+and truth-supported H2 is 20.0\%, 36.7\%, and 36.7\%, respectively.
+Each duration--shape group contains 480 records. Longer context helps
+temporal validity but cannot repair unsupported H2 sidebands.
+
+The wider capability suite also exposes low power for very weak
+modulation: true-pair detection is 0\% at depth 0.02, 4.7\% at
+0.05, and 19.5\% at 0.1, versus 99.2\% at 0.25 in the tested
+setting. These are suite-specific detection rates, not universal
+sensitivity curves. In the initial release stress tests, a separately
+calibrated threshold is exceeded by 8.4\% of common-transient signals
+and 51.2\% of nonsinusoidal signals. Such signals can generate genuine
+statistical phase--amplitude structure without distinct interacting
+neural oscillations \citep{aru2015untangling}. They are reported
+separately from ordinary null false positives.
+
+\subsection{Engineering checks and provenance}
+Retained CPU checks cover finite forward and input-gradient results on
+$[2,16,1000]$ and $[2,16,2000]$ arrays. A short CUDA check on an
+RTX~6000 Ada uses $B=1,C=16$ at the same two lengths. Maximum
+CPU--CUDA stabilized-feature discrepancies are
+$4.10\times10^{-7}$ and $5.29\times10^{-7}$; peak allocated tensor
+memory is approximately 112 and 240\,MB. The real EEG inputs are
+training windows used without labels. These checks establish execution
+and numerical agreement, not clinical PAC accuracy or downstream gains.
+Shared-device timing is not used to claim a throughput advantage.
+
+The estimator comparison, matched factorial diagnostic, capability
+grid, and uncertainty-aware confirmation retain separate records and
+source identities. The final confirmation uses a frozen estimator;
+reorganizing the public interface was checked for equality of the
+filter, regression, and uncertainty routines. Numerical replays,
+paired outputs on one record, repeated patch views, and engineering
+inputs are not counted as additional independent recovery samples.
+The present study validates the measurement component before its
+integration into a learned tokenizer.
+
+
+\section{Statistical interpretation}
+\label{app:statistics}
+\subsection{A cubic cross-band statistic}
+This section concerns the reference vector moment in Eq.~\ref{eq:moment},
+not an identity between every harmonic regression coefficient and the
+bispectrum. The local moment and its auxiliary cubic counterpart are
+different quantities. For fixed learned linear filters, define
+\begin{equation}
+C^{(3)}_{ij}=\langle z_i|z_j|^2\rangle
+-\langle z_i\rangle\langle|z_j|^2\rangle.
+\label{eq:cubic}
+\end{equation}
+Its three factors are one source analytic signal and two target analytic
+factors forming instantaneous power. For a zero-mean third-order
+stationary input with bispectral density $B_x$, the population counterpart
+satisfies
+\begin{equation}
+\begin{aligned}
+\mathcal C^{(3)}_{ij}
+&=\mathbb E[z_i(t)|z_j(t)|^2]\\
+&=\iint G_i(f)G_j(g)G_j^*(f+g)B_x(f,g)\,df\,dg,
+\end{aligned}
+\label{eq:bispectral}
+\end{equation}
+where $G_i,G_j$ are the analytic filter responses and the Fourier
+convention uses $e^{i2\pi ft}$. Stationarity imposes the frequency
+combination $f+g$ for the conjugated component. Thus the target filter
+must include pairs of frequencies separated by a source frequency.
+This is the filtered-bispectral interpretation used here
+\citep{kovach2018bispectrum}. It is a population statement under stated
+assumptions, not a declaration that every short EEG patch is stationary.
+
+\subsection{Exact connection to the reference moment}
+Write $M_{ij}=Z_{ij}/c_Z$, $\mu_j=\langle A_j\rangle$,
+$\delta_j=A_j-\mu_j$, and include the amplitude guard through
+$D_i=\max(A_i,\epsilon_a)$, $\nu_i=\langle D_i\rangle$,
+$d_i=D_i-\nu_i$. Since $p_i=z_i/D_i$, we have $z_i=D_i p_i$
+exactly. Let
+\begin{equation}
+\begin{aligned}
+Q_j&=A_j^2-\langle A_j^2\rangle,\\
+R_j&=\delta_j^2-\langle\delta_j^2\rangle.
+\end{aligned}
+\label{eq:corrections}
+\end{equation}
+The identity $Q_j=2\mu_j\delta_j+R_j$ gives
+\begin{equation}
+\begin{aligned}
+C^{(3)}_{ij}&=2\nu_i\mu_jM_{ij}
++E^{\rm amp}_{ij}+E^{\rm src}_{ij},\\
+E^{\rm amp}_{ij}&=\nu_i\langle p_iR_j\rangle,\\
+E^{\rm src}_{ij}&=\langle d_ip_iQ_j\rangle.
+\end{aligned}
+\label{eq:decomposition}
+\end{equation}
+The corrections respectively reflect using amplitude in place of power
+and removing source amplitude. Since $|p_i|\leq1$,
+\begin{equation}
+\begin{split}
+|E^{\rm amp}_{ij}+E^{\rm src}_{ij}|
+\leq{}&2\nu_i\langle\delta_j^2\rangle\\
+&+\sqrt{\langle d_i^2\rangle\langle Q_j^2\rangle}.
+\end{split}
+\label{eq:bound}
+\end{equation}
+The first term uses
+$\langle|\delta_j^2-\langle\delta_j^2\rangle|\rangle
+\leq2\langle\delta_j^2\rangle$; the second is Cauchy--Schwarz.
+For positive mean amplitudes and small relative fluctuations, the
+corrections are second order in those fluctuations and
+$C^{(3)}_{ij}/(2\nu_i\mu_j)$ agrees with $M_{ij}$ to first order.
+We do not assume these corrections are negligible in recorded EEG.
+
+The distinction is also visible under amplitude scaling. Away from
+guards, scaling the input by a positive $s$ scales $C^{(3)}$ by $s^3$
+but scales $M$ by $s$. Thus the implemented statistic is not a cubic
+polynomial of the input. The theoretical connection motivates its
+statistical content without treating it as a new bispectrum estimator.
+Higher-order analysis also does not establish that explicit measurement
+is superior to learned mixing, or that all forms of CFC require exactly
+third-order statistics.
+
+\subsection{Relation to harmonic regression}
+With uniform complete-cycle phase coverage, no drift, and no ridge,
+the cosine--sine Gram matrix is $\tfrac12 I$. For the same phase and
+envelope signals, the first coefficient then satisfies
+\begin{equation}
+c_{ij1}=2\left\langle p_i(t)
+ \bigl(A_j(t)-\langle A_j\rangle\bigr)\right\rangle
+       =2M_{ij}.
+\label{eq:regression-moment}
+\end{equation}
+This connects the first-harmonic regression to the vector measurement
+under these conditions. With nonuniform phase coverage, detrending,
+and ridge, the full Gram solve replaces this simple proportionality.
+For $A(t)=1+\rho\cos(\phi(t)-\theta)$, the ideal coefficient is
+$c_1=\rho e^{i\theta}$. For modulation proportional to
+$\cos(2\phi-\theta)$, H1 can vanish while H2 remains nonzero.
+The second angular harmonic expands the curve family; its index does
+not by itself establish a third-order spectral interpretation.
+
+\section{Reference-moment diagnostic}
+\label{app:synthetic}
+The checks use the production measurement, sinc-filter, and analytic
+signal functions, with no fitting or clinical data. Sampling is 200\,Hz.
+The modulation depth is $\rho=0.6$, preferred phase is 1.1 radians, and
+128 initial phases are evenly spaced at
+$2\pi(n+1/2)/128$, $n=0,\ldots,127$.
+The diagnostic uses $c_Z=1$; production uses $10^{-2}$, a fixed scale.
+
+\paragraph{Oracle phases and envelopes.}
+For source frequencies 0.5, 1, 2, and 6\,Hz and durations
+0.25, 0.5, 1, 2, and 5\,s, the reference moment receives generated
+phases and envelopes directly. For
+$A(t)=1+\rho\cos(\phi(t)-\theta)$ with uniform complete-cycle
+phase coverage, its target is
+\begin{equation}
+\left\langle e^{i\phi(t)}
+ \bigl(A(t)-\langle A\rangle\bigr)\right\rangle
+ =\frac{\rho}{2}e^{i\theta}.
+\label{eq:oracle}
+\end{equation}
+This isolates finite-window behavior from filtering. A constant target
+envelope yields zero. Modulation proportional to $\cos(2\phi-\theta)$
+also yields zero under uniform full-cycle coverage, demonstrating the
+first-harmonic statistic's blind spot rather than absence of dependence
+\citep{tort2010measuring}.
+
+For discrete source phases $\phi_n=\omega t_n+\psi$, let
+$s_1=L^{-1}\sum_n e^{i\omega t_n}$.
+Averaging over uniform initial phase $\psi$ gives
+\begin{equation}
+\mathbb E_\psi[M]
+=\frac{\rho}{2}e^{i\theta}(1-|s_1|^2).
+\label{eq:finite-window}
+\end{equation}
+The additional second-harmonic term in a single window averages to zero
+over $\psi$. Equation~\ref{eq:finite-window} therefore concerns the
+ensemble complex vector, not the average magnitude or every individual
+window's phase error. The implementation checks agree with this factor
+within $3\times10^{-6}$ for all 20 frequency--duration combinations.
+
+\begin{table}[t]
+\centering\TableStyle
+\caption{\textbf{Finite-window attenuation.} Ensemble complex-vector
+recovery relative to the full-cycle target, with ideal phases and
+envelopes. Selected entries from the controlled checks.}
+\label{tab:finite-window}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrr@{}}
+\toprule
+Source frequency & 0.25\,s & 1\,s & 5\,s\\
+\midrule
+0.5\,Hz & 0.050 & 0.595 & 0.984\\
+1\,Hz & 0.189 & 1.000 & 1.000\\
+2\,Hz & 0.595 & 1.000 & 1.000\\
+6\,Hz & 0.955 & 1.000 & 1.000\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/cfft_measurement_sanity.pdf}
+\caption{\textbf{Reference-moment diagnostic.} Top: ensemble-averaged
+vector recovery relative to Eq.~\ref{eq:oracle}, using known phases and
+envelopes. Short partial cycles attenuate the centered moment. Bottom:
+recovery after the implemented sinc filters and Hilbert transform for a
+6-Hz phase modulating a 40-Hz carrier. Amplitude bandwidth determines
+whether modulation sidebands survive. These are noise-free implementation
+checks, with no fitting or clinical classification.}
+\label{fig:measurement}
+\end{figure}
+
+\paragraph{Filtering and modulation sidebands.}
+We generate 14-s signals containing a 6-Hz source and a 40-Hz carrier
+whose amplitude follows the known source phase. The source filter spans
+4--8\,Hz; target widths are 4, 12, and 24\,Hz around 40\,Hz. The
+201-tap sinc filters and FFT Hilbert transform are the implemented
+operators. We discard 2\,s at each boundary and compute ten 1-s moments
+per trial. Recovery is normalized by the target filter's carrier gain.
+The resulting vector fractions are 0.0007, 0.5007, and 0.9996.
+The 12-Hz nominal bandwidth places the modulation sidebands at the
+cutoffs, so it is not equivalent to transmitting them at unit gain.
+These configured filters are controlled test filters, not the trained
+16-band checkpoint. No noise robustness, surrogate false-positive rate,
+or physiological validity is established by this test.
+
+\section{Implementation and computational specification}
+\label{app:implementation}
+\paragraph{Filters and analytic signals.}
+The reference uses sixteen 201-tap Hamming-windowed sinc filters,
+initialized on a logarithmic grid from 0.5 to 75\,Hz.
+Convolution uses 100-sample zero padding on each side. The Hilbert
+transform uses the full input's FFT: positive frequencies receive weight
+two, negative frequencies zero, and DC and even-length Nyquist receive
+one. No reflected FFT padding is added. These boundary conventions do
+not provide observations outside the input window.
+
+\paragraph{Projections.}
+For each band and content patch,
+\begin{equation}
+\begin{aligned}
+\mathbf a_j&=\mathbf s_a\odot L_a(\log(1+A_j)),\\
+\mathbf w_j&=L_w(x_j),\qquad
+\tilde{\mathbf p}_j=L_p(p_j).
+\end{aligned}
+\label{eq:projections}
+\end{equation}
+Here $L_a$ is affine, $\mathbf s_a$ starts at one, and $L_w$ is
+bias-free and zero-initialized. $L_p$ is real and bias-free, shared
+between real and imaginary phase coordinates. Each content projection
+produces 64 coordinates; the final interleaved width is 128.
+Zero initialization is not evidence that the trained waveform path is
+unused; its activity is evaluated separately.
+
+\paragraph{Guards and fallbacks.}
+Unit phase uses $p=z/\max(|z|,10^{-6})$.
+Measured-angle and relation-weight guards use $10^{-8}$, while the final
+reference normalization uses $\epsilon=10^{-6}$.
+The root band uses its own projected phase. A negligible total relation
+strength falls back to an unaligned average of eligible source features.
+Only source indices $i<j$ are used. Actual learned response curves,
+rather than index order alone, are needed to interpret source and target
+frequencies.
+
+\paragraph{Token and relation windows.}
+The reference has 50-sample content and estimation windows. For longer
+contexts that divide the input and content grid, relation windows are
+computed at the coarser rate and repeated across contained content
+patches. The longer-context experiments preserve content projections,
+encoder settings, and token counts. At 100-Hz sampling, 50 samples last
+0.5\,s rather than 0.25\,s. A Sleep-EDF filterbank initialized up to
+49\,Hz respects its 50-Hz Nyquist frequency; no 75-Hz initialization
+should be inferred for that configuration.
+
+\paragraph{Encoder and training.}
+The two attention axes are time and joint electrode--band rows.
+There is no separate band-only attention sublayer in the current
+reference. Each of six pre-norm blocks has four heads, width 128,
+feed-forward width 256, and GELU nonlinearities.
+The audited configuration allocates 9,760 tokenizer parameters,
+2,048 band-embedding parameters, 17,408 spatial-embedding parameters,
+1,194,240 encoder parameters, and 1,030 classifier parameters,
+totaling 1,224,486.
+
+The input transforms are time reversal with probability 0.5, Gaussian
+jitter of scale 0.05, masking 20\% of sample positions, masking 20\%
+of channels, and masking approximately 20\% of real-FFT coefficients.
+One configured transform is selected per training forward pass;
+evaluation disables them. The no-augmentation condition removes these
+input transforms, while dropout, weight decay, and label smoothing
+remain. Validation is evaluated each epoch in the current TUEV recipe.
+
+\paragraph{Computational scope.}
+For $C=16$, $n_b=16$, $P=20$, CfFT has $Cn_bP=5{,}120$ tokens.
+WavePatch has $CP=320$. Joint-row attention is over 256 rows rather
+than 16. A block's attention-matrix costs scale as
+$O(Cn_bP^2)$ for time and $O(P(Cn_b)^2)$ for rows, excluding width
+factors and projections. Hence similar parameter counts do not imply
+equal token budgets, latency, throughput, or memory. No measured
+throughput advantage is claimed.
+
+\section{Properties of the content transformation}
+\label{app:properties}
+\paragraph{Magnitude preservation.}
+For a scalar feature pair $q=a+iw$, the output satisfies
+\begin{equation}
+|h|^2=(a^2+w^2)\frac{|u|^2}{\max(|u|,\epsilon)^2}.
+\label{eq:norm}
+\end{equation}
+Above the guard it is a planar orthogonal rotation. Below the guard the
+pair is attenuated. This statement does not make the full tokenizer
+invertible, because learned projection and subsequent processing can
+discard information.
+
+\begin{proposition}[Source-phase reference change]
+With content fixed and outside fallback cases, independent constant
+changes $p_i\mapsto e^{i\delta_i}p_i$ within an estimation window leave
+the aggregate $\mathbf u_j$ unchanged for non-root target bands.
+\end{proposition}
+\noindent\textit{Proof.}
+Complex linearity gives
+$\tilde{\mathbf p}_i\mapsto e^{i\delta_i}\tilde{\mathbf p}_i$ and
+$Z_{ij}\mapsto e^{i\delta_i}Z_{ij}$.
+The weights are unchanged, while
+$\eta_{ij}\mapsto e^{-i\delta_i}\eta_{ij}$.
+The factors cancel in each term of Eq.~\ref{eq:reference}. \hfill$\square$
+
+The property concerns a change in analytic coordinates with content
+fixed. It is not invariance to arbitrary perturbation, time shift,
+or phase editing of the raw EEG. The root-band construction and
+unaligned fallback are excluded. Likewise, normalizing a weighted
+phase aggregate does not prove that applying its angle to content is
+optimal for a downstream task.
+
+\section{Data and evaluation protocols}
+\label{app:data}
+The dataset roster includes TUEV and IIIC for event/pattern
+classification; TUSZ and CHB-MIT for seizure detection; TUAB, TUEP,
+and ADFD for diagnostic tasks; TUAR for artifacts; and Sleep-EDF and
+ISRUC for sleep staging
+\citep{obeid2016temple,shah2018temple,jing2023development,shoeb2009application,miltiadous2023dataset,kemp2000analysis,khalighi2016isruc}.
+This roster specifies the clinical scope; completed comparable CfFT
+results are concentrated on TUEV. The main-cohort results and
+earlier experiments must be associated with their own processed arrays,
+splits, input conventions, and model configurations.
+
+\paragraph{The fixed TUEV block.}
+All Table~\ref{tab:tuev} rows share the accepted 16-channel processed
+cohort. It contains 68,445 training, 15,487 validation, and 29,421
+test annotation rows. An exact-array SHA check found 8,650, 1,028,
+and 3,243 distinct signals in those splits, respectively, with no
+cross-split identical signal hashes. Within-split repeated annotation
+rows are retained by the benchmark protocol; they are not independent
+recordings. The counts do not rule out every kind of partial overlap
+or patient-identity issue.
+
+Earlier native 23-channel TUEV experiments have different inputs and
+test membership and are not included in Table~\ref{tab:tuev}.
+Baseline-specific normalization and checkpoint rules remain native.
+For example, LaBraM selects by its native validation accuracy, whereas
+CfFT selects by validation $\kappa$. The comparison consequently
+evaluates the recorded system recipes on a common test cohort; it is
+not a controlled attribution of every between-model design difference.
+
+\paragraph{Earlier clinical experiments.}
+The context-length and component experiments use an earlier encoder
+with a separate band-only attention sublayer in addition to temporal
+and joint-row attention. Their numeric results are reported in that
+setting and are not used as current-model benchmark values.
+The CHB-MIT preprocessing and subject split associated with those
+experiments are likewise distinct from the main baseline protocol.
+In particular, the current 23-channel CHB-MIT and earlier 16-channel
+records must not be silently combined into a single ranking.
+
+\paragraph{Metrics.}
+For multiclass prediction, balanced accuracy is mean class recall,
+weighted F1 uses class-support weights, and Cohen's $\kappa$ is computed
+globally from the confusion matrix. For binary prediction, AUROC and
+trapezoidal AUC-PR use continuous positive-class scores; average precision
+is a different metric and is retained separately when available.
+Default-threshold balanced accuracy uses 0.5 unless a documented
+validation-derived threshold is specified. No test-derived threshold
+selection is introduced here.
+
+When individual seed results are available, their sample SD uses
+denominator $n-1$. A paired difference is formed within each shared
+seed before computing its mean and SD. Marginal SDs are not a substitute
+for the variability of paired differences. No significance or equivalence
+claim is made from the small exploratory seed sets.
+
+\section{Component controls and estimation context}
+\label{app:controls}
+Identity replaces the normalized aggregate by one, leaving projected
+envelope and waveform content unrotated. Own phase uses the target
+band's own projected phase. Weights only keeps $\alpha$ while setting
+the pairwise alignment factors $\eta$ to one; its normalized aggregate
+can still rotate content. Envelope only sets the waveform coordinate to
+zero. These definitions distinguish no rotation from an unaligned
+rotation and distinguish content removal from relation removal.
+
+\begin{table}[t]
+\centering\TableStyle
+\caption{\textbf{Earlier TUEV component experiment.} Seed 2 with the
+band-mixer encoder; all four arms use the same epoch cap and validation
+cadence. This is a single paired block, not a current-model seed mean.}
+\label{tab:old-components}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc@{}}
+\toprule
+Construction & Bal. acc. & $\kappa$ & W-F1\\
+\midrule
+Full & \textbf{0.609} & \textbf{0.715} & \textbf{0.846}\\
+Envelope only & 0.596 & 0.714 & 0.844\\
+Weights only & 0.600 & 0.643 & 0.812\\
+Own phase & 0.499 & 0.532 & 0.755\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+All four arms in Table~\ref{tab:old-components} peak at the first or
+second validation evaluation. They were not excluded or replaced on
+the basis of test performance. Their similar selection endpoints do
+not replace multi-seed replication.
+
+\begin{table}[t]
+\centering\TableStyle
+\caption{\textbf{Earlier measured--identity comparisons.} Seed 0,
+band-mixer encoder. The primary score is $\kappa$ on TUEV and AUC-PR
+on CHB-MIT. Columns are not used to rank different datasets.}
+\label{tab:identity}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llrr@{}}
+\toprule
+Dataset & Construction & Primary & Bal. acc.\\
+\midrule
+TUEV & Measured & 0.714 & \textbf{0.681}\\
+     & Identity & \textbf{0.729} & 0.604\\
+\midrule
+CHB-MIT & Measured & \textbf{0.697} & 0.609\\
+        & Identity & 0.671 & \textbf{0.616}\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+TUEV identity has its validation peak at the first/second evaluation,
+while measured peaks later. This describes the selected predictors;
+it does not invalidate the identity result. On CHB-MIT, both runs train
+normally and measured wins the primary metric, while identity has
+higher balanced accuracy and AUROC. These outcomes bound a general
+claim that rotation must help in every setting.
+
+\begin{table*}[t]
+\centering\TableStyle
+\caption{\textbf{Earlier relation-window experiment.} Seed 0 with the
+band-mixer encoder. Tokens remain 50 samples at 200\,Hz. Only the
+relation window changes. Bold marks the best within each dataset.}
+\label{tab:windows}
+\begin{tabular}{llccc}
+\toprule
+Dataset & Context & Primary & Bal. acc. & Complementary metric\\
+\midrule
+TUEV & 0.25\,s & $\kappa$ 0.714 & \textbf{0.681} & W-F1 0.851\\
+ & 1\,s & $\kappa$ \textbf{0.739} & 0.627 & W-F1 \textbf{0.860}\\
+ & 5\,s & $\kappa$ 0.737 & 0.604 & W-F1 0.859\\
+\midrule
+CHB-MIT & 0.25\,s & AUC-PR 0.697 & 0.609 & AUROC \textbf{0.913}\\
+ & 1\,s & AUC-PR \textbf{0.727} & \textbf{0.618} & AUROC 0.907\\
+ & 5\,s & AUC-PR 0.618 & 0.587 & AUROC 0.891\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\section{Host replacement results}
+\label{app:hosts}
+The native-grid adapter concatenates sixteen band features, averages
+four frontend patches per 200-sample host window, and projects to the
+host width: 256 for BIOT and 200 for CBraMod. Host-window hops are
+100 and 200 samples, respectively. Tokenizer, adapter, and host are
+jointly trained from scratch with the recorded host recipe.
+The comparisons below belong to the archived host protocol, not to
+the released-weight baseline block of Table~\ref{tab:tuev}.
+
+\begin{table*}[t]
+\centering\TableStyle
+\caption{\textbf{BIOT measured--identity seed pairs.} Primary metric:
+$\kappa$ for TUEV and IIIC, trapezoidal AUC-PR for CHB-MIT. Each paired
+difference is measured minus identity. The summary uses sample SD.}
+\label{tab:host-pairs}
+\begin{tabular}{llrrrr}
+\toprule
+Dataset & Frontend & Seed 0 & Seed 1 & Seed 2 & Mean $\pm$ SD\\
+\midrule
+TUEV & Measured & 0.596107 & 0.582874 & 0.652658 & $0.6105\pm0.0371$\\
+ & Identity & 0.399942 & 0.385040 & 0.442964 & $0.4093\pm0.0301$\\
+ & Difference & +0.196165 & +0.197834 & +0.209694 & $+0.2012\pm0.0074$\\
+\midrule
+IIIC & Measured & 0.399553 & 0.366539 & 0.389959 & $0.3854\pm0.0170$\\
+ & Identity & 0.278632 & 0.280583 & 0.244281 & $0.2678\pm0.0204$\\
+ & Difference & +0.120921 & +0.085956 & +0.145678 & $+0.1175\pm0.0300$\\
+\midrule
+CHB-MIT & Measured & 0.473792 & 0.453602 & 0.465113 & $0.4642\pm0.0101$\\
+ & Identity & 0.685205 & 0.646232 & 0.554469 & $0.6286\pm0.0671$\\
+ & Difference & $-0.211413$ & $-0.192630$ & $-0.089356$ & $-0.1645\pm0.0657$\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The TUEV measured arms peak at the first validation evaluation and stop
+after six epochs under the native patience-five rule. Two identity
+arms train longer, while seed 2 has a first-evaluation peak in both
+arms. We retain all three pairs and report the endpoint asymmetry.
+The IIIC and CHB-MIT comparisons train beyond the first evaluation;
+the CHB-MIT negative effect cannot be attributed to first-evaluation
+selection. Scores rounded to six decimals may yield a final-digit
+difference from calculations using the original full-precision values.
+
+The CBraMod replacement has TUEV $\kappa$ values
+0.613269, 0.537164, and 0.610752, compared with native values
+0.575503, 0.536637, and 0.579372. The paired mean difference is
+$+0.0232\pm0.0199$. Two replacement runs peak at the first evaluation;
+the remaining seed does not. On IIIC, replacement values are
+0.377999, 0.385570, and 0.381602, against native values
+0.397856, 0.395748, and 0.386895, for a paired difference of
+$-0.0118\pm0.0074$. These IIIC runs peak later in training.
+Because the whole frontend and adapter change, neither comparison
+isolates rotation inside CBraMod.
+
+\section{Fixed-predictor and filter diagnostics}
+\label{app:diagnostics}
+An archived validation-selected two-axis checkpoint has unchanged test
+$\kappa=0.684601$. It is distinct from the current benchmark checkpoint
+and is not added as another seed. The diagnostic strictly reloads its
+weights, checks that the unchanged analysis path preserves logits, and
+evaluates all 29,421 processed test windows.
+
+\begin{table}[t]
+\centering\TableStyle
+\caption{\textbf{Inference interventions.} One fixed predictor with
+changed token construction; no retraining or checkpoint reselection.}
+\label{tab:interventions}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc@{}}
+\toprule
+Intervention & Bal. acc. & $\kappa$ & W-F1\\
+\midrule
+Unchanged & \textbf{0.637} & \textbf{0.685} & \textbf{0.836}\\
+Identity & 0.167 & 0.000 & 0.535\\
+Own phase & 0.239 & 0.216 & 0.621\\
+Weights only & 0.445 & 0.416 & 0.689\\
+Shuffled moments & 0.253 & 0.174 & 0.590\\
+Envelope only & 0.426 & 0.623 & 0.792\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+A label-independent fixed permutation orders the test windows into
+batches of 32. The shuffle cyclically reassigns whole moment tensors
+within a batch; electrode, band-pair, and patch axes remain together.
+The final batch is retained and has more than one sample. This is a
+cross-window intervention, not a physiological surrogate test.
+Identity predicts the background class for all windows, yielding
+$\kappa=0$ and balanced accuracy $1/6$. This distribution-shift result
+is not a score for an independently trained identity model.
+
+\subsection{Finite filter responses}
+\label{app:filters}
+Filter responses are computed from the trained finite taps rather than
+only nominal center frequencies. Each response curve is normalized by
+its own peak for display. Response overlap is the cosine similarity
+between power-response vectors. The average source weight is first
+computed across electrodes and patches within a window, then equally
+across windows. Since each target has a different number of eligible
+sources, relative enrichment is
+$\log_2(\bar\alpha_{ij}/(1/j))$ for target index $j>0$.
+
+In this checkpoint the ten largest enrichments have nominal frequency
+ratios 4.7--16.5 and response overlap below $5\times10^{-6}$.
+Across 120 eligible pairs, overlap and enrichment have Spearman
+$\rho=-0.02$. The largest relative weights therefore are not simply
+the most overlapping pairs in this diagnostic. These are descriptive
+checkpoint measurements, not a causal exclusion of filter artifacts.
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=\textwidth]{figures/filter_overlap.pdf}
+\caption{\textbf{Trained responses and coupling weights.} Actual finite
+filter responses, adjacent response overlap, and weight enrichment
+relative to uniform source weighting for the archived diagnostic
+checkpoint. Large enrichments do not simply follow response overlap.}
+\label{fig:filter-overlap}
+\par\vspace{7pt}
+\includegraphics[width=0.72\textwidth]{figures/all_filter_responses.pdf}
+\caption{\textbf{All sixteen finite filter responses.} Initialization
+and trained responses for the same diagnostic checkpoint. Nominal
+ordering does not eliminate finite-response overlap.}
+\label{fig:all-filters}
+\end{figure*}
+
+Removing the first and last two token patches changes any average weight
+by at most 0.001894. This checks sensitivity of the weight summary,
+not the accuracy of boundary phase estimates. The small-moment fallback
+is rare in this diagnostic, but passing a numerical threshold is not
+evidence of physiological significance.
+
+\section{Reproducibility and study scope}
+\label{app:remaining}
+The study separates a validated standalone PAC measurement component
+from the reference tokenizer used for downstream evaluation. The measurements do not establish PAC's predictive
+superiority to AAC/PPC, and the reported construction does not establish
+superiority to supplying PAC as matched input features. Retrained
+identity controls on the reference configuration, tokenizer integration
+of the physical-grid operator, calibration on relevant clinical nulls,
+and additional benchmark comparisons would extend the present evidence. The band-mixer and host experiments retain their
+own scope rather than filling those gaps.
+
+For each released result, a reproducible record should identify the
+processed split, configuration, seed, training source, selected checkpoint,
+validation criterion, and saved test predictions. Current benchmark
+values are tied to retained evaluation and metric-recomputation records.
+Historical values remain associated with their original protocols rather
+than being relabeled as current runs. Local checkpoints and original
+experimental artifacts are preserved.
+
+\end{document}

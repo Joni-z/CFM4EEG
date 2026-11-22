@@ -2,7 +2,7 @@
 
 [返回总入口](../README.md)
 
-共 447 条记录。[完整精度及来源 CSV](tuev.csv)。
+共 448 条记录。[完整精度及来源 CSV](tuev.csv)。
 同一表中的数据协议、模型版本和训练配置可能不同，请先核对协议；本页不选择最佳 seed、不合并跨协议成绩。
 空白表示原记录缺失；没有测试结果的训练记录保留空白。显示六位小数，CSV 保留原始精度。
 
@@ -74,7 +74,7 @@
 | `b100705fff8141f10372` | st_transformer<br>tuev-st_transformer | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.479248 |  |  |  | 0.457732 | 0.731769 |
 | `7122d48bd073c920f2b5` | tfm<br>tuev-tfm_single_rebuild20261021 | pretrained | 0 | completed_record<br>clinical_run | 0.599408 |  |  |  | 0.567544 | 0.790529 |
 
-## shared16_29421（382 条）
+## shared16_29421（383 条）
 
 | 记录 ID | 模型 / run | 初始化 | seed | 状态 / 类型 | κ | PR-AUC | AP | AUROC | Bal. acc. | wF1 |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|
@@ -169,6 +169,7 @@
 | `ae8220545f4e9e44a635` | Quad-Range<br>tuev-range_twoaxis_measured_poolangle_20260917 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.682492 |  |  |  | 0.640065 | 0.836696 |
 | `4dc13fd17715cc6b15ec` | Quad-Range / envelope-only<br>tuev-quad_range_envelope_20260916 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.713653 |  |  |  | 0.596117 | 0.844064 |
 | `04d318392c5f3a6b3460` | Quad-Range / envelope-only<br>tuev-range_twoaxis_envelope_20260917 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.703625 |  |  |  | 0.626928 | 0.842453 |
+| `4c813e71163a7d59a2a6` | Quad-Range / geometric:aligned<br>tuev-cfft_geo_transport_20261016 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.696942 |  |  |  | 0.636565 | 0.840546 |
 | `689ece0d9e86aab77ef0` | Quad-Range / identity<br>tuev-capacity2-paired-20261106 | not_explicitly_recorded | 2 | operator_stopped<br>training_progress |  |  |  |  |  |  |
 | `62fedc007f1e3de6b8f4` | Quad-Range / identity<br>tuev-demodulation-bandmix-restart-20261106 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.585392 |  |  |  | 0.529583 | 0.788173 |
 | `7f6d4ad7f1ac72d9da1a` | Quad-Range / identity<br>tuev-demodulation-patchmean-20261106 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.695371 |  |  |  | 0.612483 | 0.841554 |

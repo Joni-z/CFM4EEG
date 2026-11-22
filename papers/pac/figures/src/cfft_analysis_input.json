@@ -1,0 +1,105 @@
+{
+  "window": [
+    {
+      "dataset": "tuev",
+      "seed": 0,
+      "window_s": 0.25,
+      "primary_metric": "cohen_kappa",
+      "primary": 0.7138802725511229,
+      "balanced_acc": 0.680589877976525,
+      "host": "amd",
+      "source": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-quad-range-20260916/runs/tuev-quad_range_20260916/seed0/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "seed": 0,
+      "window_s": 1.0,
+      "primary_metric": "cohen_kappa",
+      "primary": 0.7387108080778313,
+      "balanced_acc": 0.6268128883938164,
+      "host": "amd",
+      "source": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_Z1s_20260916/seed0/result.json"
+    },
+    {
+      "dataset": "tuev",
+      "seed": 0,
+      "window_s": 5.0,
+      "primary_metric": "cohen_kappa",
+      "primary": 0.7367952835406562,
+      "balanced_acc": 0.604176469949436,
+      "host": "amd",
+      "source": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_Z5s_20260916/seed0/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "seed": 0,
+      "window_s": 0.25,
+      "primary_metric": "pr_auc",
+      "primary": 0.6969134781325137,
+      "balanced_acc": 0.6085495387899271,
+      "host": "145",
+      "source": "/data2/zz5070/CFM4EEG-range-final-20260916/runs/chbmit-quad_range_20260916/seed0/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "seed": 0,
+      "window_s": 1.0,
+      "primary_metric": "pr_auc",
+      "primary": 0.7273662104484355,
+      "balanced_acc": 0.6176075098044198,
+      "host": "145",
+      "source": "/data2/zz5070/CFM4EEG-range-final-20260916/runs/chbmit-quad_range_Z1s_20260916/seed0/result.json"
+    },
+    {
+      "dataset": "chbmit",
+      "seed": 0,
+      "window_s": 5.0,
+      "primary_metric": "pr_auc",
+      "primary": 0.6179153247283153,
+      "balanced_acc": 0.5868396310319417,
+      "host": "145",
+      "source": "/data2/zz5070/CFM4EEG-range-final-20260916/runs/chbmit-quad_range_Z5s_20260916/seed0/result.json"
+    }
+  ],
+  "interventions": {
+    "checkpoint_sha256": "e6529e504aeb76b541d9e9090914baf98ad625415591f8e913a0cfdbcca1a0bb",
+    "seed": 0,
+    "n_test": 29421,
+    "metrics": {
+      "measured": {
+        "balanced_acc": 0.6365798504083086,
+        "cohen_kappa": 0.6846006668809144,
+        "weighted_f1": 0.8357549585219306
+      },
+      "identity": {
+        "balanced_acc": 0.16666666666666666,
+        "cohen_kappa": 0.0,
+        "weighted_f1": 0.5347260469047578
+      },
+      "own_phase": {
+        "balanced_acc": 0.23909810180429655,
+        "cohen_kappa": 0.21550995196814382,
+        "weighted_f1": 0.6208097953509604
+      },
+      "weights_only": {
+        "balanced_acc": 0.4451443679136413,
+        "cohen_kappa": 0.4160213391924368,
+        "weighted_f1": 0.6893254016146202
+      },
+      "shuffled_Z": {
+        "balanced_acc": 0.25258958145910887,
+        "cohen_kappa": 0.17405890577487504,
+        "weighted_f1": 0.5898806829702493
+      },
+      "envelope_only": {
+        "balanced_acc": 0.42586444605962975,
+        "cohen_kappa": 0.6231352682075518,
+        "weighted_f1": 0.7919106096588929
+      }
+    }
+  },
+  "evidence_contract": {
+    "window": "One validation-selected seed-0 run per duration and task; earlier band-mixer encoder; fixed token resolution; no estimated uncertainty or significance.",
+    "interventions": "Same fixed two-axis seed-0 checkpoint and all 29421 test windows; inference changes, not retrained controls."
+  }
+}

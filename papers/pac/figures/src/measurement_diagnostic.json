@@ -1,0 +1,256 @@
+{
+  "protocol": "No fitting; independent synthetic generation; production measurement/filter functions",
+  "sampling_hz": 200,
+  "modulation_depth": 0.6,
+  "preferred_phase_radians": 1.1,
+  "numerical_scale": "c_Z=1 for diagnostics; production c_Z=0.01 is a fixed scale",
+  "oracle_window_experiment": [
+    {
+      "source_hz": 0.5,
+      "seconds": 0.25,
+      "trials": 128,
+      "recovered_vector_fraction": 0.050339261437792764,
+      "mean_relative_vector_error": 0.9503008698772183,
+      "preferred_phase_mae_deg": 42.52481556165182,
+      "theoretical_finite_window_fraction": 0.05033916234970093
+    },
+    {
+      "source_hz": 0.5,
+      "seconds": 0.5,
+      "trials": 128,
+      "recovered_vector_fraction": 0.1894138825872007,
+      "mean_relative_vector_error": 0.8199445567397775,
+      "preferred_phase_mae_deg": 38.4263458313555,
+      "theoretical_finite_window_fraction": 0.18941372632980347
+    },
+    {
+      "source_hz": 0.5,
+      "seconds": 1.0,
+      "trials": 128,
+      "recovered_vector_fraction": 0.5947069248242031,
+      "mean_relative_vector_error": 0.5159714780717501,
+      "preferred_phase_mae_deg": 26.404289184816584,
+      "theoretical_finite_window_fraction": 0.5947069525718689
+    },
+    {
+      "source_hz": 0.5,
+      "seconds": 2.0,
+      "trials": 128,
+      "recovered_vector_fraction": 0.9999998835648161,
+      "mean_relative_vector_error": 2.481023698541625e-07,
+      "preferred_phase_mae_deg": 8.192222070852762e-06,
+      "theoretical_finite_window_fraction": 1.0
+    },
+    {
+      "source_hz": 0.5,
+      "seconds": 5.0,
+      "trials": 128,
+      "recovered_vector_fraction": 0.9837883056619403,
+      "mean_relative_vector_error": 0.02063888320327057,
+      "preferred_phase_mae_deg": 0.6008006548021966,
+      "theoretical_finite_window_fraction": 0.983788251876831
+    },
+    {
+      "source_hz": 1.0,
+      "seconds": 0.25,
+      "trials": 128,
+      "recovered_vector_fraction": 0.18936384030377518,
+      "mean_relative_vector_error": 0.8199909386284504,
+      "preferred_phase_mae_deg": 38.55589930464659,
+      "theoretical_finite_window_fraction": 0.18936413526535034
+    },
+    {
+      "source_hz": 1.0,
+      "seconds": 0.5,
+      "trials": 128,
+      "recovered_vector_fraction": 0.5946819563981248,
+      "mean_relative_vector_error": 0.5160731447196397,
+      "preferred_phase_mae_deg": 26.4326312252883,
+      "theoretical_finite_window_fraction": 0.594681978225708
+    },
+    {
+      "source_hz": 1.0,
+      "seconds": 1.0,
+      "trials": 128,
+      "recovered_vector_fraction": 0.999999906095179,
+      "mean_relative_vector_error": 2.0075172924376033e-07,
+      "preferred_phase_mae_deg": 6.567400271744413e-06,
+      "theoretical_finite_window_fraction": 1.0
+    },
+    {
+      "source_hz": 1.0,
+      "seconds": 2.0,
+      "trials": 128,
+      "recovered_vector_fraction": 1.0000000155710835,
+      "mean_relative_vector_error": 3.824149706101985e-07,
+      "preferred_phase_mae_deg": 1.345436469781627e-05,
+      "theoretical_finite_window_fraction": 1.0
+    },
+    {
+      "source_hz": 1.0,
+      "seconds": 5.0,
+      "trials": 128,
+      "recovered_vector_fraction": 1.0000000381014467,
+      "mean_relative_vector_error": 6.558354736510019e-07,
+      "preferred_phase_mae_deg": 1.7232379332042625e-05,
+      "theoretical_finite_window_fraction": 1.0
+    },
+    {
+      "source_hz": 2.0,
+      "seconds": 0.25,
+      "trials": 128,
+      "recovered_vector_fraction": 0.5945819716299522,
+      "mean_relative_vector_error": 0.5162446847161907,
+      "preferred_phase_mae_deg": 26.461219789324705,
+      "theoretical_finite_window_fraction": 0.5945818424224854
+    },
+    {
+      "source_hz": 2.0,
+      "seconds": 0.5,
+      "trials": 128,
+      "recovered_vector_fraction": 0.999999906095179,
+      "mean_relative_vector_error": 1.7784029674733563e-07,
+      "preferred_phase_mae_deg": 6.165092303677524e-06,
+      "theoretical_finite_window_fraction": 1.0
+    },
+    {
+      "source_hz": 2.0,
+      "seconds": 1.0,
+      "trials": 128,
+      "recovered_vector_fraction": 1.0000000155710835,
+      "mean_relative_vector_error": 2.4084174890768243e-07,
+      "preferred_phase_mae_deg": 9.336627333407208e-06,
+      "theoretical_finite_window_fraction": 1.0
+    },
+    {
+      "source_hz": 2.0,
+      "seconds": 2.0,
+      "trials": 128,
+      "recovered_vector_fraction": 0.9999999705103574,
+      "mean_relative_vector_error": 5.724679716471424e-07,
+      "preferred_phase_mae_deg": 1.966558193123639e-05,
+      "theoretical_finite_window_fraction": 1.0
+    },
+    {
+      "source_hz": 2.0,
+      "seconds": 5.0,
+      "trials": 128,
+      "recovered_vector_fraction": 0.9999999559197715,
+      "mean_relative_vector_error": 1.1997213335185528e-06,
+      "preferred_phase_mae_deg": 4.72411730610728e-05,
+      "theoretical_finite_window_fraction": 1.0
+    },
+    {
+      "source_hz": 6.0,
+      "seconds": 0.25,
+      "trials": 128,
+      "recovered_vector_fraction": 0.9548348113309101,
+      "mean_relative_vector_error": 0.05750439740895493,
+      "preferred_phase_mae_deg": 1.7255760454607136,
+      "theoretical_finite_window_fraction": 0.9548347592353821
+    },
+    {
+      "source_hz": 6.0,
+      "seconds": 0.5,
+      "trials": 128,
+      "recovered_vector_fraction": 0.9999999930407204,
+      "mean_relative_vector_error": 2.812328900525812e-07,
+      "preferred_phase_mae_deg": 1.3289367069122449e-05,
+      "theoretical_finite_window_fraction": 1.0
+    },
+    {
+      "source_hz": 6.0,
+      "seconds": 1.0,
+      "trials": 128,
+      "recovered_vector_fraction": 0.9999999511559052,
+      "mean_relative_vector_error": 2.40467671341744e-07,
+      "preferred_phase_mae_deg": 9.33055140792883e-06,
+      "theoretical_finite_window_fraction": 1.0
+    },
+    {
+      "source_hz": 6.0,
+      "seconds": 2.0,
+      "trials": 128,
+      "recovered_vector_fraction": 0.9999999784501346,
+      "mean_relative_vector_error": 9.352955507797986e-07,
+      "preferred_phase_mae_deg": 4.72080617745293e-05,
+      "theoretical_finite_window_fraction": 1.0
+    },
+    {
+      "source_hz": 6.0,
+      "seconds": 5.0,
+      "trials": 128,
+      "recovered_vector_fraction": 0.9999999416281726,
+      "mean_relative_vector_error": 1.3624952480527543e-06,
+      "preferred_phase_mae_deg": 7.14486217719663e-05,
+      "theoretical_finite_window_fraction": 1.0
+    }
+  ],
+  "filter_experiment": [
+    {
+      "target_bandwidth_hz": 4.0,
+      "source_hz": 6.0,
+      "target_hz": 40.0,
+      "window_s": 1.0,
+      "trials": 128,
+      "windows_per_trial": 10,
+      "carrier_response": 25.03077670350222,
+      "lower_sideband_relative_response": 0.0006798448029724113,
+      "upper_sideband_relative_response": 0.000678672246711418,
+      "recovered_vector_fraction": 0.0006793098953189285,
+      "preferred_phase_mae_deg": 0.02775752170932766
+    },
+    {
+      "target_bandwidth_hz": 12.0,
+      "source_hz": 6.0,
+      "target_hz": 40.0,
+      "window_s": 1.0,
+      "trials": 128,
+      "windows_per_trial": 10,
+      "carrier_response": 8.308056865823936,
+      "lower_sideband_relative_response": 0.5007055833818553,
+      "upper_sideband_relative_response": 0.5007025186808314,
+      "recovered_vector_fraction": 0.5007041621292062,
+      "preferred_phase_mae_deg": 0.00035658172554632166
+    },
+    {
+      "target_bandwidth_hz": 24.0,
+      "source_hz": 6.0,
+      "target_hz": 40.0,
+      "window_s": 1.0,
+      "trials": 128,
+      "windows_per_trial": 10,
+      "carrier_response": 4.1598772821697105,
+      "lower_sideband_relative_response": 0.9995981209076991,
+      "upper_sideband_relative_response": 0.9995890399105004,
+      "recovered_vector_fraction": 0.9995930973324485,
+      "preferred_phase_mae_deg": 0.0003467345986797138
+    }
+  ],
+  "scope_checks": {
+    "constant_envelope": {
+      "max_abs_moment": 0.0,
+      "expected": 0.0
+    },
+    "second_harmonic": {
+      "max_abs_moment": 1.8470072404852544e-07,
+      "expected": 0.0
+    }
+  },
+  "initialization_only_nominal_sideband_coverage": {
+    "eligible_pairs": 120,
+    "nominal_width_at_least_twice_source_center": 55,
+    "note": "Not a trained-filter result; nominal edges are not full FIR responses."
+  },
+  "source_sha256": {
+    "paclock_bench/models/paclock/frontend/triaxial.py": "309363d6448ca90707044b7201a441aad50691b4e1f68d4812217f44834cbcf9",
+    "paclock_bench/models/paclock/frontend/sinc.py": "94ebd9ef7610854e9c799d6737af3e534c283b1623a9645ef745698c74cc3269",
+    "paclock_bench/models/paclock/frontend/analytic.py": "b2f63fd92abf360966ce458146ce43f6134c36dd00e54d3afd9e5f91076e6a12"
+  },
+  "limitations": [
+    "Oracle phase/envelope and noiseless sinusoidal generators are narrow tests.",
+    "Filter diagnostic uses configured test filters, not learned checkpoints.",
+    "Window endpoints are correlated within a trial and no inferential intervals are claimed.",
+    "No physiological, classification, or universal PAC-estimator claim."
+  ]
+}

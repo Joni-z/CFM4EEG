@@ -6,3 +6,5 @@ These are existing post-run approval records, not newly trained runs or invented
 - `chbmit/cbramod-pretrained/result.json`: existing `status-later-20261026/chb-cbramod-pre/approval.json`.
 
 Both refer to the corrected 17,224-window natural-grid test set. Metrics, checkpoint hashes and evaluation settings are preserved as recorded. These receipts do not certify current online availability of their historical paths.
+
+The [geometric-fusion pilot](../originals/tuev/geometric-fusion/seed0/result.json) is a recovered original training result and is indexed as a clinical run. The editable recipes and the implementation for that run are linked in the [historical sources](../../docs/PROJECT_LAYOUT.md#historical-sources).

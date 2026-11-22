@@ -1,81 +1,28 @@
-# CFM4EEG / CfFT
+# CFM4EEG
 
-CfFT constructs EEG tokens from band content and explicitly measured
-cross-frequency relationships. A learnable filterbank provides waveform and
-envelope features; a separate CFC operator measures phase–amplitude dependence.
-The tokenizer uses supported measurements as rotation references for band
-content before a compact Transformer encoder.
+This project studies what an EEG tokenizer should expose to a clinical classifier. It follows two questions.
 
-This repository contains the model, clinical preprocessing and baseline
-reproduction code. Baselines call the original authors' implementations through
-explicit data/runtime bridges. The package name `paclock_bench` is retained for
-import and checkpoint compatibility.
+| Research question | Implementation and evidence | Research materials |
+|---|---|---|
+| **Cross-frequency coupling.** Can we measure phase–amplitude coupling (PAC), make it readable from EEG tokens, and determine whether a classifier uses it? | [Original CfFT and model variants](docs/MODEL.md) · [standalone CFC operator](docs/CFC_OPERATOR.md) · [measurement, readout, Erase and Closure](experiments/audits/README.md) | [PAC manuscript and editable figures](papers/pac/README.md) · [presentation](presentations/pac.pptx) |
+| **Waveform and envelope.** What does a compact encoder gain from seeing both the signed waveform and its amplitude over time? | [Matched content controls](docs/DEMODULATION_CONTROLS.md) · [TUEV and CHB-MIT evidence](papers/demodulation/evidence/README.md) | [Demodulation manuscript](papers/demodulation/README.md) · [presentation](presentations/demodulation.pptx) |
 
-## Project entry points
+The original CfFT computes local phase–amplitude moments from learned bands. The standalone CFC operator has its own measurement experiments. The demodulation model reads an electrode × band × time grid of waveform and envelope features.
 
-**[Browse experiment records](experiments/README.md)** ·
-[Download the experiment workbook](experiments/Experiment-Records.xlsx) ·
-[Model versions](experiments/models.csv) ·
-[Project layout](docs/PROJECT_LAYOUT.md)
+## Find an experiment
 
-The active Mac mini checkout is `/Users/mr.z/CFM4EEG`, connected to
-`Joni-z/CFM4EEG` on GitHub. Code, papers, documentation and experiment indexes
-are available here. Large local artifacts and historical workspaces live in
-the ignored `.local/` directory under that same project root.
+- [Browse results by dataset](experiments/README.md) or [download the workbook](experiments/Experiment-Records.xlsx).
+- [Browse experiments by research question](experiments/audits/README.md), [inspect model versions](experiments/models.csv), or [look up checkpoint records](experiments/checkpoints.csv).
+- [Compare data protocols](docs/DATA.md), including the [two CHB-MIT test grids](docs/CHBMIT_SCORE_AUDIT.md).
+- [Find earlier implementations and manuscripts](docs/PROJECT_LAYOUT.md) and [both editable talks](presentations/README.md).
 
-## Guides
+## Run the code
 
-| Guide | Contents |
-|---|---|
-| [Model](docs/MODEL.md) | Tokenizer variants, encoder, configurations and training commands |
-| [CFC operator](docs/CFC_OPERATOR.md) | Measurement algorithm, API, masks, calibration and validation records |
-| [PAC readout](docs/PAC_PROBE.md) | Ground-truth fixtures, frozen tokenizer interfaces and standard ridge/metric evaluation |
-| [Data](docs/DATA.md) | Cohorts, preprocessing, units and dataset acceptance |
-| [Baselines](docs/UPSTREAM.md) | Pinned author sources, native recipes and execution commands |
-| [Audit](docs/AUDIT.md) | Smoke checks, checkpoint selection, metrics and evidence |
-| [Experiment records](experiments/README.md) | Browse by dataset, download the workbook, and trace results to source records |
-| [Demodulation paper](papers/demodulation/README.md) | Full manuscript, verified measurements, figures and compiled PDF |
-
-## Layout
-
-| Path | Contents |
-|---|---|
-| `paclock_bench/models/` | CfFT tokenizer, CFC operator, encoder and waveform control |
-| `paclock_bench/data/`, `paclock_bench/training/` | Array loading, losses, metrics and project trainer |
-| `paclock_bench/probing/` | PAC truth curves, frozen-feature adapters and held-out readout scores |
-| `preprocessing/`, `data_reference/` | Clinical preparation and cohort/hash references |
-| `configs/model/`, `configs/datasets/` | Project model variants and dataset definitions |
-| `configs/baselines/` | Supported native baseline recipes |
-| `configs/deferred/`, `configs/planned/` | Conditional recipes and blocked adaptations |
-| `scripts/rebuild/`, `scripts/experiments/` | Native baseline bridges and synthetic CFC validation |
-| `review/` | Reviewed configuration hashes and immutable validation records |
-| `upstream/sources.json` | Author repositories, pinned commits and entry files |
-| [environments/](environments/README.md) | Recorded model-specific runtimes |
-| `tests/`, `slurm/rebuild/` | CPU checks and scheduler templates |
-| `experiments/` | Source-linked experiment ledger, dataset pages, workbook and checkpoint index |
-| `.local/` (local only) | Historical archives, data, runtimes and maintenance evidence |
-
-Author checkouts and released-weight caches belong in ignored `vendor/`.
-Datasets, run outputs and trained checkpoints are excluded from Git; on the
-Mac mini they are retained under `.local/`.
-
-## Run
-
-Set `PACLOCK_PROC` to the directory containing `processed/` and
-`CFM_REBUILD_ROOT` to a separate output directory. Use allocated GPUs for both
-smoke tests and training.
-
-- **CfFT:** follow the [model commands](docs/MODEL.md#training).
-- **Baselines:** restore the pinned vendor checkout and follow its
-  [native entrypoint](docs/UPSTREAM.md#execution). The project trainer is not a
-  fallback for native baseline training.
-
-Every formal run requires accepted data, a reviewed configuration and a matching
-GPU smoke with checkpoint reload. See the [audit guide](docs/AUDIT.md).
+The [model guide](docs/MODEL.md#training) describes the CfFT trainer. The [baseline guide](docs/UPSTREAM.md#execution) lists each author's entrypoint, the [pinned sources](upstream/sources.json) and the required [environments](environments/README.md). Set `PACLOCK_PROC` to the parent of `processed/` and `CFM_REBUILD_ROOT` to the run-output directory. The [audit guide](docs/AUDIT.md) explains data acceptance, configuration review and checkpoint checks.
 
 ```bash
 python -m pytest -q
 python -m tests.check_preprocessing
 ```
 
-CPU checks do not replace model-specific GPU smoke tests.
+Use `main` for code, configurations, documentation, experiment records, manuscripts and talks. The Python package retains the name `paclock_bench` for existing imports and checkpoints. Raw EEG, weights and machine-specific environments are stored separately; see the [artifact guide](docs/PROJECT_LAYOUT.md).

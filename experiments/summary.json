@@ -1,15 +1,15 @@
 {
-  "updated_at": "2026-11-22T18:43:39.175534+08:00",
+  "updated_at": "2026-11-22T21:54:19.453807+08:00",
   "historical_unique_results": 2681,
-  "clinical_records": 2684,
-  "model_versions": 268,
-  "study_and_trial_records": 476,
+  "clinical_records": 2685,
+  "model_versions": 269,
+  "study_and_trial_records": 477,
   "trial_rows": 390,
   "checkpoint_locations": 2035,
   "conflict_rows": 154,
   "conflict_groups": 93,
   "by_status": {
-    "completed_record": 2655,
+    "completed_record": 2656,
     "operator_stopped": 7,
     "budget_truncated": 16,
     "interim_eval": 4,
@@ -32,11 +32,11 @@
     "tuab": 123,
     "tuar": 93,
     "tuep": 109,
-    "tuev": 447,
+    "tuev": 448,
     "tusz": 211,
     "tusz_type": 6
   },
-  "input_files": 592,
+  "input_files": 593,
   "input_hashes": {
     "/Users/mr.z/CFM4EEG/.local/legacy/experiments/raw-results-deduplicated.jsonl": "2b88344367d241d6d75306acb7bba7d3db28d133ef925142a43535f5d5b1b717",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/original-cfft-pac-readout-20261102/full-token/scores.json": "870f761d780350819f5d6814381a8125a98b8f5970209c1ecb5be823551a33f3",
@@ -629,6 +629,7 @@
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/experiment-ledger-20261105/collected/145-records-20261116-demod-readout.jsonl": "328643bad5fb6217d73f1d4cfbd88d9e31709cbdf5ffe18c587a4b90c0d21dd9",
     "/Users/mr.z/CFM4EEG/experiments/receipts/chbmit/cbramod-pretrained/result.json": "9ed434c493870f5fc8dec698912344e387b93b0d36a5af42d7d1049a646e9096",
     "/Users/mr.z/CFM4EEG/experiments/receipts/chbmit/cbramod-scratch/result.json": "7d33b995cdeb5f79cc273682eb90915d990dbea47ad62074444fd0333dd4e19a",
+    "experiments/originals/tuev/geometric-fusion/seed0/result.json": "389bab444347ef68f2a34b67861b510a76c3b826e22f763f78bb375f0e49ad8c",
     "/Users/mr.z/CFM4EEG/.local/workspace/maintenance/hf-checkpoint-archive-20261026/archive-manifest.json": "46173c5aab77af2f8c662dbc8073b711eed7819e7886cfcfba4e2da48c39da9d"
   },
   "parse_errors": [],

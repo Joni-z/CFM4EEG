@@ -121,6 +121,8 @@ def architecture(cfg, model, ref):
             suffix.append('envelope-only')
         if mk.get('waveform_modulation') in ('carrier', 'anchored'):
             suffix.append(mk['waveform_modulation'])
+        if mk.get('geometric_fusion'):
+            suffix.append('geometric:'+str(mk['geometric_fusion']))
         if mk.get('local_residual'):
             suffix.append('local-residual')
         if mk.get('content_view'):
@@ -200,6 +202,11 @@ def main():
         raw = receipt.read_bytes()
         input_hashes[str(receipt)] = hashlib.sha256(raw).hexdigest()
         add_source('verified_receipt', str(receipt), json.loads(raw), input_hashes[str(receipt)])
+    for result in sorted((OUT / 'originals').rglob('result.json')):
+        raw = result.read_bytes()
+        path = result.relative_to(PROJECT).as_posix()
+        input_hashes[path] = hashlib.sha256(raw).hexdigest()
+        add_source('repository', path, json.loads(raw), input_hashes[path])
     sidecars = {(s['host'], str(Path(s['path']).parent), Path(s['path']).name): s for s in sources}
     gpu_text = (TASK / 'collected/145-gpu-status.txt').read_text()
     live_pids = set(re.findall(r'^GPU-[^,]+,\s*(\d+),', gpu_text, flags=re.M))

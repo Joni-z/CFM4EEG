@@ -88,9 +88,9 @@ a claim that these models lead the corrected natural-grid benchmark.
 
 ## Evidence and review scope
 
-- [Numerical replay and label-map checks](../experiments/audits/chbmit-20261108/numeric-replay.json)
-- [Fresh review and input hashes](../experiments/audits/chbmit-20261108/fresh-review.json)
-- [Current corrected-control artifact status](../experiments/audits/chbmit-20261108/natural-original-control-status.json)
+- [Numerical replay and label-map checks](../experiments/audits/chbmit-protocol/numeric-replay.json)
+- [Fresh review and input hashes](../experiments/audits/chbmit-protocol/fresh-review.json)
+- [Current corrected-control artifact status](../experiments/audits/chbmit-protocol/natural-original-control-status.json)
 - [Existing content-control records](DEMODULATION_CONTROLS.md)
 - [All CHB-MIT experiment records](../experiments/datasets/chbmit.md)
 

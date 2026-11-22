@@ -23,4 +23,4 @@ python3 scripts/experiments/publish_records.py
 
 The builder needs the retained `.local/workspace/maintenance/` collections and `.local/legacy/experiments/` archive. The workbook exporter requires openpyxl; the webpage exporter uses the Python standard library. These scripts do not train models, alter original metrics or choose best seeds.
 
-Current targeted study: [frozen W/E recovery and matched demodulation controls](DEMODULATION_CONTROLS.md). See [project layout](PROJECT_LAYOUT.md) for source, paper and local archive locations.
+[Browse studies by research question](../experiments/audits/README.md), including PAC measurement, token readout, Erase, PAC-only Closure and matched waveform/envelope controls. [Project locations](PROJECT_LAYOUT.md) lists code, papers and earlier study revisions.

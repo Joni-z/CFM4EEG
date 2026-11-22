@@ -882,3 +882,9 @@ tokenizer probe measured the quantizer's vectors, so the two TFM tokenizer
 readouts are from distinct endpoints. For an intermediate TFM layer the
 intervention changes the full post-block residual state passed to the next
 layer. This leaves the attention and feed-forward implementations intact.
+
+## Clinical evidence from Erase and PAC-only Closure
+
+[Erase](../experiments/audits/cfc-erase-20261122.md) intervenes on a frozen checkpoint. On TUEV, erasing readable PAC at the CfFT tokenizer changed κ from 0.6932 to 0.6924. At the encoder, both the PAC and shuffled-target erasers produced large drops. The shuffled-target control limits attribution to PAC.
+
+[PAC-only Closure](../experiments/audits/cfc-pac-closure-20261122.md) uses a separate classifier trained on three PAC band pairs. Its TUEV κ was 0.3437 and its natural-grid CHB-MIT PR-AUC was 0.1044. Relative to random features, those gains cover 49.6% and 20.3% of the respective gaps to CfFT. The percentages describe the standalone classifier's performance.

@@ -1,57 +1,36 @@
-# Project locations
+# Repository guide
 
-The active project is **`/Users/mr.z/CFM4EEG`** on the Mac mini.
-This directory itself is the Git checkout for
-[Joni-z/CFM4EEG](https://github.com/Joni-z/CFM4EEG), branch `main`.
+Develop in the `main` branch of [Joni-z/CFM4EEG](https://github.com/Joni-z/CFM4EEG). On the Mac mini, the checkout is `/Users/mr.z/CFM4EEG`.
 
-## On GitHub
-
-| Entry | Contents |
+| Content | Location |
 |---|---|
-| [Experiment records](../experiments/README.md) | Dataset pages, complete workbook, original-precision CSVs and source records |
-| [Model guide](MODEL.md) | Model implementation, configurations and training commands |
-| [Baseline guide](UPSTREAM.md) | Author sources and reproduction entrypoints |
-| [Data guide](DATA.md) | Dataset protocols and preprocessing |
-| [Demodulation paper](../papers/demodulation/README.md) | Repository manuscript, figures and compiled PDF |
-| [Audit guide](AUDIT.md) | Completed checks and interpretation boundaries |
+| EEG models, tokenizers and representation probes | [Python package](../paclock_bench/) · [model guide](MODEL.md) · [PAC probes](PAC_PROBE.md) |
+| Clinical preprocessing and configurations | [preprocessing](../preprocessing/) · [dataset definitions](../configs/datasets/) · [protocols](DATA.md) |
+| Baseline reproduction | [author sources](../upstream/sources.json) · [training guide](UPSTREAM.md) · [environment definitions](../environments/) |
+| Experiments | [ledger and workbook](../experiments/README.md) · [results by question](../experiments/audits/README.md) · [archived weight references](../experiments/checkpoints.csv) |
+| Manuscripts | [PAC](../papers/pac/README.md) · [demodulation](../papers/demodulation/README.md) |
+| Talks | [Editable decks and Google Slides](../presentations/README.md) |
 
-The repository paper is distinct from independent MBP or Overleaf edits;
-those edits enter GitHub only after an explicit manuscript sync. Directory
-consolidation does not merge competing manuscripts or change their content.
+`scripts/rebuild/` contains the native baseline launchers referenced by the reviewed training configurations. `slurm/rebuild/` contains their scheduler entrypoints. Both are executable components of this checkout.
 
-## Local files retained under the same root
+## Historical sources
 
-Large artifacts and older working copies are excluded from Git:
+Earlier versions live at fixed Git revisions. Open one of the links below to read the code, recipe or manuscript as it existed for that study.
 
-| Local path under `/Users/mr.z/CFM4EEG/` | Contents |
+| Study | Source |
 |---|---|
-| `.local/workspace/` | Previous rebuild workspace: data caches, environments, collected evidence and execution snapshots |
-| `.local/workspace/maintenance/` | Existing task notes, native-run audit receipts and metadata collections |
-| `.local/legacy/` | Historical CFM4EEG archive: older code, experiments, papers and checkpoint backups |
-| `.local/cvpr-preview/` | Earlier CVPR layout previews and compilation outputs |
-| `.local/legacy-links/` | Retained compatibility link objects removed from the home directory listing |
+| PAC control experiments | [Archived model code](https://github.com/Joni-z/CFM4EEG/tree/5d47754bba1cd36106cfa17853128a67d9fddbc8/paclock_bench/models) · [configurations](https://github.com/Joni-z/CFM4EEG/tree/5d47754bba1cd36106cfa17853128a67d9fddbc8/configs) |
+| Two-axis CfFT | [Archived model code](https://github.com/Joni-z/CFM4EEG/tree/1fe7ecb81ee26cf7ec092488e441a2293e55ee22/paclock_bench/models) · [configurations](https://github.com/Joni-z/CFM4EEG/tree/1fe7ecb81ee26cf7ec092488e441a2293e55ee22/configs) |
+| Geometric fusion on TUEV | [Fusion module](https://github.com/Joni-z/CFM4EEG/blob/8ec35d20375bcc8f8959fa97e0341355f65461b9/paclock_bench/models/paclock/frontend/geometric_fusion.py) · [control recipes](https://github.com/Joni-z/CFM4EEG/tree/8ec35d20375bcc8f8959fa97e0341355f65461b9/configs/geometric) · [original seed-0 test result](../experiments/originals/tuev/geometric-fusion/seed0/result.json) |
+| Earlier PAC manuscripts | [ICLR-format draft](https://github.com/Joni-z/CFM4EEG/tree/08d94356e6b74036111b307d355c44eef2134686/papers/pac) · [subsequent two-column draft](https://github.com/Joni-z/CFM4EEG/tree/16d1e4a39092abe228e18dc8b12b643d9518ad39/papers/pac) |
+| Earlier demodulation manuscript | [Section-based draft and supporting evidence](https://github.com/Joni-z/CFM4EEG/tree/16d1e4a39092abe228e18dc8b12b643d9518ad39/papers/demodulation) |
 
-The old `CFM4EEG-rebuild-20261021/repo` is now the project root. Its experiment
-ledger moved from outside Git into `experiments/`. The old top-level CFM4EEG
-and PACLock links are no longer daily entry points.
+[Early presentation files](https://github.com/Joni-z/CFM4EEG/tree/c03305b0741244a41f710078846fe9706ca5b796/presentations), [PAC figure-analysis sources](https://github.com/Joni-z/CFM4EEG/tree/c03305b0741244a41f710078846fe9706ca5b796/papers/pac/figure-analysis) and [research notes](https://github.com/Joni-z/CFM4EEG/blob/c03305b0741244a41f710078846fe9706ca5b796/docs/POLYSPECTRAL-POSITIONING-20261009.md) are preserved alongside the earlier manuscripts.
 
-Migration records are retained locally at
-`.local/workspace/maintenance/project-consolidation-20261108/`: `move-map.json`
-maps old paths to new paths, and `migration-verification.json` records the
-file-preservation checks. Original result documents retain their recorded
-historical paths; the move map locates their current local copies.
+The historical code revisions overlay the preserved runtime source files on their archived project base. The manuscript snapshots retain the source text. Use the experiment ledger for measured scores.
 
-Raw EEG, prediction arrays, checkpoint binaries and environments remain local
-or in their existing external archives. GitHub publishes the corresponding
-metadata and checkpoint locations, not these large artifacts.
+## Local and remote artifacts
 
-## Local cache cleanup, 2026-11-10
+Large EEG arrays, weights, cached environments, frozen execution directories and private operational notes stay in their original storage. [Checkpoint records](../experiments/checkpoints.csv) identify recorded locations; [storage receipts](../experiments/storage/README.md) document transfers and checksum checks. Dataset access restrictions continue to apply.
 
-The unused signal-array staging copies and older extracted feature matrices
-were removed from the Mac mini under explicit cleanup authorization. Labels,
-original dataset manifests, result files, saved predictions, checkpoints,
-source and manuscripts were retained. Old directory existence therefore does
-not imply that its large signal payload is still cached locally.
-
-See the [cleanup record](../experiments/storage/README.md) for exact paths,
-space reclaimed, preservation checks and remote-copy verification scope.
+On the Mac mini these files sit under the ignored `.local/` directory. `.local/legacy/` holds the historical archive, and `.local/workspace/` holds the data and receipts used to build the ledger. Its `maintenance/project-consolidation-20261108/move-map.json` resolves pre-migration paths. Run and checkpoint records retain the original paths for provenance.

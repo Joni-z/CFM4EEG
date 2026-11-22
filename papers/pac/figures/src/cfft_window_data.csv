@@ -1,0 +1,7 @@
+dataset,seed,window_s,primary_metric,primary,balanced_acc,host,source
+tuev,0,0.25,cohen_kappa,0.7138802725511229,0.680589877976525,amd,/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-quad-range-20260916/runs/tuev-quad_range_20260916/seed0/result.json
+tuev,0,1.0,cohen_kappa,0.7387108080778313,0.6268128883938164,amd,/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_Z1s_20260916/seed0/result.json
+tuev,0,5.0,cohen_kappa,0.7367952835406562,0.604176469949436,amd,/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_Z5s_20260916/seed0/result.json
+chbmit,0,0.25,pr_auc,0.6969134781325137,0.6085495387899271,145,/data2/zz5070/CFM4EEG-range-final-20260916/runs/chbmit-quad_range_20260916/seed0/result.json
+chbmit,0,1.0,pr_auc,0.7273662104484355,0.6176075098044198,145,/data2/zz5070/CFM4EEG-range-final-20260916/runs/chbmit-quad_range_Z1s_20260916/seed0/result.json
+chbmit,0,5.0,pr_auc,0.6179153247283153,0.5868396310319417,145,/data2/zz5070/CFM4EEG-range-final-20260916/runs/chbmit-quad_range_Z5s_20260916/seed0/result.json

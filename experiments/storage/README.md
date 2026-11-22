@@ -51,9 +51,9 @@ or rerunning preprocessing.
 
 ## Records
 
-- [Exact deletion manifest](20261110/cleanup-manifest.json)
-- [Deletion and preservation summary](20261110/cleanup-result.json)
-- [Full CHB-MIT remote/local checksum comparison](20261110/chbmit-backup-verified.json)
+- [Exact deletion manifest](macmini/cleanup-manifest.json)
+- [Deletion and preservation summary](macmini/cleanup-result.json)
+- [Full CHB-MIT remote/local checksum comparison](macmini/chbmit-backup-verified.json)
 
 The complete protected-file inventory and execution log remain locally at
 `/Users/mr.z/CFM4EEG/.local/workspace/maintenance/storage-cleanup-20261110/`.
