@@ -1,0 +1,253 @@
+{
+  "timestamp": 1789582356.0242128,
+  "rows": [
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_Z1s_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_Z1s_20260916/seed0/checkpoints/retained-1789575464060403102-8591182284740034561.pt",
+      "completed": false,
+      "bytes": 6536349
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_weight_20260916/seed2/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_weight_20260916/seed2/checkpoints/retained-1789546930431883436-10278829066016718849.pt",
+      "completed": true,
+      "bytes": 6536349,
+      "crc_ok": true,
+      "sha256": "8470f7f40a2caa241d32b1bcaeb4ca39fdb2c2ffaf1c6659457ce3a5ebc9babb"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_20260916/seed2/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_20260916/seed2/checkpoints/retained-1789545713485672400-13440287650726412289.pt",
+      "completed": false,
+      "bytes": 6536349
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_Z5s_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_Z5s_20260916/seed0/checkpoints/retained-1789574577677114621-15295481210572308481.pt",
+      "completed": false,
+      "bytes": 6536349
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuep-quad_range_20260916/seed1/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuep-quad_range_20260916/seed1/checkpoints/retained-1789546702054494049-9010328832126746625.pt",
+      "completed": true,
+      "bytes": 6534301,
+      "crc_ok": true,
+      "sha256": "48fb133af7b946d95e023f3a07ced1f6c809fa376b48307f8a9e1df44a482bc1"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_envelope_20260916/seed2/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_envelope_20260916/seed2/checkpoints/retained-1789546212658136819-17915354655495356417.pt",
+      "completed": true,
+      "bytes": 6536413,
+      "crc_ok": true,
+      "sha256": "a7dcacfefef80d94033750e568d40b186b3e2c9fe15cd4312d332f6d21dc15c5"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/iiic-quad_range_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/iiic-quad_range_20260916/seed0/checkpoints/retained-1789551615723853980-4856205983966232577.pt",
+      "completed": true,
+      "bytes": 6536349,
+      "crc_ok": true,
+      "sha256": "7ac65398b98e704cd0bad6ee4a3c886ecd98119713323fdfee2e69931600f5c9"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_own_20260916/seed2/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-final-20260916/runs/tuev-quad_range_own_20260916/seed2/checkpoints/retained-1789546930237877750-10811333837410729985.pt",
+      "completed": true,
+      "bytes": 6536349,
+      "crc_ok": true,
+      "sha256": "4994cd8c5aa75a2a1fda55b6b08c442f8528b26d202bae312453732d6ef889a1"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/iiic-cbramod_quad_range_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/iiic-cbramod_quad_range_20260916/seed0/checkpoints/retained-1789570680567515466-274323137084588033.pt",
+      "completed": true,
+      "bytes": 124228161,
+      "crc_ok": true,
+      "sha256": "1e3d2371347fa1aa663764404956fd74a509a9e7c864bc9e19d0903797641795"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/sleepedf-cbramod_quad_range_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/sleepedf-cbramod_quad_range_20260916/seed0/checkpoints/retained-1789549189249763823-14623591785854337025.pt",
+      "completed": false,
+      "bytes": 41027329
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/tuev-cbramod_quad_range_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/tuev-cbramod_quad_range_20260916/seed0/checkpoints/retained-1789548594169676271-5348609189715968001.pt",
+      "completed": true,
+      "bytes": 73028161,
+      "crc_ok": true,
+      "sha256": "a8ec5bdbe94bffc4c496b52b5ddd8319cabb5f67ac757b0c17aa311d1d37b59c"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/tuar-cbramod_quad_range_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/tuar-cbramod_quad_range_20260916/seed0/checkpoints/retained-1789548676052389036-9177558224914808833.pt",
+      "completed": false,
+      "bytes": 73025729
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/adfd-cbramod_quad_range_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/adfd-cbramod_quad_range_20260916/seed0/checkpoints/retained-1789548579347305240-4940079016022573057.pt",
+      "completed": false,
+      "bytes": 143425729
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/tusz-cbramod_quad_range_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/tusz-cbramod_quad_range_20260916/seed0/checkpoints/retained-1789549421754296165-8478312347860598785.pt",
+      "completed": false,
+      "bytes": 124224961
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/tuev-biot_quad_range_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/tuev-biot_quad_range_20260916/seed0/checkpoints/retained-1789549919360633513-13104882995196657665.pt",
+      "completed": true,
+      "bytes": 15835201,
+      "crc_ok": true,
+      "sha256": "bae54d18420dffa0db7f592e3ca23cc22a8e05cec36ebe093c014b6e18b5b3a8"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/caueeg-cbramod_quad_range_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/caueeg-cbramod_quad_range_20260916/seed0/checkpoints/retained-1789549412216860721-13333999697213652993.pt",
+      "completed": false,
+      "bytes": 143425729
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/isruc-cbramod_quad_range_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/isruc-cbramod_quad_range_20260916/seed0/checkpoints/retained-1789549237582466896-1640690084433625089.pt",
+      "completed": false,
+      "bytes": 107532437
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/iiic-biot_quad_range_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/iiic-biot_quad_range_20260916/seed0/checkpoints/retained-1789552058380419452-1960984502173696001.pt",
+      "completed": true,
+      "bytes": 15835201,
+      "crc_ok": true,
+      "sha256": "a2b75eb67a339c910aa3b12734bc87ac731a41c8ee6479859776e0c32d4e9499"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/tuep-cbramod_quad_range_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-range-hosts-20260916/runs/tuep-cbramod_quad_range_20260916/seed0/checkpoints/retained-1789549424188333556-5873063869613604865.pt",
+      "completed": false,
+      "bytes": 124224961
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-range_identity_sean/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-range_identity_sean/seed0/checkpoints/retained-1789578268231085058-8842743066571636737.pt",
+      "completed": false,
+      "bytes": 6536349
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-range_sample_shuffle_sean/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-range_sample_shuffle_sean/seed0/checkpoints/retained-1789577594626063793-13321991418280804353.pt",
+      "completed": false,
+      "bytes": 6536349
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-cbramod_range_measured_sean/seed1/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-cbramod_range_measured_sean/seed1/checkpoints/retained-1789577767481372908-37698345447260161.pt",
+      "completed": false,
+      "bytes": 124228161
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-cbramod_range_measured_sean/seed2/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-cbramod_range_measured_sean/seed2/checkpoints/retained-1789578374254041061-6387895292408037377.pt",
+      "completed": false,
+      "bytes": 124228161
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-biot_range_measured_sean/seed2/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-biot_range_measured_sean/seed2/checkpoints/retained-1789578465846308802-1583399129110151169.pt",
+      "completed": true,
+      "bytes": 15835201,
+      "crc_ok": true,
+      "sha256": "9b7b0467fda6cbe6d78954ff31e6df490950a9c205f2452881e32c81092e00a6"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-biot_range_measured_sean/seed1/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-biot_range_measured_sean/seed1/checkpoints/retained-1789577143087220476-17652528428278480897.pt",
+      "completed": true,
+      "bytes": 15835201,
+      "crc_ok": true,
+      "sha256": "cd13e46d77555616f93c23fe832aa42d16280e61b2754077e4507b715c6fbd23"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-cbramod_range_measured_sean/seed1/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-cbramod_range_measured_sean/seed1/checkpoints/retained-1789578458232706594-18133437219503996929.pt",
+      "completed": false,
+      "bytes": 73028161
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-cbramod_range_measured_sean/seed2/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-cbramod_range_measured_sean/seed2/checkpoints/retained-1789577233489575918-10750809487762718721.pt",
+      "completed": false,
+      "bytes": 73028161
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-biot_range_identity_sean/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-biot_range_identity_sean/seed0/checkpoints/retained-1789581880940188420-13801603595383668737.pt",
+      "completed": false,
+      "bytes": 15835265
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-biot_range_identity_sean/seed2/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-biot_range_identity_sean/seed2/checkpoints/retained-1789581253016528532-2382678611453935617.pt",
+      "completed": false,
+      "bytes": 15835265
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-biot_range_identity_sean/seed1/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-biot_range_identity_sean/seed1/checkpoints/retained-1789579795426465485-15908362299947417601.pt",
+      "completed": true,
+      "bytes": 15835265,
+      "crc_ok": true,
+      "sha256": "49298ea960b211bb5769af4ceb3a3ac85e827f91ff6ac1ef8dba2da5f05cc7c4"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-biot_range_measured_sean/seed2/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-biot_range_measured_sean/seed2/checkpoints/retained-1789582334951731696-6816331411195232257.pt",
+      "completed": false,
+      "bytes": 15835201
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-biot_range_measured_sean/seed1/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/iiic-biot_range_measured_sean/seed1/checkpoints/retained-1789582314681124663-1158245651458752513.pt",
+      "completed": false,
+      "bytes": 15835201
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-biot_range_identity_sean/seed2/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-biot_range_identity_sean/seed2/checkpoints/retained-1789577116745410492-2614601131602477057.pt",
+      "completed": true,
+      "bytes": 15835265,
+      "crc_ok": true,
+      "sha256": "2828312de4740112f4585e7396b9d272282291bc82da17cb168a1398f5d9446d"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-biot_range_identity_sean/seed1/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-biot_range_identity_sean/seed1/checkpoints/retained-1789579431034426457-5170763739455619073.pt",
+      "completed": true,
+      "bytes": 15835265,
+      "crc_ok": true,
+      "sha256": "1e151b5c4f53d730b63ab804abed235499f19af1e9ceb69e9a7ace3bb0e3618e"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-biot_range_identity_sean/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-sean-controls-20260917/runs/tuev-biot_range_identity_sean/seed0/checkpoints/retained-1789577499980037478-14487929273243336705.pt",
+      "completed": true,
+      "bytes": 15835265,
+      "crc_ok": true,
+      "sha256": "27bca02c978b2278b83d1f57fb0cb7365c6eb986741b28c08d4afd3f8641b12f"
+    },
+    {
+      "checkpoint": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-quad-range-20260916/runs/tuev-quad_range_20260916/seed0/best.pt",
+      "retained": "/work1/chenyuyou/yifanwang/Zhizhe/CFM4EEG-quad-range-20260916/runs/tuev-quad_range_20260916/seed0/checkpoints/retained-1789539447879695039-9376342686407720961.pt",
+      "completed": true,
+      "bytes": 6536349,
+      "crc_ok": true,
+      "sha256": "e15401c7e1e7b806ef12729e244a1afc3d4e6ada7c1e9baa5903f289ad698df0"
+    }
+  ]
+}

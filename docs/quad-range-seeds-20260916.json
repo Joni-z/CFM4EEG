@@ -1,0 +1,1072 @@
+{
+  "rule": "External baseline families with all three normally completed seeds; rank validation primary metric within family (average ties), equal family weights, choose smallest mean rank, tie-break by win credit then smallest seed. No test metrics used. Exploratory seed allocation, not a guarantee.",
+  "datasets": {
+    "tuev": {
+      "seed": 0,
+      "n_families": 16,
+      "mean_rank": {
+        "0": 1.875,
+        "1": 2.0,
+        "2": 2.125
+      },
+      "best_seed_credit": {
+        "0": 5.0,
+        "1": 6.0,
+        "2": 5.0
+      },
+      "families": {
+        "sparcnet": {
+          "2": {
+            "value": 0.38049835086862827,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-sparcnet/seed2/result.json",
+            "sha256": "8c593eb7b1f335381a103245d4b6b72a2b14ddf84c4d10504cbb53f9d2972e71"
+          },
+          "0": {
+            "value": 0.35729126772716235,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-sparcnet/seed0/result.json",
+            "sha256": "96af3b51d884c7646d18ed9ebc32c83cd72d50f0d1f453340bb04a56a53504cb"
+          },
+          "1": {
+            "value": 0.3371955361358784,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-sparcnet/seed1/result.json",
+            "sha256": "edb28754f8bf826b4822cce53a3f96433302a6e47972e699e2d959e43a618e63"
+          }
+        },
+        "tfm_pretrained": {
+          "0": {
+            "value": 0.6093516467431664,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-tfm_pretrained/seed0/result.json",
+            "sha256": "cf6a5c88767646138e118a49dcaccd68dced72a7efe0d07ae9962d298e25ad50"
+          },
+          "1": {
+            "value": 0.5789660163484016,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-tfm_pretrained/seed1/result.json",
+            "sha256": "7a00bb5854ef0f640a4be139448931815946fdaecd090c39efd30a718ea31f08"
+          },
+          "2": {
+            "value": 0.5513307212614175,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-tfm_pretrained/seed2/result.json",
+            "sha256": "e7278803a7b5b145e151308a92e3b4c9019c339ccff8767ad4642e66f50bd129"
+          }
+        },
+        "labram_scratch": {
+          "1": {
+            "value": 0.5579565231713078,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-labram_scratch/seed1/result.json",
+            "sha256": "6479a94959a20cee9e0b6bedd5e2cb192a6cb430921364bf207ef2b8c79fee13"
+          },
+          "0": {
+            "value": 0.5554234500796026,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-labram_scratch/seed0/result.json",
+            "sha256": "15e074baef6cb869bc6e74b52c5e68274ecc4ca438efbefe9e57643ca96f29d8"
+          },
+          "2": {
+            "value": 0.5118149998249593,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-labram_scratch/seed2/result.json",
+            "sha256": "64bbaf51b8f9709cc977524796bcceef4601257c77e2c8c51a9c157d38452069"
+          }
+        },
+        "eegpt_pretrained": {
+          "0": {
+            "value": 0.5510811879670481,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-eegpt_pretrained/seed0/result.json",
+            "sha256": "139dd5c0a2844ea63588b79a41cc18a554befe9cf937c2e91e75f7dc893110d4"
+          },
+          "2": {
+            "value": 0.5187201527794512,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-eegpt_pretrained/seed2/result.json",
+            "sha256": "17c8e7ca7c308b7531d26ec1c26c380f2e2fead15b01605f0ebe76a8b25d7344"
+          },
+          "1": {
+            "value": 0.5539495507010275,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-eegpt_pretrained/seed1/result.json",
+            "sha256": "042e9ee40e385fd6da67f6fd430c245005dac143e9973dea54894ce3c8c13741"
+          }
+        },
+        "labram_pretrained": {
+          "0": {
+            "value": 0.6830709820820876,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-labram_pretrained/seed0/result.json",
+            "sha256": "abaf9a71bb12fe4cb2eb68ea1a16e88fbcaf75b1b1b8a9ce9d36f4a208ee5404"
+          },
+          "2": {
+            "value": 0.6962186970125042,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-labram_pretrained/seed2/result.json",
+            "sha256": "e872ddeb864a98785db372eb57a372620c0ddfcd0ca16179b4862caeb85365a8"
+          },
+          "1": {
+            "value": 0.6832057326352956,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-labram_pretrained/seed1/result.json",
+            "sha256": "b7445e2ce9e63cf9b68d1dc49c917fd90f8270e986f3817ec7fa1a8d4d1fbd88"
+          }
+        },
+        "biot_prest16": {
+          "2": {
+            "value": 0.5896826128787886,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-biot_prest16/seed2/result.json",
+            "sha256": "c5487515a01556aaf29ba02ff90f6657f9a7037a3fb7e74ed35fb1b697850b07"
+          },
+          "1": {
+            "value": 0.5406297257883799,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-biot_prest16/seed1/result.json",
+            "sha256": "241c69ec57e3ce96e89f4ca0d4d87a698e9d37b8eed979d29387458013eedd3a"
+          },
+          "0": {
+            "value": 0.5478667507031254,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-biot_prest16/seed0/result.json",
+            "sha256": "b77b37a9ba377dac0f765d0cccacb2fdc93d7a0890dee9f23122dae8b64fd971"
+          }
+        },
+        "contrawr": {
+          "0": {
+            "value": 0.5936595969474897,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-contrawr/seed0/result.json",
+            "sha256": "eee13c9c157fc18bf393617f73de54e2504f9634c78665a892de2a81d2da78d7"
+          },
+          "2": {
+            "value": 0.4019987404002392,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-contrawr/seed2/result.json",
+            "sha256": "3149670267d61b5b8e9a8a609f7cc51eabe381122ceada0a787b446de8f2ac9d"
+          },
+          "1": {
+            "value": 0.5221027828663098,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-contrawr/seed1/result.json",
+            "sha256": "6ad4d9f43048f6eda037904988804eb4e785e8fac33c161cc569dcecd5fadb36"
+          }
+        },
+        "cbramod_pretrained": {
+          "0": {
+            "value": 0.43034701054326163,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-cbramod_pretrained/seed0/result.json",
+            "sha256": "0206732402365640bef1cac032253e4da43d9db035e606c72544de89025d0062"
+          },
+          "2": {
+            "value": 0.37950997275779186,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-cbramod_pretrained/seed2/result.json",
+            "sha256": "5bad6e563dcfd0d1089b7a0d86154ed3627501c6485e3feee1c5bc58ae58dd58"
+          },
+          "1": {
+            "value": 0.44302556330834275,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-cbramod_pretrained/seed1/result.json",
+            "sha256": "127bfd379d34e3e701e223232a8746a6951541054efca2b22451cc8cea642a61"
+          }
+        },
+        "ffcl": {
+          "1": {
+            "value": 0.45569172823863224,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-ffcl/seed1/result.json",
+            "sha256": "f15d9408c601a191dc9b7313affb2cb30623ae2632dee84723b5f12ab7dd29e0"
+          },
+          "0": {
+            "value": 0.5242626951840865,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-ffcl/seed0/result.json",
+            "sha256": "35f5b3e922e6d739605280b06021801be6e634549c5b38362f4799386f819a15"
+          },
+          "2": {
+            "value": 0.457746941341305,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-ffcl/seed2/result.json",
+            "sha256": "9d6d2316d708789e10c9bb53059ad4b66f7fc4e3256fdff11f2005ff53d7c5ff"
+          }
+        },
+        "cnn_transformer": {
+          "2": {
+            "value": 0.4592289496701686,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-cnn_transformer/seed2/result.json",
+            "sha256": "70273257da0c5ae4519852fd1a05c9212cdc8a54f702cbbaa0355a18c1110558"
+          },
+          "0": {
+            "value": 0.453295899247559,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-cnn_transformer/seed0/result.json",
+            "sha256": "5685f7cc1f7e35747e89363eac35f6c2bf70c764025a63e1566898f07df8fa05"
+          },
+          "1": {
+            "value": 0.418088948244453,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-cnn_transformer/seed1/result.json",
+            "sha256": "8d0b5ce1b563649bfc88d31d1590952447ac9f1a1e2d0194a186ac0343de6c10"
+          }
+        },
+        "eegconformer": {
+          "2": {
+            "value": 0.40734870543483326,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-eegconformer/seed2/result.json",
+            "sha256": "4f7ea0d92ae65c47d7d286b56d3630e4da55ecafd0f264105a767e6c1ac1da71"
+          },
+          "0": {
+            "value": 0.3846327317935383,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-eegconformer/seed0/result.json",
+            "sha256": "0988fbdb1d233d16fcd92f63924da39fd65e7b7c97d1626e9723f803429174e4"
+          },
+          "1": {
+            "value": 0.4401432587151506,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-eegconformer/seed1/result.json",
+            "sha256": "50c6b60e86f53ab9c917fea3c43de809f3abc1dcfee340ef82ad0bdd8a9c8faf"
+          }
+        },
+        "eegnet": {
+          "0": {
+            "value": 0.5374731761204894,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-eegnet/seed0/result.json",
+            "sha256": "9087dfb5519ce71f5491f552aa142627ded96127c6d7a454d86b49f5ca0f5899"
+          },
+          "2": {
+            "value": 0.37442323687988543,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-eegnet/seed2/result.json",
+            "sha256": "0d1b0f9ca02e7b1779ae0b7395ec4ced82413d52e062fccb10e176a7ca986e9e"
+          },
+          "1": {
+            "value": 0.3969566791410759,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-eegnet/seed1/result.json",
+            "sha256": "5515e653ed6ee4d4a03461c6cd87f6809811883df6584ab53f2a48bb790b6e06"
+          }
+        },
+        "st_transformer": {
+          "1": {
+            "value": 0.36321431527459225,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-st_transformer/seed1/result.json",
+            "sha256": "8502c804574963f42c6c7533ef1d072307e6e4310ffd60434d1fb354a867f08f"
+          },
+          "0": {
+            "value": 0.39126328234406194,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-st_transformer/seed0/result.json",
+            "sha256": "c5966af26b387c7e183c4c24df7776e0b64a915f8205c36b38abf653175dd59e"
+          },
+          "2": {
+            "value": 0.3993347687505612,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-st_transformer/seed2/result.json",
+            "sha256": "3e5914d46f35c8f3e214363cd98c4d5014f2c48958755ee7d4f4b3d0d2ccf799"
+          }
+        },
+        "cbramod_scratch": {
+          "0": {
+            "value": 0.4198414175778702,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-cbramod_scratch/seed0/result.json",
+            "sha256": "9cc0097499f6e5c9d67e25d84c03c1b83cbcc2d4f103bbae4ec8a856142cbf37"
+          },
+          "1": {
+            "value": 0.4213131196164598,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-cbramod_scratch/seed1/result.json",
+            "sha256": "39a822fb5dc368c00ab662081ec57a3968b22541e8d56805b63b38b9273153dc"
+          },
+          "2": {
+            "value": 0.4028722321654171,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-cbramod_scratch/seed2/result.json",
+            "sha256": "d9e1d699f158c9dcfb534ca633049fc78d40a23fbee1a7994624ef052be9722a"
+          }
+        },
+        "biot_scratch": {
+          "1": {
+            "value": 0.5661837163647814,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-biot_scratch/seed1/result.json",
+            "sha256": "e580f2eeb4694fb5180ab42c8fea79ba21b9be2f3cd679bc849c8e9cd3faef8c"
+          },
+          "0": {
+            "value": 0.5117928240591888,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-biot_scratch/seed0/result.json",
+            "sha256": "efb7c2839fa3101d4e5d0b264e055244b4b5bbac08d6404206804b87b87a7a1f"
+          },
+          "2": {
+            "value": 0.5238989780629586,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-biot_scratch/seed2/result.json",
+            "sha256": "98621f976afc44b45ce5f0da6e8104400eb20c0d4bb487720ed490c1b94fa69c"
+          }
+        },
+        "reve_pretrained": {
+          "1": {
+            "value": 0.5447563148500223,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-reve_pretrained/seed1/result.json",
+            "sha256": "955a72820f5237c0f53a58bdd54debbc8749a00d42016b21f867281fbda0ba6f"
+          },
+          "2": {
+            "value": 0.5486087248696142,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-reve_pretrained/seed2/result.json",
+            "sha256": "8df37b94b13f66c1af2c10ac38803e8add11d999c40c56ab3e18f38d7524683b"
+          },
+          "0": {
+            "value": 0.6069590418143165,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuev-reve_pretrained/seed0/result.json",
+            "sha256": "ff6e4fb6ee3393e72196385b2663b455d85a00c945234c91d77882b8a27d1912"
+          }
+        }
+      }
+    },
+    "tuar": {
+      "seed": 0,
+      "n_families": 14,
+      "mean_rank": {
+        "0": 1.5714285714285714,
+        "1": 2.0714285714285716,
+        "2": 2.357142857142857
+      },
+      "best_seed_credit": {
+        "0": 8.0,
+        "1": 5.0,
+        "2": 1.0
+      },
+      "families": {
+        "eegpt_scratch": {
+          "0": {
+            "value": 0.5342980474603566,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-eegpt_scratch/seed0/result.json",
+            "sha256": "3bd66be6f8985e51628bc203dd4866e1158f5eca0ee4ea2af382f8b0043c8908"
+          },
+          "2": {
+            "value": 0.5570374256938294,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-eegpt_scratch/seed2/result.json",
+            "sha256": "04142e024f634f33703801b052154ba56d3a256230742429caf1088b5b77618f"
+          },
+          "1": {
+            "value": 0.5538532904590385,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-eegpt_scratch/seed1/result.json",
+            "sha256": "b0369357b98cd210a70413eadaf3e8cf00e044a2a7a0c54eae3af1fb41ead27d"
+          }
+        },
+        "tfm_scratch": {
+          "1": {
+            "value": 0.41034740322528873,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-tfm_scratch/seed1/result.json",
+            "sha256": "e3337e3edd59ad791347fb376c0972b0dd02333849342db51aa01283c9c75512"
+          },
+          "0": {
+            "value": 0.4220475808314742,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-tfm_scratch/seed0/result.json",
+            "sha256": "d6521e0802041606a8d9efeb3a8cc11e93b6072d1215c50a769c30064a150a22"
+          },
+          "2": {
+            "value": 0.4198111885548962,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-tfm_scratch/seed2/result.json",
+            "sha256": "c693d53d960e1ea778b87d53ea37641b053dfa350a15df80e4c2e651f8aa3bd0"
+          }
+        },
+        "sparcnet": {
+          "2": {
+            "value": 0.5538190167544078,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-sparcnet/seed2/result.json",
+            "sha256": "e1e58655f8dc7a346b79e57a19eb71b86dccc01c597519dc1cf031bcd86ec591"
+          },
+          "1": {
+            "value": 0.5667694084112933,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-sparcnet/seed1/result.json",
+            "sha256": "f9118dd84f35683812984a21600e7ffbdd66ac1acc39dc74869f800a6f58691d"
+          },
+          "0": {
+            "value": 0.5739848073155066,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-sparcnet/seed0/result.json",
+            "sha256": "a1a6e230a1c0cb747b409e013e68dffdd0b3c9751caaea0057aa2eaf7f3f72ce"
+          }
+        },
+        "tfm_pretrained": {
+          "1": {
+            "value": 0.5752273539788835,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-tfm_pretrained/seed1/result.json",
+            "sha256": "90d0bbf0073d13b59925e659d866662231e8f2a7efca689bf8e6948a252d1d6d"
+          },
+          "0": {
+            "value": 0.6206831405581246,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-tfm_pretrained/seed0/result.json",
+            "sha256": "d7f5f00d7110ca8c8c9246b4132f6e593a2f6b2381f440b532b6ace172c92b45"
+          },
+          "2": {
+            "value": 0.6068396346320053,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-tfm_pretrained/seed2/result.json",
+            "sha256": "12f801ace33856708fa8734d1d47e9e67fb08d5978924789ff46d02e1c102b96"
+          }
+        },
+        "cbramod_scratch": {
+          "1": {
+            "value": 0.5725913994278209,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-cbramod_scratch/seed1/result.json",
+            "sha256": "e2909a651864bf091343fd249b5363fa65b5d0bcd39875c8f152df54dc59a6cd"
+          },
+          "0": {
+            "value": 0.587480173061373,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-cbramod_scratch/seed0/result.json",
+            "sha256": "89f01b5c2d8c833573c8cc33d82859ce315f39912c2ae6076af1d5b649515cb6"
+          },
+          "2": {
+            "value": 0.5732377889924329,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-cbramod_scratch/seed2/result.json",
+            "sha256": "099af51dd6272cfe8d3514769751737618de246013b95695a7deb0aec151d5dd"
+          }
+        },
+        "biot_prest16": {
+          "2": {
+            "value": 0.5930204290762107,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-biot_prest16/seed2/result.json",
+            "sha256": "8fa4610f67aa375bcf194419a227d9a7b37137f723433c5ddab5c64e613de930"
+          },
+          "0": {
+            "value": 0.5990295700559773,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-biot_prest16/seed0/result.json",
+            "sha256": "f80d308b285b07627448388b34f7e7f8fadb0af3be3c71aaaf07e9d32f08f38d"
+          },
+          "1": {
+            "value": 0.5616444827102411,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-biot_prest16/seed1/result.json",
+            "sha256": "5532a3f86c858be0780281ce9b298e39e2a7dad2c4adebea932800135b86a489"
+          }
+        },
+        "cbramod_pretrained": {
+          "0": {
+            "value": 0.6323111003003661,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-cbramod_pretrained/seed0/result.json",
+            "sha256": "f699b7338d4ff3c676bb1d2a5885de3781281f6ab66fd7db9f9e8ce0d7570211"
+          },
+          "1": {
+            "value": 0.6123868195445201,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-cbramod_pretrained/seed1/result.json",
+            "sha256": "c269c9e4f238193e8f5d453357d28da6045387bf58a03b0757863aee8419dff9"
+          },
+          "2": {
+            "value": 0.6180892243910507,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-cbramod_pretrained/seed2/result.json",
+            "sha256": "ff58dbd7540d5828ff85f878160daa1da9c32cfd5e05de1e9305f7585a8adb8f"
+          }
+        },
+        "st_transformer": {
+          "0": {
+            "value": 0.40658079044950257,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-st_transformer/seed0/result.json",
+            "sha256": "85b2515ac3623cde4401f703e5dcc9adb00c8a97180998a0b8b973f8c6938788"
+          },
+          "2": {
+            "value": 0.4456690998160545,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-st_transformer/seed2/result.json",
+            "sha256": "ce6070b435cc0f76dad1d2e534a4f283a73bc178a49d8e1fb907e43056418948"
+          },
+          "1": {
+            "value": 0.4962686835126644,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-st_transformer/seed1/result.json",
+            "sha256": "9f1c1da1b32d6e65f54ade8844d07a845c46f72b23079f60537e92cf950a32b1"
+          }
+        },
+        "labram_scratch": {
+          "0": {
+            "value": 0.5756458080164522,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-labram_scratch/seed0/result.json",
+            "sha256": "a5efc8fb01afa38ba8b6c0d1c18ee877522b171fa5f3748065ef657562b46480"
+          },
+          "2": {
+            "value": 0.5688670642119791,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-labram_scratch/seed2/result.json",
+            "sha256": "7a59513add62bd0dc8bde18914a5fcd8849f0a2d841daa025e1a4ab5117e833b"
+          },
+          "1": {
+            "value": 0.5789440213492064,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-labram_scratch/seed1/result.json",
+            "sha256": "34ceb91766eb7f1c17865ac9914030f55c66b58d59dc518159b201bd4e553015"
+          }
+        },
+        "labram_pretrained": {
+          "2": {
+            "value": 0.6277490670653466,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-labram_pretrained/seed2/result.json",
+            "sha256": "1d34fad2715751c0496a08b81eb4a2ad5c0988f4a4b899ec936c71959e6a1936"
+          },
+          "0": {
+            "value": 0.6279720073117793,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-labram_pretrained/seed0/result.json",
+            "sha256": "81c06f07e144330c3fd1132088d52e179ed152fc2525a8af1510bd231a13c2a6"
+          },
+          "1": {
+            "value": 0.6137466576977222,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-labram_pretrained/seed1/result.json",
+            "sha256": "cad83d93f6313c63b83608d87bc2dd8d4d8e3cd6efc832fc467fd864fb13f082"
+          }
+        },
+        "cnn_transformer": {
+          "1": {
+            "value": 0.6441594633893846,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-cnn_transformer/seed1/result.json",
+            "sha256": "3d2cf3a0e17994fd2991ae708d832244a97198ccb565f498bbd39281250fa1dd"
+          },
+          "0": {
+            "value": 0.6361807775804224,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-cnn_transformer/seed0/result.json",
+            "sha256": "080428dde6780ef09fa5d3919d6af27e93e7d85f4e307632d202b56aa965332a"
+          },
+          "2": {
+            "value": 0.608108887180994,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-cnn_transformer/seed2/result.json",
+            "sha256": "eb44aa66d10f454d8501c7450783d2d2d255e7d1f42993091c597eb324bb939b"
+          }
+        },
+        "contrawr": {
+          "2": {
+            "value": 0.5978933169230769,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-contrawr/seed2/result.json",
+            "sha256": "3992cc6322317050236862deea335de2440cd22773458b77e33fae1a8cc84ce0"
+          },
+          "0": {
+            "value": 0.6221238641317104,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-contrawr/seed0/result.json",
+            "sha256": "595b17ad1f462c5579e13e759e7e8d30ee8e7edd2121cfbd5fa00a2f14e7f39b"
+          },
+          "1": {
+            "value": 0.6328035943125345,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-contrawr/seed1/result.json",
+            "sha256": "eec443bf8da3a53f1fdb7df26098b8e8f1c63955b51ad984dbe8c9ed34ec3716"
+          }
+        },
+        "biot_scratch": {
+          "1": {
+            "value": 0.5698029830193321,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-biot_scratch/seed1/result.json",
+            "sha256": "c7ae021edfc4c8f4930005410ccb763f57bbc586b5108e7960ae671604cbcd91"
+          },
+          "0": {
+            "value": 0.5724447439772142,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-biot_scratch/seed0/result.json",
+            "sha256": "9843dd1ef4d9cf9dd0706eea51adfaf13a4cd45afd7364ac52b90d8b70dc8258"
+          },
+          "2": {
+            "value": 0.5599683594099187,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-biot_scratch/seed2/result.json",
+            "sha256": "460c6ade3fdf395bf9198ce2dce67f34109b1231d5fa70e6c62605dead48b02a"
+          }
+        },
+        "ffcl": {
+          "0": {
+            "value": 0.6312190691899924,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-ffcl/seed0/result.json",
+            "sha256": "6506aa2eec9c01d886c62d7024c8e4dacce7da884d1ecf1f8ed0880be2f2de1f"
+          },
+          "1": {
+            "value": 0.6312613270140721,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-ffcl/seed1/result.json",
+            "sha256": "85954466d8619186d26b2132566bee777d3a703d9789c0026c2bdf64defba0e6"
+          },
+          "2": {
+            "value": 0.6281802788643919,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/tuar-ffcl/seed2/result.json",
+            "sha256": "f8707fd6f1cc6ef5bfff8bb0765c6549ba0efa861315554edfeaab436ac379f5"
+          }
+        }
+      }
+    },
+    "sleepedf": {
+      "seed": 1,
+      "n_families": 12,
+      "mean_rank": {
+        "0": 2.3333333333333335,
+        "1": 1.8333333333333333,
+        "2": 1.8333333333333333
+      },
+      "best_seed_credit": {
+        "0": 0,
+        "1": 6.0,
+        "2": 6.0
+      },
+      "families": {
+        "cnn_transformer": {
+          "2": {
+            "value": 0.675009851469021,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-cnn_transformer/seed2/result.json",
+            "sha256": "2a3663d0a6f437cfe1da89f77e32a5ed354c8765754298f88e4a82eff921348f"
+          },
+          "1": {
+            "value": 0.670773185673259,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-cnn_transformer/seed1/result.json",
+            "sha256": "8b8efe125e65c46326731764ade30df3226714168209719398e152c4fd528df0"
+          },
+          "0": {
+            "value": 0.673684716462767,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-cnn_transformer/seed0/result.json",
+            "sha256": "d854ac6b81d158a6ad52fcbc530f2e240ba0ee8b6ec9411cc7725c7d9515cd41"
+          }
+        },
+        "contrawr": {
+          "2": {
+            "value": 0.6787951288385266,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-contrawr/seed2/result.json",
+            "sha256": "ff906d5a58273f2c808df72170ededadbd58906748498883edcd605dc173ae3d"
+          },
+          "0": {
+            "value": 0.6713181120309952,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-contrawr/seed0/result.json",
+            "sha256": "73b1961475a0e9a3f5aaf29a442247f55f0a0fd5b77d903f2b98b8f0d49aa7bc"
+          },
+          "1": {
+            "value": 0.6690499230970175,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-contrawr/seed1/result.json",
+            "sha256": "8a15f0d06a676192ac43817df9c0a312f8411fadb7df8cab24330a235b5d6e01"
+          }
+        },
+        "sparcnet": {
+          "0": {
+            "value": 0.6654387153002708,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-sparcnet/seed0/result.json",
+            "sha256": "a71fbe9ef4f6458917fcdcbd38d97044341ae3e76b0025df7eb7b5a3bd614db6"
+          },
+          "2": {
+            "value": 0.677086619730962,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-sparcnet/seed2/result.json",
+            "sha256": "d901d4756d8a631c91d029cfa97b0863bb7a9edb17a9a51bab7cd9599929ade3"
+          },
+          "1": {
+            "value": 0.6670459133693638,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-sparcnet/seed1/result.json",
+            "sha256": "c88be9daf891d7b5211e76c4a736beb90bce9cf0bb2bbfb854c23da645b452de"
+          }
+        },
+        "labram_pretrained": {
+          "2": {
+            "value": 0.6276222259541572,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-labram_pretrained/seed2/result.json",
+            "sha256": "62d5600190e5aad2e87aa473bae8e6ec6b75f024069fe28863f6ff84640d3ddd"
+          },
+          "0": {
+            "value": 0.6201884267815567,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-labram_pretrained/seed0/result.json",
+            "sha256": "ce5018fc8955ee379dee55ce6087af1a8f1033b8ba62fd630e767f421d90466c"
+          },
+          "1": {
+            "value": 0.6244619139544318,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-labram_pretrained/seed1/result.json",
+            "sha256": "917cbdee5b5d7d3ef7aac4ed8095c4929f7fef63360348be62c5e277d454afca"
+          }
+        },
+        "tfm_pretrained": {
+          "1": {
+            "value": 0.5785840613639063,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-tfm_pretrained/seed1/result.json",
+            "sha256": "b5b0e1b672939231579997dcd82be21c9dcef0cd770f0dcccdae67ec2fb0bdc9"
+          },
+          "2": {
+            "value": 0.5738286092654743,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-tfm_pretrained/seed2/result.json",
+            "sha256": "c3440ba3f003f704abe5061309c00b6063a4cc2c47d3dad864f1d2ba24425ac1"
+          },
+          "0": {
+            "value": 0.5742521529769287,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-tfm_pretrained/seed0/result.json",
+            "sha256": "04fa4b2639cda17b5684e2e28cc4e4b9897f08ba67291199844895c215a24b38"
+          }
+        },
+        "st_transformer": {
+          "0": {
+            "value": 0.6708231006994658,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-st_transformer/seed0/result.json",
+            "sha256": "8f909cd1b0443edc436f88b732bb3577494e56371dd1db4a4d46f86e6206509b"
+          },
+          "2": {
+            "value": 0.6628141771585327,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-st_transformer/seed2/result.json",
+            "sha256": "4208bbcd6a70f9c10394d75e92b6b44dcc4dfaa82b57d29319573eb8782549be"
+          },
+          "1": {
+            "value": 0.6713809123196133,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-st_transformer/seed1/result.json",
+            "sha256": "329c196f29e261a19efffdd38b423cd733b9e2d0368edb861ba7d463d59b75f6"
+          }
+        },
+        "cbramod_scratch": {
+          "1": {
+            "value": 0.6286321534069459,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-cbramod_scratch/seed1/result.json",
+            "sha256": "26a05bdda54bc49f7ed801d4ca39c3262626175a42911486b95dce0da0365b2e"
+          },
+          "0": {
+            "value": 0.6229712464270352,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-cbramod_scratch/seed0/result.json",
+            "sha256": "63e165ae0a5a8a4deb810f627819cec6dd82778986dd5d7eb45a5193bffa576c"
+          },
+          "2": {
+            "value": 0.6265799117803419,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-cbramod_scratch/seed2/result.json",
+            "sha256": "b7f1735981f8b5f46580b3b539a0ab2783d8207e76f828042fd1c0f392293fa4"
+          }
+        },
+        "biot_prest16": {
+          "1": {
+            "value": 0.5958283111455451,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-biot_prest16/seed1/result.json",
+            "sha256": "b8ea4c60c0c6f5605b71bc6f7d4d9d23addd94c64d53440872f0a0e0ffe848ff"
+          },
+          "0": {
+            "value": 0.5976245946542994,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-biot_prest16/seed0/result.json",
+            "sha256": "0248dd8a4e5ae278e77ad8fabcef70c3a6cc682405a6412b66b123fcfe0aa27f"
+          },
+          "2": {
+            "value": 0.6041747795184551,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-biot_prest16/seed2/result.json",
+            "sha256": "4786eaa8c59c7ca8401c6b893f036d94626a10d9fde2f490bc4892bb8aa2cbd7"
+          }
+        },
+        "labram_scratch": {
+          "0": {
+            "value": 0.5768403618649731,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-labram_scratch/seed0/result.json",
+            "sha256": "364526088594c6b1d044229481d03a48d44334989c1150499c7b352d40abcee3"
+          },
+          "1": {
+            "value": 0.5785985578546737,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-labram_scratch/seed1/result.json",
+            "sha256": "d3f549a0406e7637616ab3c4ce4fcd6adc60d44233c465876454bcba1d77446a"
+          },
+          "2": {
+            "value": 0.5707799671942428,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-labram_scratch/seed2/result.json",
+            "sha256": "09b1b2740a62aaa888ee55a9dbb5e32e552686f68431ec94343f12248f30eaa9"
+          }
+        },
+        "cbramod_pretrained": {
+          "0": {
+            "value": 0.6676417056224652,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-cbramod_pretrained/seed0/result.json",
+            "sha256": "6caf33452ad2968b60a67de23e2727f2d73ea436bd773f83e52157406f2e3411"
+          },
+          "2": {
+            "value": 0.6683454771609643,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-cbramod_pretrained/seed2/result.json",
+            "sha256": "cf3f26c522602929c56629a954a438529d23156070dd8bd13285f96e8fda02c3"
+          },
+          "1": {
+            "value": 0.6583675597715625,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-cbramod_pretrained/seed1/result.json",
+            "sha256": "64d65e8a37fcdc249c82297d66032766605633332e9a2c4ae337829cb22a9bfe"
+          }
+        },
+        "eegpt_pretrained": {
+          "0": {
+            "value": 0.6158082429968521,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-eegpt_pretrained/seed0/result.json",
+            "sha256": "f63b058f097ff64c55cc065630a73a64930778bd47670a39c72f53b1c22a1b90"
+          },
+          "2": {
+            "value": 0.619606585644765,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-eegpt_pretrained/seed2/result.json",
+            "sha256": "ca371991a1b5318545ed619b3190a9365316f1f0788aabeb24aab377a55bd57f"
+          },
+          "1": {
+            "value": 0.6201439958299354,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-eegpt_pretrained/seed1/result.json",
+            "sha256": "4b60fe448ebe11762c1ee100c1cbcce8de1081f61dc29c0273424faca069e152"
+          }
+        },
+        "ffcl": {
+          "2": {
+            "value": 0.6565393373115741,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-ffcl/seed2/result.json",
+            "sha256": "7e3bd09a9e8581ea082e13b8a49124302f92de112a4401346945d6018dc7d4b8"
+          },
+          "0": {
+            "value": 0.6573887503826096,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-ffcl/seed0/result.json",
+            "sha256": "6dac183baab4fc0faa9efb5657f9ea059c890fcb7139628b1b1c44fe598d6907"
+          },
+          "1": {
+            "value": 0.6617492367062517,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/sleepedf-ffcl/seed1/result.json",
+            "sha256": "b105272cd28f15b1520a2ea665b571807e7ff079a9ccb710e3dd9fbca9485730"
+          }
+        }
+      }
+    },
+    "adfd": {
+      "seed": 0,
+      "n_families": 17,
+      "mean_rank": {
+        "0": 1.8823529411764706,
+        "1": 2.0,
+        "2": 2.1176470588235294
+      },
+      "best_seed_credit": {
+        "0": 5.0,
+        "1": 6.0,
+        "2": 6.0
+      },
+      "families": {
+        "cnn_transformer": {
+          "2": {
+            "value": 0.4281182643725501,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-cnn_transformer/seed2/result.json",
+            "sha256": "6ce964e47142b6986a0ccf8211ad9c7fe14e5b2861b84da89d73110444d03817"
+          },
+          "1": {
+            "value": 0.4790595587559534,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-cnn_transformer/seed1/result.json",
+            "sha256": "03378f47ab7065216d04b24d442851b02761c84a119246c3c0a63f3b5919e717"
+          },
+          "0": {
+            "value": 0.454752210117017,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-cnn_transformer/seed0/result.json",
+            "sha256": "e2cfe0da68c490154efae8613d60164893b24962d25606c7d0c08397bf94bfad"
+          }
+        },
+        "biot_prest16": {
+          "1": {
+            "value": 0.5853892263278945,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-biot_prest16/seed1/result.json",
+            "sha256": "7357555ec99ed52c54bea5b4d53183009706025cca95cf18d2b7a3a43085bb59"
+          },
+          "0": {
+            "value": 0.6399026966373107,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-biot_prest16/seed0/result.json",
+            "sha256": "89538fd60d2c4080f4b3c5744035ce807b56951316d9b2acfc297add82322c68"
+          },
+          "2": {
+            "value": 0.5648979303563109,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-biot_prest16/seed2/result.json",
+            "sha256": "4930c269e9002e4b3a30a4ae5b3da00e96f7d550d53d0c89e16908e127e98e81"
+          }
+        },
+        "tfm_scratch": {
+          "1": {
+            "value": 0.39842520962065553,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-tfm_scratch/seed1/result.json",
+            "sha256": "1be84e935ca4881a1eaa6a65434e652f5197533f068c06332b4085086362653d"
+          },
+          "2": {
+            "value": 0.3943188413100703,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-tfm_scratch/seed2/result.json",
+            "sha256": "348e918a3949db8fceb3a6660281f0c7886518f8b827251311d8b834bb2b551c"
+          },
+          "0": {
+            "value": 0.42625658993308085,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-tfm_scratch/seed0/result.json",
+            "sha256": "1bf8c5b5ea0af872c7df6424327820a2e3ff1413e3b1d5be2c8613ef6705b2b5"
+          }
+        },
+        "cbramod_scratch": {
+          "1": {
+            "value": 0.4373396868897353,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-cbramod_scratch/seed1/result.json",
+            "sha256": "212437257444d6beeec10cb67273f819c7c71d1618908b49ac8b50c040a3b54c"
+          },
+          "2": {
+            "value": 0.4483871338974727,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-cbramod_scratch/seed2/result.json",
+            "sha256": "a401043bfea8ce1cc82e6d9851ea85ade6d228a67d999d82dcb6ccf50abf213f"
+          },
+          "0": {
+            "value": 0.43007096045185156,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-cbramod_scratch/seed0/result.json",
+            "sha256": "a76ed95496482e3975e3d21bbff08e13b9fac92d87f5b77ff460dc16c00d180d"
+          }
+        },
+        "eegpt_pretrained": {
+          "1": {
+            "value": 0.505810268814072,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-eegpt_pretrained/seed1/result.json",
+            "sha256": "6dc6a4b2a2af54dc9e651225bfeacea1a4421cbdfe7270b47e1b5e44c8623704"
+          },
+          "2": {
+            "value": 0.5711916370718726,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-eegpt_pretrained/seed2/result.json",
+            "sha256": "740c29eb89619e9aa987fd6d9f975e298e60d923adcafa269652a0b6f0ea7f9c"
+          },
+          "0": {
+            "value": 0.5514337810841626,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-eegpt_pretrained/seed0/result.json",
+            "sha256": "e64d6a7e97819a6be7636b23f28c73993b60a9b425944be9947742647cd3a58e"
+          }
+        },
+        "biot_scratch": {
+          "2": {
+            "value": 0.4048935581621202,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-biot_scratch/seed2/result.json",
+            "sha256": "c58c9a7b829569d4ab00cb18fc568768376e9275b62c35e9a38c9a089a4c911c"
+          },
+          "0": {
+            "value": 0.3989990891107422,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-biot_scratch/seed0/result.json",
+            "sha256": "c590839cefdc32c153141521f057e7bd90bdff151992ee748bc658cf1c2b9ab2"
+          },
+          "1": {
+            "value": 0.3899375983201345,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-biot_scratch/seed1/result.json",
+            "sha256": "8da25da3a21103fa361a48fe70ada5d4ff5005d546e667ad802014636d6cc02b"
+          }
+        },
+        "st_transformer": {
+          "1": {
+            "value": 0.5208576679327793,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-st_transformer/seed1/result.json",
+            "sha256": "7e16f69a6596ed228d66adf66d18557cd3f94f96e2fb835562fa14ed1bdad9bc"
+          },
+          "0": {
+            "value": 0.5024953456108835,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-st_transformer/seed0/result.json",
+            "sha256": "49f422772d3c5d853a47f82f85faf818f54261dc96c443e90b88a86028f452b9"
+          },
+          "2": {
+            "value": 0.45724346056617965,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-st_transformer/seed2/result.json",
+            "sha256": "1309950279931eb20f64bc9fe5bd9c9fc2e0b74d374f07419cc1e02f2be5ead0"
+          }
+        },
+        "sparcnet": {
+          "0": {
+            "value": 0.5351012436507302,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-sparcnet/seed0/result.json",
+            "sha256": "ae6829f26fc33e4c7472d13998b31c200db5eadeef0e376f62bf5a945be8e7b0"
+          },
+          "1": {
+            "value": 0.5646351439447025,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-sparcnet/seed1/result.json",
+            "sha256": "e657675bf1253bcd82d7698475a70db74b4b128498835180d3f97364a2ee7281"
+          },
+          "2": {
+            "value": 0.49503111870467786,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-sparcnet/seed2/result.json",
+            "sha256": "56f3c9f283df2b52dc52ceedfad1bda7c53d2a2a3e6702c527c0e69fb9bb674e"
+          }
+        },
+        "eegpt_scratch": {
+          "1": {
+            "value": 0.530784618368399,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-eegpt_scratch/seed1/result.json",
+            "sha256": "164b20e887f0880cc06b649f68b3738a78a2fd18a23f4893581344cddd1c9308"
+          },
+          "2": {
+            "value": 0.4955573875893769,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-eegpt_scratch/seed2/result.json",
+            "sha256": "9a7b897022eff0c4c4c613a55535806edd094304556ecaac16aa8b82eac2b69a"
+          },
+          "0": {
+            "value": 0.41730303507632466,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-eegpt_scratch/seed0/result.json",
+            "sha256": "6608be64b369f1183cd4f19992771e3ad9f180d982fc4352642462b9f8e97e61"
+          }
+        },
+        "reve_pretrained": {
+          "0": {
+            "value": 0.5654191179921892,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-reve_pretrained/seed0/result.json",
+            "sha256": "229d6cc5403296bcf4aacb073ee7c245960ac209d6eeb34050d1027da73a02e0"
+          },
+          "2": {
+            "value": 0.5996145304319356,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-reve_pretrained/seed2/result.json",
+            "sha256": "5d634c86311173018a1558cda880ca54a52c854d539cd8a800c2dc825f9e171b"
+          },
+          "1": {
+            "value": 0.5384314106003806,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-reve_pretrained/seed1/result.json",
+            "sha256": "530a7e9a86bd45309fbed5599ab75e717a912d847a7418f582a786c3b4fcd589"
+          }
+        },
+        "ffcl": {
+          "1": {
+            "value": 0.43272330273006215,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-ffcl/seed1/result.json",
+            "sha256": "02b274edf198c15bddef57a91ef04847ee3cc044a8859fe0969bc94669b80bea"
+          },
+          "2": {
+            "value": 0.44982646143154653,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-ffcl/seed2/result.json",
+            "sha256": "a1c4ef64b79df5e73287b414bc798cd90e182083f054857aaf31ec03e5e3fa87"
+          },
+          "0": {
+            "value": 0.48590308443636454,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-ffcl/seed0/result.json",
+            "sha256": "648d8070bf7476d5c015431459b6d2628305da1db132039f89f5a3205f4d7a96"
+          }
+        },
+        "eegconformer": {
+          "2": {
+            "value": 0.44080615427864006,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-eegconformer/seed2/result.json",
+            "sha256": "b2af230da9524c2af94b2fd14c3ffa1f62996199e522dcf9398f949693ae9c44"
+          },
+          "0": {
+            "value": 0.5277277251566899,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-eegconformer/seed0/result.json",
+            "sha256": "3ab00c7bca57392cb51edb9926cff507e18af7b3dc2a23e75766a0199b09db27"
+          },
+          "1": {
+            "value": 0.5283106766480955,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-eegconformer/seed1/result.json",
+            "sha256": "1e7ac93617e37b44aa1625ba93f5d78c4c42500804e6203fcb0f330e588eb7cc"
+          }
+        },
+        "labram_scratch": {
+          "0": {
+            "value": 0.5410584162406363,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-labram_scratch/seed0/result.json",
+            "sha256": "5cb19f20ffdb6eb8f97b63e2380b4a237469645b096ffcb743fc8a0e8f18eb8e"
+          },
+          "1": {
+            "value": 0.46637110039965296,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-labram_scratch/seed1/result.json",
+            "sha256": "31aaa4c4507a5256c80c9b562842d4f575133ac23199e6ae55ff31d6981f64c9"
+          },
+          "2": {
+            "value": 0.5592650064068979,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-labram_scratch/seed2/result.json",
+            "sha256": "6ee6ce3f9aeb33855955b963928ac7f072f984d2ff4e3f441fd06ed47ee683a1"
+          }
+        },
+        "contrawr": {
+          "2": {
+            "value": 0.4083125657589584,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-contrawr/seed2/result.json",
+            "sha256": "75eb0db61d7d098c99af47a88c67810ed27d47b768aa545ea9b26b3b1126c882"
+          },
+          "1": {
+            "value": 0.3935947401510838,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-contrawr/seed1/result.json",
+            "sha256": "f736b619ca11d6ca85e30fdaa3506cb7a0e27401ae049e999ab3f856a0b82026"
+          },
+          "0": {
+            "value": 0.446298369399411,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-contrawr/seed0/result.json",
+            "sha256": "091a7ab5155e745f09dc45e5fd4260f00ac0c6a1edc4f04fb57c8f8276314b19"
+          }
+        },
+        "tfm_pretrained": {
+          "2": {
+            "value": 0.3607745827859679,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-tfm_pretrained/seed2/result.json",
+            "sha256": "80629f3b985308a6ae26a0440043aaf9b6da0b784252ff2a8cc36c867eaeb6bd"
+          },
+          "1": {
+            "value": 0.40428274100937406,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-tfm_pretrained/seed1/result.json",
+            "sha256": "a8099046d7f7e370fce69ec7a16ff57b7a71a58bc72ed5bf06c93cb9a7e93d0a"
+          },
+          "0": {
+            "value": 0.4222161154428177,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-tfm_pretrained/seed0/result.json",
+            "sha256": "b8fa5cf7c5584b83d00d5978faa90713937571a62295e33ba8b7c0034a78e6bd"
+          }
+        },
+        "labram_pretrained": {
+          "1": {
+            "value": 0.4710894227634053,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-labram_pretrained/seed1/result.json",
+            "sha256": "144184a6288bdc152f10179098c3ab7af38c5384f6feeb46039f87505bdc0ebd"
+          },
+          "2": {
+            "value": 0.4916926222192895,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-labram_pretrained/seed2/result.json",
+            "sha256": "67495ac1580cad6cd890cf40dc5eec615eacced3e7be9191cac2d3d08af706d9"
+          },
+          "0": {
+            "value": 0.41497499944373084,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-labram_pretrained/seed0/result.json",
+            "sha256": "d63ce938000081a89201c91ea49ddeb8fbe330c5018b0f02129a39dc9c082063"
+          }
+        },
+        "cbramod_pretrained": {
+          "0": {
+            "value": 0.4359168676138161,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-cbramod_pretrained/seed0/result.json",
+            "sha256": "8408554da93690ad47faa7c6a1badfdcd8014cb9252f6019d2122f71f95650c1"
+          },
+          "1": {
+            "value": 0.4519467227116811,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-cbramod_pretrained/seed1/result.json",
+            "sha256": "8ea22d1cbe34a03ac1993967252b9bcf05bfdb7776dc4c74e019be860534076b"
+          },
+          "2": {
+            "value": 0.426176786484138,
+            "path": "/work1/chenyuyou/yifanwang/Zhizhe/PACLock/runs/adfd-cbramod_pretrained/seed2/result.json",
+            "sha256": "dab37d0bf07af9f10068695311912429771b40dbf96919c11eb8806620372cb0"
+          }
+        }
+      }
+    }
+  }
+}

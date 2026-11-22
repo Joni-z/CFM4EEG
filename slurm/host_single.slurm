@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH --partition=mi2101x
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --exclusive
+#SBATCH --time=12:00:00
+#SBATCH --signal=B:TERM@120
+#SBATCH --output=logs/%x-%j.out
+#SBATCH --error=logs/%x-%j.out
+# One host-transplant run: contract/smoke, then train. Usage: sbatch --job-name=<n> slurm/host_single.slurm <cfg> <seed>
+set -euo pipefail
+cd "$SLURM_SUBMIT_DIR"
+source slurm/amd_env.sh
+export PACLOCK_PROC=/work1/chenyuyou/yifanwang/Zhizhe
+export PYTHONPATH="$PWD${PYTHONPATH:+:$PYTHONPATH}"
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+export MIOPEN_USER_DB_PATH=/tmp/miopen_host_${SLURM_JOB_ID} MIOPEN_CUSTOM_CACHE_DIR=/tmp/miopen_host_${SLURM_JOB_ID}
+mkdir -p "$MIOPEN_USER_DB_PATH"
+cfg=$1; seed=$2
+if grep -q "^model: biot_tfm_host" "$cfg"; then
+  "$PACLOCK_PYTHON" -u smoke/smoke_tfm_host.py --config "$cfg"
+else
+  mkdir -p results/$(basename "$cfg" .yaml)
+  "$PACLOCK_PYTHON" -u smoke/verify_sean.py --config "$cfg" --output results/$(basename "$cfg" .yaml)/contract_seed${seed}.json
+fi
+"$PACLOCK_PYTHON" -u -m paclock_bench.training.train --config "$cfg" --seed "$seed"

@@ -1,0 +1,30 @@
+[
+  {
+    "dataset": "tuev",
+    "host": "biot",
+    "seed": 0,
+    "config": "configs/range_hosts/tuev_biot_s0.yaml",
+    "source": "CFM4EEG-transfer-pretrain-20260915/configs/quad_hosts/tuev_biot_s0.yaml"
+  },
+  {
+    "dataset": "tuev",
+    "host": "cbramod",
+    "seed": 0,
+    "config": "configs/range_hosts/tuev_cbramod_s0.yaml",
+    "source": "CFM4EEG-transfer-pretrain-20260915/configs/quad_hosts/tuev_cbramod_s0.yaml"
+  },
+  {
+    "dataset": "iiic",
+    "host": "biot",
+    "seed": 0,
+    "config": "configs/range_hosts/iiic_biot_s0.yaml",
+    "source": "CFM4EEG-transfer-pretrain-20260915/configs/quad_hosts/iiic_biot_s0.yaml"
+  },
+  {
+    "dataset": "iiic",
+    "host": "cbramod",
+    "seed": 0,
+    "config": "configs/range_hosts/iiic_cbramod_s0.yaml",
+    "source": "CFM4EEG-transfer-pretrain-20260915/configs/quad_hosts/iiic_cbramod_s0.yaml"
+  }
+]

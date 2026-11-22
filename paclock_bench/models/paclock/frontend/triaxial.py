@@ -18,6 +18,7 @@ scripts/synth_pac_test.py; only the reduction axes change.
 
 from __future__ import annotations
 
+import math
 import torch
 import torch.nn as nn
 
@@ -111,9 +112,27 @@ class TriAxialFrontend(nn.Module):
         raw_stem: str = "linear",
         coupling_self: bool = False,
         coupling_strength: bool = False,
+        local_residual: bool = False,
+        waveform_modulation: str = "none",
+        filter_range: tuple[float, float] | None = None,
+        waveform_content: bool = True,
         **_,
     ):
         super().__init__()
+        if waveform_modulation not in ("none", "quadrature", "carrier", "anchored"):
+            raise ValueError("waveform_modulation must be none/quadrature/carrier/anchored")
+        if waveform_modulation != "none" and (
+            tokenizer_mode != "pac_interaction" or interaction_mode != "rotation"
+            or local_residual or coupling_strength
+        ):
+            raise ValueError("waveform modulation requires unmodified pac_interaction/rotation")
+        self.waveform_modulation = waveform_modulation
+        self.waveform_content = bool(waveform_content)
+        if not self.waveform_content and waveform_modulation != "quadrature":
+            raise ValueError("waveform_content=False requires quadrature")
+        self.local_residual = bool(local_residual)
+        if self.local_residual and (tokenizer_mode != "pac_interaction" or interaction_mode != "rotation"):
+            raise ValueError("local_residual requires pac_interaction with rotation")
         self.n_bands = n_bands
         self.patch_len = patch_len
         # Window(s) the PAC statistic is estimated over; defaults to the token
@@ -145,7 +164,7 @@ class TriAxialFrontend(nn.Module):
             )
         if fusion_mode not in ("blend", "gated"):
             raise ValueError(f"fusion_mode must be blend/gated, got {fusion_mode!r}")
-        if pac_token_mode not in ("measured", "uniform", "scramble", "magnitude", "own"):
+        if pac_token_mode not in ("measured", "uniform", "scramble", "magnitude", "own", "identity", "sample_shuffle"):
             raise ValueError(
                 "pac_token_mode must be measured/uniform/scramble/magnitude, got "
                 f"{pac_token_mode!r}"
@@ -176,6 +195,23 @@ class TriAxialFrontend(nn.Module):
             # much of band j's interaction the task actually used.
             self.interaction_gate = nn.Parameter(torch.ones(n_bands))
         self.sinc = SincBandpass(n_bands, sample_rate, kernel_size=kernel_size)
+        if filter_range is not None:
+            # Opt-in initialization from the historical F3 coverage experiment.
+            # No new parameters or random draws; the default remains unchanged.
+            if len(filter_range) != 2:
+                raise ValueError("filter_range must contain low and high Hz")
+            low, high = map(float, filter_range)
+            if not (math.isfinite(low) and math.isfinite(high)
+                    and 0.1 <= low < high < sample_rate / 2):
+                raise ValueError("filter_range requires .1 <= low < high < Nyquist")
+            edges = torch.logspace(math.log10(low), math.log10(high), n_bands + 1)
+            if (edges.diff() <= 0.05).any():
+                raise ValueError("filter_range produces bands narrower than .05 Hz")
+            self.sinc.min_low_hz = 0.1
+            self.sinc.min_band_hz = 0.05
+            with torch.no_grad():
+                self.sinc.low_hz_.copy_((edges[:-1] - 0.1).view(-1, 1))
+                self.sinc.band_hz_.copy_((edges.diff() - 0.05).view(-1, 1))
         # "hybrid" (2026-08-18): raw band tokens AND PAC interaction tokens,
         # side by side on the frequency axis -- grid (C, 2*nb, P) with rows
         # 0..nb-1 the raw tokens and nb..2nb-1 the interactions. The measured
@@ -315,6 +351,29 @@ class TriAxialFrontend(nn.Module):
                 # this margin controlled before being taken at face value.
                 self.concat_proj = nn.Linear(3 * complex_dim, hidden_dim)
 
+        if self.waveform_modulation != "none":
+            # Independent waveform coordinates, subsequently rotated by the
+            # SAME PAC alignment as the analytic amplitude coordinates. Keep
+            # encoder/head initialization independent of this extra module.
+            with torch.random.fork_rng(devices=[]):
+                self.waveform_quadrature = nn.Conv1d(
+                    1, hidden_dim // 2, kernel_size=patch_len,
+                    stride=patch_len, bias=False,
+                )
+            if self.waveform_modulation == "anchored":
+                self.modulation_gate = nn.Parameter(torch.zeros(n_bands, 1))
+            if self.waveform_modulation == "quadrature":
+                nn.init.zeros_(self.waveform_quadrature.weight)
+
+        if self.local_residual:
+            # Preserve the original model's initialization RNG stream, including
+            # the encoder and head constructed after this frontend.
+            with torch.random.fork_rng(devices=[]):
+                self.local_projection = nn.Conv1d(
+                    1, hidden_dim, kernel_size=patch_len, stride=patch_len, bias=False
+                )
+            nn.init.zeros_(self.local_projection.weight)
+
     @property
     def n_token_bands(self) -> int:
         """Rows on the token grid's frequency axis. 2*n_bands under "hybrid"
@@ -346,7 +405,7 @@ class TriAxialFrontend(nn.Module):
         width = high - low
         return torch.cat([center, width], dim=1)                # (n_bands, 2)
 
-    def _pac_interaction(self, phase_feat, amplitude_feat, pac_vector):
+    def _pac_interaction(self, phase_feat, amplitude_feat, pac_vector, waveform_feat=None):
         """Mandatory gauge-invariant phase-amplitude token interaction.
 
         ``phase_feat`` is complex (B,C,P,I,K), ``amplitude_feat`` is real
@@ -413,6 +472,12 @@ class TriAxialFrontend(nn.Module):
         §13.18 says gets optimised away when a prior has one.
         """
         B, C, P, nb, K = phase_feat.shape
+        if self.pac_token_mode == "sample_shuffle":
+            # Exchange the entire moment tensor across samples, preserving all
+            # electrode, patch and band-pair axes. No labels enter this operation.
+            if B < 2:
+                raise ValueError("sample_shuffle needs at least two samples")
+            pac_vector = pac_vector.roll(1, dims=0)
         edge = pac_vector.transpose(-2, -1)               # (B,C,P,target,source)
         valid = torch.tril(
             torch.ones(nb, nb, dtype=torch.bool, device=edge.device),
@@ -482,6 +547,11 @@ class TriAxialFrontend(nn.Module):
             nb_idx = torch.arange(nb, device=aligned_phase.device).view(1, 1, 1, nb, 1)
             aligned_phase = torch.where(nb_idx == 0, phase_feat, aligned_phase)
 
+        if self.pac_token_mode == "identity":
+            # Includes band zero: no own-phase/root exception. All parameter
+            # tensors stay allocated; the phase projection becomes inactive.
+            aligned_phase = torch.ones_like(phase_feat)
+
         if self.interaction_mode == "product":
             return amplitude_feat.to(aligned_phase.dtype) * aligned_phase
         if self.interaction_mode == "rotation":
@@ -493,6 +563,21 @@ class TriAxialFrontend(nn.Module):
             # sum -- phase_feat is an unnormalised learned projection, so its
             # modulus has no lower bound.
             unit_phase = aligned_phase / aligned_phase.abs().clamp_min(1e-6)
+            if waveform_feat is not None:
+                # For |aligned_phase| >= eps, this is a 2-D orthogonal
+                # rotation of (amplitude_feat, waveform_feat). The two input
+                # coordinates cannot cancel each other: |h|^2 = a^2 + w^2.
+                # In carrier mode both coordinates project the waveform.
+                # The guarantee is conditional on the alignment; it does not
+                # imply that the full nonlinear tokenizer is invertible.
+                carrier = torch.complex(amplitude_feat, waveform_feat)
+                if self.waveform_modulation == "anchored":
+                    # Identity at initialization; |g|<0.5 keeps |1+g*u|>=0.5.
+                    # Bounded complex rotation, not an additive feature bypass.
+                    g = 0.5 * torch.tanh(self.modulation_gate)
+                    anchored = 1.0 + g * unit_phase
+                    unit_phase = anchored / anchored.abs().clamp_min(1e-6)
+                return carrier * unit_phase
             return amplitude_feat.to(unit_phase.dtype) * unit_phase
         # concat: expose the same ingredients, let a learned projection combine
         # them. Real, already at the token width (hidden_dim), no view_as_real
@@ -502,7 +587,7 @@ class TriAxialFrontend(nn.Module):
         )
         return self.concat_proj(feat)
 
-    def _interaction_tokens(self, phase_unit, amplitude, pac_vectors):
+    def _interaction_tokens(self, phase_unit, amplitude, pac_vectors, filtered=None):
         """Analytic phase/amplitude -> real interleaved PAC interaction tokens.
 
         ``pac_vectors`` is a list, one coupling tensor per PAC window. The
@@ -518,8 +603,15 @@ class TriAxialFrontend(nn.Module):
         # over the trailing K axis and no longer needs view(1, -1, 1).
         pr = _patch_project(self.phase_tokenizer, phase_unit.real.reshape(flat_shape))
         pi = _patch_project(self.phase_tokenizer, phase_unit.imag.reshape(flat_shape))
+        amplitude_input = torch.log1p(amplitude)
+        if self.waveform_modulation in ("carrier", "anchored"):
+            if filtered is None:
+                raise ValueError("carrier modulation needs the filtered waveform")
+            # Legacy parameter names retained for checkpoint provenance: this
+            # projection now carries raw waveform coordinates, not envelopes.
+            amplitude_input = filtered
         amp = _patch_project(
-            self.amplitude_tokenizer, torch.log1p(amplitude).reshape(flat_shape)
+            self.amplitude_tokenizer, amplitude_input.reshape(flat_shape)
         )
         amp = amp * self.amplitude_scale
         P, K = pr.shape[1], pr.shape[2]
@@ -529,10 +621,21 @@ class TriAxialFrontend(nn.Module):
         amplitude_feat = amp.reshape(
             B, C, nb, P, K
         ).permute(0, 1, 3, 2, 4)
+        waveform_feat = None
+        if self.waveform_modulation != "none":
+            if filtered is None:
+                raise ValueError("waveform modulation needs the filtered waveform")
+            waveform_feat = _patch_project(
+                self.waveform_quadrature, filtered.reshape(flat_shape)
+            ).reshape(B, C, nb, P, K).permute(0, 1, 3, 2, 4)
+        # Keep the same parameter initialization and token grid in the ablation.
+        # A fixed zero mask removes the waveform contribution (and its gradient).
+        if waveform_feat is not None and not self.waveform_content:
+            waveform_feat = waveform_feat * 0.0
         per_scale = []
         for pac_vector in pac_vectors:
             interaction = self._pac_interaction(
-                phase_feat, amplitude_feat, pac_vector
+                phase_feat, amplitude_feat, pac_vector, waveform_feat=waveform_feat
             )
             if self.interaction_mode in ("product", "rotation"):
                 per_scale.append(torch.view_as_real(interaction).flatten(-2))
@@ -603,8 +706,13 @@ class TriAxialFrontend(nn.Module):
         pac_vector = pac_vectors[0]
         if self.tokenizer_mode == "pac_interaction":
             tokens = self._interaction_tokens(
-                phase_unit, amplitude, pac_vectors
+                phase_unit, amplitude, pac_vectors, filtered=filtered
             )
+            if self.local_residual:
+                local = _patch_project(
+                    self.local_projection, filtered.reshape(B * C * self.n_bands, T)
+                ).reshape(B, C, self.n_bands, P, -1)
+                tokens = tokens + local
         elif self.tokenizer_mode == "duplex":
             interaction = self._interaction_tokens(
                 phase_unit, amplitude, pac_vectors
