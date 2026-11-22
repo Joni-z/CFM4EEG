@@ -27,6 +27,13 @@ def build_model(cfg: dict, input_shape: tuple[int, ...]) -> nn.Module:
     )
     kwargs.update(mk)
 
+    if name == 'biot_tfm_host':
+        from .foundation.tfm_host_adapter import build_tfm_host
+        return build_tfm_host(cfg, input_shape)
+    if name in ('biot_quad_range', 'cbramod_quad_range'):
+        from .foundation.quad_range_adapter import build_quad_host
+        return build_quad_host(cfg, input_shape)
+
     if name in LIGHT_REGISTRY:
         return LIGHT_REGISTRY[name](**kwargs)
 

@@ -51,7 +51,7 @@ class BIOTWindowDataset(Dataset):
         # BIOT utils.py, verbatim
         X = X / (np.quantile(np.abs(X), q=0.95, method="linear",
                              axis=-1, keepdims=True) + 1e-8)
-        return torch.from_numpy(X), int(self.labels[i])
+        return torch.from_numpy(X.astype(np.float32, copy=False)), int(self.labels[i])
 
     @property
     def shape(self) -> tuple[int, ...]:
