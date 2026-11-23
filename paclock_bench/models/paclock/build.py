@@ -100,6 +100,8 @@ class TriAxialPACLock(nn.Module):
                           "content_view": cfg.get("content_view", "both"),
                           "band_mix_seed": cfg.get("band_mix_seed"),
                           "envelope_pool": cfg.get("envelope_pool", "none")}
+        if cfg.get("coupling_measure", "pac") != "pac":
+            frontend_extra["coupling_measure"] = cfg["coupling_measure"]
         if (cfg.get("content_view", "both") != "both" or cfg.get("band_mix_seed") is not None
                 or cfg.get("envelope_pool", "none") != "none"):
             if (cfg.get("tokenizer_mode") != "pac_interaction"

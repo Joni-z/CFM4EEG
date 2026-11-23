@@ -51,6 +51,38 @@ def patch_pac_vector(phase_unit, amplitude, P, normalize=True):
     return Z
 
 
+def patch_aac_vector(amplitude, P, normalize=True):
+    """Amplitude--amplitude counterpart of ``patch_pac_vector`` (AAC control).
+
+    PAC:  Z_ij = E[(A_j - mean A_j) * exp(i phi_i)]        source = unit phasor
+    AAC:  R_ij = E[(A_j - mean A_j) * a_i],  a_i = (A_i - mean A_i) / rms
+
+    The source envelope is centred and scaled to unit RMS inside the window,
+    the exact analogue of the unit-modulus phasor (E|source|^2 = 1 in both).
+    Hence |Z_ij| <= std(A_j) and |R_ij| = |r_ij| std(A_j), r the Pearson
+    envelope correlation: both are a coefficient in [0, 1] times the same
+    target-envelope scale, which cancels in the row-normalised weights.
+    Same windows, same band pairs, same NORM_CONST. R is returned as a complex
+    tensor with zero imaginary part, so the unchanged alignment code reads
+    |r| as the weight and sign(r) (angle 0 or pi) as the direction.
+    Flat source windows give R = 0 and fall back exactly as PAC does.
+    The RMS floor (1e-6) matches the |z| floor of ``phase_amplitude``.
+    """
+    B, C, nb, T = amplitude.shape
+    L = T // P
+    am = amplitude[..., : P * L].reshape(B, C, nb, P, L)
+    am = am - am.mean(dim=-1, keepdim=True)
+    # Clamp BEFORE the square root (floor 1e-6, as phase_amplitude clamps |z|):
+    # a window whose centred envelope underflows to zero would otherwise give
+    # sqrt'(0) = inf and a NaN gradient through the clamp.
+    rms = am.square().mean(dim=-1, keepdim=True).clamp_min(1e-12).sqrt()
+    source = am / rms
+    R = torch.einsum("bcipl,bcjpl->bcpij", source, am) / L
+    if normalize:
+        R = R / NORM_CONST
+    return torch.complex(R, torch.zeros_like(R))
+
+
 def patch_coupling(phase_unit, amplitude, P, normalize=True):
     """Backward-compatible MVL magnitude used by the older mixers."""
     return patch_pac_vector(phase_unit, amplitude, P, normalize).abs()
@@ -120,9 +152,18 @@ class TriAxialFrontend(nn.Module):
         content_view: str = "both",
         band_mix_seed: int | None = None,
         envelope_pool: str = "none",
+        coupling_measure: str = "pac",
         **_,
     ):
         super().__init__()
+        if coupling_measure not in ("pac", "aac"):
+            raise ValueError("coupling_measure must be pac/aac")
+        if coupling_measure == "aac" and (
+            tokenizer_mode != "pac_interaction" or pac_token_mode != "measured"
+            or coupling_angle_pool != "none" or coupling_strength
+        ):
+            raise ValueError("AAC control requires plain measured pac_interaction")
+        self.coupling_measure = coupling_measure
         if waveform_modulation not in ("none", "quadrature", "carrier", "anchored"):
             raise ValueError("waveform_modulation must be none/quadrature/carrier/anchored")
         if waveform_modulation != "none" and (
@@ -740,7 +781,10 @@ class TriAxialFrontend(nn.Module):
         pac_vectors = []
         for win in self.pac_patch_lens:
             P_pac = T // win
-            pv = patch_pac_vector(phase_unit, amplitude, P_pac, self.normalize)
+            if getattr(self, "coupling_measure", "pac") == "aac":
+                pv = patch_aac_vector(amplitude, P_pac, self.normalize)
+            else:
+                pv = patch_pac_vector(phase_unit, amplitude, P_pac, self.normalize)
             if P_pac != P:
                 if P % P_pac:
                     raise ValueError(
