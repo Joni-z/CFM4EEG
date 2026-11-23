@@ -1,0 +1,123 @@
+{
+ "decision": {
+  "date": "2026-11-23",
+  "decided_by": "Zhizhe",
+  "statement": "The TUEV result of the main CfFT model (two-axis encoder, measured PAC tokens) is reported with this checkpoint.",
+  "run": "tuev-range_twoaxis_measured_20260917",
+  "seed": 2,
+  "ledger_record_id": "55ab79f81fa6a6377b3e",
+  "model_version": "cd8ca1e167e682dd",
+  "recipe_id": "d803dadf8dc80958",
+  "protocol": "shared16_29421",
+  "checkpoint_sha256": "1fb2b132f935d890373f38f47ee2b5e99c796b3d5d9b76773c74b94b3e8b1a3c",
+  "checkpoint_objects": [
+   "hf:JoniZz/CFM4EEG-checkpoint-archive/objects/1f/1fb2b132f935d890373f38f47ee2b5e99c796b3d5d9b76773c74b94b3e8b1a3c.bin",
+   "macmini:.local/legacy/checkpoints/objects/1fb2b132f935d890373f38f47ee2b5e99c796b3d5d9b76773c74b94b3e8b1a3c.pt"
+  ],
+  "training_host": "amd (AMD Instinct MI210), 2026-09",
+  "selected_epoch": 5,
+  "n_params": 1224486,
+  "config": "configs/model/tuev-scratch.yaml model and training settings with seed 2",
+  "test": {
+   "accuracy": 0.853438020461575,
+   "balanced_acc": 0.6404086001364933,
+   "cohen_kappa": 0.7133501595311308,
+   "weighted_f1": 0.8513354365844765
+  },
+  "val": {
+   "accuracy": 0.9193517143410602,
+   "balanced_acc": 0.597959910457493,
+   "cohen_kappa": 0.638659736704347,
+   "weighted_f1": 0.9260022896400284
+  },
+  "selection_rule": "Of seeds 0-2 of the same configuration, seed 2 has the highest validation kappa; the choice coincides with selecting the seed by validation kappa."
+ },
+ "seeds": {
+  "s0": {
+   "ledger_record_id": "491c3b552f8c14fbfcad",
+   "checkpoint_sha256": "e6529e504aeb76b541d9e9090914baf98ad625415591f8e913a0cfdbcca1a0bb",
+   "val_kappa": 0.6259568632307199,
+   "test": {
+    "accuracy": 0.8338601679072771,
+    "balanced_acc": 0.6365798504083086,
+    "cohen_kappa": 0.6846006668809144,
+    "weighted_f1": 0.8357549585219306
+   }
+  },
+  "s1": {
+   "ledger_record_id": "930fc363622fe0f4f996",
+   "checkpoint_sha256": "1d623bc45390c0cd03d846153ab381f2e7a4a54e34591ba18f286384a4ab3f7a",
+   "val_kappa": 0.5970835765930014,
+   "test": {
+    "accuracy": 0.8480677067400836,
+    "balanced_acc": 0.5781951533383701,
+    "cohen_kappa": 0.6985257285616708,
+    "weighted_f1": 0.838584147636154
+   }
+  },
+  "s2": {
+   "ledger_record_id": "55ab79f81fa6a6377b3e",
+   "checkpoint_sha256": "1fb2b132f935d890373f38f47ee2b5e99c796b3d5d9b76773c74b94b3e8b1a3c",
+   "val_kappa": 0.638659736704347,
+   "test": {
+    "accuracy": 0.853438020461575,
+    "balanced_acc": 0.6404086001364933,
+    "cohen_kappa": 0.7133501595311308,
+    "weighted_f1": 0.8513354365844765
+   }
+  }
+ },
+ "three_seed_test_kappa": {
+  "mean": 0.698825518324572,
+  "sd_sample": 0.014377090711881431
+ },
+ "reproduction": {
+  "job": "torch 24157292",
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "torch": "2.8.0+cu128",
+  "loading": "strict state_dict",
+  "code": "main f656e28 plus the AAC option, which this configuration does not enable",
+  "input_contract": {
+   "data_root": "/scratch/zz5070/CFM4EEG-rebuild-20261021/data/processed/tuev",
+   "manifest_sha256": "5fd1f6a4162aecc165a53a9de38832f5e9c81e02c2e201704ee41032c184f661",
+   "sample_rate": 200,
+   "stored_normalization": "div100",
+   "stored_units": null,
+   "loader": "shared",
+   "train_drop_last": false,
+   "loader_signal_mode": "stored"
+  },
+  "data_manifest_created": "2026-08-05T01:56:41.969236+00:00",
+  "test_kappa_minus_recorded": {
+   "s0": 0.0,
+   "s1": 0.0,
+   "s2": 0.0
+  },
+  "result_sha256": "c122d13b6c30c73f482d550b09be7f21c38023d3e6449b44dffd080df9b31365",
+  "script_sha256": "89c080d1d86b2e248179bf77e0d43929090854c5f84c2942af5ba0cdabcddfd4"
+ },
+ "training_code_equivalence": {
+  "reference": ".local/legacy/code/twoaxis-runtime (amd training source captured 2026-09-19, including uncommitted changes)",
+  "current": "main plus the AAC option",
+  "device": "Torch CPU",
+  "probe": "seed 2 build, one train-mode forward/backward on a fixed batch (seed 7), eval forward",
+  "init_keys_equal": true,
+  "init_max_abs_diff": 0.0,
+  "n_params": 1224782,
+  "train_logits_max_abs_diff": 0.0,
+  "loss_amd": 1.5180388689041138,
+  "loss_now": 1.5180388689041138,
+  "grad_keys_equal": true,
+  "grad_max_abs_diff": 0.0,
+  "eval_logits_max_abs_diff": 0.0,
+  "py_random_after_equal": true,
+  "sha256": {
+   "amd.pt": "76215c0fed2f9072ea955910476c04023d83231b71c9aa24d52dfaad10dde408",
+   "now.pt": "5e2f9d6430d94e78afedd5481a5abdef49d82aefd40dc30f7367c146e20623e9",
+   "equiv_probe.py": "abd600eeeec7071e6f2e7e02f5400f183db6d6487d0964fe3bc08a0ed057ffdf"
+  }
+ },
+ "torch_rerun": {
+  "note": "Same configuration retrained on Torch A100 (job 24096065) gives test kappa 0.6736; see cfft-aac-control-20261123.json. New Torch runs compare with that rerun, not with this checkpoint."
+ }
+}

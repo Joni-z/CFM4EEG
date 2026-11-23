@@ -4,11 +4,11 @@
 
 **[下载完整实验工作簿](Experiment-Records.xlsx)** · [模型版本](models.csv) · [算子与表征实验](studies.csv) · [checkpoint 索引](checkpoints.csv) · [待核对记录](conflicts.csv)
 
-本次索引生成时间：`2026-11-22T21:54:19.453807+08:00`。共 **2685** 条运行/评估记录、**269** 个模型版本。生成索引不代表重新查询了集群任务，采集范围见 [summary.json](summary.json)。
+本次索引生成时间：`2026-11-23T19:51:07.539635+08:00`。共 **2687** 条运行/评估记录、**270** 个模型版本。生成索引不代表重新查询了集群任务，采集范围见 [summary.json](summary.json)。
 
 | 数据集 | 记录数 | 下载 |
 |---|---:|---|
-| [TUEV](datasets/tuev.md) | 448 | [CSV](datasets/tuev.csv) |
+| [TUEV](datasets/tuev.md) | 450 | [CSV](datasets/tuev.csv) |
 | [CHB-MIT](datasets/chbmit.md) | 233 | [CSV](datasets/chbmit.csv) |
 | [IIIC](datasets/iiic.md) | 206 | [CSV](datasets/iiic.csv) |
 | [TUSZ](datasets/tusz.md) | 211 | [CSV](datasets/tusz.csv) |

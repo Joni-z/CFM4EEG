@@ -1,0 +1,203 @@
+{
+ "date": "2026-11-23",
+ "dataset": "tuev",
+ "protocol": "shared16_29421",
+ "host": "Torch a100_tandon (NVIDIA A100-SXM4-80GB)",
+ "change": "model_kwargs.coupling_measure: aac (configs/model/tuev-aac-control.yaml); everything else as configs/model/tuev-scratch.yaml, seed 2",
+ "definition": {
+  "pac": "Z_ij = E[(A_j - mean A_j) exp(i phi_i)] / 100 per 50-sample window",
+  "aac": "R_ij = E[(A_j - mean A_j) a_i] / 100, a_i = centred source envelope at unit RMS; real, so |r| is the weight and sign(r) the direction in the unchanged alignment"
+ },
+ "same_parameters_and_initialization": true,
+ "source_sha256": {
+  "v1": "ddf660e465fb21e5e3ead07abf7c3a0c34d74e4c36a748a772290baf7cff21d4",
+  "v2": "9d95c19ddc96584b35f8b16ed7ceb84027041f1a9b896adf314fc13e70a17ffc"
+ },
+ "source_note": "v2 (2026-11-23): patch_aac_vector clamps mean-square before sqrt; fixes NaN grad when a window envelope underflows. PAC path unchanged; PAC control 24096065 started on v1.",
+ "failed_attempt": {
+  "job": "torch 24096066",
+  "reason": "NaN gradient from sqrt(0) when a centred envelope window underflows; fixed in v2 by clamping the mean square before sqrt"
+ },
+ "runs": {
+  "pac": {
+   "job": "torch 24096065",
+   "run": "tuev-twoaxis_pac_torch_20261123",
+   "seed": 2,
+   "n_params_M": 1.224486,
+   "test": {
+    "accuracy": 0.8255667720335814,
+    "balanced_acc": 0.6374308554541451,
+    "cohen_kappa": 0.6735678119278282,
+    "weighted_f1": 0.8283674427763561
+   },
+   "best_val": 0.60875434292356,
+   "selected_epoch": 3,
+   "epochs_run": 20,
+   "wall_time_sec": 10921.15461397171,
+   "recall": {
+    "SPSW": 0.042328042328042326,
+    "GPED": 0.8017960230917255,
+    "PLED": 0.6541541541541541,
+    "EYEM": 0.7750759878419453,
+    "ARTF": 0.6606170598911071,
+    "BCKG": 0.8906138654178968
+   },
+   "result_sha256": "a6a686b090335161e1ab2dc41fe931b406af9f2c230cc012e1f91d8f8947c45c",
+   "test_scores_sha256": "4d2ac9a7ac6f3a0b421b1b1acb0e7d7546ac422b34d671d4babc942c48843c1f",
+   "checkpoint_sha256": "65ae2aef30a505e1b62c79cc5e6eca3627ebd23f77490a5ab1e995a6f889c86f",
+   "config": {
+    "batch_size": 32,
+    "data_root": "$PACLOCK_PROC/processed/tuev",
+    "dataset": "tuev",
+    "device": "cuda",
+    "epochs": 20,
+    "eval_every_steps": 0,
+    "grad_clip": 1.0,
+    "group": "aac_control_20261123",
+    "label_smoothing": 0.1,
+    "loss": "cross_entropy",
+    "lr": 0.0001,
+    "max_hours": 11.5,
+    "model": "paclock",
+    "model_kwargs": {
+     "arch": "triaxial",
+     "augmentations": [
+      "flip0.5",
+      "jitter0.05",
+      "mask0.2",
+      "channel0.2",
+      "frequency0.2"
+     ],
+     "band_pe": "index",
+     "d_model": 128,
+     "depth": 6,
+     "dropout": 0.35,
+     "filter_range": [
+      0.5,
+      75.0
+     ],
+     "freq_mixer": "none",
+     "interaction_mode": "rotation",
+     "kernel_size": 201,
+     "n_bands": 16,
+     "n_heads": 4,
+     "pac_patch_len": 50,
+     "pac_token_mode": "measured",
+     "patch_len": 50,
+     "space_over_bands": true,
+     "spatial_pe": "xyz",
+     "tokenizer_mode": "pac_interaction",
+     "waveform_modulation": "quadrature"
+    },
+    "name": "tuev-twoaxis_pac_torch_20261123",
+    "num_classes": 6,
+    "num_workers": 4,
+    "optimizer": "adamw",
+    "patience": 20,
+    "sample_rate": 200,
+    "scheduler": "cosine",
+    "seed": 2,
+    "weight_decay": 0.05
+   }
+  },
+  "aac": {
+   "job": "torch 24097362",
+   "run": "tuev-twoaxis_aac_torch_20261123",
+   "seed": 2,
+   "n_params_M": 1.224486,
+   "test": {
+    "accuracy": 0.8159817817205397,
+    "balanced_acc": 0.5736770900031305,
+    "cohen_kappa": 0.6420840277115456,
+    "weighted_f1": 0.8145720574007738
+   },
+   "best_val": 0.5761944042580711,
+   "selected_epoch": 4,
+   "epochs_run": 20,
+   "wall_time_sec": 10911.948552131653,
+   "recall": {
+    "SPSW": 0.14462081128747795,
+    "GPED": 0.790463972632029,
+    "PLED": 0.3788788788788789,
+    "EYEM": 0.6352583586626139,
+    "ARTF": 0.5771324863883848,
+    "BCKG": 0.9157080321693983
+   },
+   "result_sha256": "f58c28b262a1567ef11a27ce7f4a1a181f97f25a9cf3bc90fff15cb7abf687fc",
+   "test_scores_sha256": "ffae2dc693aff9ac45e3e950efc079fe2ad2d86de2cf6ba255437290262b6525",
+   "checkpoint_sha256": "3719f200edc8e2e735dd0ad22c5fb92609c811771a60e2b98c6a207b3e37834f",
+   "config": {
+    "batch_size": 32,
+    "data_root": "$PACLOCK_PROC/processed/tuev",
+    "dataset": "tuev",
+    "device": "cuda",
+    "epochs": 20,
+    "eval_every_steps": 0,
+    "grad_clip": 1.0,
+    "group": "aac_control_20261123",
+    "label_smoothing": 0.1,
+    "loss": "cross_entropy",
+    "lr": 0.0001,
+    "max_hours": 11.5,
+    "model": "paclock",
+    "model_kwargs": {
+     "arch": "triaxial",
+     "augmentations": [
+      "flip0.5",
+      "jitter0.05",
+      "mask0.2",
+      "channel0.2",
+      "frequency0.2"
+     ],
+     "band_pe": "index",
+     "d_model": 128,
+     "depth": 6,
+     "dropout": 0.35,
+     "filter_range": [
+      0.5,
+      75.0
+     ],
+     "freq_mixer": "none",
+     "interaction_mode": "rotation",
+     "kernel_size": 201,
+     "n_bands": 16,
+     "n_heads": 4,
+     "pac_patch_len": 50,
+     "pac_token_mode": "measured",
+     "coupling_measure": "aac",
+     "patch_len": 50,
+     "space_over_bands": true,
+     "spatial_pe": "xyz",
+     "tokenizer_mode": "pac_interaction",
+     "waveform_modulation": "quadrature"
+    },
+    "name": "tuev-twoaxis_aac_torch_20261123",
+    "num_classes": 6,
+    "num_workers": 4,
+    "optimizer": "adamw",
+    "patience": 20,
+    "sample_rate": 200,
+    "scheduler": "cosine",
+    "seed": 2,
+    "weight_decay": 0.05
+   }
+  }
+ },
+ "paired_bootstrap": {
+  "resamples": 2000,
+  "rng": "numpy default_rng(0)",
+  "unit": "test window (no subject ids available)",
+  "kappa_diff": 0.03148378421628262,
+  "kappa_ci95": [
+   0.023505362560121673,
+   0.039250796592412214
+  ],
+  "bacc_diff": 0.06375376545101463,
+  "bacc_ci95": [
+   0.0514631044264271,
+   0.07609797355036632
+  ],
+  "note": "test-sample uncertainty only; seed variance not included"
+ },
+ "caveat": "Single seed. Bootstrap covers test windows only; seed SD of test kappa for this configuration on amd is 0.014."
+}

@@ -2,7 +2,7 @@
 
 [返回总入口](../README.md)
 
-共 448 条记录。[完整精度及来源 CSV](tuev.csv)。
+共 450 条记录。[完整精度及来源 CSV](tuev.csv)。
 同一表中的数据协议、模型版本和训练配置可能不同，请先核对协议；本页不选择最佳 seed、不合并跨协议成绩。
 空白表示原记录缺失；没有测试结果的训练记录保留空白。显示六位小数，CSV 保留原始精度。
 
@@ -74,7 +74,7 @@
 | `b100705fff8141f10372` | st_transformer<br>tuev-st_transformer | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.479248 |  |  |  | 0.457732 | 0.731769 |
 | `7122d48bd073c920f2b5` | tfm<br>tuev-tfm_single_rebuild20261021 | pretrained | 0 | completed_record<br>clinical_run | 0.599408 |  |  |  | 0.567544 | 0.790529 |
 
-## shared16_29421（383 条）
+## shared16_29421（385 条）
 
 | 记录 ID | 模型 / run | 初始化 | seed | 状态 / 类型 | κ | PR-AUC | AP | AUROC | Bal. acc. | wF1 |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|
@@ -167,6 +167,8 @@
 | `55ab79f81fa6a6377b3e` | Quad-Range<br>tuev-range_twoaxis_measured_20260917 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.713350 |  |  |  | 0.640409 | 0.851335 |
 | `0035fa1c6db4a0bbf446` | Quad-Range<br>tuev-range_twoaxis_measured_m200_20260917 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.706164 |  |  |  | 0.635669 | 0.841238 |
 | `ae8220545f4e9e44a635` | Quad-Range<br>tuev-range_twoaxis_measured_poolangle_20260917 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.682492 |  |  |  | 0.640065 | 0.836696 |
+| `a4b42d8360b7d150f3ce` | Quad-Range<br>tuev-twoaxis_aac_torch_20261123 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.642084 |  |  |  | 0.573677 | 0.814572 |
+| `45f54552dcdcf8d5522b` | Quad-Range<br>tuev-twoaxis_pac_torch_20261123 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.673568 |  |  |  | 0.637431 | 0.828367 |
 | `4dc13fd17715cc6b15ec` | Quad-Range / envelope-only<br>tuev-quad_range_envelope_20260916 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.713653 |  |  |  | 0.596117 | 0.844064 |
 | `04d318392c5f3a6b3460` | Quad-Range / envelope-only<br>tuev-range_twoaxis_envelope_20260917 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.703625 |  |  |  | 0.626928 | 0.842453 |
 | `4c813e71163a7d59a2a6` | Quad-Range / geometric:aligned<br>tuev-cfft_geo_transport_20261016 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.696942 |  |  |  | 0.636565 | 0.840546 |
