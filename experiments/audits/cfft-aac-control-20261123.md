@@ -34,3 +34,16 @@ PAC − AAC：κ +0.0315（95% 区间 [0.0235, 0.0393]），balanced acc +0.0638
 - 特征层面的同类比较见 [Power、PAC 与 AAC 的特征增量](pac-power-increment-20261123.md)。
 
 [完整数值、配置与哈希](cfft-aac-control-20261123.json)
+
+## 四个数据集的配对训练（2026-11-24 提交）
+
+四项 AAC 使用 seed 0，各自沿用已完成的双轴 PAC 运行的训练配置，将 `coupling_measure` 设为 `aac`。下表给出提交记录和历史 PAC 测试分数。
+
+| 数据集 | 主指标 | PAC 对照 | PAC 记录 | Torch AAC job |
+|---|---|---:|---|---:|
+| TUSZ | AUC-PR | 0.6581 | [`3a0d527cd2686f53f7ea`](../datasets/tusz.md) | 24339795 |
+| IIIC | κ | 0.4665 | [`5debb59344678e8d4308`](../datasets/iiic.md) | 24339803 |
+| ISRUC | κ | 0.7680 | [`bb3b9758768984586dd5`](../datasets/isruc.md) | 24339807 |
+| CHB-MIT | AUC-PR | 0.6047 | [`48fea7d9a2325051cf61`](../datasets/chbmit.md) | 24339810 |
+
+CHB-MIT 沿用该 PAC 运行的富集划分（测试集 17,386 窗口，276 个阳性）。ISRUC 按单个 30 秒 epoch 评估，共 8,700 个测试 epoch。提交前逐项核对了三份划分的类别计数及数据清单的创建时间。
