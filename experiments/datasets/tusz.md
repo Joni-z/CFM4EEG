@@ -2,11 +2,11 @@
 
 [返回总入口](../README.md)
 
-共 211 条记录。[完整精度及来源 CSV](tusz.csv)。
+共 212 条记录。[完整精度及来源 CSV](tusz.csv)。
 同一表中的数据协议、模型版本和训练配置可能不同，请先核对协议；本页不选择最佳 seed、不合并跨协议成绩。
 空白表示原记录缺失；没有测试结果的训练记录保留空白。显示六位小数，CSV 保留原始精度。
 
-## protocol_not_bound（211 条）
+## protocol_not_bound（212 条）
 
 | 记录 ID | 模型 / run | 初始化 | seed | 状态 / 类型 | κ | PR-AUC | AP | AUROC | Bal. acc. | wF1 |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|
@@ -78,6 +78,7 @@
 | `fe105efd26acdd4496ba` | Quad-Range<br>tusz-quad_range_20260916 | not_explicitly_recorded | 0 | completed_record<br>clinical_run |  | 0.673971 |  | 0.928283 | 0.614694 |  |
 | `3a0d527cd2686f53f7ea` | Quad-Range<br>tusz-range_twoaxis_measured_20260917 | not_explicitly_recorded | 0 | completed_record<br>clinical_run |  | 0.658069 |  | 0.924474 | 0.667596 |  |
 | `d82efb2ce207b7185258` | Quad-Range<br>tusz-range_twoaxis_measured_m200_20260917 | not_explicitly_recorded | 0 | completed_record<br>clinical_run |  | 0.646058 |  | 0.920029 | 0.694407 |  |
+| `ca8c8b2ed0c1a0124e1b` | Quad-Range<br>tusz-twoaxis_aac_torch_20261124 | not_explicitly_recorded | 0 | completed_record<br>clinical_run |  | 0.642676 | 0.642726 | 0.923600 | 0.583791 |  |
 | `9d7a7f7794f56c8bbefb` | Quad16<br>tusz-quad16_breadth_20260915 | not_explicitly_recorded | 0 | completed_record<br>clinical_run |  | 0.698346 |  | 0.932790 | 0.605047 |  |
 | `944c884ca75e79e8557f` | Quad16<br>tusz-quad16_breadth_20260915 | not_explicitly_recorded | 1 | completed_record<br>clinical_run |  | 0.633522 |  | 0.904791 | 0.621970 |  |
 | `c9a7375bea2071df1ce9` | Quad16<br>tusz-quad16_breadth_20260915 | not_explicitly_recorded | 2 | completed_record<br>clinical_run |  | 0.510172 |  | 0.893315 | 0.505992 |  |

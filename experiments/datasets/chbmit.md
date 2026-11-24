@@ -2,11 +2,11 @@
 
 [返回总入口](../README.md)
 
-共 233 条记录。[完整精度及来源 CSV](chbmit.csv)。
+共 234 条记录。[完整精度及来源 CSV](chbmit.csv)。
 同一表中的数据协议、模型版本和训练配置可能不同，请先核对协议；本页不选择最佳 seed、不合并跨协议成绩。
 空白表示原记录缺失；没有测试结果的训练记录保留空白。显示六位小数，CSV 保留原始精度。
 
-## legacy_enriched_17386（210 条）
+## legacy_enriched_17386（211 条）
 
 | 记录 ID | 模型 / run | 初始化 | seed | 状态 / 类型 | κ | PR-AUC | AP | AUROC | Bal. acc. | wF1 |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|
@@ -60,6 +60,7 @@
 | `6a19b026c49c0413bccb` | Quad-Range<br>chbmit-quad_range_Z5s_20260916 | not_explicitly_recorded | 0 | completed_record<br>clinical_run |  | 0.617915 |  | 0.891198 | 0.586840 |  |
 | `48fea7d9a2325051cf61` | Quad-Range<br>chbmit-range_twoaxis_measured_20260917 | not_explicitly_recorded | 0 | completed_record<br>clinical_run |  | 0.604655 |  | 0.912784 | 0.552449 |  |
 | `b9cffac1c80c09aa3090` | Quad-Range<br>chbmit-range_twoaxis_measured_20260917 | not_explicitly_recorded | 2 | completed_record<br>clinical_run |  | 0.623756 |  | 0.896857 | 0.630230 |  |
+| `33d4496eb15ae337a2e4` | Quad-Range<br>chbmit-twoaxis_aac_torch_20261124 | not_explicitly_recorded | 0 | completed_record<br>clinical_run |  | 0.576769 | 0.577748 | 0.891255 | 0.528927 |  |
 | `31e3bcecae3fd2778b94` | Quad-Range / envelope-only<br>chbmit-quad_range_envelope_20260916 | not_explicitly_recorded | 2 | completed_record<br>clinical_run |  | 0.543221 |  | 0.900020 | 0.588680 |  |
 | `4b11e341c0f71ff8bc71` | Quad-Range / envelope-only<br>chbmit-range_twoaxis_envelope_20260917 | not_explicitly_recorded | 2 | completed_record<br>clinical_run |  | 0.561782 |  | 0.906614 | 0.590492 |  |
 | `25e0261048bd218f4b63` | Quad-Range / identity<br>chbmit-legacy-triaxial-identity-20261105 | not_explicitly_recorded | 2 | completed_record<br>clinical_run |  | 0.699413 | 0.701707 | 0.917884 | 0.630318 |  |

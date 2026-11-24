@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "clinical_records": 2687,
+  "clinical_records": 2691,
   "dataset_pages": 19,
   "every_record_exported_once": true,
   "compact_csv_values_exact": true,

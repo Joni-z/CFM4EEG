@@ -199,5 +199,591 @@
   ],
   "note": "test-sample uncertainty only; seed variance not included"
  },
- "caveat": "Single seed. Bootstrap covers test windows only; seed SD of test kappa for this configuration on amd is 0.014."
+ "caveat": "Single seed. Bootstrap covers test windows only; seed SD of test kappa for this configuration on amd is 0.014.",
+ "extended_20261124": {
+  "host": "Torch a100_tandon, account torch_pr_637_tandon_priority",
+  "source_commit": "644d993ce711672dd56673c9bcbfe7028f6ef0a7",
+  "source_tar_sha256": "ba8e64cd6e9bb8d950596cfc52545a8aea55fc1ae7141e2d31f505a697c60220",
+  "change": "Each config equals its paired PAC run config except coupling_measure: aac, name, group and save_checkpoint.",
+  "pac_reference": "Existing seed-0 two-axis measured records (TUSZ, IIIC, ISRUC on amd; CHB-MIT on 145); not rerun on Torch.",
+  "runs": {
+   "tusz": {
+    "job": "torch 24339795",
+    "run": "tusz-twoaxis_aac_torch_20261124",
+    "seed": 0,
+    "primary_metric": "pr_auc",
+    "pac_record": "3a0d527cd2686f53f7ea",
+    "pac_run": "tusz-range_twoaxis_measured_20260917",
+    "pac_source": "amd:/home1/yifanwang/CFM4EEG-twoaxis-20260917/runs/tusz-range_twoaxis_measured_20260917/seed0/result.json",
+    "pac_test": {
+     "auroc": 0.9244743045008311,
+     "balanced_acc": 0.6675962871938271,
+     "pr_auc": 0.6580685782618662
+    },
+    "pac_best_val": 0.34427303400308595,
+    "pac_epochs_run": 2,
+    "pac_stopped_by": "patience",
+    "aac_test": {
+     "accuracy": 0.9504241608990909,
+     "balanced_acc": 0.5837905793469609,
+     "pr_auc": 0.6426755616620424,
+     "average_precision": 0.6427263111568791,
+     "auroc": 0.9235997647361821
+    },
+    "aac_best_val": 0.3718199978242767,
+    "aac_epochs_run": 3,
+    "aac_stopped_by": "patience",
+    "aac_n_params_M": 1.22397,
+    "aac_wall_time_sec": 27939.280692338943,
+    "test_windows": 46091,
+    "pac_minus_aac": 0.015393016599823728,
+    "result_sha256": "60ce53eebd03b381d33a33a78899d7d06c0e78a6b6e47c0b262a3d1b08cada04",
+    "test_scores_sha256": "7a07f2f04d8e1fc821bc7783f829118ea68ed0399a0e80fef458755089a35f6a",
+    "checkpoint_sha256": "8bb984cd892f67f01ec874e7bd111278d475d0a2ff9b040b944e8f9b041161c7",
+    "config": {
+     "name": "tusz-twoaxis_aac_torch_20261124",
+     "group": "aac_control_20261124",
+     "dataset": "tusz",
+     "data_root": "$PACLOCK_PROC/processed/tusz",
+     "model": "paclock",
+     "optimizer": "adamw",
+     "lr": 0.0001,
+     "weight_decay": 0.05,
+     "scheduler": "cosine",
+     "grad_clip": 1.0,
+     "num_workers": 4,
+     "device": "cuda",
+     "num_classes": 2,
+     "epochs": 20,
+     "batch_size": 32,
+     "eval_every_steps": 200,
+     "patience": 20,
+     "loss": "bce_with_logits",
+     "sample_rate": 200,
+     "model_kwargs": {
+      "filter_range": [
+       0.5,
+       75.0
+      ],
+      "arch": "triaxial",
+      "d_model": 128,
+      "depth": 6,
+      "n_bands": 16,
+      "n_heads": 4,
+      "dropout": 0.35,
+      "kernel_size": 201,
+      "patch_len": 50,
+      "augmentations": [
+       "flip0.5",
+       "jitter0.05",
+       "mask0.2",
+       "channel0.2",
+       "frequency0.2"
+      ],
+      "freq_mixer": "none",
+      "band_pe": "index",
+      "tokenizer_mode": "pac_interaction",
+      "pac_token_mode": "measured",
+      "interaction_mode": "rotation",
+      "spatial_pe": "xyz",
+      "pac_patch_len": 50,
+      "waveform_modulation": "quadrature",
+      "space_over_bands": true,
+      "coupling_measure": "aac"
+     },
+     "seed": 0,
+     "max_hours": 11.0,
+     "val_subsample": 20000,
+     "save_checkpoint": true
+    },
+    "data_check": {
+     "manifest_created": "2026-08-04T12:04:53.501948+00:00",
+     "class_counts": {
+      "train": [
+       313196,
+       13472
+      ],
+      "val": [
+       153259,
+       3136
+      ],
+      "test": [
+       43364,
+       2727
+      ]
+     }
+    }
+   },
+   "iiic": {
+    "job": "torch 24339803",
+    "run": "iiic-twoaxis_aac_torch_20261124",
+    "seed": 0,
+    "primary_metric": "cohen_kappa",
+    "pac_record": "5debb59344678e8d4308",
+    "pac_run": "iiic-range_twoaxis_measured_20260917",
+    "pac_source": "amd:/home1/yifanwang/CFM4EEG-twoaxis-20260917/runs/iiic-range_twoaxis_measured_20260917/seed0/result.json",
+    "pac_test": {
+     "balanced_acc": 0.5522072464087671,
+     "cohen_kappa": 0.46650906169073303,
+     "weighted_f1": 0.5563194892828927
+    },
+    "pac_best_val": 0.5387612547710378,
+    "pac_epochs_run": 20,
+    "pac_stopped_by": "epochs",
+    "aac_test": {
+     "accuracy": 0.5743979721166033,
+     "balanced_acc": 0.5706402286407161,
+     "cohen_kappa": 0.4852226145638614,
+     "weighted_f1": 0.5711331634916195
+    },
+    "aac_best_val": 0.5471630977987653,
+    "aac_epochs_run": 20,
+    "aac_stopped_by": "epochs",
+    "aac_n_params_M": 1.224486,
+    "aac_wall_time_sec": 21790.357393741608,
+    "test_windows": 15780,
+    "pac_minus_aac": -0.01871355287312837,
+    "result_sha256": "d44cb46fb185d9bcd37eeeb271af72ad34f1d14cb6c7f910a96af35a23d5a516",
+    "test_scores_sha256": "95eaf6ba7d1a77e6875bcf14df9aae780918a653c640fa19151f21a4cfd82fdd",
+    "checkpoint_sha256": "a5197ea9cd028f2e3bbec1fa1e3d56f7d01fb15d0f406ebb38a4346ac40865c2",
+    "config": {
+     "name": "iiic-twoaxis_aac_torch_20261124",
+     "group": "aac_control_20261124",
+     "dataset": "iiic",
+     "data_root": "$PACLOCK_PROC/processed/iiic",
+     "model": "paclock",
+     "optimizer": "adamw",
+     "lr": 0.0001,
+     "weight_decay": 0.05,
+     "scheduler": "cosine",
+     "grad_clip": 1.0,
+     "num_workers": 4,
+     "device": "cuda",
+     "num_classes": 6,
+     "epochs": 20,
+     "batch_size": 32,
+     "eval_every_steps": 0,
+     "patience": 20,
+     "loss": "cross_entropy",
+     "label_smoothing": 0.1,
+     "sample_rate": 200,
+     "model_kwargs": {
+      "filter_range": [
+       0.5,
+       75.0
+      ],
+      "arch": "triaxial",
+      "d_model": 128,
+      "depth": 6,
+      "n_bands": 16,
+      "n_heads": 4,
+      "dropout": 0.35,
+      "kernel_size": 201,
+      "patch_len": 50,
+      "augmentations": [
+       "flip0.5",
+       "jitter0.05",
+       "mask0.2",
+       "channel0.2",
+       "frequency0.2"
+      ],
+      "freq_mixer": "none",
+      "band_pe": "index",
+      "tokenizer_mode": "pac_interaction",
+      "pac_token_mode": "measured",
+      "interaction_mode": "rotation",
+      "spatial_pe": "xyz",
+      "pac_patch_len": 50,
+      "waveform_modulation": "quadrature",
+      "space_over_bands": true,
+      "coupling_measure": "aac"
+     },
+     "seed": 0,
+     "max_hours": 11.0,
+     "save_checkpoint": true
+    },
+    "data_check": {
+     "manifest_created": "2026-08-26T03:32:57.096698+00:00",
+     "class_counts": {
+      "train": [
+       13536,
+       14426,
+       10460,
+       11212,
+       11236,
+       12767
+      ],
+      "val": [
+       2901,
+       3092,
+       2240,
+       2402,
+       2407,
+       2736
+      ],
+      "test": [
+       2900,
+       3091,
+       2244,
+       2402,
+       2407,
+       2736
+      ]
+     }
+    }
+   },
+   "isruc": {
+    "job": "torch 24339807",
+    "run": "isruc-twoaxis_aac_torch_20261124",
+    "seed": 0,
+    "primary_metric": "cohen_kappa",
+    "pac_record": "bb3b9758768984586dd5",
+    "pac_run": "isruc-range_twoaxis_measured_20260917",
+    "pac_source": "amd:/home1/yifanwang/CFM4EEG-twoaxis-20260917/runs/isruc-range_twoaxis_measured_20260917/seed0/result.json",
+    "pac_test": {
+     "balanced_acc": 0.7921116413473286,
+     "cohen_kappa": 0.7680455115733614,
+     "weighted_f1": 0.8197528827375351
+    },
+    "pac_best_val": 0.7487689749899438,
+    "pac_epochs_run": 20,
+    "pac_stopped_by": "epochs",
+    "aac_test": {
+     "accuracy": 0.8045977011494253,
+     "balanced_acc": 0.7774254132691132,
+     "cohen_kappa": 0.7446197387910598,
+     "weighted_f1": 0.7997406846487534
+    },
+    "aac_best_val": 0.7443988853363185,
+    "aac_epochs_run": 20,
+    "aac_stopped_by": "epochs",
+    "aac_n_params_M": 1.207717,
+    "aac_wall_time_sec": 21307.93463397026,
+    "test_windows": 8700,
+    "pac_minus_aac": 0.023425772782301624,
+    "result_sha256": "19346b29cf8be34d609f3df7bf8e13e528c1c285ef02987e58dd004f94a2e218",
+    "test_scores_sha256": "e8ab3749b3df09e73bef4456b75235cc3f73c4e6d6d43d43e82a857d26dad341",
+    "checkpoint_sha256": "232e1774459b77ece4eaed38c715375a6839df2bee129a85e418751b621a9bbb",
+    "config": {
+     "name": "isruc-twoaxis_aac_torch_20261124",
+     "group": "aac_control_20261124",
+     "dataset": "isruc",
+     "data_root": "$PACLOCK_PROC/processed/isruc",
+     "model": "paclock",
+     "optimizer": "adamw",
+     "lr": 0.0001,
+     "weight_decay": 0.05,
+     "scheduler": "cosine",
+     "grad_clip": 1.0,
+     "num_workers": 4,
+     "device": "cuda",
+     "num_classes": 5,
+     "epochs": 20,
+     "batch_size": 32,
+     "eval_every_steps": 0,
+     "patience": 20,
+     "loss": "cross_entropy",
+     "label_smoothing": 0.1,
+     "sample_rate": 200,
+     "model_kwargs": {
+      "filter_range": [
+       0.5,
+       75.0
+      ],
+      "arch": "triaxial",
+      "d_model": 128,
+      "depth": 6,
+      "n_bands": 16,
+      "n_heads": 4,
+      "dropout": 0.35,
+      "kernel_size": 201,
+      "patch_len": 50,
+      "augmentations": [
+       "flip0.5",
+       "jitter0.05",
+       "mask0.2",
+       "channel0.2",
+       "frequency0.2"
+      ],
+      "freq_mixer": "none",
+      "band_pe": "index",
+      "tokenizer_mode": "pac_interaction",
+      "pac_token_mode": "measured",
+      "interaction_mode": "rotation",
+      "spatial_pe": "index",
+      "pac_patch_len": 50,
+      "waveform_modulation": "quadrature",
+      "space_over_bands": true,
+      "coupling_measure": "aac"
+     },
+     "seed": 0,
+     "max_hours": 0,
+     "flatten_sequences": true,
+     "save_checkpoint": true
+    },
+    "data_check": {
+     "manifest_created": "2026-08-05T03:42:29.038926+00:00",
+     "class_counts": {
+      "train": [
+       16493,
+       9147,
+       21310,
+       13234,
+       9236
+      ],
+      "val": [
+       2072,
+       1015,
+       3226,
+       1980,
+       1067
+      ],
+      "test": [
+       1348,
+       1031,
+       3120,
+       1808,
+       1393
+      ]
+     },
+     "manifest_sha256": "bb08a6596a766d4ced275edeb9a6ce362703092198f2ad1967ee1ea2f53063d8",
+     "label_sha256": {
+      "train": "498684cbda0f19303b08b7ef6ffd4d61bd3ee5c7fbae966e064108e25caee9ac",
+      "val": "ccdf62e4771f21b840f6bab0c954abfe652cf442ecf5fe10c394b58a6fcf1c1a",
+      "test": "81fece928a5232f50573dcaffa44d1b35c022763b476adca99d43786dbac566c"
+     }
+    }
+   },
+   "chbmit": {
+    "job": "torch 24339810",
+    "run": "chbmit-twoaxis_aac_torch_20261124",
+    "seed": 0,
+    "primary_metric": "pr_auc",
+    "pac_record": "48fea7d9a2325051cf61",
+    "pac_run": "chbmit-range_twoaxis_measured_20260917",
+    "pac_source": "145:/data2/zz5070/CFM4EEG-sean-controls-20260917/runs/chbmit-range_twoaxis_measured_20260917/seed0/result.json",
+    "pac_test": {
+     "auroc": 0.9127842858231902,
+     "balanced_acc": 0.5524485638536664,
+     "pr_auc": 0.6046553741835056
+    },
+    "pac_best_val": 0.5644189947388386,
+    "pac_epochs_run": 5,
+    "pac_stopped_by": "patience",
+    "aac_test": {
+     "accuracy": 0.9849304037731508,
+     "balanced_acc": 0.5289270618927824,
+     "pr_auc": 0.5767694848367866,
+     "average_precision": 0.5777475013286327,
+     "auroc": 0.8912546904513843
+    },
+    "aac_best_val": 0.3071372348215359,
+    "aac_epochs_run": 2,
+    "aac_stopped_by": "patience",
+    "aac_n_params_M": 1.22397,
+    "aac_wall_time_sec": 18380.04071879387,
+    "test_windows": 17386,
+    "pac_minus_aac": 0.027885889346718984,
+    "result_sha256": "c22feced314a1fa8de8d54ff58f2c1f5f5537a341f12950831148f153d4cd80f",
+    "test_scores_sha256": "fbb93c33aea6a4c4e94f434cce930a891b7cd112b180886781ab972c2e405c06",
+    "checkpoint_sha256": "d117d582df5431abbbb6c1ce4de41e6c1cc955c172219b0b46149b31dadd8ad5",
+    "config": {
+     "name": "chbmit-twoaxis_aac_torch_20261124",
+     "group": "aac_control_20261124",
+     "dataset": "chbmit",
+     "data_root": "$PACLOCK_PROC/processed/chbmit",
+     "model": "paclock",
+     "optimizer": "adamw",
+     "lr": 0.0001,
+     "weight_decay": 0.05,
+     "scheduler": "cosine",
+     "grad_clip": 1.0,
+     "num_workers": 4,
+     "device": "cuda",
+     "num_classes": 2,
+     "epochs": 20,
+     "batch_size": 32,
+     "eval_every_steps": 200,
+     "patience": 20,
+     "loss": "focal",
+     "focal_alpha": 0.25,
+     "focal_gamma": 2.0,
+     "sample_rate": 200,
+     "model_kwargs": {
+      "arch": "triaxial",
+      "d_model": 128,
+      "depth": 6,
+      "n_bands": 16,
+      "n_heads": 4,
+      "dropout": 0.35,
+      "kernel_size": 201,
+      "patch_len": 50,
+      "augmentations": [
+       "flip0.5",
+       "jitter0.05",
+       "mask0.2",
+       "channel0.2",
+       "frequency0.2"
+      ],
+      "freq_mixer": "none",
+      "band_pe": "index",
+      "tokenizer_mode": "pac_interaction",
+      "pac_token_mode": "measured",
+      "interaction_mode": "rotation",
+      "spatial_pe": "xyz",
+      "pac_patch_len": 50,
+      "waveform_modulation": "quadrature",
+      "filter_range": [
+       0.5,
+       75.0
+      ],
+      "space_over_bands": true,
+      "coupling_measure": "aac"
+     },
+     "seed": 0,
+     "max_hours": 0,
+     "save_checkpoint": true
+    },
+    "data_check": {
+     "manifest_created": "2026-08-04T12:57:56.642805+00:00",
+     "class_counts": {
+      "train": [
+       313322,
+       2883
+      ],
+      "val": [
+       21034,
+       150
+      ],
+      "test": [
+       17110,
+       276
+      ]
+     },
+     "manifest_sha256": "3c9979b8fb0a00e9f0d49fbe07bba7a6572b757c0a13ed21fa21438913e43842",
+     "label_sha256": {
+      "train": "2da7a42e948b981f50ad2c8ce16e584adb629705389b5c87e44a28edea9b5d6e",
+      "val": "15fdb4890ef4f438bb0bd0c1dce703348182814940bcf6a0f0745e435b3385f9",
+      "test": "90b62d0fc3e3847e2e5a5f9c7e42ab2e0abebd745d516ecbb3935667b7533fc1"
+     }
+    }
+   }
+  },
+  "strongest_baseline": {
+   "rule": "Canonical recipes only (no archive/ or rebuild runs), all recorded seeds, same test windows as the PAC record, at least three seeds; highest seed mean. Matches papers/demodulation/evidence/baseline-results.json for TUEV and CHB-MIT.",
+   "by_dataset": {
+    "chbmit": {
+     "model": "tfm",
+     "setting": "pretrained",
+     "recipe_id": "c2bfd52184702a95",
+     "mean": 0.6268812190873416,
+     "sd": 0.025075319897574593,
+     "seeds": [
+      0.6365849495819684,
+      0.6456545496875009,
+      0.5984041579925556
+     ],
+     "records": [
+      "4ac42db07020d0306b60",
+      "69ea96cad40e1c4e26fd",
+      "a88d8e1ae9008dfae76c"
+     ],
+     "runner_up": {
+      "model": "reve",
+      "mean": 0.580243397633088
+     }
+    },
+    "isruc": {
+     "model": "cbramod",
+     "setting": "pretrained",
+     "recipe_id": "4d3592413d155600",
+     "mean": 0.7540164515230596,
+     "sd": 0.00768012645335035,
+     "seeds": [
+      0.7475961056991228,
+      0.7625246157492191,
+      0.7519286331208368
+     ],
+     "records": [
+      "00427143de4317f314b1",
+      "189dc623d1fc3014376d",
+      "3c508278c9e30654c479"
+     ],
+     "runner_up": {
+      "model": "cnn_transformer",
+      "mean": 0.7531501596310397
+     }
+    },
+    "tusz": {
+     "model": "ffcl",
+     "setting": "not_explicitly_recorded",
+     "recipe_id": "b17e3e5ff5b01234",
+     "mean": 0.5448721285842373,
+     "sd": 0.02963422125344091,
+     "seeds": [
+      0.5511463606604278,
+      0.5126031986961864,
+      0.5708668263960976
+     ],
+     "records": [
+      "d456fc83a27c8c9ca162",
+      "e314b76e4456a7cb59b1",
+      "e38da982742161ac1267"
+     ],
+     "runner_up": {
+      "model": "eegpt",
+      "mean": 0.5446221233643305
+     }
+    },
+    "iiic": {
+     "model": "reve",
+     "setting": "pretrained",
+     "recipe_id": "fdf7bcd786023d43",
+     "mean": 0.43625261300701484,
+     "sd": 0.0029816482838477556,
+     "seeds": [
+      0.4348054974354747,
+      0.43427069137491336,
+      0.4396816502106565
+     ],
+     "records": [
+      "d6660d64e94772e67f7f",
+      "b66cbd7ac84150afe5e6",
+      "6519439af2c1f74fffdd"
+     ],
+     "runner_up": {
+      "model": "ffcl",
+      "mean": 0.42305905537962324
+     }
+    },
+    "tuev": {
+     "model": "reve",
+     "setting": "pretrained",
+     "recipe_id": "5670ae281ee50233",
+     "mean": 0.6846127156984488,
+     "sd": 0.03891479963199707,
+     "seeds": [
+      0.7188463207753975,
+      0.6422886355803723,
+      0.6927031907395769
+     ],
+     "records": [
+      "ac9c34c3b0ab585a0e34",
+      "6f62b5521e1795c3c9e1",
+      "2a7d891ead3271f07f22"
+     ],
+     "runner_up": {
+      "model": "tfm",
+      "mean": 0.6519067074065356
+     }
+    }
+   }
+  },
+  "tuev_row": {
+   "pac_torch_rerun_seed2": 0.6735678119278282,
+   "aac_torch_seed2": 0.6420840277115456,
+   "pac_main_checkpoint_seed2": 0.7134
+  },
+  "caveat": "Single seed; baseline values are three-seed means. AAC ran on Torch A100 while the PAC references ran on amd or 145; on TUEV the same configuration retrained on Torch scored 0.04 kappa lower than on amd. No per-window PAC predictions exist for these four records, so no paired bootstrap."
+ }
 }

@@ -2,11 +2,11 @@
 
 [返回总入口](../README.md)
 
-共 164 条记录。[完整精度及来源 CSV](isruc.csv)。
+共 165 条记录。[完整精度及来源 CSV](isruc.csv)。
 同一表中的数据协议、模型版本和训练配置可能不同，请先核对协议；本页不选择最佳 seed、不合并跨协议成绩。
 空白表示原记录缺失；没有测试结果的训练记录保留空白。显示六位小数，CSV 保留原始精度。
 
-## protocol_not_bound（164 条）
+## protocol_not_bound（165 条）
 
 | 记录 ID | 模型 / run | 初始化 | seed | 状态 / 类型 | κ | PR-AUC | AP | AUROC | Bal. acc. | wF1 |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|
@@ -35,6 +35,7 @@
 | `e125451e7663b56ca950` | Duplex-F192<br>isruc-cf2_v1d192_r4 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.732601 |  |  |  | 0.771166 | 0.789845 |
 | `7a7f512f7495100a961e` | Duplex-F192<br>isruc-cf2_v3 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.677020 |  |  |  | 0.748118 | 0.740354 |
 | `bb3b9758768984586dd5` | Quad-Range<br>isruc-range_twoaxis_measured_20260917 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.768046 |  |  |  | 0.792112 | 0.819753 |
+| `a6deedcf034e1f887cfa` | Quad-Range<br>isruc-twoaxis_aac_torch_20261124 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.744620 |  |  |  | 0.777425 | 0.799741 |
 | `5fec6ede9c349fe58ada` | biot<br>isruc-biot_prest16 | checkpoint_loaded | 0 | completed_record<br>clinical_run | 0.738166 |  |  |  | 0.767614 | 0.786622 |
 | `abebf42fc7516567b10b` | biot<br>isruc-biot_prest16 | checkpoint_loaded | 1 | completed_record<br>clinical_run | 0.730014 |  |  |  | 0.769031 | 0.784270 |
 | `41d1bddf6540be97eb6a` | biot<br>isruc-biot_prest16 | checkpoint_loaded | 2 | completed_record<br>clinical_run | 0.740946 |  |  |  | 0.776725 | 0.788930 |

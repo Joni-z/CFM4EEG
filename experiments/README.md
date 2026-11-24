@@ -4,16 +4,16 @@
 
 **[下载完整实验工作簿](Experiment-Records.xlsx)** · [模型版本](models.csv) · [算子与表征实验](studies.csv) · [checkpoint 索引](checkpoints.csv) · [待核对记录](conflicts.csv)
 
-本次索引生成时间：`2026-11-23T19:51:07.539635+08:00`。共 **2687** 条运行/评估记录、**270** 个模型版本。生成索引不代表重新查询了集群任务，采集范围见 [summary.json](summary.json)。
+本次索引生成时间：`2026-11-24T23:50:53.269707+08:00`。共 **2691** 条运行/评估记录、**271** 个模型版本。生成索引不代表重新查询了集群任务，采集范围见 [summary.json](summary.json)。
 
 | 数据集 | 记录数 | 下载 |
 |---|---:|---|
 | [TUEV](datasets/tuev.md) | 450 | [CSV](datasets/tuev.csv) |
-| [CHB-MIT](datasets/chbmit.md) | 233 | [CSV](datasets/chbmit.csv) |
-| [IIIC](datasets/iiic.md) | 206 | [CSV](datasets/iiic.csv) |
-| [TUSZ](datasets/tusz.md) | 211 | [CSV](datasets/tusz.csv) |
+| [CHB-MIT](datasets/chbmit.md) | 234 | [CSV](datasets/chbmit.csv) |
+| [IIIC](datasets/iiic.md) | 207 | [CSV](datasets/iiic.csv) |
+| [TUSZ](datasets/tusz.md) | 212 | [CSV](datasets/tusz.csv) |
 | [TUAB](datasets/tuab.md) | 123 | [CSV](datasets/tuab.csv) |
-| [ISRUC](datasets/isruc.md) | 164 | [CSV](datasets/isruc.csv) |
+| [ISRUC](datasets/isruc.md) | 165 | [CSV](datasets/isruc.csv) |
 | [Sleep-EDF](datasets/sleepedf.md) | 130 | [CSV](datasets/sleepedf.csv) |
 | [ADFD](datasets/adfd.md) | 111 | [CSV](datasets/adfd.csv) |
 | [TUAR](datasets/tuar.md) | 93 | [CSV](datasets/tuar.csv) |

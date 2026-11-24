@@ -35,9 +35,9 @@ PAC − AAC：κ +0.0315（95% 区间 [0.0235, 0.0393]），balanced acc +0.0638
 
 [完整数值、配置与哈希](cfft-aac-control-20261123.json)
 
-## 四个数据集的配对训练（2026-11-24 提交）
+## 四个数据集的配对训练（2026-11-24）
 
-四项 AAC 使用 seed 0，各自沿用已完成的双轴 PAC 运行的训练配置，将 `coupling_measure` 设为 `aac`。下表给出提交记录和历史 PAC 测试分数。
+四项 AAC 使用 seed 0，各自沿用已完成的双轴 PAC 运行的训练配置，将 `coupling_measure` 设为 `aac`；配置与对应 PAC 运行只差 `coupling_measure`、`name`、`group` 和 `save_checkpoint`。PAC 不重跑，直接用已有的 seed 0 记录。
 
 | 数据集 | 主指标 | PAC 对照 | PAC 记录 | Torch AAC job |
 |---|---|---:|---|---:|
@@ -47,3 +47,30 @@ PAC − AAC：κ +0.0315（95% 区间 [0.0235, 0.0393]），balanced acc +0.0638
 | CHB-MIT | AUC-PR | 0.6047 | [`48fea7d9a2325051cf61`](../datasets/chbmit.md) | 24339810 |
 
 CHB-MIT 沿用该 PAC 运行的富集划分（测试集 17,386 窗口，276 个阳性）。ISRUC 按单个 30 秒 epoch 评估，共 8,700 个测试 epoch。提交前逐项核对了三份划分的类别计数及数据清单的创建时间。
+
+### 结果：PAC、AAC 与最强基线
+
+| 数据集 | 主指标 | PAC | AAC | PAC − AAC | 最强基线（3 seed 均值） | PAC − 基线 | AAC − 基线 |
+|---|---|---:|---:|---:|---|---:|---:|
+| TUEV | κ | 0.6736 | 0.6421 | +0.0315 | REVE 预训练 0.6846 | −0.0110 | −0.0425 |
+| TUSZ | AUC-PR | 0.6581 | 0.6427 | +0.0154 | FFCL 0.5449 | +0.1132 | +0.0978 |
+| IIIC | κ | 0.4665 | **0.4852** | −0.0187 | REVE 预训练 0.4363 | +0.0302 | +0.0489 |
+| ISRUC | κ | 0.7680 | 0.7446 | +0.0234 | CBraMod 预训练 0.7540 | +0.0140 | −0.0094 |
+| CHB-MIT | AUC-PR | 0.6047 | 0.5768 | +0.0279 | TFM 预训练 0.6269 | −0.0222 | −0.0501 |
+
+TUEV 一行的 PAC 和 AAC 都是 Torch 上的 seed 2，与上文相同；TUEV 主模型 checkpoint（amd，0.7134）比 REVE 高 0.0288。其余四行的 PAC 来自已有记录（TUSZ、IIIC、ISRUC 在 amd 上训练，CHB-MIT 在 145 上训练），AAC 在 Torch A100 上训练。
+
+| AAC 运行 | balanced acc（PAC / AAC） | 最佳验证分（PAC / AAC） | 训练 epoch（PAC / AAC） |
+|---|---|---|---|
+| TUSZ | 0.6676 / 0.5838 | 0.3443 / 0.3718 | 2 / 3，均为 patience 停止 |
+| IIIC | 0.5522 / 0.5706 | 0.5388 / 0.5472 | 20 / 20 |
+| ISRUC | 0.7921 / 0.7774 | 0.7488 / 0.7444 | 20 / 20 |
+| CHB-MIT | 0.5524 / 0.5289 | 0.5644 / 0.3071 | 5 / 2，均为 patience 停止 |
+
+最强基线的选法与 [baseline-results.json](../../papers/demodulation/evidence/baseline-results.json) 相同：只用正式配置（不含 archive 和 rebuild 运行），计入全部已记录的 seed，测试窗口与 PAC 记录一致，至少三个 seed，取均值最高者。TUEV 和 CHB-MIT 的结果与该文件一致。TUSZ 和 CHB-MIT 的基线与 CfFT 用同一训练框架，主指标都是梯形 PR-AUC。
+
+### 说明
+
+- 单 seed 对单 seed；基线是三个 seed 的均值。TUEV 上这个配置在 amd 上三个 seed 的 κ 标准差是 0.014，与表中多数差值同一量级。
+- PAC 与 AAC 不在同一台机器上训练。TUEV 上同一配置换到 Torch 重训，κ 比 amd 低 0.04，所以这四行的 PAC − AAC 包含机器差异。
+- 这四条 PAC 记录没有保存逐窗口预测，未做配对 bootstrap。

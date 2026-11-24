@@ -2,11 +2,11 @@
 
 [返回总入口](../README.md)
 
-共 206 条记录。[完整精度及来源 CSV](iiic.csv)。
+共 207 条记录。[完整精度及来源 CSV](iiic.csv)。
 同一表中的数据协议、模型版本和训练配置可能不同，请先核对协议；本页不选择最佳 seed、不合并跨协议成绩。
 空白表示原记录缺失；没有测试结果的训练记录保留空白。显示六位小数，CSV 保留原始精度。
 
-## protocol_not_bound（206 条）
+## protocol_not_bound（207 条）
 
 | 记录 ID | 模型 / run | 初始化 | seed | 状态 / 类型 | κ | PR-AUC | AP | AUROC | Bal. acc. | wF1 |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|
@@ -41,6 +41,7 @@
 | `be04eaea9be7e4afc9d7` | Duplex-F192 / own<br>iiic-cf2_v1d192own | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.455543 |  |  |  | 0.547965 | 0.548297 |
 | `a057a12d4fae8deda612` | Quad-Range<br>iiic-quad_range_20260916 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.523708 |  |  |  | 0.606762 | 0.605293 |
 | `5debb59344678e8d4308` | Quad-Range<br>iiic-range_twoaxis_measured_20260917 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.466509 |  |  |  | 0.552207 | 0.556319 |
+| `0b4ba305960abca745ae` | Quad-Range<br>iiic-twoaxis_aac_torch_20261124 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.485223 |  |  |  | 0.570640 | 0.571133 |
 | `e916d6a213cabf1ab46e` | Quad16<br>iiic-quad16_breadth_20260915 | not_explicitly_recorded | 0 | completed_record<br>clinical_run | 0.503992 |  |  |  | 0.590863 | 0.585038 |
 | `053005575648dedfef3e` | Quad16<br>iiic-quad16_breadth_20260915 | not_explicitly_recorded | 1 | completed_record<br>clinical_run | 0.491008 |  |  |  | 0.575762 | 0.576453 |
 | `39a8265bb00a7d3f83ea` | Quad16<br>iiic-quad16_breadth_20260915 | not_explicitly_recorded | 2 | completed_record<br>clinical_run | 0.495926 |  |  |  | 0.578093 | 0.577722 |
